@@ -127,7 +127,7 @@ $(function () {
 })
 
 var CarregarImagem = function (_url) {
-
+    //AndreSombra
     $("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
     //var picture = $('#doc_imagem');
     
