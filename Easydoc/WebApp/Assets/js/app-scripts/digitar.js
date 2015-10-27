@@ -1,5 +1,5 @@
 ﻿jQuery(document).ready(function () {
-
+    $('#teste').val('teste 0101');
     // if (!$.ui.ie) {
     //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
     //  }
@@ -16,6 +16,7 @@
 
     if ($('#IdDocumento').val() == 0) {
         setInterval(AtualizarPagina, 10000);
+        alert('aqui');
     } else {
         init();
         $.unblockUI();
@@ -66,8 +67,13 @@ function validarCamposAprovar() {
 }
 
 var init = function () {
+    //var _path = $("#arq").val();
+    //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    //trocar_imagem(_url);
     bindControles();
-    $('.guillotine-canvas').css('top', '0px');
+    
+    $('input:text[id^="txtcampo_"]').focus();
+    
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
     //var _url = "http://
@@ -81,20 +87,25 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $('#pnl-imagem').show();
-        CarregarImagem(_url);
-        
-        $('.guillotine-canvas').css('top', '0px');
+        //CarregarImagem(_url);
+        //$("#viewer").iviewer('loadImage', _url);
 
-        //$('.guillotine-canvas').css('width', '100%');
-        //$('.guillotine-canvas').css('height', '100%');
+       //$("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
+       // $("#viewer").iviewer('set_zoom', 50);
+       //$("#viewer").iviewer('set_zoom', 50);
+       // $('.guillotine-canvas').css('top', '0px');
     }
-
-    $('.guillotine-canvas').css('top', '0px');
 
     $('span#path-arquivo').html('<a href="' + _url + '" class="ls-ico-export" target="_blank" style="target-new: tab;target-new: tab;"></a>');
     //$('input:text[id^="txtcampo_"]').focus();
     $('[tabindex=1]').focus();
     $("#orig").trigger("click");
+}
+
+var trocar_imagem = function (_path) {
+    $("#viewer").iviewer('loadImage', _path);
+    $("#viewer").iviewer('set_zoom', 10);
+    $("#viewer").iviewer('set_zoom', 10);
 }
 
 function checkForEnter(e) {
@@ -118,62 +129,60 @@ $(function () {
 var CarregarImagem = function (_url) {
 
     $("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
-    var picture = $('#doc_imagem');
-    picture.guillotine({
-        init: { w: 0, x: 0, y: 0, angle: 0 }
-    });
-    $('.guillotine-canvas').css('top', '0px');
-    picture.on('load', function () {
-        // Initialize plugin (with custom event)
-        picture.guillotine({
-            eventOnChange: 'guillotinechange', width: 0,
-            height: 0
-            //, nit: { x: 10, y: 60, angle: 90 }
-        }
-        );
-        // Bind button actions
-        $('#rotate_right').click(function () { picture.guillotine('rotateRight'); });
-        $("#fit").on("click", function () { picture.guillotine('fit'); });
-        $('#zoom_in').click(function () { picture.guillotine('zoomIn'); });
-        $('#zoom_out').click(function () { picture.guillotine('zoomOut'); });
-        $("#fit").trigger("click");
-        // Display inital data
-        var data = picture.guillotine('getData');
-        for (var key in data) { $('#' + key).html(data[key]); }
-        // Update data on change
-        /*picture.on('guillotinechange', function (ev, data, action) {
+    //var picture = $('#doc_imagem');
+    
+    //picture.guillotine({
+    //    init: { w: 0, x: 0, y: 0, angle: 0 }
+    //});
+    ////$('.guillotine-canvas').css('top', '0px');
+    //picture.on('load', function () {
+    //    // Initialize plugin (with custom event)
+    //    picture.guillotine({
+    //        eventOnChange: 'guillotinechange', width: 0,
+    //        height: 0
+    //        //, nit: { x: 10, y: 60, angle: 90 }
+    //    }
+    //    );
+    //    // Bind button actions
+    //    $('#rotate_right').click(function () { picture.guillotine('rotateRight'); });
+    //    $("#fit").on("click", function () { picture.guillotine('fit'); });
+    //    $('#zoom_in').click(function () { picture.guillotine('zoomIn'); });
+    //    $('#zoom_out').click(function () { picture.guillotine('zoomOut'); });
+    //    $("#fit").trigger("click");
+    //    // Display inital data
+    //    var data = picture.guillotine('getData');
+    //    for (var key in data) { $('#' + key).html(data[key]); }
+    //    // Update data on change
+    //    /*picture.on('guillotinechange', function (ev, data, action) {
 
-            data.scale = parseFloat(data.scale.toFixed(4));
-            for (var k in data) { $('#' + k).html(data[k]); }
-        });*/
-        $("#fit").trigger("click");
-    });
+    //        data.scale = parseFloat(data.scale.toFixed(4));
+    //        for (var k in data) { $('#' + k).html(data[k]); }
+    //    });*/
+    //    $("#fit").trigger("click");
+    //});
 
-    $('.guillotine-canvas').css('top', '0px');
+   
 }
 
 var bindControles = function () {
-    /*
+    var _path = $("#arq").val();
+    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+
     var iv1 = $("#viewer").iviewer({
-        src: "/Images/sem_img.jpg",
+        src: _url,
         update_on_resize: true,
         zoom_animation: true,
+        set_zoom: 100,
         mousewheel: true,
         onMouseMove: function (ev, coords) { },
         onStartDrag: function (ev, coords) { }, //this image will not be dragged
         onDrag: function (ev, coords) { }
     });
-    
+
     $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
     $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
     $("#fit").click(function () { iv1.iviewer('fit'); });
-    //$("#orig").click(function () { iv1.iviewer('set_zoom', 71); });
-    $("#orig").on("click", function () {
-        $("#viewer").iviewer('set_zoom', 71);
-    });
-
-    $("#update").click(function () { iv1.iviewer('update_container_info'); });
-    */
+    $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
     $("#fit").trigger("click");
     $("#btn_salvar").click(function () {
         //// alert('teste aqui');
@@ -320,7 +329,10 @@ var ajax_digitar_documento = function ($_campos_json) {
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
             data: { id_documento_modelo: $_idDocumentoModelo, documento_digitado: $_campos_json },
             success: function (data, textstatus, xmlhttprequest) {
-                if (data == null) { return; }
+                if (data == null) {
+                    alert('Nenhum documento.')
+                    return;
+                }
                 if (data.success == true) {
 
                     //var status = $('input[name=txtstatus]').value;
@@ -332,13 +344,11 @@ var ajax_digitar_documento = function ($_campos_json) {
                         //window.location = window.location.toString().replace(/#/gi, '').replace('/Digitacao/Digitar/' + _idDocumento, '/Supervisao/ListarPendentes/');
                     }
                     else {
-
+                        
                         window.location = window.location.toString().replace(/#/gi, '');
 
                        // exibirmsg('aqui teste 1');
                     }
-
-
                 }
                 else {
                     exibirmsgatencao('Erro, ' + data.message);
@@ -532,10 +542,4 @@ var gerar_json_documento = function () {
     $_retorno = $_retorno.substr(0, $_retorno.length - 1);
     $_retorno += ']}}';
     return $_retorno;
-}
-
-var trocar_imagem = function (_path) {
-    $("#viewer").iviewer('set_zoom', 100).iviewer('loadImage', _path);
-    $("#orig").trigger("click");
-    $('.guillotine-canvas').css('top', '0px');
 }
