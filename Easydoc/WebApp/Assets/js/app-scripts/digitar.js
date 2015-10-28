@@ -1,5 +1,5 @@
 ﻿jQuery(document).ready(function () {
-    $('#teste').val('teste 0101');
+    
     // if (!$.ui.ie) {
     //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
     //  }
@@ -16,7 +16,7 @@
 
     if ($('#IdDocumento').val() == 0) {
         setInterval(AtualizarPagina, 10000);
-        alert('aqui');
+        
     } else {
         init();
         $.unblockUI();
@@ -71,7 +71,7 @@ var init = function () {
     //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
     //trocar_imagem(_url);
     bindControles();
-    
+    $("#viewer").iviewer('set_zoom', 10);
     $('input:text[id^="txtcampo_"]').focus();
     
     var _path = $("#arq").val();
@@ -165,6 +165,9 @@ var CarregarImagem = function (_url) {
 }
 
 var bindControles = function () {
+
+    $('img').css('top', '0px');
+
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
 
@@ -173,11 +176,14 @@ var bindControles = function () {
         update_on_resize: true,
         zoom_animation: true,
         set_zoom: 100,
-        mousewheel: true,
+        mousewheel: false,
         onMouseMove: function (ev, coords) { },
         onStartDrag: function (ev, coords) { }, //this image will not be dragged
         onDrag: function (ev, coords) { }
     });
+
+    $("#viewer").iviewer('set_zoom', 10);
+    $("#viewer").iviewer('set_zoom', 10);
 
     $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
     $("#out").click(function () { iv1.iviewer('zoom_by', -1); });

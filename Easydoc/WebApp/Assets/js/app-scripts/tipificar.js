@@ -21,7 +21,7 @@ var bindControles = function () {
         update_on_resize: true,
         zoom_animation: true,
         set_zoom:100,
-        mousewheel: true,
+        mousewheel: false,
         onMouseMove: function (ev, coords) { },
         onStartDrag: function (ev, coords) { }, //this image will not be dragged
         onDrag: function (ev, coords) { }
