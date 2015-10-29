@@ -1,6 +1,7 @@
 ﻿jQuery(document).ready(function () { init(); });
 
 var init = function () {
+    $('#pnlHeader').slideUp('slow');
     bindControles();
     listar_tipos_doc();
     listar_documento_tipificar($("#hdnIdLote").val());

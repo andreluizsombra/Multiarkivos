@@ -9,7 +9,7 @@ blockUIMessage += "</div>";
 var blockUISettings = { title: '', centerY: 15, theme: true, showOverlay: true, message: blockUIMessage };
 
 var init = function () {
-    
+    $('#pnlHeader').slideUp('slow');
     var feeID = '';
     var datasetID = '';
     $('#pnl-busca').hide();
@@ -26,10 +26,13 @@ var init = function () {
     $("button[id^='del-pnl-']").click(function () { RemoveCamposFiltro(this); });
 
     $('#btn-limpar').click(function () {
+        
         //$('#pnl-busca').hide();
         $('#pnl-result').hide();
         $("input[id^='txtValor-']").val('');
         $("div[id^='pnl-filtro-d-']").remove();
+
+        $("#btn-pesquisar").click();
 
     });
 
@@ -72,7 +75,7 @@ var init = function () {
 
     $("#btn-pesquisar").click(function () {
         //MontaDataJSON();
-        var json = MontaDataJSON()
+        var json = MontaDataJSON();
         PesquisarDosumentos(json);
         $('#pnl-result').show();
     });

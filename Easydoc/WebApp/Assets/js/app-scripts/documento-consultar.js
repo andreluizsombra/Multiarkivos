@@ -22,7 +22,9 @@ var bindControles = function () {
 
 
 
-    $("#btn-limpar").click(function () { $('#pnl-result').hide(); $("input:text").val('') });
+    $("#btn-limpar").click(function () {
+        $('#pnl-result').hide(); $("input:text").val('')
+    });
 
     $("#btn-pesquisar").click(function () {
         if ($("input[name='Matricula']").val() == '') {

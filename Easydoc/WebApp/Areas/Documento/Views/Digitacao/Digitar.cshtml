@@ -140,10 +140,10 @@
 
                     @*<h2 class="ls-title-3 ls-ico-images"><strong>@Html.DisplayFor(model => model.Modelo.Rotulo)</strong> ID: @Model.ID</h2>
                         <h5 class="lls-label-text"> @Html.Raw(ViewData["Det"].ToString())</h5>*@
-                    <div class="digitarcampos">
+                    <div class="col-lg-10">
                         @foreach (MK.Easydoc.Core.Entities.CampoModelo _campo in Model.Modelo.Campos)
                         {
-                            <div class="row ls-float-left-lg">
+                            <div class="row">
                                 <b class="ls-label-text">@_campo.Rotulo</b>
 
                                 @if (Model.StatusDocumento == 1010)
@@ -165,29 +165,36 @@
                             </div>
                         }
                     </div>
+                    <p>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <div class="nav navbar-btn">
+                                    <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
+                                    @if (Model.StatusDocumento == 1000)
+                                    {
 
-                    <div class="nav navbar-btn">
-                        <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
-                        @if (Model.StatusDocumento == 1000)
-                        {
-                            <input type="hidden" id="txtstatus" value="1000" />
-                            <a id="btn_salvar" class="btn btn-primary btn-sm" href="#">Salvar</a>
-                            <a id="btn_supervisor" class="btn btn-info btn-sm" href="#">Enviar Supervisão</a>
-                        }
-                        else if (Model.StatusDocumento == 1020)
-                        {
-                            <input type="hidden" id="txtstatus" value="1020" />
-                            <a id="btn_Aprovar" class="ls-btn-primary" href="#">Aprovar</a>
-                            <a id="btn_excluir" class="ls-btn-danger" href="#">Excluir</a>
-                        }
-                        else if (Model.StatusDocumento == 1010)
-                        {
-                            <input type="hidden" id="txtstatus" value="1010" />
-                            <a id="btn_voltapesquisa" class="ls-btn-dark" href="#">Voltar a pesquisa</a>
-                            <a id="btn_enviaSupervisaoLiderado" class="ls-btn-dark" href="#">Enviar Supervisão</a>
-                        }
+                                        <input type="hidden" id="txtstatus" value="1000" />
+                                        <a id="btn_salvar" class="btn btn-primary btn-sm" href="#">Salvar</a>
+                                        <a id="btn_supervisor" class="btn btn-info btn-sm" href="#">Enviar Supervisão</a>
 
-                    </div>
+                                    }
+                                    else if (Model.StatusDocumento == 1020)
+                                    {
+                                        <input type="hidden" id="txtstatus" value="1020" />
+                                        <a id="btn_Aprovar" class="ls-btn-primary" href="#">Aprovar</a>
+                                        <a id="btn_excluir" class="ls-btn-danger" href="#">Excluir</a>
+                                    }
+                                    else if (Model.StatusDocumento == 1010)
+                                    {
+                                        <input type="hidden" id="txtstatus" value="1010" />
+                                        <a id="btn_voltapesquisa" class="ls-btn-dark" href="#">Voltar a pesquisa</a>
+                                        <a id="btn_enviaSupervisaoLiderado" class="ls-btn-dark" href="#">Enviar Supervisão</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+
                     @*</header>*@
                 </div>
 

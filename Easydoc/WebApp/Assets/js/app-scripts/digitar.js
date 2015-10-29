@@ -1,5 +1,6 @@
 ﻿jQuery(document).ready(function () {
     
+    $('#pnlHeader').slideUp('slow');
     // if (!$.ui.ie) {
     //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
     //  }
