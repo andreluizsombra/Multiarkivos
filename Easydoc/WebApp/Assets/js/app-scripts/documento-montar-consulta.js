@@ -32,7 +32,7 @@ var init = function () {
         $("input[id^='txtValor-']").val('');
         $("div[id^='pnl-filtro-d-']").remove();
 
-        $("#btn-pesquisar").click();
+        $("tbody").html(''); //Limpar registros da tabela de resultado
 
     });
 
