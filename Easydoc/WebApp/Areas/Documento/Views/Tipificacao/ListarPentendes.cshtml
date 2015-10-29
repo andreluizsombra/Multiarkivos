@@ -31,7 +31,7 @@
                             <tr>
                                 <td><a href="#">Lote @_lote.ID</a></td>
                                 <td>Lote criado em @_lote.DataCriacao.ToShortDateString() com @_lote.Itens.Count() imagens</td>
-                                <td><button type="button" value="Tipificação" title="Efetuar Tipificação de documentos" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao", idlote=_lote.ID })' ">Tipificação</button></td>
+                                <td><button type="button" value="Tipificação" title="Efetuar Tipificação de documentos" class="btn btn-primary ls-btn-sm" onclick="location.href='@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao", idlote=_lote.ID })' ">Tipificação</button></td>
                             </tr>
                          }
                     </tr>
