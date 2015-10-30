@@ -241,7 +241,9 @@ var bindControles = function () {
             return false;
         }
         else {
-            var Valor = txtValida.value.indexOf(txtValor.value);
+            
+            var Valor = txtValida.value.indexOf(txtValor.value)*-1;
+            
             if (Valor >= 0) {
                 ajax_enviar_supervisao($('#IdDocumento').val(), txtValor.value);
                 //return validarCampos();
@@ -305,6 +307,7 @@ var bindControles = function () {
     $("#btn_supervisor").click(function () {
 
         ////locastyle.modal.open({ target: "#modal-supervisao" });
+        $('#modal-supervisao').modal();
         txtValor.focus();
 
     });
