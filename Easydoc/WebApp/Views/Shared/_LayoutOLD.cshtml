@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>(@ViewBag.Title) easydoc - TEC FORT</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/m4w")
+    @Scripts.Render("~/bundles/m4w")
+    <script type="text/javascript">
+
+        m4w.base = "http://www.Easydoc.com.br/";
+
+        m4w.sT = "position: relative; alwaysvisible: true; orientation: horizontal; opendirection: right-down; font-size: 10pt; font-weight: bold; etd-padding-left: 5px; etd-padding-bottom: 5px; etd-padding-right: 70px; etd-padding-top: 70px;";
+        m4w.sD = "orientation: horizontal; etd-padding: 10px;";
+        m4w.sDB = "width: 903px; background: #e6e5e3; padding: 0px; border-bottom: 8px solid #f8c10c; border-top: 1px solid #bcbcbc;";
+
+        m4w.eT = function (id, iid, itxt) {
+            m4w.e(id, iid, 1, itxt, ["background: #f8f8f8; color: #003C69; border-left: 1px solid #bcbcbc; border-top: 1px solid #f8f8f8;", "background: #e6e5e3; color: #003C69; border-left: 1px solid #bcbcbc; border-top: 1px solid #bcbcbc;"]);
+        };
+
+        m4w.eD = function (id, iid, itxt) {
+            m4w.e(id, iid, 1, itxt, ["", "background: #EEEEEE;"]);
+        };
+
+        m4w.xCP = function () {
+            return "<div style='height: 240px'><table cellpadding='8' cellspacing='0' width='200' ><tr><td>&#9734;<a href='/GED/Imagem/Captura'>Capturar imagem</a></td></tr><tr><td>&#9734; <a href='/GED/Imagem/Upload'>UpLoad de imagem</a></td></tr><tr><td>&#9734; <a href='/GED/Imagem/Insercao'>Inserçao de Imagem</a></td></tr><tr><td>&#9734; <a href='/GED/Imagem/Supervisao'>Supervisão</a></td></tr></table></div>";
+        };
+
+        m4w.xEx = function () {
+            return "";
+        };
+
+        m4w.xDoc = function () {
+            return "";
+        };
+
+        m4w.xM4W = function () {
+            return "";
+        };
+
+    </script>
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <h1>easydoc - WEB</h1>
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                    <td bgcolor="#767477" width="30%"><br/><br/></td>
+                    <td rowspan="2">
+                        <script type="text/javascript">
+                            m4w.id = 100;
+                            m4w.m(m4w.id, "", "", m4w.sT);
+                            m4w.i(m4w.id, 1, "", "", "", "width: 20px;");
+                            m4w.e(m4w.id, 1, 1, "&nbsp;", "background: #f8c10c; padding-left: 0px; padding-bottom: 5px; padding-right: 0px; padding-top: 70px;");
+                            m4w.i(m4w.id, 2, "", "", "", "width: 129px;");
+                            m4w.e(m4w.id, 2, 1, "<a href='http://www.Easydoc.com.br'><img src='../../Assets/image/brand_Easydoc.png' border='0' alt='menu4web - free javascript menu'></a>", "background: #f8f8f8; padding-left: 10px; padding-bottom: 6px; padding-right: 69px; padding-top: 32px;");
+
+                            m4w.i(m4w.id, 11, m4w.base, 110, "", "width: 116px;");
+                            m4w.eT(m4w.id, 11, "HOME");
+
+                            m4w.i(m4w.id, 21, "index.html", 120, "", "width: 150px;");
+                            m4w.eT(m4w.id, 21, "MANUTENÇÃO");
+
+                            m4w.i(m4w.id, 31, "href='" + m4w.base + "releases' target='rWin'", 130, "", "width: 166px;");
+                            m4w.eT(m4w.id, 31, "GED");
+
+                            m4w.i(m4w.id, 41, m4w.base + "documentation", 140, "", "width: 195px;");
+                            m4w.eT(m4w.id, 41, "RELATÓRIO");
+
+                            m4w.i(m4w.id, 51, m4w.base + "team/view", 150, "", "width: 146px; border-right: 1px solid #bcbcbc");
+                            m4w.eT(m4w.id, 51, "AJUDA");
+
+                            m4w.draw();
+                        </script>
+                    </td>
+                    <td bgcolor="#767477" width="30%"><br/><br/></td>
+                </tr>
+                <tr><td><br/></td><td><br/></td></tr>
+            </table>
+            <script type="text/javascript">
+                m4w.id = 110;
+                m4w.m(m4w.id, m4w.sDB, "", m4w.sD + "pos-left: -130px;");
+                m4w.i(m4w.id, 2, "", "", "", "");
+                m4w.eD(m4w.id, 2, m4w.xDoc());
+                m4w.i(m4w.id, 3, "", "", "background: #F4F4F4;", "");
+                m4w.eD(m4w.id, 3, m4w.xM4W());
+
+                m4w.id = 120;
+                m4w.m(m4w.id, m4w.sDB, "", m4w.sD + "pos-left: -246px;");
+                m4w.i(m4w.id, 1, "", "", "", "");
+                m4w.eD(m4w.id, 1, m4w.xEx());
+                m4w.i(m4w.id, 2, "", "", "", "");
+                m4w.eD(m4w.id, 2, m4w.xDoc());
+                m4w.i(m4w.id, 3, "", "", "background: #F4F4F4;", "");
+                m4w.eD(m4w.id, 3, m4w.xM4W());
+
+                m4w.id = 130;
+                m4w.m(m4w.id, m4w.sDB, "", m4w.sD + "pos-left: -396px;");
+                m4w.i(m4w.id, 1, "", "", "background: #F4F4F4;", "");
+                m4w.eD(m4w.id, 1, m4w.xCP());
+                m4w.i(m4w.id, 2, "", "", "", "");
+                m4w.eD(m4w.id, 2, m4w.xEx());
+
+                m4w.id = 140;
+                m4w.m(m4w.id, m4w.sDB, "", m4w.sD + "pos-left: -562px;");
+                m4w.i(m4w.id, 1, "", "", "", "");
+                m4w.eD(m4w.id, 1, m4w.xDoc());
+                m4w.i(m4w.id, 3, "", "", "background: #F4F4F4;", "");
+                m4w.eD(m4w.id, 3, m4w.xM4W());
+
+                m4w.id = 150;
+                m4w.m(m4w.id, m4w.sDB, "", m4w.sD + "pos-left: -757px;");
+                m4w.i(m4w.id, 2, "", "", "", "");
+                m4w.eD(m4w.id, 2, m4w.xEx());
+                m4w.i(m4w.id, 3, "", "", "background: #F4F4F4;", "");
+                m4w.eD(m4w.id, 3, m4w.xM4W());
+
+                m4w.draw();
+            </script>            
+        </div>
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - TEC FORT</p>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

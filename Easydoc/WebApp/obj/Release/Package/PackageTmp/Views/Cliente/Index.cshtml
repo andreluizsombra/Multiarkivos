@@ -1,0 +1,30 @@
+﻿
+<div class="ls-box ls-board-box">
+    <header class="ls-info-header">
+        <h2 class="ls-title-3 ls-ico-dashboard">Seleção de Cliente</h2>
+    </header>
+    <div id="sending-stats" class="row">
+        <div class="col-sm-6 col-md-3">
+            <div class="ls-box">
+                <h6 class="ls-title-4">Cliente 01</h6>
+                <strong></strong>
+                <small></small>
+                
+                <a href="@Url.Action("SelecionarCliente", new { area = "", id = 1, controller = "Cliente" })" aria-label="Selecionar" class="ls-btn ls-btn-sm" title="Mudar o Cliente"><span>Selecionar</span></a>
+            </div>
+        </div>
+
+
+        <div class="col-sm-6 col-md-3">
+            <div class="ls-box">
+                <h6 class="ls-title-4">Cliente 02</h6>
+                <strong></strong>
+                <small></small>
+                <a href="@Url.Action("SelecionarCliente", new { area = "",id = 2, controller = "Cliente" })" aria-label="Selecionar" class="ls-btn ls-btn-sm" title="Mudar o Cliente"><span>Selecionar</span></a>
+            </div>
+        </div>
+    </div>
+
+
+    <p class="ls-no-data">Ainda não existem dados suficientes para esta visualização.</p>
+</div>

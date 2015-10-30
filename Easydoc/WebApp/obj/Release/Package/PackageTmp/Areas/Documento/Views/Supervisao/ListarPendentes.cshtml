@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "ListarPendentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Assets/js/app-scripts/documento-supervisao-listar.js"></script>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Supervisão de documentos</h3>
+            </div>
+            <hr />
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:150px;">ID</th>
+                            <th class="hidden-xs">Detalhes do documento</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (MK.Easydoc.WebApp.ViewModels.DocumentoLoteViewModel item in ViewBag.DocumentosPendentes)
+                        {
+                            <tr>
+                                <td style="width:150px;">@item.Documento.ID</td>
+                                <td class="hidden-xs">@item.CamposDocumentoDetalhe</td>
+                                <td>
+                                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = @item.Documento.ID })" aria-label="Digitar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Digitação de documentos">Digitar</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

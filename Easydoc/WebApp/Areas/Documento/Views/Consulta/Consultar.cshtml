@@ -1,0 +1,65 @@
+﻿@model MK.Easydoc.Core.Entities.Documento
+
+@{
+    ViewBag.Title = "Consultar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Assets/js/app-scripts/documento-consultar.js"></script>
+
+@Scripts.Render("~/bundles/loca")
+@Styles.Render("~/Content/loca")
+<script src="~/Assets/plugins/jquery/jquery.mask.js"></script>
+
+<div class="ls-box ls-board-box">
+    <header class="ls-info-header">
+        <h3 class="ls-title-3 ls-ico-images">Consulta de Documentos&nbsp;</h3>
+    </header>
+        <fieldset>
+            <div class="ls-box-filter">
+                <form action="" class="ls-form ls-float-left buffer-inserted">
+                    <div class="ls-custom-select">
+                        <select id="cboTiposDoc" class="form-control" name="cboTiposDoc"></select>
+                    </div>
+                    
+                        <a id="btn_buscar" class="btn btn-primary" href="#">Buscar</a>
+                    
+                </form>
+            </div>
+        </fieldset>
+    <hr />
+    <fieldset id="pnl-busca">
+        @*<form action="" class="ls-form ls-form-horizontal row">*@
+            <fieldset class="ls-color-theme">
+                <span id="CamposBusca">
+
+                </span>
+            </fieldset>
+            <div class="ls-actions-btn">
+                <button id="btn-pesquisar" class="btn btn-info">Pesquisar</button>
+                <button id="btn-limpar" class="btn btn-warning">Limpar</button>
+            </div>
+
+        @*</form>*@
+    
+           <span id="pnl-result"></span>
+    </fieldset>
+
+    </div>
+
+<div class="ls-modal fade test" id="modal-resultado-consulta">
+    <div class="ls-modal-box">
+        <div class="ls-modal-header">
+            <button data-dismiss="modal">&times;</button>
+            <h4 class="ls-modal-title">Atenção!</h4>
+        </div>
+        <div class="ls-modal-body" id="myModalBody">
+            <p style='text-align:center;font-weight:bold;font-size:22px;word-wrap:break-word;'>
+                <span id="texto-resultado"></span>
+            </p>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+@Scripts.Render("~/bundles/loca")
+@Styles.Render("~/Content/loca")
