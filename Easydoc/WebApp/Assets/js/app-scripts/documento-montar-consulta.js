@@ -343,7 +343,6 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
     $.unblockUI();
 }
 
-
 var MontarJQGrid = function (id_documento, _campos,_where, _procedure, jsonDataName, jsonDataModel) {
     $("#tblGrid").jqGrid('GridUnload');
     $("#tblGrid").jqGrid({
@@ -479,10 +478,6 @@ function FormatterLinkOpenArquivo(cellvalue, options, rowObject) {
     var _ret = '';
     _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
     _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
-
-
-    
-    
 
     return _ret;
     

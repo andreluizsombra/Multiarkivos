@@ -3,14 +3,19 @@ html {
   min-height: 100%;
 }
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  /* AndreSombra 30/11/2015 */
+  /*
+      margin-bottom: 60px;
+  */
 }
 
-.btn {
-   background-color:  rgba(54, 157, 140, 1) !important; 
-}
 
+/*.btn {
+       AndreSombra 03/11/2015
+       background-color:  rgba(54, 157, 140, 1) !important; 
+}*/
+
+       
 .form-signin, .img-brand {
   max-width: 330px;
   padding: 15px;

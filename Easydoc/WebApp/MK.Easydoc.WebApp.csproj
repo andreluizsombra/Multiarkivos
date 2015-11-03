@@ -243,6 +243,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Acesso.html" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-docs.svg" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-panel-icons.svg" />
+    <Content Include="Assets\css\app-style\fonts\locastyle.svg" />
+    <Content Include="Assets\css\app-style\menu.css" />
+    <Content Include="Assets\css\app-style\signin.css" />
     <Content Include="Assets\css\app-style\theme-easydoc.css" />
     <Content Include="Assets\css\core-style\AdminLTE.css" />
     <Content Include="Assets\css\core-style\AdminLTE.min.css" />
@@ -1392,6 +1397,17 @@
     <Content Include="Areas\Seguranca\Views\Usuario\ManutencaoUsuario.cshtml" />
     <Content Include="Areas\Excecoes\Views\Web.config" />
     <Content Include="Areas\Excecoes\Views\RetornoMSG.cshtml" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-docs.eot" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-docs.json" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-docs.ttf" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-docs.woff" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-panel-icons.eot" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-panel-icons.json" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-panel-icons.ttf" />
+    <Content Include="Assets\css\app-style\fonts\locastyle-panel-icons.woff" />
+    <Content Include="Assets\css\app-style\fonts\locastyle.eot" />
+    <Content Include="Assets\css\app-style\fonts\locastyle.ttf" />
+    <Content Include="Assets\css\app-style\fonts\locastyle.woff" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js_" />
     <None Include="Scripts\jquery-2.1.4.js_" />

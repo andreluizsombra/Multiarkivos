@@ -181,8 +181,8 @@
                                     else if (Model.StatusDocumento == 1020)
                                     {
                                         <input type="hidden" id="txtstatus" value="1020" />
-                                        <a id="btn_Aprovar" class="btn btn-success" href="#">Aprovar</a>
-                                        <a id="btn_excluir" class="btn btn-danger" href="#">Excluir</a>
+                                        <a id="btn_Aprovar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Aprovar</a>
+                                        <a id="btn_excluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;Excluir</a>
                                     }
                                     else if (Model.StatusDocumento == 1010)
                                     {
@@ -282,12 +282,12 @@
                     }
                     else if (Model.StatusDocumento == 1020)
                     {
-                        <a id="btn_salvarModalExcluir" class="ls-btn-primary" href="#">Excluir</a>
+                        <a id="btn_salvarModalExcluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;excluir</a>
                     }
-
+                     
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-warning" data-dismiss="modal">Cancelar</button><br>
+                    <button class="btn btn-warning" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;Cancelar</button><br>
                 </div>
                 <hr />
             </div>

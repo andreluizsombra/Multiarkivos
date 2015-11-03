@@ -48,18 +48,24 @@ function validarCamposAprovar() {
     var $_txtCampo = $('input:text[required]');
     var $_ret = true;
     $_txtCampo.each(function (_index) {
-        if (this.value == '') {
-            if (this.name != 'sup') {
-                if (this.name != 'some-id') {
-                    $('div#modal-resultado-digitacao span#texto-resultado').text("O campo [" + this.name + "] é obrigatório.");
-                    ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });
-                    $_ret = false;
-                }
-            }
+        if (this.value == '' && this.name != 'txtValor') {
+            exibirmsgatencao("O campo [" + this.name + "] é obrigatório.");
+            $_ret = false;
         }
+        // TODO: AndreSombra 03/11/2015
+        //if (this.value == '') {
+        //    if (this.name != 'sup') {
+        //        if (this.name != 'some-id') {
+        //            $('div#modal-resultado-digitacao span#texto-resultado').text("O campo [" + this.name + "] é obrigatório.");
+        //            ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });
+        //            $_ret = false;
+                    
+        //        }
+        //    }
+        //}
     });
     if ($_ret) {
-
+        
         digitar_documento();
         //var surl = window.location.toString().replace(/#/gi, '').replace('/Documento/Digitacao/Digitar/' + $('#IdDocumento').toString, '/Home/Inicio/');
         //var surl = 'http://' + window.location.host + '/Home/Inicio';
@@ -313,6 +319,8 @@ var bindControles = function () {
     });
     $("#btn_excluir").click(function () {
         ////locastyle.modal.open({ target: "#modal-supervisao" });
+        // TODO: AndreSombra 03/11/2015
+        $('#modal-supervisao').modal();
         txtValor.focus();
     });
     $("#btn_voltapesquisa").click(function () {
