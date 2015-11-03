@@ -269,8 +269,46 @@ var PesquisarDosumentos = function (json) {
     MontarJQGrid(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
 }
 
+// TODO: AndrSombra 03/11/2015
+var CarregarDocumentos = function (json) {
 
+    //var json = MontaDataJSON();
 
+    var jsonDataName = "";
+    var jsonDataModel = "";
+    var jsonWhere = "";
+    var jsonExecucao = "";
+
+    _json = eval("(" + json + ")");
+
+    jsonDataName = _json.th;
+    jsonDataModel = eval('{' + JSON.stringify(_json.tr).replace('"#', '').replace('#"', '') + '}');
+    jsonWhere = _json.where;
+    jsonExecucao = _json.exec;
+
+    var strWhere = '';
+    var strSelect = '';
+
+    $(jsonDataModel).each(function (_index) {
+
+        if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo') {
+            if (strSelect == '') {
+                strSelect = this.jsonmap;
+            } else {
+                strSelect += ', ' + this.jsonmap;
+            }
+        }
+    });
+
+    $(jsonWhere).each(function (_index) {
+        if (strWhere == '') {
+            strWhere = this.sel + ' ' + this.op + ' ' + this.val;
+        } else {
+            strWhere += ' ' + this.x + ' ' + this.sel + ' ' + this.op + ' ' + this.val;
+        }
+    });
+    ResultadoPesquisa(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
+}
 
 var SelecionaConsultaDinamica = function (_id_consulta_modelo) {
 
@@ -305,10 +343,6 @@ var SelecionaConsultaDinamica = function (_id_consulta_modelo) {
     $.unblockUI();
 }
 
-
-
-
-
 //AjaxCallSalvarConsultaDinamica
 var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
@@ -341,6 +375,24 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
     }
     catch (e) { Exception.show(e.toString(), 'ajax_buscar_campos'); }
     $.unblockUI();
+}
+
+// TODO: AndrSombra 03/11/2015
+var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
+    $ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: '../Consulta/AjaxCallConsultaDinamica',//action,
+        data: {
+            id_documento_modelo: parseInt(id_documento),//parseInt(jsonExecucao.idoc),
+            campos: _campos,
+            filtros: _where,
+            proc_name: _procedure,//jsonExecucao.proc
+        },
+        success: function(data){
+            console.log(data[0]);
+        }
+    });
 }
 
 var MontarJQGrid = function (id_documento, _campos,_where, _procedure, jsonDataName, jsonDataModel) {
