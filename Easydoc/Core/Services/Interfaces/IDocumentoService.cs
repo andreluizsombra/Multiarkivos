@@ -27,7 +27,8 @@ namespace MK.Easydoc.Core.Services.Interfaces
         string GetDocumentoModelo(int idDocumento);
         string Executar(string cmd);
         List<CampoModelo> ListarCamposModelo(int idDocumentoModelo);
-        string PesquisarDocumentos(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
+        string PesquisarDocumentosConsulta(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
+        string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
         string PesquisarMotivo(int idDocumentoModelo);
         //string PesquisarDet(int idDocumentoModelo);
         string ValidarDocumento(int idDocumento, int idDocumentoModelo, int idServico);

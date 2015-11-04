@@ -87,22 +87,40 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-
-        public string PesquisarDocumentos(int idServico, int idDocumentoModelo, string campos, string scriptWhere) {
+        public string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere)
+        {
 
             try
             {
                 this._queryParams.Clear();
                 this._queryParams["Servico_ID"] = idServico;
-                string _scriptSQLConsultar = _repository.ListarTipos(_queryParams).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLConsultar.Trim();        //ListarTipos(this._queryParams["Servico_ID"]).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLTipificar.Trim();
+                string _scriptSQLModulo = _repository.ListarTipos(_queryParams).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLModulo.Trim();        //ListarTipos(this._queryParams["Servico_ID"]).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLTipificar.Trim();
+
+                this._queryParams.Clear();
+                _queryParams["CamposSQL"] = campos;
+                _queryParams["ScriptSQLModulo"] = string.Format(_scriptSQLModulo);
+                _queryParams["DocumentoModelo_ID"] = idDocumentoModelo;
+                _queryParams["Script_WHERE"] = scriptWhere;
+
+                return this._repository.PesquisarDocumentosModulo(this._queryParams);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+        public string PesquisarDocumentosConsulta(int idServico, int idDocumentoModelo, string campos, string scriptWhere) {
+
+            try
+            {
+                this._queryParams.Clear();
+                this._queryParams["Servico_ID"] = idServico;
+                string _scriptSQLConsulta = _repository.ListarTipos(_queryParams).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLConsulta.Trim();        //ListarTipos(this._queryParams["Servico_ID"]).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLTipificar.Trim();
                 
                 this._queryParams.Clear();
                 _queryParams["CamposSQL"] = campos;
-                _queryParams["ScriptSQLConsultar"] = string.Format(_scriptSQLConsultar);
+                _queryParams["ScriptSQLConsulta"] = string.Format(_scriptSQLConsulta);
                 _queryParams["DocumentoModelo_ID"] = idDocumentoModelo;
                 _queryParams["Script_WHERE"] = scriptWhere;
-                
-                return this._repository.PesquisarDocumentos(this._queryParams);
+
+                return this._repository.PesquisarDocumentosConsulta(this._queryParams);
             }
             catch (Exception ex) { throw ex; }
         }
@@ -508,4 +526,5 @@ namespace MK.Easydoc.Core.Services
 
         #endregion IUserService Members
     }
+      
 }

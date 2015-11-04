@@ -35,6 +35,5 @@ E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\bin\MK.Easydoc.C
 E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\bin\MK.Easydoc.Core.dll
 E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\bin\MK.Easydoc.Core.pdb
 E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csproj.App.config
-E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csprojResolveAssemblyReference.cache
 E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.dll
 E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.pdb

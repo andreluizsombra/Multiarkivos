@@ -28,7 +28,8 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         void AtualizarDocumentoCampo(IDictionary<string, object> _queryParams);
         void ExcluirDocumento(IDictionary<string, object> _queryParams);
         void MudaStatusDocumento(IDictionary<string, object> _queryParams);
-        string PesquisarDocumentos(IDictionary<string, object> _queryParams);
+        string PesquisarDocumentosConsulta(IDictionary<string, object> _queryParams);
+        string PesquisarDocumentosModulo(IDictionary<string, object> _queryParams);
         string PesquisarMotivo(IDictionary<string, object> _queryParams);
         string ValidarCamposDocumento(IDictionary<string, object> _queryParams);
         string ValidarDocumento(IDictionary<string, object> _queryParams);

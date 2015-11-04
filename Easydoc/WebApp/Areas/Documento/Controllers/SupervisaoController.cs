@@ -45,7 +45,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 DocumentoLoteViewModel _documentoView = new DocumentoLoteViewModel();
                 _documentoView.Documento = _documento;
-                _documentoView.CamposDocumentoJSON = _docService.PesquisarDocumentos(ServicoAtual.ID, _documento.Modelo.ID, "Caixa, Lote", string.Format("IdDocumento={0}", _documento.ID));
+                _documentoView.CamposDocumentoJSON = _docService.PesquisarDocumentosModulo(ServicoAtual.ID, _documento.Modelo.ID, "Caixa, Lote", string.Format("IdDocumento={0}", _documento.ID));
 
                 //JavaScriptSerializer serializer = new JavaScriptSerializer();
                 //JsonResult _j = new JsonResult();

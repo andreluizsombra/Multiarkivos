@@ -19,7 +19,8 @@ namespace MK.Easydoc.Core.Entities
         public int NumeroPagina { get; set; }
         public string ScriptSQLTipificar { get; set; }
         public string ScriptSQLValidar { get; set; }
-        public string ScriptSQLConsultar { get; set; }
+        public string ScriptSQLModulo { get; set; }
+        public string ScriptSQLConsulta { get; set; }
         public DateTime DataCriacao { get; set; }
         public DateTime DataExclusao { get; set; }
         public DateTime DataAlteracao { get; set; }
@@ -35,7 +36,8 @@ namespace MK.Easydoc.Core.Entities
             NumeroPagina = 0;
             ScriptSQLTipificar = string.Empty;
             ScriptSQLValidar = string.Empty;
-            ScriptSQLConsultar = string.Empty;
+            ScriptSQLModulo = string.Empty;
+            ScriptSQLConsulta = string.Empty;
             Campos = new List<CampoModelo>();
             Servico = new Servico();
         }

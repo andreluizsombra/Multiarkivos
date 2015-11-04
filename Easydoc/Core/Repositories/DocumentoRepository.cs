@@ -467,7 +467,8 @@ namespace MK.Easydoc.Core.Repositories
                 MultiPagina = bool.Parse(dt["MultiPagina"].ToString()),
                 ScriptSQLTipificar = dt["ScriptSQLTipificar"].ToString(),
                 ScriptSQLValidar = dt["ScriptSQLValidar"].ToString(),
-                ScriptSQLConsultar = dt["ScriptSQLConsultar"].ToString(),
+                ScriptSQLConsulta = dt["ScriptSQLConsulta"].ToString(),
+                ScriptSQLModulo = dt["ScriptSQLModulo"].ToString(),
                 DataCriacao = DateTime.Parse(dt["DataCriacao"].ToString()),
                 Servico = (new Servico { ID = int.Parse(dt["IdServico"].ToString()) }),
 
@@ -535,12 +536,12 @@ namespace MK.Easydoc.Core.Repositories
             return _retorno;
             
         }
-        public string PesquisarDocumentos (IDictionary<string, object> _queryParams)
+        public string PesquisarDocumentosConsulta (IDictionary<string, object> _queryParams)
         {
             try
             {
 
-                string scriptConsulta = _queryParams["ScriptSQLConsultar"].ToString();
+                string scriptConsulta = _queryParams["ScriptSQLConsulta"].ToString();
 
                 List<LoteItem> _itens = new List<LoteItem>();
                 DbCommand _cmd;
@@ -569,6 +570,43 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+
+
+        public string PesquisarDocumentosModulo(IDictionary<string, object> _queryParams)
+        {
+            try
+            {
+
+                string scriptmodulo = _queryParams["ScriptSQLModulo"].ToString();
+
+                List<LoteItem> _itens = new List<LoteItem>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format(scriptmodulo));
+
+                _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@Select", DbType.String, _queryParams["CamposSQL"].ToString().Trim());
+                _db.AddInParameter(_cmd, "@Where", DbType.String, _queryParams["Script_WHERE"].ToString().Trim());
+
+                string _json = string.Empty;
+
+                //SqlDataReader reader = _cmd.ExecuteReader();  //_db.ExecuteReader(_cmd);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+
+                    _json = WriteDataReader(_dr);
+
+                }
+
+                return _json;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public string PesquisarMotivo(IDictionary<string, object> _queryParams)
         {
             string _mensagem = string.Empty;

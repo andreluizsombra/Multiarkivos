@@ -77,7 +77,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 }
 
 
-                _resultado = this._docService.PesquisarDocumentos(ServicoAtual.ID, id_documento_modelo, campos, filtros);
+                _resultado = this._docService.PesquisarDocumentosConsulta(ServicoAtual.ID, id_documento_modelo, campos, filtros);
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
@@ -121,7 +121,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             var _resultado = string.Empty;
             try
             {
-                _resultado = this._docService.PesquisarDocumentos(ServicoAtual.ID, id_documento_modelo, "Caixa", filtros);
+                _resultado = this._docService.PesquisarDocumentosConsulta(ServicoAtual.ID, id_documento_modelo, "Caixa", filtros);
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
