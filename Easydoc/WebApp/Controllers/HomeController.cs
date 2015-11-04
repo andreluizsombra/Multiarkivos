@@ -39,6 +39,11 @@ namespace MK.Easydoc.WebApp.Controllers
             return View();
         }
 
+        public ActionResult Teste()
+        {
+            ViewBag.Message = "TESTE";
+            return View();
+        }
 
         public ActionResult Inicio()
         {

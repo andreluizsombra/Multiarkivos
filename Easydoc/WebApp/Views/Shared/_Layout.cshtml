@@ -22,6 +22,9 @@
     @Scripts.Render("~/bundles/app-scripts")
     <link href="~/Assets/plugins/jquery/jquery-ui.min.css" rel="stylesheet" />
 
+    <!-- dataTables -->
+    <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+
     <!-- Bootstrap 3.3.5 -->
     <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Custom styles for this template -->
@@ -133,7 +136,6 @@
             </p>
         </div>-->
 
-
         <div class="panel panel-default">
             <div class="row">
                 <div class="col-md-12">
@@ -145,11 +147,7 @@
         </div>
 
     </div>
-
-
-
     <!--Até aqui é o Header-->
-
     <div class="col-md-12">
         <div id="msg" class="alert alert-success" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>
@@ -186,8 +184,10 @@
     @*<script src="./Assets/js/bootstrap.min.js"></script>*@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="./Assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <!-- MODAL VALIDATION SUMMARY -->
-    @RenderSection("scripts", required: false)
+        @RenderSection("scripts", required: false)
+        
 </body>
 
 </html>
