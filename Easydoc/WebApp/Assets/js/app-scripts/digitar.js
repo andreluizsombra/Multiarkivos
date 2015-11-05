@@ -24,6 +24,11 @@
         return true;
     }
     $("#orig").trigger("click");
+
+    //$('input[required=true]').each(function () {
+     //   alert(this.id);
+    //})
+
 });
 
 function validarCampos() {
@@ -107,6 +112,15 @@ var init = function () {
     //$('input:text[id^="txtcampo_"]').focus();
     $('[tabindex=1]').focus();
     $("#orig").trigger("click");
+
+    //$('input[rotulo=Placa]').mask('AAA-9999');
+    //$('input[rotulo=Placa]').css('placeholder', 'AAA-9999');
+    $('input').each(function () {
+        console.log(this.mascara);
+        if (this.mascara != '') {
+            $("#" + this.id).mask(this.mascara);
+        }
+    });
 }
 
 var trocar_imagem = function (_path) {

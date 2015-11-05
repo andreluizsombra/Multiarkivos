@@ -24,6 +24,7 @@
 <script src="~/Assets/js/app-scripts/digitar.js"></script>
 <script src="~/Assets/plugins/pdfSlider/pdfSlider.js"></script>
 <link href="~/Assets/plugins/pdfSlider/pdfSlider.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.maskedinput.min.js"></script>
 
 <style>
     #container {
@@ -130,33 +131,36 @@
                         @foreach (MK.Easydoc.Core.Entities.CampoModelo _campo in Model.Modelo.Campos)
                         {
                         <div class="row">
-                            <b class="ls-label-text">@_campo.Rotulo</b>
-                            @if (Model.StatusDocumento == 1010)
-                            {
-                            <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" readonly="true" />
+                            <div class="col-lg-10">
+                                <b class="ls-label-text">@_campo.Rotulo</b>
+                                @if (Model.StatusDocumento == 1010)
+                                {
+                                    <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" readonly="true" />
+                                }
+                                else
+                                {
+                                    if (_campo.Requerido)
+                                    {
+                                        <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
+                                    }
+                                    else
+                                    {
+                                    <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
+                                }
                             }
-                            else
-                            {
-                                if (_campo.Requerido)
-                            {
-                            <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
-                            }
-                            else
-                            {
-                            <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
-                            }
-                        }
 
-                        </div>
+                            </div>
+                       </div>
                         }
                     </div>
 
+                    <!--onkeyup="RetMascara(this, 'AAA-9999');"-->
 
                     <div class="row">&nbsp;</div>
-                    <p>
+                    <p class="col-lg-10">
                         <div class="row">
                             <div class="col-lg-10">
-                                <div class="nav navbar-btn">
+                                <div class="col-lg-10">
                                     <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
                                     @if (Model.StatusDocumento == 1000)
                                     {

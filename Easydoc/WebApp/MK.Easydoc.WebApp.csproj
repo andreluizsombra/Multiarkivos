@@ -1565,6 +1565,7 @@
     <Content Include="Scripts\DataTables\dataTables.select.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -1,4 +1,8 @@
-﻿
+﻿function RetMascara(campo, mascara) {
+    $("#" + campo.id).mask(mascara);
+    //alert('ok');
+}
+
 function exibirmsg(txtmsg) {
     $('#msg').html("<i class='glyphicon glyphicon-ok'></i>&nbsp;" + txtmsg + "<button type='button' id='btnfechar' class='close' aria-label='Close'><span >&times;</span></button>").slideDown(1000);
     $('#btnfechar').click(function () {
@@ -12,3 +16,4 @@ function exibirmsgatencao(txtmsg) {
         $('#msgatencao').slideUp(1000);
     });
 }
+
