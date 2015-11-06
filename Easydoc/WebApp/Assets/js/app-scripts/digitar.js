@@ -115,12 +115,20 @@ var init = function () {
 
     //$('input[rotulo=Placa]').mask('AAA-9999');
     //$('input[rotulo=Placa]').css('placeholder', 'AAA-9999');
+
+    // TODO: AndreSombra 06/11/2015 =========================================
     $('input').each(function () {
-        console.log(this.mascara);
-        if (this.mascara != '') {
-            $("#" + this.id).mask(this.mascara);
+        var campo = $("#" + this.id);
+        var _mascara = campo.attr('mascara'); //Retorna o valor do atributo mascara
+        //console.log(campo);
+        //console.log(this.id);
+        //console.log(campo.mascara);
+        console.log(_mascara);
+        if ( _mascara!= '') {
+            campo.mask(_mascara);
         }
     });
+
 }
 
 var trocar_imagem = function (_path) {
@@ -212,7 +220,7 @@ var bindControles = function () {
     $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
     $("#fit").trigger("click");
     $("#btn_salvar").click(function () {
-        //// alert('teste aqui');
+        // alert('teste aqui');
         ////locastyle.modal.open({ target: "#modal-duplicidade" });
         return validarCampos();
     });

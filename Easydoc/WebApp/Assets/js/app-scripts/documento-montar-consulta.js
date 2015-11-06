@@ -451,7 +451,14 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             caption: ''
         });
 
-        //AndreSombra 04112015
+        //AndreSombra 05/11/2015
+        $("#tblGrid").css('width', '100%');
+        $(".ui-jqgrid-htable").css('width', '100%');
+
+        $('th').attr('role', 'columheader').attr('class', 'ui-state-default ui-th-column ui-th-ltr ui-sortable-handle').attr('class', '').css('text-align', 'center').css('color', '#008000');
+        //$('tr').attr('role', 'row').attr('class', 'ui-widget-content jqgrow ui-row-ltr').attr('class', '').attr('class', 'ui-widget-content ui-row-ltr');
+
+        //AndreSombra 04/11/2015
         //$(".ui-jqgrid-htable").css('width', '100%');
         $(".ui-jqgrid").css('width', '100%');
         $(".ui-jqgrid-bdiv").css('width', '100%');
@@ -460,6 +467,11 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         $(".ui-jqgrid-view").css('width', '100%');
         $("#tblGridpager").css('width', '100%');
 
+        $("#tblGrid").load(function () {
+            //alert('teste');
+            $('tr').attr('role', 'row').attr('class', 'ui-widget-content jqgrow ui-row-ltr').attr('class', '').attr('class', 'ui-widget-content ui-row-ltr');
+        });
+        
     }
 
     function JQGrid(caption) {
