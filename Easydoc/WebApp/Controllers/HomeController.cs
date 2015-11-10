@@ -32,6 +32,24 @@ namespace MK.Easydoc.WebApp.Controllers
             return View();
         }
 
+        [HttpPost]
+        public JsonResult RetornaPendencias(int idServico)
+        {
+            var serv = new ServicoRepository();
+            bool flag = serv.GetControleAtencao(idServico);
+             var resultado = new
+                    {
+                        rest = flag.ToString()
+                    };
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Dashboard()
+        {
+            ViewBag.Message = "";
+            return View("Dashboard");
+        }
         public ActionResult About()
         {
             ViewBag.Message = "";

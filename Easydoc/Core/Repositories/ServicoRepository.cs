@@ -72,6 +72,33 @@ namespace MK.Easydoc.Core.Repositories
             }
         }
 
+        public bool GetControleAtencao(int _idServico)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_Get_ControleAtencao"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+
+                bool flag = false;
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        flag = bool.Parse(_dr[0].ToString());
+                    }
+                }
+                ///if (_servicos == null) { throw new Erro("Servico não localizado."); }
+                return flag;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro no método GetControleAtencao, "+ex.Message);
+            }
+        }
+
         public Servico GetServico(IDictionary<string, object> _queryParams)
         { 
             try

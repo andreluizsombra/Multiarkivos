@@ -42,6 +42,7 @@ var init = function () {
     $("#btn_buscar").click(function () {
         $('#pnl-busca').hide();
         if ($("#cboTiposDoc option:selected").val() == 0) return false; ajax_buscar_campos($("#cboTiposDoc option:selected").val());
+        //ColunaAuto();
     });
 
     $("#btn-salvar").click(function () {
@@ -81,6 +82,7 @@ var init = function () {
         var json = MontaDataJSON();
         PesquisarDosumentos(json);
         $('#pnl-result').show();
+        ColunaAuto();
     });
 
     $("#btn-edita").click(function () {
@@ -134,6 +136,18 @@ var init = function () {
         $('#pnl-result').show();
     });
 
+    //TODO: AndreSombra 10/11/2015
+    $("#sel-index-99000").change(function () {
+        var _mascara = $("#sel-index-99000 option:selected" ).attr("mascara");
+        //alert(_mascara);
+        //console.log(_mascara);
+        $("#txtValor-99000").mask(_mascara);
+        $("#txtValor-99000").focus();
+    });
+
+    $("#tblGrid").change(function () {
+        ColunaAuto();
+    });
 }
 
 var RemoveCamposFiltro = function ($_obj) {
@@ -208,7 +222,8 @@ function ajax_buscar_campos_CallBack(json) {
     
     $(json).each(function () {
         _html += '<li id="' + this.RotuloAbreviado + '" class="ui-state-default ls-cursor-move">' + this.Rotulo + '</li>';
-        _htmlSel += '<option value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
+        //_htmlSel += '<option value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
+        _htmlSel += '<option mascara="'+this.MascaraEntrada+'" value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
     });
     
     if (_html != '') {
@@ -467,14 +482,21 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         $(".ui-jqgrid-view").css('width', '100%');
         $("#tblGridpager").css('width', '100%');
 
-        $("#tblGrid").load(function () {
-            //alert('teste');
-            $('tr').attr('role', 'row').attr('class', 'ui-widget-content jqgrow ui-row-ltr').attr('class', '').attr('class', 'ui-widget-content ui-row-ltr');
+       // $('#tblGrid tr').attr('role', 'row').attr('class', 'ui-widget-content jqgrow ui-row-ltr').attr('class', '').attr('class', 'ui-widget-content ui-row-ltr');
+
+        $("#tblGrid").change(function () {
+            ColunaAuto();
         });
-        
+    }
+
+    //TODO: AndreSombra 10/11/2015
+    function ColunaAuto() {
+        //alert('teste ColunaAuto 1');
+        $('tr').attr('role', 'row').attr('class', 'ui-widget-content jqgrow ui-row-ltr').attr('class', '').attr('class', 'ui-widget-content ui-row-ltr');
     }
 
     function JQGrid(caption) {
+        alert('teste ColunaAuto 2');
         $("#tblGrid").jqGrid('GridUnload');
         var _idDocumentoModelo = parseInt($("#cboTiposDoc option:selected").val());
 
@@ -551,6 +573,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
                 }
             }
         });
+        
     }
 
     function FormatterLinkOpenArquivo(cellvalue, options, rowObject) {

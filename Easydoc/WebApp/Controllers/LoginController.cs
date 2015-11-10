@@ -67,6 +67,7 @@ namespace MK.Easydoc.WebApp.Controllers
                             cli.PrimeiroCliente(model.NomeUsuario);
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
+                            Session["IdServico"] = cli.idServico;
 
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
                         }
