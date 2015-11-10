@@ -201,16 +201,22 @@
 @{MK.Easydoc.Core.Helpers.UserDataCookieHelper.RenderStylesheetCSSClienteAtual();}
 
 <script>
-  $().ready(function () {
-      var id_servico = @Session["IdServico"];
+    $().ready(function () {
+        $("#btnPendencias").css('display','none');
+
+        var id_servico = @Session["IdServico"];
+        //alert(id_servico);
         //alert(@Session["IdServico"]);
         $.ajax({
             url: '@Url.Content("~")Home/RetornaPendencias',
             type: 'POST',
             data: {idServico: id_servico},
             success: function (data) {
-                if(data.rest=="False"){
+                //alert(data.rest);
+                if(data.rest=="True"){
                     $("#btnPendencias").remove();
+                }else{
+                    $("#btnPendencias").css('display','');
                 }
                 // get the result and do some magic with it
                 //var message = data.Message;
