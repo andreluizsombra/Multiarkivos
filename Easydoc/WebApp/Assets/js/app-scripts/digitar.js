@@ -572,7 +572,14 @@ var gerar_json_documento = function () {
         var $_idCampoModelo = $(this).attr('campo');
         $_idDocCampo = $_idDocCampo.replace('txtcampo_', '');
 
+        var _mascaraSaida = '';
+        _mascaraSaida = $(this).attr('mascaraSaida');        //alert($(this).attr('mascaraSaida')); //*************************
+        if (_mascaraSaida != '') {
+            $(this).mask(_mascaraSaida);
+        }
+
         var $_valorCampo = $(this).val();
+                                   // alert('Valor Campo= ' + $_valorCampo.text); //**************************
         $_retorno += JSON.stringify({
             ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo
         });
