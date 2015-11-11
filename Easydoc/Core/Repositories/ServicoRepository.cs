@@ -82,16 +82,16 @@ namespace MK.Easydoc.Core.Repositories
 
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
 
-                bool flag = false;
+                int flag = 0;
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
                     {
-                        flag = bool.Parse(_dr[0].ToString());
+                        flag = int.Parse(_dr[0].ToString());
                     }
                 }
                 ///if (_servicos == null) { throw new Erro("Servico não localizado."); }
-                return flag;
+                return flag==1;
             }
             catch (Exception ex)
             {

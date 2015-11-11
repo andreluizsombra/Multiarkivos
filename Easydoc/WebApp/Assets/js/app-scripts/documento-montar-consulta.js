@@ -141,8 +141,16 @@ var init = function () {
         var _mascara = $("#sel-index-99000 option:selected" ).attr("mascara");
         //alert(_mascara);
         //console.log(_mascara);
-        $("#txtValor-99000").mask(_mascara);
-        $("#txtValor-99000").focus();
+        //TODO: AndreSombra 11/11/2015
+        if (_mascara != '') {
+            $("#txtValor-99000").mask(_mascara);
+            $("#txtValor-99000").focus();
+        }
+        else {
+            $("#txtValor-99000").unmask();
+            $("#txtValor-99000").focus();
+        }
+        //$("#txtValor-99000").focus();
     });
 
     $("#tblGrid").change(function () {
@@ -669,9 +677,10 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
         $('div[id^="pnl-filtro"]').each(function () {
             var _id = '';
+            var _mascara = '';
             _id = this.id.replace('pnl-filtro-f-', '');
             _id = _id.replace('pnl-filtro-d-', '');
-
+            _mascara = $("#"+this.id).attr("mascara")
             //{ sel: 'matricula', op: '=', val: '7880123456' },
             _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
         });
@@ -728,7 +737,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         _html += '      </div>';
 
         _html += '      <div class="col-md-3">';
-        _html += '              <select id="sel-index-' + _id + '" class="form-control">';
+        _html += '              <select id="sel-index-' + _id + '" class="form-control" onchange="AplicarMascara(this)">'; //TODO: AndreSombra 11/11/2015
         _html += data;
         _html += '              </select>';
 
@@ -765,4 +774,18 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
         $('#pnl-busca-campos').append(_html);
 
+    }
+    
+    //TODO: AndreSombra 11/11/2015
+    function AplicarMascara(campo) {
+        var cmp = $("#" + campo.id.replace('sel-index-', 'txtValor-'));
+        var _mascara = $("#" + campo.id + " option:selected").attr("mascara");
+        if (_mascara != '') {
+            cmp.val('');
+            cmp.mask(_mascara)
+        }
+        else {
+            cmp.val('');
+            cmp.unmask();
+        }
     }
