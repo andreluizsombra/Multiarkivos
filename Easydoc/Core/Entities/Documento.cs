@@ -58,6 +58,7 @@ namespace MK.Easydoc.Core.Entities
         public int MaxLength { get; set; }
         public int MinLength { get; set; }
         public int Tabulacao { get; set; }
+        public string TipoSQL { get; set; }
         public bool Requerido { get; set; }
         public bool Digita { get; set; }
         public bool Reconhece { get; set; }
@@ -91,6 +92,7 @@ namespace MK.Easydoc.Core.Entities
             Reconhece = false;
             FiltroConsulta = true;
 
+            TipoSQL = string.Empty;
             RegexString = string.Empty;
             ControleWEB = string.Empty;
             ControleDesk = string.Empty;

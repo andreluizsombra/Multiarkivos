@@ -24,8 +24,9 @@ var init = function () {
     $('#add-campos').click(function () {
         AdicionaCamposFiltro($('#sel-index-99000')[0].innerHTML);
         $("button[id^='del-pnl-']").click(function () { RemoveCamposFiltro(this); });
-
+        
     });
+
     $("button[id^='del-pnl-']").click(function () { RemoveCamposFiltro(this); });
 
     $('#btn-limpar').click(function () {
@@ -150,7 +151,7 @@ var init = function () {
             $("#txtValor-99000").unmask();
             $("#txtValor-99000").focus();
         }
-        //$("#txtValor-99000").focus();
+        FiltraOperador(2);
     });
 
     $("#tblGrid").change(function () {
@@ -231,7 +232,7 @@ function ajax_buscar_campos_CallBack(json) {
     $(json).each(function () {
         _html += '<li id="' + this.RotuloAbreviado + '" class="ui-state-default ls-cursor-move">' + this.Rotulo + '</li>';
         //_htmlSel += '<option value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
-        _htmlSel += '<option mascara="'+this.MascaraEntrada+'" value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
+        _htmlSel += '<option mascara="' + this.MascaraEntrada + '" mascarasaida="' + this.MascaraSaida + '" tipocampo="' + this.TipoSQL + '" value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
     });
     
     if (_html != '') {
@@ -239,6 +240,7 @@ function ajax_buscar_campos_CallBack(json) {
         $('#lst-campos-sel').append(_html);
         $('#sel-index-99000').append(_htmlSel);
     }
+    FiltraOperador(4);
 }
 function bindJqGrid(actionController, feeID, datasetID, step)
  {
@@ -680,8 +682,12 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             var _mascara = '';
             _id = this.id.replace('pnl-filtro-f-', '');
             _id = _id.replace('pnl-filtro-d-', '');
-            _mascara = $("#"+this.id).attr("mascara")
-            //{ sel: 'matricula', op: '=', val: '7880123456' },
+            
+            //TODO: AndreSombra 12/11/2015
+            _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
+            var _mascarasaida = $('#sel-index-' + _id + ' option:selected').attr("mascarasaida")
+            $('#txtValor-' + _id).mask(_mascarasaida);  //Colocar MascaraSaida
+
             _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
         });
         _strWHERE = _strWHERE + '],';
@@ -690,6 +696,19 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         _str = _str + _strTH + _strTR + _strWHERE + _strEXEC + '}';
 
         //_str = _str + _strTH + _strTR   + '}';
+
+        //TODO: AndreSombra 12/11/2015
+        //Colocar MascaraEntrada
+        $('div[id^="pnl-filtro"]').each(function () {
+            var _id = '';
+            var _mascara = '';
+            _id = this.id.replace('pnl-filtro-f-', '');
+            _id = _id.replace('pnl-filtro-d-', '');
+
+            _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
+            var _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
+            $('#txtValor-' + _id).mask(_mascara);
+        });
 
         return _str;
     }
@@ -754,7 +773,8 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         //_html += '          <div class="ls-custom-select">';
         _html += '                  <select id="sel-operador-' + _id + '" class="form-control" >';
         _html += '                      <option value="="> Igual </option>';
-        //_html += '                  <option value="!="> Diferente </option>';
+        _html += '                  <option value="Like"> Contém </option>';
+        _html += '                  <option value="!="> Diferente </option>';
         _html += '                      <option value=">"> Maior </option>';
         //_html += '                  <option value=">="> Maior Igual </option>';
         _html += '                      <option value="<"> Menor </option>';
@@ -788,4 +808,52 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             cmp.val('');
             cmp.unmask();
         }
+        //FiltraOperador(5);
+        FiltraOperadorDinamico(campo);
+    }
+
+    function FiltraOperador(num) {
+        //TODO: AndreSombra 12/11/2015
+        var _tipocampo = $("#sel-index-99000 option:selected").attr("tipocampo");
+        //alert('Chamou FiltroOperador : ' + _tipocampo + " Numero: " + num);
+        $("#sel-operador-99000").each(function () {
+            if (_tipocampo == "A") {
+                $("#sel-operador-99000 option[value='Like']").css('display', '');
+                $("#sel-operador-99000 option[value='!=']").css('display', 'none');
+                $("#sel-operador-99000 option[value='>']").css('display', 'none');
+                $("#sel-operador-99000 option[value='<']").css('display', 'none');
+            } else {
+                $("#sel-operador-99000 option[value='Like']").css('display', 'none');
+                $("#sel-operador-99000 option[value='!=']").css('display', '');
+                $("#sel-operador-99000 option[value='>']").css('display', '');
+                $("#sel-operador-99000 option[value='<']").css('display', '');
+            }
+        });
+    }
+
+    function FiltraOperadorDinamico(campo) {
+        //TODO: AndreSombra 12/11/2015
+        var _id = campo.id;
+        _id = _id.replace('sel-index-', 'sel-operador-');
+        //alert(_id);
+        var _tipocampo = $("#" + campo.id + " option:selected").attr("tipocampo");
+        var seloper = $("#" + _id);
+        //alert(seloper);
+        //alert('Chamou FiltroOperador : ' + _tipocampo+" campoid= "+campo.id);
+        seloper.each(function () {
+            //alert(seloper);
+            if (_tipocampo == "A") {
+                
+                $("#" + _id + " option[value='Like']").css('display', '');
+                $("#" + _id + " option[value='!=']").css('display', 'none');
+                $("#" + _id + " option[value='>']").css('display', 'none');
+                $("#" + _id + " option[value='<']").css('display', 'none');
+            } else {
+                
+                $("#" + _id + " option[value='Like']").css('display', 'none');
+                $("#" + _id + " option[value='!=']").css('display', '');
+                $("#" + _id + " option[value='>']").css('display', '');
+                $("#" + _id + " option[value='<']").css('display', '');
+            }
+        });
     }

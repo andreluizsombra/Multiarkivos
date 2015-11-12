@@ -503,7 +503,8 @@ namespace MK.Easydoc.Core.Repositories
                 Reconhece =  bool.Parse(dt["Reconhece"].ToString()),
                 FiltroConsulta =  bool.Parse(dt["FiltroConsulta"].ToString()),
                 Valor = dt["Valor"].ToString() ?? string.Empty,
-                ValorPadrao = dt["ValorPadrao"].ToString()
+                ValorPadrao = dt["ValorPadrao"].ToString(),
+                TipoSQL = dt["TipoSQL"].ToString()
 
             });
             return _campo;
