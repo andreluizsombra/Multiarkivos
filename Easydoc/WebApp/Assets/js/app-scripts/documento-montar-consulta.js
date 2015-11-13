@@ -702,7 +702,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         _strWHERE = _strWHERE + '],';
         _strEXEC = '"exec":{proc:"proc_consulta_dinamica_padrao", idoc: "' + $("#cboTiposDoc option:selected").val() + '", par:""}';
 
-        alert(_strWHERE.toString());
+        //alert(_strWHERE.toString());
 
         _str = _str + _strTH + _strTR + _strWHERE + _strEXEC + '}';
 
