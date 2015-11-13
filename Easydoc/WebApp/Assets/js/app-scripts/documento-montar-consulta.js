@@ -688,10 +688,21 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             var _mascarasaida = $('#sel-index-' + _id + ' option:selected').attr("mascarasaida")
             $('#txtValor-' + _id).mask(_mascarasaida);  //Colocar MascaraSaida
 
-            _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+            //TODO: AndreSombra 13/11/2015
+            if ($('#sel-operador-' + _id + ' option:selected').val() == 'Like') {
+                var _valor = '%' + $('#txtValor-' + _id).val() + '%';
+                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + _valor + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+            }
+            else {
+                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+            }
+
         });
+        
         _strWHERE = _strWHERE + '],';
         _strEXEC = '"exec":{proc:"proc_consulta_dinamica_padrao", idoc: "' + $("#cboTiposDoc option:selected").val() + '", par:""}';
+
+        alert(_strWHERE.toString());
 
         _str = _str + _strTH + _strTR + _strWHERE + _strEXEC + '}';
 
@@ -709,7 +720,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             var _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
             $('#txtValor-' + _id).mask(_mascara);
         });
-
+        
         return _str;
     }
 
@@ -793,7 +804,25 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         _html += ' </div><p></p>';
 
         $('#pnl-busca-campos').append(_html);
+        
+        //TODO: AndreSombra 13/11/2015
+        var _tipocampo = $("#sel-index-" + _id + " option:selected").attr("tipocampo");
+        $("#sel-operador-" + _id).each(function () {
+            //alert(seloper);
+            if (_tipocampo == "A") {
 
+                $("#sel-operador-" + _id + " option[value='Like']").css('display', '');
+                $("#sel-operador-" + _id + " option[value='!=']").css('display', 'none');
+                $("#sel-operador-" + _id + " option[value='>']").css('display', 'none');
+                $("#sel-operador-" + _id + " option[value='<']").css('display', 'none');
+            } else {
+
+                $("#sel-operador-" + _id + " option[value='Like']").css('display', 'none');
+                $("#sel-operador-" + _id + " option[value='!=']").css('display', '');
+                $("#sel-operador-" + _id + " option[value='>']").css('display', '');
+                $("#sel-operador-" + _id + " option[value='<']").css('display', '');
+            }
+        });
     }
     
     //TODO: AndreSombra 11/11/2015
