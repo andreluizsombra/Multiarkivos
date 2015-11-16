@@ -86,6 +86,25 @@ namespace MK.Easydoc.Core.Repositories
             PrimeiroServicoPorCliente(nomeUsuario, TCliente.ID.ToString());
         }
 
+        /// <summary>
+        /// Retorna dados o serviço padrão
+        /// </summary>
+        /// <Autor>AndreSombra</Autor>
+        /// <DataInicio>16/11/2015</DataInicio>
+        /// <param name="nomeUsuario"></param>
+        public void PrimeiroClienteServicoPadrao(string nomeUsuario)
+        {
+            string cmd = string.Format("exec Proc_GET_ServicoDefault '{0}'", nomeUsuario);
+            var lista = new DbConn().RetornaDados(cmd);
+            foreach (DataRow item in lista.Rows)
+            {
+                TCliente.ID = int.Parse(item["IdCliente"].ToString());
+                TCliente.Descricao = item["CLiente"].ToString();
+                this.idServico = int.Parse(item["IdServico"].ToString());
+                this.Servico = item["Servico"].ToString();
+            }
+        }
+
         public List<Cliente> ListaClientePorUsuario(string nomeUsuario)
         {
             string cmd = string.Format("exec Proc_GetClientePorLogin '{0}'", nomeUsuario);

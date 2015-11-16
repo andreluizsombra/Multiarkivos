@@ -41,14 +41,14 @@ namespace MK.Easydoc.WebApp.Controllers
                     {
                         rest = flag.ToString()
                     };
-
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Dashboard()
         {
             ViewBag.Message = "";
-            return View("Dashboard");
+            //return View("Dashboard");
+            return View("~/Views/Shared/_MorrisDonut.cshtml");
         }
         public ActionResult About()
         {

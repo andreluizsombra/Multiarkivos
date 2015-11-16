@@ -63,11 +63,18 @@ namespace MK.Easydoc.WebApp.Controllers
                         {
                             Session["NomeUsuario"] = model.NomeUsuario;
 
+                            
                             var cli = new ClienteRepository();
-                            cli.PrimeiroCliente(model.NomeUsuario);
+                            cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;
+
+                            //var cli = new ClienteRepository();
+                            //cli.PrimeiroCliente(model.NomeUsuario);
+                            //Session["NomeCliente"] = cli.TCliente.Descricao;
+                            //Session["NomeServico"] = cli.Servico;
+                            //Session["IdServico"] = cli.idServico;
 
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
                         }
