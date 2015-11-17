@@ -14,6 +14,9 @@ namespace MK.Easydoc.Core.Entities
         public int IdCliente { get; set; }
         public List<Modulo> Modulos { get; set; }
         public List<DocumentoModelo> Documentos { get; set; }
+        public string ScriptSQLDashboard_Captura { get; set; }
+        public string ScriptSQLDashboard_Pendencias { get; set; }
+        public string ScriptSQLDashboard_Doc_Modulo { get; set; }
 
         public Servico()
         {
@@ -24,6 +27,9 @@ namespace MK.Easydoc.Core.Entities
             //Cliente = new Cliente();
             Modulos = new List<Modulo>();
             Documentos = new List<DocumentoModelo>();
+            ScriptSQLDashboard_Captura = string.Empty;
+            ScriptSQLDashboard_Pendencias = string.Empty;
+            ScriptSQLDashboard_Doc_Modulo = string.Empty;
         }
     }
 

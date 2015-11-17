@@ -10,6 +10,7 @@ namespace MK.Easydoc.WebApp.Controllers
 {
     public class HomeController : BaseController
     {
+        private IDictionary<string, object> _qryparams;
         public ActionResult Index()
         {
             //AjaxCallTrocarServicoAtual(0);
@@ -43,6 +44,25 @@ namespace MK.Easydoc.WebApp.Controllers
                     };
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult Dashboard_Doc_Modulo(int _usuarioID, int _servicoID, int _periodoInicial, int _periodoFinal)
+        {
+            _usuarioID = UsuarioAtual.ID;
+            _servicoID = ServicoAtual.ID;
+
+            this._qryparams = new Dictionary<string, object>();
+            this._qryparams.Clear();
+            this._qryparams["Usuario_ID"] = _usuarioID;
+            this._qryparams["Servico_ID"] = _servicoID;
+            this._qryparams["periodoInicial"] = _periodoInicial;
+            this._qryparams["periodoFinal"] = _periodoFinal;
+
+            var serv = new ServicoRepository();
+            var resultado = serv.ExibirDashboard_Doc_Modulo(this._qryparams);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }		
 
         public ActionResult Dashboard()
         {

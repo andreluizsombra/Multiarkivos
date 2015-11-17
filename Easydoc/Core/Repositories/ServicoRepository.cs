@@ -37,13 +37,49 @@ namespace MK.Easydoc.Core.Repositories
                 Default = bool.Parse(dt["ServicoDefault"].ToString()),
                 Documentos = new List<DocumentoModelo>(),
                 Modulos = new List<Modulo>(),
-                IdCliente = int.Parse(dt["IdCliente"].ToString())
+                IdCliente = int.Parse(dt["IdCliente"].ToString()),
+                ScriptSQLDashboard_Captura = dt["ScriptSQLDashboard_Captura"].ToString(),
+                ScriptSQLDashboard_Pendencias = dt["ScriptSQLDashboard_Pendencias"].ToString(),
+                ScriptSQLDashboard_Doc_Modulo = dt["ScriptSQLDashboard_Doc_Modulo"].ToString()
             });
             return _servico;
         
         }
 
         #region IServicoRepository Members
+
+        public List<Graficos> ExibirDashboard_Doc_Modulo(IDictionary<string, object> _queryParams)
+        {
+            try
+            {
+                string scriptConsulta = GetServico(_queryParams).ScriptSQLDashboard_Doc_Modulo;
+
+                List<Graficos> _itens = new List<Graficos>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format(scriptConsulta));
+
+                _db.AddInParameter(_cmd, "@PeriodoInicial", DbType.Int32, int.Parse(_queryParams["periodoInicial"].ToString()));
+                _db.AddInParameter(_cmd, "@PeriodoFinal", DbType.Int32, int.Parse(_queryParams["periodoFinal"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _itens.Add(new Graficos() { label = _dr["Descricao"].ToString(), value = int.Parse(_dr["Quantidade"].ToString()) });
+                    }
+                }
+                
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Modulo, detalhes: " + ex.Message);
+            }
+        }
+
+
         public List<Servico> ListarServicosUsuario(IDictionary<string, object> _queryParams)
         {
             try
@@ -124,6 +160,32 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw new Erro(ex.Message);  }        
         }
+
+        public Servico GetServico(int _usuarioID, int _servicoID)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Servico _servico = new Servico();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_servico_get"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _usuarioID);
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _servicoID);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _servico = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_servico == null) { throw new Erro("Servico não localizado."); }
+                return _servico;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }		
 
         #endregion IServicoRepository Members
 

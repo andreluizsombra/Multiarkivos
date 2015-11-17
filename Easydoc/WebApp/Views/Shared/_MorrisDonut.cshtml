@@ -612,18 +612,38 @@
     $('#BarraNav').hide();
     $("#AreaChart").hide();
     // Code that uses other library's $ can follow here.
-    Morris.Donut({
-        element: 'morris-donut-chart',
-        data: [{
-            label: "Pendecias",
-            value: 100
-        }, {
-            label: "Supervisao",
-            value: 300
-        }, {
-            label: "Aprovados",
-            value: 200
-        }],
-        resize: true
+    //Morris.Donut({
+    //    element: 'morris-donut-chart',
+    //    data: [{
+    //        label: "Pendecias",
+    //        value: 100
+    //    }, {
+    //        label: "Supervisao",
+    //        value: 300
+    //    }, {
+    //        label: "Aprovados",
+    //        value: 200
+    //    }],
+    //    resize: true
+    //});
+
+    //$().ready(function () {
+    $.ajax({
+        url: "/Home/Dashboard_Doc_Modulo",
+        type: 'POST',
+        datatype: 'json',
+        data: { _usuarioID: 0, _servicoID: 0, _periodoInicial: 20151108, _periodoFinal: 20151117 },
+        success: function (data) {
+            //debugger;
+            //$.each(data, function (i, item) {
+              //  alert(item.label);
+                Morris.Donut({
+                    element: 'morris-donut-chart',
+                    data: data,
+                    resize: true
+                });
+            //});
+        },
     });
+    //});
 </script>
