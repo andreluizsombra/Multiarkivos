@@ -372,10 +372,25 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Dashboard</h1>
                 </div>
-                <!-- /.col-lg-12 -->
-            </div>
-            <!-- /.row -->
-            @*<div class="row">
+                <div class="col-lg-10">
+                    
+                        <div class="col-lg-2">
+                            <label>Período Inicial</label>
+                            <input id="dtini" name="dtini" type="date" class="form-control input-sm" />
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Período Final</label>
+                            <div class="input-group">
+                                <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
+                                <div class="input-group-btn">
+                                    <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                </div>
+                    <!-- /.row -->
+                    @*<div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -465,13 +480,13 @@
                     </div>
                 </div>
             </div>*@
-            <!-- /.row -->
-            <div class="row">
-                <div id ="AreaChart" class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> @*Area Chart Example*@
-                            @*<div class="pull-right">
+                    <!-- /.row -->
+                    <div class="row">
+                        <div id="AreaChart" class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> @*Area Chart Example*@
+                                    @*<div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                         Actions
@@ -494,17 +509,17 @@
                                     </ul>
                                 </div>
                             </div>*@
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div id="morris-area-chart"></div>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
                         </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
-                <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
-                    @*<div class="panel panel-default">
+                        <!-- /.col-lg-8 -->
+                        <div class="col-lg-4">
+                            @*<div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bell fa-fw"></i> Notifications Panel
                         </div>
@@ -571,25 +586,24 @@
                         </div>
                         <!-- /.panel-body -->
                     </div>*@
-                    <!-- /.panel -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> @*Donut Chart Example*@
+                            <!-- /.panel -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bar-chart-o fa-fw"></i> @*Donut Chart Example*@
+                                </div>
+                                <div class="panel-body">
+                                    <div id="morris-donut-chart"></div>
+                                    @*<a href="#" class="btn btn-default btn-block">View Details</a>*@
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>
+                            <!-- /.panel -->
+                            <!-- /.panel .chat-panel -->
                         </div>
-                        <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
-                            @*<a href="#" class="btn btn-default btn-block">View Details</a>*@
-                        </div>
-                        <!-- /.panel-body -->
+                        <!-- /.col-lg-4 -->
                     </div>
-                    <!-- /.panel -->
-                    
-                    <!-- /.panel .chat-panel -->
+                    <!-- /.row -->
                 </div>
-                <!-- /.col-lg-4 -->
-            </div>
-            <!-- /.row -->
-        </div>
         <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
@@ -613,24 +627,33 @@
     $("#page-wrapper").css('margin', '0px');
     $('#BarraNav').hide();
 
-    $.ajax({
-        url: "/Home/Dashboard_Doc_Modulo",
-        type: 'POST',
-        datatype: 'json',
-        data: { _periodoInicial: 20151108, _periodoFinal: 20151117 },
-        success: function (data) {
-            //debugger;
-            //$.each(data, function (i, item) {
-            //  alert(item.label);
-            Morris.Donut({
-                element: 'morris-donut-chart',
-                data: data,
-                resize: true
-            });
-            //});
-        },
+    $("#btn_atualizar").click(function () {
+        var _dtini = $("#dtini").val().substring(0, 4) + $("#dtini").val().substring(5, 7) + $("#dtini").val().substring(8, 10);
+        var _dtfim = $("#dtfim").val().substring(0, 4) + $("#dtfim").val().substring(5, 7) + $("#dtfim").val().substring(8, 10);
+
+        DanutChar(_dtini, _dtfim);
+        AreaChart(_dtini, _dtfim);
     });
 
+    function DanutChar(dtini, dtfim) {
+        $.ajax({
+            url: "/Home/Dashboard_Doc_Modulo",
+            type: 'POST',
+            datatype: 'json',
+            data: { _periodoInicial: dtini, _periodoFinal: dtfim },
+            success: function (data) {
+                //debugger;
+                //$.each(data, function (i, item) {
+                //  alert(item.label);
+                Morris.Donut({
+                    element: 'morris-donut-chart',
+                    data: data,
+                    resize: true
+                });
+                //});
+            },
+        });
+    }
 
     //Morris.Area({
     //    element: 'morris-area-chart',
@@ -658,25 +681,26 @@
 
 
     //Carregar Area Chart - AndreSombra 18/11/2015
-    $.ajax({
-        url: "/Home/Dashboard_Doc_Captura",
-        type: 'POST',
-        datatype: 'json',
-        data: { _periodoInicial: 20151101, _periodoFinal: 20151118 },
-        success: function (data) {
+    function AreaChart(dtini, dtfim) {
+        $.ajax({
+            url: "/Home/Dashboard_Doc_Captura",
+            type: 'POST',
+            datatype: 'json',
+            data: { _periodoInicial: dtini, _periodoFinal: dtfim },
+            success: function (data) {
 
-            Morris.Area({
-                element: 'morris-area-chart',
-                data: data,
-                xkey: 'Data_Captura',
-                ykeys: ['Quantidade_Capturada'],
-                labels: ['Quantidade Capturada'],
-                pointSize: 2,
-                hideHover: 'auto',
-                resize: true
-            });
+                Morris.Area({
+                    element: 'morris-area-chart',
+                    data: data,
+                    xkey: 'Data_Captura',
+                    ykeys: ['Quantidade_Capturada'],
+                    labels: ['Quantidade Capturada'],
+                    pointSize: 2,
+                    hideHover: 'auto',
+                    resize: true
+                });
 
-        },
-    });
-
+            },
+        });
+    }
 </script>
