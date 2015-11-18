@@ -15,4 +15,15 @@ namespace MK.Easydoc.Core.Entities
             value = 0;
         }
     }
+    //TODO: AndreSombra 18/11/2015
+    public class GraficoAreaChart
+    {
+        public string Data_Captura { get; set; }
+        public int Quantidade_Capturada { get; set; }
+        public GraficoAreaChart()
+        {
+            Data_Captura = string.Empty;
+            Quantidade_Capturada = 0;
+        }
+    }
 }

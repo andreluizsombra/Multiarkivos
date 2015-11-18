@@ -79,6 +79,37 @@ namespace MK.Easydoc.Core.Repositories
             }
         }
 
+        public List<GraficoAreaChart> ExibirDashboard_Captura(IDictionary<string, object> _queryParams)
+        {
+            try
+            {
+                string scriptConsulta = GetServico(_queryParams).ScriptSQLDashboard_Captura;
+
+                List<GraficoAreaChart> _itens = new List<GraficoAreaChart>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format(scriptConsulta));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@PeriodoInicial", DbType.Int32, int.Parse(_queryParams["periodoInicial"].ToString()));
+                _db.AddInParameter(_cmd, "@PeriodoFinal", DbType.Int32, int.Parse(_queryParams["periodoFinal"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _itens.Add(new GraficoAreaChart() { Data_Captura = _dr["Data_Captura"].ToString(), Quantidade_Capturada = int.Parse(_dr["Quantidade_Capturada"].ToString()) });
+                    }
+                }
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Modulo, detalhes: " + ex.Message);
+            }
+        }
+
 
         public List<Servico> ListarServicosUsuario(IDictionary<string, object> _queryParams)
         {

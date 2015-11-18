@@ -470,8 +470,8 @@
                 <div id ="AreaChart" class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Area Chart Example
-                            <div class="pull-right">
+                            <i class="fa fa-bar-chart-o fa-fw"></i> @*Area Chart Example*@
+                            @*<div class="pull-right">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
                                         Actions
@@ -493,7 +493,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
@@ -607,43 +607,76 @@
     <script src="../sbadmin2/dist/js/sb-admin-2.js"></script>
 </body>
 </html>
+
 <script>
     $.noConflict();
+    $("#page-wrapper").css('margin', '0px');
     $('#BarraNav').hide();
-    $("#AreaChart").hide();
-    // Code that uses other library's $ can follow here.
-    //Morris.Donut({
-    //    element: 'morris-donut-chart',
-    //    data: [{
-    //        label: "Pendecias",
-    //        value: 100
-    //    }, {
-    //        label: "Supervisao",
-    //        value: 300
-    //    }, {
-    //        label: "Aprovados",
-    //        value: 200
-    //    }],
-    //    resize: true
-    //});
 
-    //$().ready(function () {
     $.ajax({
         url: "/Home/Dashboard_Doc_Modulo",
         type: 'POST',
         datatype: 'json',
-        data: { _usuarioID: 0, _servicoID: 0, _periodoInicial: 20151108, _periodoFinal: 20151117 },
+        data: { _periodoInicial: 20151108, _periodoFinal: 20151117 },
         success: function (data) {
             //debugger;
             //$.each(data, function (i, item) {
-              //  alert(item.label);
-                Morris.Donut({
-                    element: 'morris-donut-chart',
-                    data: data,
-                    resize: true
-                });
+            //  alert(item.label);
+            Morris.Donut({
+                element: 'morris-donut-chart',
+                data: data,
+                resize: true
+            });
             //});
         },
     });
+
+
+    //Morris.Area({
+    //    element: 'morris-area-chart',
+    //    data: [{
+    //            Data_Captura: '10/11/2015',
+    //            Quantidade_Capturada: 100,
+    //            },
+    //            {
+    //             Data_Captura: '11/11/2015',
+    //             Quantidade_Capturada: 26,
+    //            }, {
+    //             Data_Captura: '12/11/2015',
+    //             Quantidade_Capturada: 200,
+    //            }, {
+    //             Data_Captura: '13/11/2015',
+    //             Quantidade_Capturada: 50,
+    //            }],
+    //    xkey: 'Data_Captura',
+    //    ykeys: ['Quantidade_Capturada'],
+    //    labels: ['Quantidade Capturada'],
+    //    pointSize: 2,
+    //    hideHover: 'auto',
+    //    resize: true
     //});
+
+
+    //Carregar Area Chart - AndreSombra 18/11/2015
+    $.ajax({
+        url: "/Home/Dashboard_Doc_Captura",
+        type: 'POST',
+        datatype: 'json',
+        data: { _periodoInicial: 20151101, _periodoFinal: 20151118 },
+        success: function (data) {
+
+            Morris.Area({
+                element: 'morris-area-chart',
+                data: data,
+                xkey: 'Data_Captura',
+                ykeys: ['Quantidade_Capturada'],
+                labels: ['Quantidade Capturada'],
+                pointSize: 2,
+                hideHover: 'auto',
+                resize: true
+            });
+
+        },
+    });
+
 </script>
