@@ -2360,6 +2360,7 @@
     <Content Include="Views\Home\Teste.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_MorrisDonut.cshtml" />
+    <Content Include="Views\Shared\_Pendencias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\App_LocalResources\" />

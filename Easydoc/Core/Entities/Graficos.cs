@@ -26,4 +26,15 @@ namespace MK.Easydoc.Core.Entities
             Quantidade_Capturada = 0;
         }
     }
+
+    public class GraficoPendencias
+    {
+        public string Descricao { get; set; }
+        public int Quantidade { get; set; }
+        public GraficoPendencias()
+        {
+            Descricao = string.Empty;
+            Quantidade = 0;
+        }
+    }
 }

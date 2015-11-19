@@ -106,7 +106,39 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Modulo, detalhes: " + ex.Message);
+                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Captura, detalhes: " + ex.Message);
+            }
+        }
+
+        //TODO: AndreSombra 19/11/2015
+        public List<GraficoPendencias> ExibirDashboard_Pendencias(IDictionary<string, object> _queryParams)
+        {
+            try
+            {
+                string scriptConsulta = GetServico(_queryParams).ScriptSQLDashboard_Pendencias;
+
+                List<GraficoPendencias> _itens = new List<GraficoPendencias>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format(scriptConsulta));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@PeriodoInicial", DbType.Int32, int.Parse(_queryParams["periodoInicial"].ToString()));
+                _db.AddInParameter(_cmd, "@PeriodoFinal", DbType.Int32, int.Parse(_queryParams["periodoFinal"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _itens.Add(new GraficoPendencias() { Descricao = _dr["Descricao"].ToString(), Quantidade = int.Parse(_dr["Quantidade"].ToString()) });
+                    }
+                }
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Pendencias, detalhes: " + ex.Message);
             }
         }
 

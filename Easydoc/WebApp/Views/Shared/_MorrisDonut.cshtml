@@ -1,8 +1,6 @@
 ﻿@using MK.Easydoc.WebApp.Controllers
 @{
  //   Layout = null;
-    
-    
 }
 
 <!DOCTYPE html>
@@ -14,8 +12,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    
     <!-- Bootstrap Core CSS -->
-    <link href="../sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    @*<link href="../sbadmin2/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">*@
+    <link href="../Assets/css/core-style/bootstrap.min.css" rel="stylesheet" />
+
     <!-- MetisMenu CSS -->
     <link href="../sbadmin2/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
     <!-- Timeline CSS -->
@@ -527,6 +528,46 @@
 
                         <!-- /.col-lg-8 -->
                         <div class="col-lg-4">
+
+
+
+                            @*<div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <i class="fa fa-bell fa-fw"></i> Notifications Panel Teste 2
+                                </div>
+                                <!-- /.panel-heading -->
+                                <div class="panel-body">
+                                    <div id="lst_Pendencias" class="list-group">
+                                        <a href="#" class="list-group-item">
+                                            <i class="fa fa-comment fa-fw"></i> New Comment
+                                            <span class="pull-right text-muted small">
+                                                <span class="bagge">4 minutes ago</span>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                            <span class="pull-right text-muted small">
+                                                <em>12 minutes ago</em>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="list-group-item">
+                                            <i class="fa fa-money fa-fw"></i> Payment Received
+                                            <span class="pull-right text-muted small">
+                                                <em>Yesterday</em>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- /.panel-body -->
+                            </div>*@
+
+
+
+
+
+
+                            <!--Tasks Panel-->
+
                             @*<div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bell fa-fw"></i> Notifications Panel
@@ -590,7 +631,6 @@
                                 </a>
                             </div>
                             <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
                         </div>
                         <!-- /.panel-body -->
                     </div>*@
@@ -619,8 +659,11 @@
     <!-- /#wrapper -->
     <!-- jQuery -->
     <script src="../sbadmin2/bower_components/jquery/dist/jquery.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
-    <script src="../sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    @*<script src="../sbadmin2/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>*@
+    <script src="../Assets/js/core-scripts/bootstrap.min.js"></script>
+    
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../sbadmin2/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <!-- Morris Charts JavaScript -->
@@ -634,6 +677,12 @@
 
 <script>
     $.noConflict();
+    $('#pnlHeader').slideUp('slow');
+
+    $("#btn_mnu_principal").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
+    $("#btnPendencias").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
+    $("#btn_logout").css('background-color', '#aea79f').css('padding', '8px 12px').css('font-size', '14px').css('color', 'White').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');;
+
     $("#page-wrapper").css('margin', '0px');
     $('#BarraNav').hide();
 

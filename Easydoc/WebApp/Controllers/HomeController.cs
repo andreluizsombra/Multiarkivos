@@ -77,6 +77,23 @@ namespace MK.Easydoc.WebApp.Controllers
             var resultado = serv.ExibirDashboard_Captura(this._qryparams);
 
             return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        //TODO: AndreSombra 19/11/2015
+        [HttpPost]
+        public JsonResult Dashboard_Doc_Pendencias(int _periodoInicial, int _periodoFinal)
+        {
+            this._qryparams = new Dictionary<string, object>();
+            this._qryparams.Clear();
+            this._qryparams["Usuario_ID"] = UsuarioAtual.ID;
+            this._qryparams["Servico_ID"] = ServicoAtual.ID;
+            this._qryparams["periodoInicial"] = _periodoInicial;
+            this._qryparams["periodoFinal"] = _periodoFinal;
+
+            var serv = new ServicoRepository();
+            var resultado = serv.ExibirDashboard_Pendencias(this._qryparams);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
         }	
 
         public ActionResult Dashboard()
@@ -84,6 +101,11 @@ namespace MK.Easydoc.WebApp.Controllers
             ViewBag.Message = "";
             //return View("Dashboard");
             return View("~/Views/Shared/_MorrisDonut.cshtml");
+        }
+        public ActionResult Pendencias()
+        {
+            ViewBag.Message = "";
+            return View("~/Views/Shared/_Pendencias.cshtml");
         }
         public ActionResult About()
         {

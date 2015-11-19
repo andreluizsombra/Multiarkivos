@@ -1,0 +1,74 @@
+﻿<script src="~/Assets/js/core-scripts/bootstrap.min.js"></script>
+<link href="~/Assets/css/core-style/bootstrap.min.css" rel="stylesheet" />
+<link href="../sbadmin2/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">&nbsp;</div>
+        <div class="col-lg-12">
+            <h1 class="page-header">&nbsp;Pendências</h1>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div id="lst_Pendencias" class="list-group">
+                        <a href="#" class="list-group-item">
+                            <i class="fa fa-bell fa-fw"></i> New Comment
+                            <span class="pull-right text-muted small">
+                                <em class="badge">40</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <i class="fa fa-bell fa-fw"></i> 3 New Followers
+                            <span class="pull-right text-muted small">
+                                <em class="badge">12</em>
+                            </span>
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <i class="fa fa-bell fa-fw"></i> Payment Received
+                            <span class="pull-right text-muted small">
+                                <em class="badge">125</em>
+                            </span>
+                        </a>
+                    </div>
+                    <!-- /.list-group -->
+                    @*<a href="#" class="btn btn-default btn-block">View All Alerts</a>*@
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    $('#pnlHeader').slideUp('slow');
+    $("#btn_mnu_principal").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
+    $("#btnPendencias").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
+    $("#btn_logout").css('background-color', '#aea79f').css('padding', '8px 12px').css('font-size', '14px').css('color', 'White').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');;
+
+    ExibirPendencias('20151110', '20151119');
+
+    function ExibirPendencias(dtini, dtfim) {
+        $.ajax({
+            url: "/Home/Dashboard_Doc_Pendencias",
+            type: 'POST',
+            datatype: 'json',
+            data: { _periodoInicial: dtini, _periodoFinal: dtfim },
+            success: function (data) {
+                $("#lst_Pendencias").empty(); //Sempre limpar antes de exibir
+
+                $.each(data, function (i, item) {
+                    $("#lst_Pendencias").append("<a href='#' class='list-group-item'><i class='fa fa-bell fa-fw'></i>"+item.Descricao+"<span class='pull-right text-muted small'><em class='badge'>"+item.Quantidade+"</em></span></a>");
+                });
+                
+            },
+        });
+    }
+    
+</script>
