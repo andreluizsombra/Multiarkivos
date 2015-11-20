@@ -678,7 +678,7 @@
 <script>
     $.noConflict();
     $('#pnlHeader').slideUp('slow');
-
+    
     $("#btn_mnu_principal").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
     $("#btnPendencias").css('padding', '8px 12px').css('font-size', '14px').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');
     $("#btn_logout").css('background-color', '#aea79f').css('padding', '8px 12px').css('font-size', '14px').css('color', 'White').css('font-family', '"Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif');;
@@ -690,8 +690,17 @@
         var _dtini = $("#dtini").val().substring(0, 4) + $("#dtini").val().substring(5, 7) + $("#dtini").val().substring(8, 10);
         var _dtfim = $("#dtfim").val().substring(0, 4) + $("#dtfim").val().substring(5, 7) + $("#dtfim").val().substring(8, 10);
 
-        DanutChar(_dtini, _dtfim);
-        AreaChart(_dtini, _dtfim);
+        if ((_dtini == '') || (_dtini == '')) {
+            exibirmsgatencao("Preencher campos Período Inicial e Final, tente novamente...");
+        } else {
+
+            if (ChecarPeriodo($("#dtini").val(), $("#dtfim").val())) {
+                DanutChar(_dtini, _dtfim);
+                AreaChart(_dtini, _dtfim);
+            } else {
+                exibirmsgatencao("Período Final menor que Período Inicial, preencher novamente...");
+            }
+        }
     });
 
     function DanutChar(dtini, dtfim) {
@@ -749,18 +758,72 @@
             data: { _periodoInicial: dtini, _periodoFinal: dtfim },
             success: function (data) {
                 $("#morris-area-chart").empty(); //Sempre limpar antes de exibir
-                Morris.Area({
-                    element: 'morris-area-chart',
-                    data: data,
-                    xkey: 'Data_Captura',
-                    ykeys: ['Quantidade_Capturada'],
-                    labels: ['Quantidade Capturada'],
-                    pointSize: 2,
-                    hideHover: 'auto',
-                    resize: true
-                });
+                if (data == '') {
+                    exibirmsgatencao("Nenhum registro encontrado nesse período, tente novamente...");
+                } else {
+                    Morris.Area({
+                        element: 'morris-area-chart',
+                        data: data,
+                        xkey: 'Data_Captura',
+                        ykeys: ['Quantidade_Capturada'],
+                        labels: ['Quantidade Capturada'],
+                        pointSize: 2,
+                        hideHover: 'auto',
+                        resize: true
+                    });
+                    $('text').attr('text-anchor', 'middle').hide(); //Esconde os textos do grafico
+                }
 
             },
+            error:
+            {
+
+            }
+          }).fail(function (jqXHR, textStatus, errorThrown) {
+
+            if (jqXHR.status === 0) {
+
+                exibirmsgatencao('Not connect: Verify Network.');
+
+            } else if (jqXHR.status == 404) {
+
+                exibirmsgatencao('Requested page not found [404]');
+
+            } else if (jqXHR.status == 500) {
+
+                exibirmsgatencao('Internal Server Error [500].');
+
+            } else if (textStatus === 'parsererror') {
+
+                exibirmsgatencao('Requested JSON parse failed.');
+
+            } else if (textStatus === 'timeout') {
+
+                exibirmsgatencao('Time out error.');
+
+            } else if (textStatus === 'abort') {
+
+                exibirmsgatencao('Ajax request aborted.');
+
+            } else {
+
+                alert('Uncaught Error: ' + jqXHR.responseText);
+
+            }
+
         });
     }
+
+
+    function ChecarPeriodo(dt_ini, dt_fim) {
+        var iDate, fDate;
+        iDate = Date.parse(dt_ini);
+        fDate = Date.parse(dt_fim);
+        
+        if (fDate >= iDate) {
+            return true;
+        }
+        return false;
+    }
+
 </script>
