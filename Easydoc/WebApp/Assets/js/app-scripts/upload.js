@@ -74,6 +74,7 @@ var CancelarLote = function () {
 
             if (data.success == true) {
 
+                $(".progress-bar").css('width', '0%');
                 exibirmsgatencao('Lote cancelado.');
 
                 $('a#btnGerarLote')
@@ -122,7 +123,8 @@ var GerarLote = function () {
 var createUploader = function () {
     $('a#btnEncerrarLote')
                 .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
-
+    $(".progress-bar").css('width', '0%');
+    var i = 0;
     var uploader = new qq.FileUploader({
         element: document.getElementById('file-uploader'),//jQuery("#file_uploader")[0],
         action: '../Upload/SaveFiles', //@Url.Action("SaveFiles", new { area = "", controller = "Upload" }),
@@ -146,9 +148,15 @@ var createUploader = function () {
         extraDropzones: [$(".qq-upload-extra-drop-area")[0]],
         // events
         // you can return false to abort submit
-        onSubmit: function (id, fileName) { },
-        onProgress: function (id, fileName, loaded, total) { },
+        onSubmit: function (id, fileName) {
+            
+        },
+        onProgress: function (id, fileName, loaded, total) {
+            $(".progress-bar").css('width', i + '%');
+            i++;
+        },
         onComplete: function (id, fileName, responseJSON) {
+            $(".progress-bar").css('width', '100%').empty().append('100% concluído');
          /*   $('a#btnEncerrarLote')
                         .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
             return;

@@ -713,12 +713,16 @@
                 //debugger;
                 //$.each(data, function (i, item) {
                 //  alert(item.label);
-                $("#morris-donut-chart").empty(); //Sempre limpar antes de exibir
-                Morris.Donut({
-                    element: 'morris-donut-chart',
-                    data: data,
-                    resize: true
-                });
+                if (data == '') {
+                    exibirmsgatencao("Nenhum registro encontrado nesse período, tente novamente...");
+                } else {
+                    $("#morris-donut-chart").empty(); //Sempre limpar antes de exibir
+                    Morris.Donut({
+                        element: 'morris-donut-chart',
+                        data: data,
+                        resize: true
+                    });
+                }
                 //});
             },
         });
@@ -771,7 +775,7 @@
                         hideHover: 'auto',
                         resize: true
                     });
-                    $('text').attr('text-anchor', 'middle').hide(); //Esconde os textos do grafico
+                    //$('text').attr('text-anchor', 'middle').hide(); //Esconde os textos do grafico
                 }
 
             },
