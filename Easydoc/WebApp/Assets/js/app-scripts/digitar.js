@@ -1,25 +1,9 @@
-﻿jQuery(document).ready(function () {
+﻿
+jQuery(document).ready(function () {
     
     $('#pnlHeader').slideUp('slow');
-    // if (!$.ui.ie) {
-    //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
-    //  }
-    //   else {
-
-    $('input[rotulo=Placa]').focusin(function () {
-        if ($('input[rotulo=Nome]').val() != '') {
-            //var cmp = $("#" + this.id);
-            //cmp.attr('onfocus', BoxCampoPlaca(this));
-            var tam = $('input[rotulo=Placa]').attr('movecampo');
-            if (tam > 0) {
-                $('html, body').animate({ scrollTop: tam }, 'slow');
-                $('#boxcampos').css('margin-top', '500px');
-            }
-        }
-    });
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
-    //  }
 
     var AtualizarPagina = function () {
         if ($('#IdDocumento').val() == 0) {
@@ -41,8 +25,38 @@
     //$('input[required=true]').each(function () {
      //   alert(this.id);
     //})
-
 });
+
+function BoxPosicaoInicial() {
+    //console.log('aqui');
+    $('#boxcampos').css('margin-top', '0px');
+    $('html, body').animate({ scrollTop: 0 });
+ 
+}
+
+function MoverCampos(campo) {
+    //$('input[rotulo=Placa]').focusin(function () {
+    var cmp = $("#" + campo.id);
+    var tam = cmp.attr('movecampo');
+    console.log(tam);
+    //$('html, body').animate({ scrollTop: tam }, 'slow');
+    $('#boxcampos').css('margin-top', tam + 'px');
+    if(tam>0){
+        $('html, body').animate({ scrollTop: tam }, 'slow');
+    } else {
+        $('html, body').animate({ scrollTop: 0}, 'slow');
+    }
+
+    /*cmp.focusin(function () {
+        //var tam = $('input[rotulo=Placa]').attr('movecampo');
+        var tam = cmp.attr('movecampo');
+        console.log(tam);
+        
+        $('#boxcampos').css('margin-top', tam+'px');
+        // }
+    });
+    */
+}
 
 function BoxCampoPlaca(campo) {
     var _campo = $('#' + campo.id);
@@ -150,6 +164,16 @@ var init = function () {
             campo.mask(_mascara);
         }
     });
+
+    // TODO: AndreSombra 24/11/2015 =========================================
+    $('input').each(function () {
+        var campo = $("#" + this.id);
+        campo.attr('onfocus', 'MoverCampos(this)');
+    });
+
+
+   // BoxPosicaoInicial(); //Colocar o box na posicao incial.
+   // console.log('aqui 2');
 
 }
 
