@@ -70,6 +70,8 @@ namespace MK.Easydoc.Core.Entities
         public string AtributosHTML { get; set; }
         public string ValorPadrao { get; set; }
         public string Valor { get; set; }
+        public int Movecampo { get; set; }
+        public int Maiuscula { get; set; }
 
         public CampoModelo()
         {
@@ -100,6 +102,9 @@ namespace MK.Easydoc.Core.Entities
             AtributosHTML = string.Empty;
             ValorPadrao = string.Empty;
             Valor = string.Empty;
+            
+            Movecampo = 0;
+            Maiuscula = 0;
         }
     }
 

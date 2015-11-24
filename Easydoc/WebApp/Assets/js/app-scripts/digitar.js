@@ -5,6 +5,19 @@
     //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
     //  }
     //   else {
+
+    $('input[rotulo=Placa]').focusin(function () {
+        if ($('input[rotulo=Nome]').val() != '') {
+            //var cmp = $("#" + this.id);
+            //cmp.attr('onfocus', BoxCampoPlaca(this));
+            var tam = $('input[rotulo=Placa]').attr('movecampo');
+            if (tam > 0) {
+                $('html, body').animate({ scrollTop: tam }, 'slow');
+                $('#boxcampos').css('margin-top', '500px');
+            }
+        }
+    });
+
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
     //  }
 
@@ -30,6 +43,15 @@
     //})
 
 });
+
+function BoxCampoPlaca(campo) {
+    var _campo = $('#' + campo.id);
+    if (_campo.val() != '') {
+        console.log(_campo.val());
+        $('html, body').animate({ scrollTop: 400 }, 'slow');
+        $('#boxcampos').css('margin-top', '500px');
+    }
+}
 
 function validarCampos() {
     var $_txtCampo = $('input:text[required]');
