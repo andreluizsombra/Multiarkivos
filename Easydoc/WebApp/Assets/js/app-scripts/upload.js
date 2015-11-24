@@ -145,7 +145,8 @@ var createUploader = function () {
         // set to true to output server response to console
         debug: true,
         failUploadText: 'Arquivo ja existe.',
-        extraDropzones: [$(".qq-upload-extra-drop-area")[0]],
+        extraDropzones: [$("#solteaqui")[0]],
+        //extraDropzones: [$(".qq-upload-extra-drop-area")[0]],
         // events
         // you can return false to abort submit
         onSubmit: function (id, fileName) {
@@ -156,7 +157,7 @@ var createUploader = function () {
             i++;
         },
         onComplete: function (id, fileName, responseJSON) {
-            $(".progress-bar").css('width', '100%').empty().append('100% concluído');
+            $(".progress-bar").css('width', '100%').empty();
          /*   $('a#btnEncerrarLote')
                         .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
             return;
