@@ -125,6 +125,8 @@ var createUploader = function () {
                 .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
     $(".progress-bar").css('width', '0%');
     var i = 0;
+    var TotalArquivos = 0;
+    
     var uploader = new qq.FileUploader({
         element: document.getElementById('file-uploader'),//jQuery("#file_uploader")[0],
         action: '../Upload/SaveFiles', //@Url.Action("SaveFiles", new { area = "", controller = "Upload" }),
@@ -150,24 +152,25 @@ var createUploader = function () {
         // events
         // you can return false to abort submit
         onSubmit: function (id, fileName) {
-            
+            TotalArquivos++;
         },
         onProgress: function (id, fileName, loaded, total) {
             var percentLoaded = (loaded / total) * 100;
-
-            //$("#progressbar").progressbar({ value: percentLoaded });
-            $(".progress-bar").css('width', percentLoaded + '%');
-            //$(".progress-bar").css('width', percentLoaded + '%').text(percentLoaded);
-            i++;
-
-            if (percentLoaded == 0) { alert('Concluido');}
+            $(".progress-bar").css('width', percentLoaded + '%').text('Aguarde enviando arquivos');
         },
         onComplete: function (id, fileName, responseJSON) {
             //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
-            i=0;
             /*   $('a#btnEncerrarLote')
                            .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
+            TotalArquivos--;
+            if (TotalArquivos == 0) {
+                $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
+                exibirmsg('Operação efetuada com sucesso.');
+            }
             return;
+        },
+        success: function () {
+            
         },
         onCancel: function (id, fileName) { },
         onError: function (id, fileName, xhr) {
@@ -180,7 +183,7 @@ var createUploader = function () {
         },
         showMessage: function (message) { alert(message); }
     });
-
+    
     $('#startUpload').click(function (event) {
         event.preventDefault();
         /*
