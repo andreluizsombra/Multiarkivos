@@ -135,7 +135,7 @@ var createUploader = function () {
         // validation
         // ex. ['jpg', 'jpeg', 'png', 'gif'] or []
         allowedExtensions: ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'pdf','tif','tiff', 'json'],
-        uploadButtonText: "Selecionar arquivos",
+        uploadButtonText: "Clique para selecionar os arquivos ou arraste para essa area",
         // each file size limit in bytes
         // this option isn't supported in all browsers     
         sizeLimit: 2147483647, // max size
@@ -153,13 +153,20 @@ var createUploader = function () {
             
         },
         onProgress: function (id, fileName, loaded, total) {
-            $(".progress-bar").css('width', i + '%');
+            var percentLoaded = (loaded / total) * 100;
+
+            //$("#progressbar").progressbar({ value: percentLoaded });
+            $(".progress-bar").css('width', percentLoaded + '%');
+            //$(".progress-bar").css('width', percentLoaded + '%').text(percentLoaded);
             i++;
+
+            if (percentLoaded == 0) { alert('Concluido');}
         },
         onComplete: function (id, fileName, responseJSON) {
-            $(".progress-bar").css('width', '100%').empty();
-         /*   $('a#btnEncerrarLote')
-                        .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
+            //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
+            i=0;
+            /*   $('a#btnEncerrarLote')
+                           .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
             return;
         },
         onCancel: function (id, fileName) { },
