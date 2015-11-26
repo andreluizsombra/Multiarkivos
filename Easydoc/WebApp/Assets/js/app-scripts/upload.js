@@ -20,6 +20,15 @@ var bindControles = function () {
 
 }
 
+function HabilitarEncerrarLote() {
+    $('a#btnEncerrarLote')
+        .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
+}
+function DeshabilitarEncerrarLote() {
+    $('a#btnEncerrarLote')
+        .unbind('click');
+}
+
 function limpamsg() {
     $('#msg').hide();
     $('#msgatencao').hide();
@@ -152,11 +161,14 @@ var createUploader = function () {
         // events
         // you can return false to abort submit
         onSubmit: function (id, fileName) {
+            limpamsg();
+            $(".progress-bar").css('width', 0 + '%');
+            DeshabilitarEncerrarLote();
             TotalArquivos++;
         },
         onProgress: function (id, fileName, loaded, total) {
             var percentLoaded = (loaded / total) * 100;
-            $(".progress-bar").css('width', percentLoaded + '%').text('Aguarde enviando arquivos');
+            $(".progress-bar").css('width', percentLoaded + '%').text('Aguarde, enviando o arquivo '+fileName);
         },
         onComplete: function (id, fileName, responseJSON) {
             //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
@@ -166,6 +178,7 @@ var createUploader = function () {
             if (TotalArquivos == 0) {
                 $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
                 exibirmsg('Operação efetuada com sucesso.');
+                HabilitarEncerrarLote();
             }
             return;
         },
