@@ -727,12 +727,10 @@
                 if (data == '') {
                     exibirmsgatencao("Nenhum registro encontrado nesse período, tente novamente...");
                 } else {
-
                     $(data).each(function() {
                         $("#titulo-DonutChart").empty().append(this.Header);
                     });
-                    alert(this.Header);
-
+                    
                     $("#morris-donut-chart").empty(); //Sempre limpar antes de exibir
                     Morris.Donut({
                         element: 'morris-donut-chart',
@@ -784,7 +782,6 @@
                 } else {
 
                     $(data).each(function () {
-                        alert(this.Header);
                         $("#titulo-AreaChart").empty().append(this.Header);
                     });
 

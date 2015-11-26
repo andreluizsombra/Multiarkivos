@@ -66,7 +66,7 @@ namespace MK.Easydoc.Core.Repositories
                 {
                     while (_dr.Read())
                     {
-                        _itens.Add(new Graficos() { label = _dr["Descricao"].ToString(), value = int.Parse(_dr["Quantidade"].ToString()) });
+                        _itens.Add(new Graficos() { label = _dr["Descricao"].ToString(), value = int.Parse(_dr["Quantidade"].ToString()), Header = _dr["Header"].ToString() });
                     }
                 }
                 
@@ -98,7 +98,7 @@ namespace MK.Easydoc.Core.Repositories
                 {
                     while (_dr.Read())
                     {
-                        _itens.Add(new GraficoAreaChart() { Data_Captura = _dr["Data_Captura"].ToString(), Quantidade_Capturada = int.Parse(_dr["Quantidade_Capturada"].ToString()) });
+                        _itens.Add(new GraficoAreaChart() { Data_Captura = _dr["Data_Captura"].ToString(), Quantidade_Capturada = int.Parse(_dr["Quantidade_Capturada"].ToString()), Header = _dr["Header"].ToString() });
                     }
                 }
 
@@ -130,7 +130,7 @@ namespace MK.Easydoc.Core.Repositories
                 {
                     while (_dr.Read())
                     {
-                        _itens.Add(new GraficoPendencias() { Descricao = _dr["Descricao"].ToString(), Quantidade = int.Parse(_dr["Quantidade"].ToString()) });
+                        _itens.Add(new GraficoPendencias() { Descricao = _dr["Descricao"].ToString(), Quantidade = int.Parse(_dr["Quantidade"].ToString()), Header = _dr["Header"].ToString() });
                     }
                 }
 
