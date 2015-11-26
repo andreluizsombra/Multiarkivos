@@ -39,7 +39,7 @@
     <br />
 
 
-    <div class="container-fluid">
+    <!--<div class="container-fluid">
         <div id="list" class="row">
 
             <div class="table-responsive col-md-12">
@@ -53,37 +53,50 @@
                                 <select id="cboTiposDoc" class="ls-custom-select" name="cboTiposDoc" style="width : 65%;font-size:14px;padding:8px"></select>
                             </td>
                             <td style="width : 20%;font-size:14px;padding:8px"></td>
+                            
                             <td class="actions">
                                 <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
                                 <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm" href="edit.html">Excluir</a>
                             </td>
+                            
                         </tr>
 
                     </tbody>
                 </table>
 
             </div>
-        </div> <!-- /#list -->
+        </div>
     </div>
-       
-        <div class="ls-box ls-board-box">
-            <div class="container-fluid">
-                <fieldset>
-                    <div class="wrapper col-md-12">
-                        <div class="ls-box-group">
-                                <div class="col-md-12">
-                                    <div id="viewer" class="viewer"></div>
-                                </div>
+    -->
+        
+    <div class="ls-box ls-board-box">
+            <div class="row">
+                <div class="col-lg-8">
+                     <div class="container-fluid">
+                        <div id="viewer" class="viewer"></div>
 
-                                <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
-                                    <a id="in" href="#" class="ls-ico-zoomin"></a><br>
-                                    <a id="out" href="#" class="ls-ico-zoomout"></a><br>
-                                    <a id="fit" href="#" class="ls-ico-screen"></a><br>
-                                    <a id="orig" href="#" class="ls-ico-spinner"></a><br>
-                                </div>
-                            </div>
+                        <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
+                            <a id="in" href="#" class="ls-ico-zoomin"></a><br>
+                            <a id="out" href="#" class="ls-ico-zoomout"></a><br>
+                            <a id="fit" href="#" class="ls-ico-screen"></a><br>
+                            <a id="orig" href="#" class="ls-ico-spinner"></a><br>
+                        </div>
+                     </div>
                     </div>
-                </fieldset>
+                <div class="col-lg-4">
+                    <div class="container-fluid">
+                        <div class="ls-box action" style="margin-left:-40px; margin-right:20px;">
+                            <label>Código</label>
+                            <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
+                            <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
+                            <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm" href="edit.html">Excluir</a>
+
+                            <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;">
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -172,8 +172,6 @@ var createUploader = function () {
         },
         onComplete: function (id, fileName, responseJSON) {
             //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
-            /*   $('a#btnEncerrarLote')
-                           .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
             TotalArquivos--;
             if (TotalArquivos == 0) {
                 $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
