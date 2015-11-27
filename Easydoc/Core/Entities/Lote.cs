@@ -59,6 +59,8 @@ namespace MK.Easydoc.Core.Entities
         public int SequenciaCaptura { get; set; }
         public bool Verso{ get; set; }
 
+        public DateTime DataCriacaoArqCap { get; set; }
+
         public DateTime DataCaptura { get; set; }
         public Usuario UsuarioCaptura { get; set; }
         public int StatusImagem { get; set; }
@@ -73,6 +75,8 @@ namespace MK.Easydoc.Core.Entities
             SequenciaCaptura = 0;
             Verso = false;
             DataCaptura = DateTime.MinValue;
+            DataCriacaoArqCap = DateTime.MinValue;
+
             UsuarioCaptura = new Usuario();
             StatusImagem = 0;
             DocumentoModelo = new DocumentoModelo();

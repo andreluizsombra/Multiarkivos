@@ -206,7 +206,6 @@ var createUploader = function () {
             .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
             */
         uploader.uploadStoredFiles();
-
     });
 
 }

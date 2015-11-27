@@ -54,7 +54,7 @@ namespace MK.Easydoc.Core.Services
             try
             {
                 int _qtdItens = 0;
-                foreach (LoteItem item in lote.Itens)
+                foreach (LoteItem item in lote.Itens.OrderBy(x=> x.DataCriacaoArqCap))
                 {
                     int _id = 0;
                     this._queryParams.Clear();

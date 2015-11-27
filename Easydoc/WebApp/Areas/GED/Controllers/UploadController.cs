@@ -253,6 +253,12 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             var file_Size = string.Empty;
             var fine_new_name = string.Empty;
 
+
+            //string teste = @"C:\tmp\Teste.txt";
+            //var _arq = new FileInfo(teste);
+            //string DataCriacao = _arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
+
+
             try
             {
                 //LoteImagens.PathCaptura = CriaDiretorio();
@@ -264,6 +270,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     HttpPostedFileBase postedFile = Request.Files[0];
                     stream = postedFile.InputStream;
                     file = Path.Combine(LoteImagens.PathCaptura, Path.GetFileName(Request.Files[0].FileName));
+                    
                 }
                 else
                 {
@@ -271,12 +278,19 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     file = Path.Combine(path, qqfile);
                 }
 
+                var arq = new FileInfo(file);
+                string _DataCriacao = arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
+
+
+            
+
+
                 // Get Extension
                 file_Extension = Path.GetExtension(file);
 
                 var file_new = "";
                 
-                //fine_new_name = string.Format("U{0}C{1}S{2}_{3}{4}{5}{6}{7}", UsuarioAtual.ID, ServicoAtual.Cliente.ID, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond);
+                //fine_new_name = string.Format("U{0}C{1}S{2}o us_{3}{4}{5}{6}{7}", UsuarioAtual.ID, ServicoAtual.Cliente.ID, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond);
                 //file_new = file.Replace(qqfile, string.Format("{0}{1}", fine_new_name, file_Extension));
 
 
@@ -292,10 +306,16 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 stream.Read(buffer, 0, buffer.Length);
                 System.IO.File.WriteAllBytes(file_new, buffer);
 
+                //27/11/2015
+                var v_arq = new FileInfo(file_new);
+                DateTime v_DataCriacaoArqCap = DateTime.Parse(v_arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss.fff"));
+
+                //DataCriacaoArqCap
+
                 if (file_Extension.ToUpper().Trim() != ".JSON")
                 {
                     LoteImagens.QtdeImagem++;
-                    LoteImagens.Itens.Add(new LoteItem { ID = 0, NomeFinal = fine_new_name, NomeOriginal = qqfile, OrigemID = 1, StatusImagem = 1000, SequenciaCaptura = LoteImagens.QtdeImagem, DocumentoModelo = (new MK.Easydoc.Core.Entities.DocumentoModelo { ID = 0 }), UsuarioCaptura = (new Usuario { ID = UsuarioAtual.ID }) });
+                    LoteImagens.Itens.Add(new LoteItem { ID = 0, NomeFinal = fine_new_name, NomeOriginal = qqfile, DataCriacaoArqCap=v_DataCriacaoArqCap, OrigemID = 1, StatusImagem = 1000, SequenciaCaptura = LoteImagens.QtdeImagem, DocumentoModelo = (new MK.Easydoc.Core.Entities.DocumentoModelo { ID = 0 }), UsuarioCaptura = (new Usuario { ID = UsuarioAtual.ID }) });
                 }
                 else
                 {
@@ -315,7 +335,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 //_js = Json(o2);
                 // Get File Size
                 FileInfo f = new FileInfo(file_new);
-                file_Size = Convert.ToString(f.Length);
+                file_Size = Convert.ToString(f.Length); 
 
             }
             catch (Exception ex)
