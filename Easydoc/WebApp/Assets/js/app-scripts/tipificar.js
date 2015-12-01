@@ -7,7 +7,7 @@ var init = function () {
     listar_documento_tipificar($("#hdnIdLote").val());
     $('input:text[id^="txtcampo_"]').focus();
     $("#viewer").iviewer('set_zoom', 10);
-    $("#viewerPDF").pdfSlider();
+    //$("#viewerPDF").pdfSlider();
 
     $("#codtipodoc").focus();
 
@@ -21,9 +21,15 @@ var init = function () {
 }
 
 var trocar_imagem = function (_path) {
-    $("#viewer").iviewer('loadImage', _path);
-    $("#viewer").iviewer('set_zoom',10);
-    $("#viewer").iviewer('set_zoom',10);
+    if (_path.search(".pdf") > 0) {
+        $("#viewer").hide();
+        $("#imgpdf").attr("data", _path);
+    } else {
+        $("#viewer").show();
+        $("#viewer").iviewer('loadImage', _path);
+        $("#viewer").iviewer('set_zoom', 10);
+        $("#viewer").iviewer('set_zoom', 10);
+    }
 }
 
 var bindControles = function () {

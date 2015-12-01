@@ -165,6 +165,15 @@ var createUploader = function () {
             $(".progress-bar").css('width', 0 + '%');
             DeshabilitarEncerrarLote();
             TotalArquivos++;
+            //var xx = document.getElementsByName('file').value;
+            //alert(xx);
+            document.querySelector('#file-uploader').onchange = function (e) {
+                var files = this.files;
+            };
+
+        },
+        onUpload: function (id, fileName, xhr) {
+            
         },
         onProgress: function (id, fileName, loaded, total) {
             var percentLoaded = (loaded / total) * 100;
@@ -174,6 +183,10 @@ var createUploader = function () {
             //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
             TotalArquivos--;
             if (TotalArquivos == 0) {
+                
+               // var x = document.getElementByName("file").value;
+               // alert(x);
+
                 $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
                 exibirmsg('Operação efetuada com sucesso.');
                 HabilitarEncerrarLote();

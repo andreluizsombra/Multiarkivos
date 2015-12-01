@@ -254,6 +254,19 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             var fine_new_name = string.Empty;
 
 
+
+            int arquivosSalvos = 0;
+            for (int i = 0; i < Request.Files.Count; i++)
+            {
+                HttpPostedFileBase arquivo = Request.Files[i];
+                if (arquivo.ContentLength > 0)
+                {
+                    string fileName = Path.GetFileName(arquivo.FileName);
+                    arquivosSalvos++;
+                }
+            }
+
+
             //string teste = @"C:\tmp\Teste.txt";
             //var _arq = new FileInfo(teste);
             //string DataCriacao = _arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
@@ -279,14 +292,11 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 }
 
                 var arq = new FileInfo(file);
+                var caminho_original = System.IO.Path.GetDirectoryName(qqfile);
                 string _DataCriacao = arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
 
-
-            
-
-
                 // Get Extension
-                file_Extension = Path.GetExtension(file);
+                file_Extension = Path.GetExtension(file); 
 
                 var file_new = "";
                 

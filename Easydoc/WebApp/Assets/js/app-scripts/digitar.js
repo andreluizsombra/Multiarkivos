@@ -119,15 +119,18 @@ var init = function () {
     //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
     //trocar_imagem(_url);
     bindControles();
+    $("#viewer").show();
     $("#viewer").iviewer('set_zoom', 10);
     $('input:text[id^="txtcampo_"]').focus();
-    
+    //debugger;
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
     //var _url = "http://
     //ImageStorage/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
 
     if (_path.search(".pdf") > 0) {
+        $("#viewer").hide();
+        $("#imgpdf").attr("data", _url);
         //$("#viewerPDF").html('<a class="media" href="' + _url + '"></a>');
         //$('#viewerPDF').show();
         //CarregarImagemPdf(_url);
