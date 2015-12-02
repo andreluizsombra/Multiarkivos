@@ -7,7 +7,7 @@
     <h4 class="panel-title">Tipificação de documentos - Lotes Pendentes</h4>
     
 </div>
-
+<input type="hidden" id="qtdlote" value="@ViewBag.QtdLote" />
 <div class="container-fluid">
     <div id="list" class="row">
         <div class="table-responsive col-md-12">
@@ -44,5 +44,8 @@
 <script>
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
+        if($("#qtdlote").val()==0){
+            exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
+        }
     });
 </script>

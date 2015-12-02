@@ -18,8 +18,10 @@ namespace MK.Easydoc.WebApp.Controllers
 
             if (ServicoAtual == null)
             {
-                Servico _serv = UsuarioAtual.Clientes.Where(c => c.Servicos.Where(s => s.Default = true).FirstOrDefault().Default = true).FirstOrDefault().Servicos.Where(s => s.Default = true).FirstOrDefault();
-                AjaxCallTrocarServicoAtual(_serv.ID);
+                //Servico _serv = UsuarioAtual.Clientes.Where(c => c.Servicos.Where(s => s.Default = true).FirstOrDefault().Default = true).FirstOrDefault().Servicos.Where(s => s.Default = true).FirstOrDefault();
+                //AjaxCallTrocarServicoAtual(_serv.ID);
+                int _idservico = int.Parse(Session["IdServico"].ToString());
+                AjaxCallTrocarServicoAtual(_idservico);
                 
                 var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
                 ViewBag.Teste = listaCliente;

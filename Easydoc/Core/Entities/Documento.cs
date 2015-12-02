@@ -26,6 +26,7 @@ namespace MK.Easydoc.Core.Entities
         public DateTime DataAlteracao { get; set; }
         public Servico Servico { get; set; }
         public List<CampoModelo> Campos { get; set; }
+        public int Tipificalote { get; set; }
 
         public DocumentoModelo (){ 
             ID = 0;
@@ -40,6 +41,7 @@ namespace MK.Easydoc.Core.Entities
             ScriptSQLConsulta = string.Empty;
             Campos = new List<CampoModelo>();
             Servico = new Servico();
+            Tipificalote = 0;
         }
 
     }

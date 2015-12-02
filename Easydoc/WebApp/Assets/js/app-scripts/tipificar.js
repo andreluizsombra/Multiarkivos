@@ -202,7 +202,7 @@ var listar_documento_tipificar = function (_idLote) {
     catch (e) { Exception.show(e.toString(), methodName); }
 }
 
-
+//Quando clica no botão salvar
 var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
     var methodName = GetMethodName(arguments.callee);
     try {

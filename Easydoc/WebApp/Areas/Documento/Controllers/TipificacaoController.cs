@@ -48,12 +48,17 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                       select l).ToList<Lote>();
 
             ViewBag.LotesPendentes = _lotes;
-
-            return View();
+            if (_lotes.Count == 0)
+            {
+                ViewBag.QtdLote = 0;
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Tipificar", new { idlote = _lotes[0].Itens[0].IdLote });
+            }
         }
-
         #endregion
-
         //
         // GET: /Documento/Tipificacao/
 
