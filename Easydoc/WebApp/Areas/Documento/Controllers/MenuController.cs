@@ -69,7 +69,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 // Verifica se o id passado esta pendente ou retona o primeiro caso o parametro venha com 0
                 //this.Initialize();
-                _qtde = (from l in this._docService.ListarDocumentosDigitar(UsuarioAtual.ID, 1, ServicoAtual.ID)
+                _qtde = (from l in this._docService.ListarDocumentosTipificar(UsuarioAtual.ID, 1, ServicoAtual.ID)
                          select l).Count();
 
                 return _qtde;

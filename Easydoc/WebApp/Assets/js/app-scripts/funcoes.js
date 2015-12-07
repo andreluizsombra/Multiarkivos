@@ -27,3 +27,17 @@ function DataAtual() {
     var today = year + "-" + month + "-" + day; //Retorna nesse formato: yyyy-MM-dd 
     return today;
 }
+
+//Colocar texto em Maiusculo
+//Exemplo: Maiusculo("#nome");
+function Maiusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+}
+//Colocar texto em Minusculo
+function Minusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toLowerCase());
+    });
+}

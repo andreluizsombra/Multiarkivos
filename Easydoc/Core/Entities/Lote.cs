@@ -53,6 +53,7 @@ namespace MK.Easydoc.Core.Entities
     {
         public int ID { get; set; }
         public int IdLote { get; set; }
+        public int IdLoteItem { get; set; }
         public string NomeOriginal { get; set; }
         public string NomeFinal { get; set; }
         public int OrigemID { get; set; }
@@ -69,6 +70,7 @@ namespace MK.Easydoc.Core.Entities
         public LoteItem() { 
             ID=0;
             IdLote = 0;
+            IdLoteItem = 0;
             NomeOriginal = string.Empty;
             NomeFinal = string.Empty;
             OrigemID = 0;

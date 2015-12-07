@@ -74,6 +74,22 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
+        public List<Documento> ListarDocumentosTipificar(int idUsuario, int idOrigem, int idServico)
+        {
+            try
+            {
+                this._queryParams.Clear();
+                this._queryParams["Usuario_ID"] = idUsuario;
+                this._queryParams["Origem_ID"] = idOrigem;
+                this._queryParams["Servico_ID"] = idServico;
+
+            var tmp = this._repository.ListarDocumentosStatus(this._queryParams).Where(d => d.StatusDocumento == 1000).ToList<Documento>();
+
+            return tmp;
+
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public List<Documento> ListarDocumentosSupervisao(int idUsuario, int idOrigem, int idServico)
         {
             try

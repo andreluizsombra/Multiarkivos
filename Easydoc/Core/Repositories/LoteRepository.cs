@@ -308,7 +308,14 @@ namespace MK.Easydoc.Core.Repositories
                     }
                 }
                 if (_itens == null) { throw new Erro("Lote não localizado."); }
-                return _itens.Where(i => i.IdLote == int.Parse(_queryParams["Lote_ID"].ToString())).ToList<LoteItem>();
+                int _stimg = int.Parse(_queryParams["Statusimagem"].ToString());
+                if(_stimg != 0)
+                {
+                    return _itens.Where(i => i.IdLote == int.Parse(_queryParams["Lote_ID"].ToString()) && i.StatusImagem ==_stimg).ToList<LoteItem>();
+                }else
+                {
+                    return _itens.Where(i => i.IdLote == int.Parse(_queryParams["Lote_ID"].ToString())).ToList<LoteItem>();
+                }
             }
             catch (Exception ex)
             {

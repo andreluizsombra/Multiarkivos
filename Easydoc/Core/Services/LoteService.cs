@@ -99,6 +99,9 @@ namespace MK.Easydoc.Core.Services
                 Lote _lote = new Lote();
                 List<Lote> _lotes = new List<Lote>();
 
+                List<Lote> _lotes_temp = new List<Lote>();
+
+
                 LoteItem _item = new LoteItem();
                 List<LoteItem> _itens = new List<LoteItem>();
 
@@ -106,19 +109,40 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams["Usuario_ID"] = idUsuario;
                 this._queryParams["Origem_ID"] = idOrigem;
                 this._queryParams["Servico_ID"] = idServico;
+                
 
                 _lotes = _repository.ListarLotes(this._queryParams).Where(l => l.StatusLote == 1010).ToList<Lote>();
 
                 foreach (Lote lote in _lotes)
                 {
-                   lote.Itens.AddRange(ListarItensLote(lote.ID,idUsuario,idServico, true));
+                    lote.Itens.AddRange(ListarItensLote(lote.ID, idUsuario, idServico, true, 1000));
+                
                 }
+                
+                
+               /* 
+                int n=0;
+                foreach (var tmp_lote in _lote.Itens)
+                {
+                    if (tmp_lote.StatusImagem == 2000)
+                    {
+                        
+                        tmp_lote.Itens.RemoveRange(n, 1);
+                    }
+                    n++;
+                }
+
+                foreach (var _lt in _lotes[].Itens.){
+                    _lt.Itens.
+                    _lotes_temp.AddRange(_lt.Itens.Where(x => x.StatusImagem == 1000).ToList<Lote>());
+
+                }*/
 
                 return _lotes;
             }
             catch (Exception ex) { throw ex; }
         }
-        public List<LoteItem> ListarItensLote(int idLote, int idUsuario, int idServico, bool SemTipo)
+        public List<LoteItem> ListarItensLote(int idLote, int idUsuario, int idServico, bool SemTipo, int Statusimagem=0)
         {
             try
             {
@@ -127,6 +151,7 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams["Servico_ID"] = idServico;
                 this._queryParams["Lote_ID"] = idLote;
                 this._queryParams["SemTipo"] = SemTipo;
+                this._queryParams["Statusimagem"] = Statusimagem;
 
                 return this._repository.ListarItensLote(this._queryParams);
             }
@@ -139,11 +164,9 @@ namespace MK.Easydoc.Core.Services
                 Lote _lote = new Lote();
                 this._queryParams.Clear();
                 this._queryParams["Lote_ID"] = idLote;
-
                 this._queryParams["Usuario_ID"] = idUsuario;
-                //this._queryParams["Origem_ID"] = 1;
-                this._queryParams["Servico_ID"] = idServico;                
-
+                this._queryParams["Servico_ID"] = idServico;
+                this._queryParams["Statusimagem"] = 1000;                
 
 
                 _lote =  _repository.ListarLotes(_queryParams).Where(l => l.ID==idLote).FirstOrDefault();

@@ -51,7 +51,7 @@ var bindControles = function () {
     $("#update").click(function () { iv1.iviewer('update_container_info'); });
 
     //Antes $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLote").val(), $("#cboTiposDoc option:selected").val()); });
-    $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLote").val(), $("#codtipodoc").val()); });
+    $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()); });
 
     //listar_documento_tipificar(0); });
     $("#btn_excluirlote").click(function () { /*locastyle.modal.open({ target: "#modal-Excluir" }); }); //listar_documento_tipificar(0);*/ });
@@ -84,7 +84,7 @@ var ajax_exluir = function (_idLote) {
                 if (data == null) { return; }
 
 
-                window.location = window.location.toString().replace(/#/gi, '').replace('/Documento/Tipificacao/Tipificar?idlote=' + _idLote, '/Documento/Tipificacao/ListarPentendes');
+                window.location = window.location.toString().replace(/#/gi, '').replace('/Documento/Tipificacao/Tipificar?idlote=' + _idLote, '/Documento/Tipificacao/Tipificar');
                     //Documento/Tipificacao/ListarPentendes
 
                 //if (data.success == true) {
@@ -220,7 +220,8 @@ var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
             success: function (data, textstatus, xmlhttprequest) {
                 if (data == null) { return; }
                 exibirmsg('Documento tipificado com sucesso.');
-                window.location.href = 'ListarPentendes';
+                
+                window.location.href = 'Tipificar';
                 if (data.success == true) {
                     data = data.output;
                     listar_documento_tipificar_CallBack(data);
@@ -250,6 +251,7 @@ var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
 function listar_documento_tipificar_CallBack(json) {
     var _path = "";
     _path = json.PathImagem;
+    
     // trocar_imagem(_path);
     //var _url = window.location.protocol + '//' + window.location.host + _path;
     var _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;

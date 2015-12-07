@@ -165,19 +165,44 @@ var init = function () {
         console.log(_mascara);
         if ( _mascara!= '') {
             campo.mask(_mascara);
+        } else {
+
+            //Verificar campo caso seja retornado valor 0 do atributo 'maiuscula', entao executa função Minusculo AndreSombra 07/12/2015
+            if (campo.attr('maiuscula') == 0)
+                Minusculo(campo);
+            else
+                Maiusculo(campo);
         }
+        
+
     });
 
     // TODO: AndreSombra 24/11/2015 =========================================
     $('input').each(function () {
         var campo = $("#" + this.id);
         campo.attr('onfocus', 'MoverCampos(this)');
+
+        
     });
 
 
    // BoxPosicaoInicial(); //Colocar o box na posicao incial.
    // console.log('aqui 2');
 
+}
+
+//Colocar texto em Maiusculo
+//Exemplo: Maiusculo("#nome");
+function Maiusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+}
+//Colocar texto em Minusculo
+function Minusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toLowerCase());
+    });
 }
 
 var trocar_imagem = function (_path) {

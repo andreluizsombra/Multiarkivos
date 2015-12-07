@@ -15,6 +15,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         void FinalizarDigitacao(int idDocumento);
         DocumentoModelo CriarDocumento(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosDigitar(int idUsuario, int idOrigem, int idServico);
+        List<Documento> ListarDocumentosTipificar(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosSupervisao(int idUsuario, int idOrigem, int idServico);
         List<DocumentoModelo> ListarTipos(int idServico);
         Documento GetDocumentoDigitar(int idUsuatio, int idServico);

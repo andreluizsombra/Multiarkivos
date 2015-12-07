@@ -41,7 +41,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
         }
 
-        public ActionResult ListarPentendes()
+        public ActionResult ListarPentendesTEMP()
         {
             List<Lote> _lotes = new List<Lote>();
             _lotes = (from l in this._loteService.ListarLotesTipificar(UsuarioAtual.ID, 1, ServicoAtual.ID)
@@ -55,7 +55,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             else
             {
-                return RedirectToAction("Tipificar", new { idlote = _lotes[0].Itens[0].IdLote });
+                return RedirectToAction("Tipificar", new { idlote = _lotes[0].Itens[0].IdLote, idloteItem = _lotes[0].Itens[0].ID });
             }
         }
         #endregion
@@ -66,12 +66,27 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         {
             return View();
         }
-        public ActionResult Tipificar(string idlote)
+        //public ActionResult Tipificar(string idlote, string idloteItem)
+        public ActionResult Tipificar()
         {
-            ViewBag.IdLote = idlote;
-            //ViewBag.Imagem = "/Content/Uploads/Souza Cruz/Contratos/2014/12/23/1/U1C1S2_2014122317131.jpg";
-            //ViewBag.Imagem = "/Content/U11C15S15_2015991356.jpg";
-            return View();
+             List<Lote> _lotes = new List<Lote>();
+            _lotes = (from l in this._loteService.ListarLotesTipificar(UsuarioAtual.ID, 1, ServicoAtual.ID)
+                      select l).ToList<Lote>();
+
+            ViewBag.LotesPendentes = _lotes;
+            int TotalLote = _lotes.Count;
+            if (TotalLote == 0)
+            {
+                ViewBag.QtdLote = TotalLote;
+                return View();
+            }
+            else
+            {
+                ViewBag.QtdLote = TotalLote;
+                ViewBag.IdLote = _lotes[0].Itens[0].IdLote;
+                ViewBag.IdLoteItem = _lotes[0].Itens[0].ID;
+                return View();
+            }
         }
 
         //public ActionResult Tipificar(string id_lote)
@@ -89,6 +104,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
             try
             {
+                                
 
                 _loteService.TipificarItem(UsuarioAtual.ID, ServicoAtual.ID, id_lote, id_item, id_documento_modelo);
                 lote = _loteService.GetLote(id_lote, UsuarioAtual.ID, ServicoAtual.ID, 0);

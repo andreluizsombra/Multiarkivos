@@ -16,7 +16,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         int VerificaLoteJaExiste(int idLote,string NomeLote);//walmir
         List<Lote> ListarLotesPendente(int idUsuario, int idOrigem, int idServico);
         List<Lote> ListarLotesTipificar(int idUsuario, int idOrigem, int idServico);
-        List<LoteItem> ListarItensLote(int idLote, int idUsuario, int idServico, bool SemTipo);
+        List<LoteItem> ListarItensLote(int idLote, int idUsuario, int idServico, bool SemTipo, int StatusImagem);
         Lote GetLote(int idLote, int idUsuario, int idServico, int numItem);
         Lote AtualizarLote(Lote lote);
         int InserirItensLote(Lote lote);
