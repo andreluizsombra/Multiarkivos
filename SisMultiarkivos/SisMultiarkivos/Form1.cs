@@ -18,20 +18,10 @@ namespace SisMultiarkivos
         {
             InitializeComponent();
         }
-        private void IncreaseProgressBar(object sender, EventArgs e)
-        {
-            // Increment the value of the ProgressBar a value of one each time.
-            pBar.Increment(1);
-            // Display the textual value of the ProgressBar in the StatusBar control's first panel.
-            pBar.Text = pBar.Value.ToString() + "% Completed";
-            // Determine if we have completed by comparing the value of the Value property to the Maximum value.
-            if (pBar.Value == pBar.Maximum)
-                // Stop the timer.
-                time.Stop();
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            int TotalArqs = 0;
             pBar.Value = 0;
             lbx_arqs.Items.Clear();
             this.openFileDialog1.Filter = "Images (*.BMP;*.JPG;*.GIF)|*.BMP;*.JPG;*.GIF|" + "All files (*.*)|*.*";
@@ -43,28 +33,24 @@ namespace SisMultiarkivos
             DialogResult dr = this.openFileDialog1.ShowDialog();
             if (dr == System.Windows.Forms.DialogResult.OK)
             {
-                time.Interval = 250;
-                // Connect the Tick event of the timer to its event handler.
-                time.Tick += new EventHandler(IncreaseProgressBar);
-                // Start the timer.
-                time.Start();
 
-                //int i = 0;
+                int i = 0;
 
                 var lstArquivos = new List<Arquivos>();
 
                 foreach (String file in openFileDialog1.FileNames)
                 {
-                    pBar.Maximum = file.Count();
-                    //System.Threading.Thread.Sleep(70);
-                    // Create a PictureBox.
+                    TotalArqs = file.Count();
+                    pBar.Maximum = TotalArqs;
+                   
                     try
                     {
                         String arquivo = file;
                         lstArquivos.Add(new Arquivos() { Original = file, DataCriacao = File.GetCreationTime(file) });
                         lbx_arqs.Items.Add(file + " data_criacao: " + File.GetCreationTime(file));
-                       // i++;
-                       // this.pBar.Increment(i);//(int)((100 * i) / file.Count());
+                        i++;
+                        pBar.Value = 1;
+                       
                     }
                     catch (Exception ex)
                     {
@@ -81,9 +67,17 @@ namespace SisMultiarkivos
                 int n=0;
                 foreach (var lst in lista_arquivos)
                 {
-                    lbx_arqs.Items.Add(lst.Original+"_"+n.ToString());
+                    string _arquivo = lst.Original.Remove(lst.Original.Length - 4);
+                    string _extensao = lst.Original.Substring(lst.Original.Length - 4);
+                    string _novo_arquivo = _arquivo + "_" + n.ToString() + _extensao;
+                    lbx_arqs.Items.Add(_novo_arquivo);
+
+                    File.Move(lst.Original, _novo_arquivo);
+
                     n++;
                 }
+                pBar.Value = TotalArqs;
+                MessageBox.Show("Operação efetuada com sucesso.");
 
             }
         }

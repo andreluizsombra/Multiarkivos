@@ -76,6 +76,7 @@
             this.Controls.Add(this.btn_selecione);
             this.Name = "frmPrincipal";
             this.Text = "Multiarkivos";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.frmPrincipal_Load);
             this.ResumeLayout(false);
 
