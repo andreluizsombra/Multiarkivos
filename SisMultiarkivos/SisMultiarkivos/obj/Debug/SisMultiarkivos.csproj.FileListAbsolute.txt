@@ -1,0 +1,8 @@
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\bin\Debug\SisMultiarkivos.exe
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\bin\Debug\SisMultiarkivos.pdb
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.csprojResolveAssemblyReference.cache
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.Properties.Resources.resources
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.csproj.GenerateResource.Cache
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.exe
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.pdb
+C:\Projetos\Andre-Easydoc\multiarkivos\SisMultiarkivos\SisMultiarkivos\obj\Debug\SisMultiarkivos.frmPrincipal.resources
