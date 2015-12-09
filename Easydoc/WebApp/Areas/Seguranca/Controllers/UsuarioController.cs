@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.WebApp.Controllers;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 {
@@ -15,6 +16,19 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ListaUsuarios(FormCollection frm)
+        {
+            int _tipo = int.Parse(frm["selTipo"].ToString());
+            int _condicao = int.Parse(frm["selCondicao"].ToString());
+            string _txtpesquisa = frm["txtpesquisa"].ToString();
+
+            //int idcliente = new ClienteRepository().GetCliente()
+
+            var usu = new UsuarioRepository().GetUsuarioCadastro(_tipo, _condicao, ClienteAtual.ID, _txtpesquisa);
+            ViewBag.ListaUsuarios = usu;
+            return View("ManutencaoUsuario");
+        }
 
         // GET: /Seguranca/ManutencaoUsuario/
         public ActionResult ManutencaoUsuario()

@@ -13,7 +13,9 @@ namespace MK.Easydoc.Core.Entities
         public string NomeCompleto { get; set; }
         public string Email { get; set; }
         public string Perfil { get; set; }
+        public int PerfilID { get; set; }
         public List<Cliente> Clientes { get; set; }
+        public string CPF { get; set; }
 
         public Usuario() { 
             ID = 0;

@@ -123,6 +123,54 @@ namespace MK.Easydoc.Core.Repositories
             
         }
 
+        public List<Usuario> GetUsuarioCadastro(int tipoConsulta, int Condicao, int idCliente, string txtPesq)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                
+                _cmd = _db.GetStoredProcCommand("Get_UsuarioCad");
+                _db.AddInParameter(_cmd, "@TipoConsulta", DbType.Int16, tipoConsulta);
+                _db.AddInParameter(_cmd, "@Condicao", DbType.Int16, Condicao);
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, idCliente);
+                _db.AddInParameter(_cmd, "@Localizador", DbType.String, txtPesq);
+
+                List<Usuario> _usuarios = new List<Usuario>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
+                        _usuarios.Add(new Usuario
+                        {
+                            //ID = int.Parse(_dr["UserId"].ToString())
+                            //,
+                            NomeUsuario = _dr["UserName"].ToString()
+                            ,
+                            NomeCompleto = _dr["Nome"].ToString()
+                            ,
+                            CPF = _dr["CPF"].ToString()
+                            //,
+                            //Perfil = _dr["UserName"].ToString()
+                            //,
+                            //Senha = _dr["Senha"].ToString()
+                            //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
+                        });
+                    }
+                }
+
+                //Criptografia _cripto = new Criptografia();
+                //Util _utils = new Util();
+
+                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                return _usuarios.ToList();
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
         #endregion
 
     }

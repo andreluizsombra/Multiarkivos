@@ -1,21 +1,114 @@
 ﻿@{
     ViewBag.Title = "Manutenção de Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
-  
+
 }
-
-
-
+<style>
+    .margin-top{
+        margin-top:10px;
+    }
+    .usu {
+        color:black;
+    }
+    td{
+        text-align:left;
+    }
+</style>
 
 <div class="panel-heading">
-    <h4 class="panel-title">@ViewBag.Title</h4>
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
 </div>
 
 <div class="container-fluid">
 
-    <div>asdas</div>
-    <div>asdas</div>
-    <div>asdas</div>
+    <div class="row margin-top">
+        <div class="col-lg-10">
+            @using (Html.BeginForm("ListaUsuarios","Usuario"))
+            {
+                @*<div class="well">*@
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <label>Pesquisa por:</label>
+                            <select class="form-control" id="selTipo" name="selTipo">
+                                <option value="0" selected="selected">Selecione</option>
+                                <option value="1">Nome</option>
+                                <option value="2">Login</option>
+                                <option value="3">Cpf</option>
+                            </select>
+                        </div>
+                        
+                            <div class="col-lg-2">
+                                <label>Condição:</label>
+                                <select class="form-control" id="selCondicao" name="selCondicao">
+                                    <option value="1" selected="selected">=</option>
+                                    <option value="2">Contem</option>
+                                </select>
+                            </div>
+                    </div>
+    <div class="row margin-top">
+        <div class="col-lg-4">
+            <div class="input-group">
+                @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
+                <span class="input-group-btn">
+                    <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+            }
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10">
+
+
+            <table class="table table-striped">
+                <tbody>
+                    <th>Nome</th>
+                    <th>Login</th>
+                    <th>Perfil</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                @*<th>Detalhes</th>
+                <th>Bloquear</th>
+                <th>Editar</th>
+                <th>Excluir</th>*@
+                </tbody>
+                @if (ViewBag.ListaUsuarios != null)
+                {
+                    foreach (var lst in ViewBag.ListaUsuarios)
+                    {
+                        <tr>
+                            <td>@lst.NomeCompleto</td>
+                            <td>@lst.NomeUsuario</td>
+                            <td>@lst.PerfilID</td>
+                            <td><a href="" class="usu"><i class="fa fa-list-alt" data-toggle="tooltip" title="Detalhes"></i></a></td>
+                            <td><a href="" class="usu"><i class="fa fa-lock" data-toggle="tooltip" title="Bloquear"></i></a></td>
+                            <td><a href="" class="usu"><i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i></a></td>
+                            <td><a href="" class="usu"><i class="fa fa-trash" data-toggle="tooltip" title="Excluir"></i></a></td>
+                        </tr>
+                    }
+                }
+                
+            </table>
+        </div>
+    </div>
 
 
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $().ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    }
+
+
