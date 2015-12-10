@@ -54,7 +54,8 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex)
             {
                 //this._logger.Error(ex.Message, ex);
-                throw new Exception("Login ou senha inválida. Favor verificar!");
+                //throw new Exception("Login ou senha inválida. Favor verificar!");
+                throw new Exception(ex.Message);
             }
 
             return true;

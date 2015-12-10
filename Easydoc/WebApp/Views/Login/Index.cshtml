@@ -28,6 +28,8 @@
 
     <!-- Custom styles for this template -->
     <link href="~/Assets/css/app-style/signin.css" rel="stylesheet">
+    <script src="~/Assets/plugins/jquery/jquery-2.1.4.min.js"></script>
+    @Scripts.Render("~/Assets/js/core-scripts/bootstrap")
 
     <!-- Bootstrap 3.3.5 -->
     <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -42,7 +44,19 @@
 
 </head>
 <body>
+    @{
+        var msg = ViewBag.Atencao == null ? "" : ViewBag.Atencao;
+    }
 
+    @if (msg != "") { 
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-warning">
+                <strong>Atenção, </strong> @ViewBag.Atencao
+            </div>
+        </div>
+    </div>
+    }
     <!-- Retirei a tarja de cima 05/06/2015-->
 
     <div class="container">
@@ -67,10 +81,11 @@
             <div class="col-md-3"></div>
         </div>
 
-
+        
 
         <div class="row">
-            <div class="col-md-12"></div>
+            
+
             @using (Html.BeginForm("Autenticar", "Login", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl, @class = "form-signin" }))
             {
                 @TempData["SendResult"]
@@ -98,28 +113,24 @@
                     </div>
                     <div class="col-xs-1">
                         
-                            <button type="submit" value="Acessar" class="btn btn-primary" style="margin-right:5px;"><i class="glyphicon glyphicon-ok"></i>&nbsp;Acessar</button>
+                            <button type="submit" value="Acessar" id="btn_acessar" class="btn btn-primary" style="margin-right:5px;"><i class="glyphicon glyphicon-ok"></i>&nbsp;Acessar</button>
                         
                     </div>
                 </div>
 
-                
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xs-12">&nbsp
-                        </div>
-                    </div>
+                @*<div class="container">
                     <div class="row">
                         <div class="col-xs-12">
                             <label class="alert-danger">@Html.ValidationMessage("Error")</label>
                         </div>
                     </div>
-                </div>
+                </div>*@
 
             }
         </div>
     </div>
-    
+
+   
 
     <div class="container">
         <div class="row">
@@ -132,6 +143,10 @@
             <div class="col-md-3"></div>
         </div>
     </div>
+
+
+    
+
 
 
     <!--<footer class="footer">
@@ -148,3 +163,13 @@
 
 </body>
 </html>
+
+<script>
+    $().ready(function(){
+
+        $("#btn_acessar").click(function(){
+            $(".alert alert-warning").hide();
+        });
+
+    });
+</script>

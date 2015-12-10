@@ -48,7 +48,8 @@ namespace MK.Easydoc.Core.Repositories
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                _cmd = _db.GetSqlStringCommand(String.Format("SELECT * FROM Usuario where UserName = @UserName;"));
+                //_cmd = _db.GetSqlStringCommand(String.Format("SELECT * FROM Usuario where UserName = @UserName;"));
+                _cmd = _db.GetStoredProcCommand("Get_Usuario");
                 _db.AddInParameter(_cmd, "@UserName", DbType.String, usuario.NomeUsuario);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, usuario.Senha);
 
@@ -58,7 +59,7 @@ namespace MK.Easydoc.Core.Repositories
                     while (_dr.Read())
                     {
                         //_usuarios.Add(new Usuario { ID = Guid.Empty, Senha = _dr["Senha"].ToString() });  
-                        _usuarios.Add(new Usuario { ID = int.Parse(_dr["UserId"].ToString()), Senha = _dr["Senha"].ToString() });  
+                        _usuarios.Add(new Usuario { ID = int.Parse(_dr["UserId"].ToString()), Senha = _dr["Senha"].ToString(), Bloqueado = int.Parse(_dr["Bloqueado"].ToString()) });  
                     }
                 }
 
@@ -66,7 +67,10 @@ namespace MK.Easydoc.Core.Repositories
                 Criptografia _cripto = new Criptografia();
                 Util _utils = new Util();
 
-                if (_usuarios.Count == 0) { throw new Erro("Usuário não localizado."); }
+                if (_usuarios.Count == 0) { throw new Exception("Login ou senha inválida. Favor verificar!."); }
+
+                if (_usuarios[0].Bloqueado == 1) { throw new Exception("Usuário Bloqueado, contate o administrador."); }
+
                 usuario.Senha = _cripto.Executar(usuario.Senha.Trim(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
 
                 if (usuario.Senha.Trim() == _usuarios[0].Senha.Trim())
@@ -82,7 +86,8 @@ namespace MK.Easydoc.Core.Repositories
 
                 //this._consumer.Post<Usuario>("ValidarUser_Post", usuario, out resourceUri);
             }
-            catch (Exception ex) {throw ex; }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+            //catch (Exception ex) {throw ex; }
             //catch (Exception ex) { this._logger.Error(ex.Message, ex); throw ex; }
         }
 
@@ -92,8 +97,10 @@ namespace MK.Easydoc.Core.Repositories
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                _cmd = _db.GetSqlStringCommand(String.Format("SELECT * FROM Usuario where UserName = @UserName;"));
+                //_cmd = _db.GetSqlStringCommand(String.Format("SELECT * FROM Usuario where UserName = @UserName;"));
+                _cmd = _db.GetStoredProcCommand("Get_Usuario");
                 _db.AddInParameter(_cmd, "@UserName", DbType.String, _queryParams["nomeUsuario"]);
+                _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
 
                 List<Usuario> _usuarios = new List<Usuario>();
 
@@ -107,6 +114,8 @@ namespace MK.Easydoc.Core.Repositories
                             , NomeCompleto = _dr["UserName"].ToString()
                             , Perfil = _dr["UserName"].ToString()
                             , Senha = _dr["Senha"].ToString()
+                            , Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
+
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
                         });
                     }
@@ -123,7 +132,23 @@ namespace MK.Easydoc.Core.Repositories
             
         }
 
-        public List<Usuario> GetUsuarioCadastro(int tipoConsulta, int Condicao, int idCliente, string txtPesq)
+        public void BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("UPD_BloqueioUsuario");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, idServico);
+                _db.AddInParameter(_cmd, "@idUsuarioBloqueio", DbType.Int16, idUsuarioBloqueado);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+
+                _db.ExecuteNonQuery(_cmd);
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public List<Usuario> GetUsuarioCadastro(int tipoConsulta, int Condicao, int idCliente, string txtPesq, int idUsuario)
         {
             try
             {
@@ -135,6 +160,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Condicao", DbType.Int16, Condicao);
                 _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, idCliente);
                 _db.AddInParameter(_cmd, "@Localizador", DbType.String, txtPesq);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);  
 
                 List<Usuario> _usuarios = new List<Usuario>();
 
@@ -145,13 +171,15 @@ namespace MK.Easydoc.Core.Repositories
                         //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
                         _usuarios.Add(new Usuario
                         {
-                            //ID = int.Parse(_dr["UserId"].ToString())
-                            //,
+                            ID = int.Parse(_dr["UserId"].ToString())
+                            ,
                             NomeUsuario = _dr["UserName"].ToString()
                             ,
                             NomeCompleto = _dr["Nome"].ToString()
                             ,
                             CPF = _dr["CPF"].ToString()
+                            ,
+                            Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
                             //,
                             //Perfil = _dr["UserName"].ToString()
                             //,

@@ -16,7 +16,8 @@ namespace MK.Easydoc.Core.Entities
         public int PerfilID { get; set; }
         public List<Cliente> Clientes { get; set; }
         public string CPF { get; set; }
-
+        public int Bloqueado { get; set; }
+        
         public Usuario() { 
             ID = 0;
             NomeUsuario = string.Empty;
@@ -25,6 +26,7 @@ namespace MK.Easydoc.Core.Entities
             Email  = string.Empty;
             Perfil  = string.Empty;
             Clientes = new List<Cliente>();
+            Bloqueado = 0;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿@{
     ViewBag.Title = "Manutenção de Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 <style>
     .margin-top{
@@ -23,91 +22,135 @@
 
     <div class="row margin-top">
         <div class="col-lg-10">
-            @using (Html.BeginForm("ListaUsuarios","Usuario"))
+            @using (Html.BeginForm("ListaUsuarios", "Usuario"))
             {
                 @*<div class="well">*@
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <label>Pesquisa por:</label>
-                            <select class="form-control" id="selTipo" name="selTipo">
-                                <option value="0" selected="selected">Selecione</option>
-                                <option value="1">Nome</option>
-                                <option value="2">Login</option>
-                                <option value="3">Cpf</option>
-                            </select>
-                        </div>
-                        
-                            <div class="col-lg-2">
-                                <label>Condição:</label>
-                                <select class="form-control" id="selCondicao" name="selCondicao">
-                                    <option value="1" selected="selected">=</option>
-                                    <option value="2">Contem</option>
-                                </select>
-                            </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Pesquisa por:</label>
+                        <select class="form-control" id="selTipo" name="selTipo">
+                            <option value="0" selected="selected">Selecione</option>
+                            <option value="1">Nome</option>
+                            <option value="2">Login</option>
+                            <option value="3">Cpf</option>
+                        </select>
                     </div>
-    <div class="row margin-top">
-        <div class="col-lg-4">
-            <div class="input-group">
-                @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
-                <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
-                <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
-                <span class="input-group-btn">
-                    <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
-                </span>
+
+                    <div class="col-lg-2">
+                        <label>Condição:</label>
+                        <select class="form-control" id="selCondicao" name="selCondicao">
+                            <option value="1" selected="selected">=</option>
+                            <option value="2">Contem</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>Valor:</label>
+                        <div class="input-group">
+                            @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                            <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
+                            <span class="input-group-btn">
+                                <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
+                                <input type="button" id="btnLimpar" value="Limpar" class="btn btn-warning" onmouseover="" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-condensed">
+                        <tbody>
+                        <th>Nome</th>
+                        <th>Login</th>
+                        <th>Perfil</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        @*<th>Detalhes</th>
+                <th>Bloquear</th>
+                <th>Editar</th>
+                <th>Excluir</th>*@
+                        </tbody>
+                        @if (ViewBag.ListaUsuarios != null)
+                        {
+                            foreach (var lst in ViewBag.ListaUsuarios)
+                            {
+                                <tr>
+                                    <td>@lst.NomeCompleto</td>
+                                    <td>@lst.NomeUsuario</td>
+                                    <td>@lst.PerfilID</td>
+                                    <td><a href="" class="usu"><i class="fa fa-list-alt" data-toggle="tooltip" title="Detalhes"></i></a></td>
+                                    <td><i class="fa fa-lock" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
+                                    <td><a href="" class="usu"><i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i></a></td>
+                                    <td><a href="" class="usu"><i class="fa fa-trash" data-toggle="tooltip" title="Excluir"></i></a></td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 
-            }
-    </div>
-    </div>
 
-    <div class="row">
-        <div class="col-lg-10">
-
-
-            <table class="table table-striped">
-                <tbody>
-                    <th>Nome</th>
-                    <th>Login</th>
-                    <th>Perfil</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                    <th>&nbsp;</th>
-                @*<th>Detalhes</th>
-                <th>Bloquear</th>
-                <th>Editar</th>
-                <th>Excluir</th>*@
-                </tbody>
-                @if (ViewBag.ListaUsuarios != null)
-                {
-                    foreach (var lst in ViewBag.ListaUsuarios)
-                    {
-                        <tr>
-                            <td>@lst.NomeCompleto</td>
-                            <td>@lst.NomeUsuario</td>
-                            <td>@lst.PerfilID</td>
-                            <td><a href="" class="usu"><i class="fa fa-list-alt" data-toggle="tooltip" title="Detalhes"></i></a></td>
-                            <td><a href="" class="usu"><i class="fa fa-lock" data-toggle="tooltip" title="Bloquear"></i></a></td>
-                            <td><a href="" class="usu"><i class="fa fa-edit" data-toggle="tooltip" title="Editar"></i></a></td>
-                            <td><a href="" class="usu"><i class="fa fa-trash" data-toggle="tooltip" title="Excluir"></i></a></td>
-                        </tr>
-                    }
-                }
-                
-            </table>
-        </div>
-    </div>
-
-
-</div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $().ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
+
+            $('#btnLimpar').click(function() {
+                $('table tr').empty();
+            });
+
+            $('i[id^=bloq_]').each(function(e){
+                if($(this).attr('bloqueado')=='0')
+                    $(this).css('color', 'black');
+                else
+                    $(this).css('color', 'red');
+            });
         });
+
+        function Bloquear(idusuario, campo) {
+            var tipo = $("#" + campo.id).attr('bloqueado');
+
+            //alert(idusuario);
+            var msg = "";
+            if (tipo == 0) { msg = "bloquear" } else { msg = "desbloquear"; }
+
+            if (confirm("Deseja realmente " + msg + " ?")) {
+                $.ajax({
+                    url: "/Seguranca/Usuario/BloquearUsuario",
+                    data: { idUsuBloqueado: idusuario },
+                    success: function () {
+                        if (tipo == 0) {
+                            exibirmsg('Usuário bloqueado.');
+                            $('#bloq_' + idusuario).attr('bloqueado', '1').css('color','red');
+                        }
+                        else {
+                            exibirmsg('Usuário desbloqueado.');
+                            $('#bloq_' + idusuario).attr('bloqueado', '0').css('color', 'black');
+                        }
+                    },
+                    error: function () {
+                        exibirmsgatencao('Erro ao tentar bloquear usuário');
+                    }
+                });
+            }
+       }
+        
     </script>
     }
 

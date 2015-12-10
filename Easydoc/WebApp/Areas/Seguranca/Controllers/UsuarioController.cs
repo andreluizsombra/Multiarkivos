@@ -25,7 +25,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
             //int idcliente = new ClienteRepository().GetCliente()
 
-            var usu = new UsuarioRepository().GetUsuarioCadastro(_tipo, _condicao, ClienteAtual.ID, _txtpesquisa);
+            var usu = new UsuarioRepository().GetUsuarioCadastro(_tipo, _condicao, ClienteAtual.ID, _txtpesquisa, UsuarioAtual.ID);
             ViewBag.ListaUsuarios = usu;
             return View("ManutencaoUsuario");
         }
@@ -35,7 +35,10 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         {
             return View();
         }
-
+        public void BloquearUsuario(int idUsuBloqueado)
+        {
+            new UsuarioRepository().BloquearUsuario(ServicoAtual.ID, idUsuBloqueado, UsuarioAtual.ID);
+        }
         //
         // GET: /ControleAcesso/Usuario/
         public ActionResult MinhaConta()

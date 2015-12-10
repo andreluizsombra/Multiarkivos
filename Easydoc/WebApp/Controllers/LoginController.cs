@@ -39,6 +39,7 @@ namespace MK.Easydoc.WebApp.Controllers
         // GET: /Login/
         public ActionResult Index()
         {
+            ViewBag.Atencao = "";
             return View();
         }
 
@@ -82,7 +83,11 @@ namespace MK.Easydoc.WebApp.Controllers
                         FormsAuthentication.SetAuthCookie(model.NomeUsuario, false);
                     }
                 }
-                catch (Exception ex) { ModelState.AddModelError("Error", ex.Message); }
+                catch (Exception ex) {
+                    
+                    //ModelState.AddModelError("Error", ex.Message);
+                    ViewBag.Atencao = ex.Message;
+                }
             }
             return View("Index");
         }
