@@ -44,3 +44,10 @@ C:\Projetos\Andre-Easydoc\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Cor
 C:\Projetos\Andre-Easydoc\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.dll
 C:\Projetos\Andre-Easydoc\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.pdb
 C:\Projetos\Andre-Easydoc\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csprojResolveAssemblyReference.cache
+C:\Projetos\multiarkivos\Easydoc\bin\MK.Easydoc.Core.dll.config
+C:\Projetos\multiarkivos\Easydoc\bin\MK.Easydoc.Core.dll
+C:\Projetos\multiarkivos\Easydoc\bin\MK.Easydoc.Core.pdb
+C:\Projetos\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csproj.App.config
+C:\Projetos\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csprojResolveAssemblyReference.cache
+C:\Projetos\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.dll
+C:\Projetos\multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.pdb

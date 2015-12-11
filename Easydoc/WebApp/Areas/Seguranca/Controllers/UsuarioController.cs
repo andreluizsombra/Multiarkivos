@@ -30,6 +30,50 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View("ManutencaoUsuario");
         }
 
+        public ActionResult Novo()
+        {
+            var cliente = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID).ToList();
+             ViewBag.Cliente = new SelectList
+              (
+                   cliente ,
+                   "ID",
+                   "Descricao"
+               );
+             var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
+             //ViewBag.Teste = listaCliente;
+             var listacli = new SelectList(
+                             listaCliente.ToList(),
+                             "ID",
+                             "Descricao"
+                         );
+             ViewBag.ListaCliente = listacli;
+             ViewBag.CodCliente = ClienteAtual.ID;
+             var listaServico = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), ClienteAtual.ID.ToString());
+
+             var lista = new SelectList(
+                             listaServico.ToList(),
+                             "ID",
+                             "Descricao"
+                         );
+             ViewBag.ListaServico = lista;
+
+            return View("Novo");
+        }
+
+        [HttpPost]
+        public JsonResult AjaxCallBuscarServicos(int idCliente)
+        {
+            var cli = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), idCliente.ToString());
+
+            return Json(cli.ToList(),JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Incluir()
+        {
+            return View("Novo");
+        }
+
         // GET: /Seguranca/ManutencaoUsuario/
         public ActionResult ManutencaoUsuario()
         {

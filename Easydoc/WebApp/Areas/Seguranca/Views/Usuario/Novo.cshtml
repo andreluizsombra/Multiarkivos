@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "Cadastrar Novo Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>*@
+<style>
+    .margin-top{
+        margin-top:10px;
+    }
+</style>
+
+<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>
+  <div class="panel-body">
+      <div class="row">
+          <div class="col-lg-4">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-user"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="nome" name="nome" class="form-control" placeholder="Nome" maxlength="100" required />
+              </div>
+         </div>
+          <div class="col-lg-4">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-sign-in"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite seu Login aqui" id="login" name="login" class="form-control" placeholder="Login" maxlength="50" required />
+              </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct">@@</span>
+                  <input type="text" data-toggle="tooltip" title="Digite seu email aqui" id="email" name="email" class="form-control" placeholder="Email" maxlength="100" required />
+              </div>
+          </div>
+      </div>
+
+      <div class="container-fluid margin-top">
+      <div class="row">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                  <div class="col-lg-2">
+                      <div class="input-group">
+                          @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                          <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                          <input type="password" data-toggle="tooltip" title="Digite senha aqui" id="senha" name="senha" class="form-control" placeholder="Senha" maxlength="15" required />
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                      <div class="input-group">
+                          @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                          <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                          <input type="password" data-toggle="tooltip" title="Digite confirma senha aqui" id="confsenha" name="confsenha" class="form-control" placeholder="Confirma Senha" maxlength="15" required />
+                      </div>
+                  </div>
+                  <div class="col-lg-2">
+                      <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." required />&nbsp;Trocar primeiro acesso.
+                  </div>
+              </div>
+          </div>
+      </div>
+      </div>
+  </div>
+
+@if (ViewBag.ListaCliente != null)
+{
+ <input type="hidden" id="selecionado" />
+ <input type="hidden" id="cliente" name="cliente" />
+ <input type="hidden" id="servico" name="servico" />
+
+ <input type="hidden" id="idcliente" name="idcliente" />
+ <input type="hidden" id="idservico" name="idservico" />
+
+ <div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>
+ <div class="panel-body">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Cliente</label>
+            @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4">
+            <label>Serviço</label>
+            @Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" }) 
+        </div>
+        <div class="col-lg-4">
+            
+        </div>
+        <div class="col-lg-4">
+            
+        </div>
+    </div>
+</div>
+}
+
+<script>
+    $().ready(function () {
+        $("#SelCliente").change(function () {
+            $("#selecionado").val($("#SelCliente").val());
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $.ajax({
+                type:'POST', dataType:'json',
+                 url:'/Seguranca/Usuario/AjaxCallBuscarServicos', 
+                data: { idCliente: $("#selecionado").val() },
+                success: function (data) {
+                    $('#SelServico option').remove();
+                    $(data).each(function () {
+                        debugger;
+                        $('#SelServico').append('<option value='+this.ID+'>'+this.Descricao+'</option>');
+                    });
+                }
+            });
+
+            //var url = "/Cliente/ListaServico?idCliente=" + $("#selecionado").val();
+            //window.location.href = url;
+        });
+        $("#SelServico").change(function () {
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $("#servico").val($("#SelServico option:selected").text());
+        });
+
+        $("#btnConf").click(function () {
+            if ($("#SelServico option:selected").text() == 'Selecione') {
+                exibirmsgatencao('Porfavor selecione um serviço...');
+                return false;
+            } else {
+                $("#idcliente").val($("#SelCliente").val());
+                $("#idservico").val($("#SelServico").val());
+            }
+        });
+
+    });
+</script>

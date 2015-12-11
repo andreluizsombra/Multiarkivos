@@ -71,6 +71,34 @@ namespace MK.Easydoc.Core.Repositories
             }
         }
 
+        public List<Cliente> ListarClientesUsuario(int idUsuario)
+        {
+            try
+            {
+                List<Cliente> _clientes = new List<Cliente>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_clientes_usuario_sel"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _clientes.Add(ConverteBaseObjeto(_dr));
+                    }
+                }
+                if (_clientes == null) { throw new Erro("Cliente não localizado."); }
+                return _clientes;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public void PrimeiroCliente(string nomeUsuario)
         {
             string cmd = string.Format("exec Proc_GetClientePorLogin '{0}'", nomeUsuario);
