@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.WebApp.Controllers;
+using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
@@ -32,6 +33,19 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
         public ActionResult Novo()
         {
+
+            var listaPerfil = new PerfilRepository().ListaPerfil(ServicoAtual.ID).ToList();
+
+            var lista_perfil = new SelectList(
+                            listaPerfil,
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaPerfil = lista_perfil;
+
+            //Lista Situação
+            ViewBag.ListaSituacao = new ServicoRepository().ListaSituacao();
+
             var cliente = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID).ToList();
              ViewBag.Cliente = new SelectList
               (
@@ -47,6 +61,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                              "Descricao"
                          );
              ViewBag.ListaCliente = listacli;
+
              ViewBag.CodCliente = ClienteAtual.ID;
              var listaServico = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), ClienteAtual.ID.ToString());
 
@@ -69,8 +84,29 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         }
 
         [HttpPost]
-        public ActionResult Incluir()
+        public ActionResult Incluir(FormCollection frm)
         {
+            try{
+                var usu = new Usuario();
+
+                 usu.CPF = frm["cpf"].ToString();
+                 usu.NomeCompleto = frm["nome"].ToString();
+                 usu.NomeUsuario = frm["login"].ToString();
+                 usu.Senha = frm["senha"].ToString();
+                 usu.TipoAcao = 1;
+                 usu.ClienteID = int.Parse(frm["SelCliente"].ToString());
+                 usu.ServicoID = int.Parse(frm["SelServico"].ToString());
+                 usu.PerfilID  = int.Parse(frm["SelPerfil"].ToString());
+                 usu.Situacao  = int.Parse(frm["SelSituacao"].ToString());
+
+                 usu.ID = new UsuarioRepository().IncluirUsuario(usu);
+                 ViewBag.Usuario = usu;   
+                 ViewBag.Msg = "Gravado com sucesso.";
+                 
+            }
+            catch(Exception ex){
+                ViewBag.Error = ex.Message;
+            }
             return View("Novo");
         }
 

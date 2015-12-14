@@ -132,6 +132,88 @@ namespace MK.Easydoc.Core.Repositories
             
         }
 
+        public Usuario GetUsuario(string UserName)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                
+                _cmd = _db.GetStoredProcCommand("Get_Usuario");
+                _db.AddInParameter(_cmd, "@UserName", DbType.String, UserName);
+                _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
+
+                List<Usuario> _usuarios = new List<Usuario>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
+                        _usuarios.Add(new Usuario
+                        {
+                            ID = int.Parse(_dr["UserId"].ToString())
+                            ,
+                            NomeUsuario = _dr["UserName"].ToString()
+                            ,
+                            NomeCompleto = _dr["UserName"].ToString()
+                            ,
+                            Perfil = _dr["UserName"].ToString()
+                            ,
+                            Senha = _dr["Senha"].ToString()
+                            ,
+                            Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
+                            ,
+                            CPF = _dr["CPF"].ToString()
+                            ,
+                            Email = _dr["Email"].ToString()
+
+                            //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
+                        });
+                    }
+                }
+
+                //Criptografia _cripto = new Criptografia();
+                //Util _utils = new Util();
+
+                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                return _usuarios[0];
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+        public int IncluirUsuario(Usuario usu)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Usuario");
+                _db.AddInParameter(_cmd, "@CPF", DbType.Decimal, decimal.Parse(usu.CPF));
+                _db.AddInParameter(_cmd, "@Nome", DbType.String, usu.NomeCompleto);
+                _db.AddInParameter(_cmd, "@UserName", DbType.String, usu.NomeUsuario);
+                _db.AddInParameter(_cmd, "@Senha", DbType.String, usu.Senha);
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, usu.TipoAcao);
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, usu.ClienteID);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, usu.ServicoID);
+                _db.AddInParameter(_cmd, "@Perfil", DbType.Int16, usu.PerfilID);
+                _db.AddInParameter(_cmd, "@Situacao", DbType.Int16, usu.Situacao);
+
+                int ID_Gravou = 0;
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        ID_Gravou = int.Parse(_dr[0].ToString());
+                    }
+                }
+                return ID_Gravou;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public void BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
         {
             try

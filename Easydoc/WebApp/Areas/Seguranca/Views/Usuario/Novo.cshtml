@@ -1,35 +1,56 @@
-﻿@{
+﻿@using MK.Easydoc.Core.Entities;
+@{
+    var _usu = new Usuario();
     ViewBag.Title = "Cadastrar Novo Usuário";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewBag.Usuario != null)
+    {
+        foreach (var usu in ViewBag.Usuario)
+        {
+            _usu.NomeCompleto = usu.NomeCompleto;
+            _usu.NomeUsuario = usu.Nomeusuario;
+        }
+    }
 }
 
-@*<div class="panel-heading">
+<div class="well">
     <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
-</div>*@
+</div>
 <style>
     .margin-top{
         margin-top:10px;
     }
 </style>
 
-<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>
+@using (Html.BeginForm("Incluir","Usuario"))
+{
+<!--<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>-->
   <div class="panel-body">
+
       <div class="row">
-          <div class="col-lg-4">
+          <div class="col-lg-3">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite aqui seu cpf" id="cpf" name="cpf" class="form-control" placeholder="CPF" maxlength="14" required />
+              </div>
+          </div>
+         <div class="col-lg-3">
               <div class="input-group">
                   @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                   <span class="input-group-addon" id="basic-vlct"><i class="fa fa-user"></i></span>
-                  <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="nome" name="nome" class="form-control" placeholder="Nome" maxlength="100" required />
+                  <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="nome" name="nome" class="form-control" placeholder="Nome" value="@_usu.NomeCompleto" maxlength="100" required />
               </div>
          </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
               <div class="input-group">
                   @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                   <span class="input-group-addon" id="basic-vlct"><i class="fa fa-sign-in"></i></span>
-                  <input type="text" data-toggle="tooltip" title="Digite seu Login aqui" id="login" name="login" class="form-control" placeholder="Login" maxlength="50" required />
+                  <input type="text" data-toggle="tooltip" title="Digite seu Login aqui" id="login" name="login" class="form-control" placeholder="Login" value="@_usu.NomeUsuario" maxlength="50" required />
               </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
               <div class="input-group">
                   @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                   <span class="input-group-addon" id="basic-vlct">@@</span>
@@ -57,7 +78,7 @@
                       </div>
                   </div>
                   <div class="col-lg-2">
-                      <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." required />&nbsp;Trocar primeiro acesso.
+                      <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
                   </div>
               </div>
           </div>
@@ -65,7 +86,7 @@
       </div>
   </div>
 
-@if (ViewBag.ListaCliente != null)
+if (ViewBag.ListaCliente != null)
 {
  <input type="hidden" id="selecionado" />
  <input type="hidden" id="cliente" name="cliente" />
@@ -74,7 +95,11 @@
  <input type="hidden" id="idcliente" name="idcliente" />
  <input type="hidden" id="idservico" name="idservico" />
 
- <div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>
+ <!--<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;Dados</div>-->
+    <div class="well">
+        <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;Dados</h4>
+    </div>
+    
  <div class="panel-body">
     <div class="row">
         <div class="col-lg-4">
@@ -85,18 +110,34 @@
             <label>Serviço</label>
             @Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" }) 
         </div>
-        <div class="col-lg-4">
-            @*@Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" })*@ 
+        <div class="col-lg-1">
+            <label>Perfil</label>
+            @Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" }) 
         </div>
-        <div class="col-lg-4">
-            @*@Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Value", "Text", "Selecione"), new { @class = "form-control" })*@ 
+        <div class="col-lg-2">
+            <label>Situação</label>
+            @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" }) 
+        </div>
+        <div class="col-lg-1 navbar-btn">
+            
+                <input type="submit" class="btn btn-success" id="btn_incluir" value=" + Incluir" />
+            
         </div>
     </div>
 </div>
+ }
+
 }
 
 <script>
     $().ready(function () {
+        $("#btn_incluir").click(function () {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
+        });
+
         $("#SelCliente").change(function () {
             $("#selecionado").val($("#SelCliente").val());
             $("#cliente").val($("#SelCliente option:selected").text());

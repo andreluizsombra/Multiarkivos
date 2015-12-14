@@ -17,6 +17,10 @@ namespace MK.Easydoc.Core.Entities
         public List<Cliente> Clientes { get; set; }
         public string CPF { get; set; }
         public int Bloqueado { get; set; }
+        public int TipoAcao { get; set; }
+        public int ClienteID { get; set; }
+        public int ServicoID { get; set; }
+        public int Situacao { get; set; }
         
         public Usuario() { 
             ID = 0;

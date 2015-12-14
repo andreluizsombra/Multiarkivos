@@ -48,6 +48,15 @@ namespace MK.Easydoc.Core.Repositories
 
         #region IServicoRepository Members
 
+        public Dictionary<int, string> ListaSituacao()
+        {
+            Dictionary<int, string> mDic = new Dictionary<int, string>();
+            mDic.Add(-1, "Selecione");
+            mDic.Add(0, "Ativo");
+            mDic.Add(1, "Bloqueado");
+            return mDic;
+        }
+
         public List<Graficos> ExibirDashboard_Doc_Modulo(IDictionary<string, object> _queryParams)
         {
             try
