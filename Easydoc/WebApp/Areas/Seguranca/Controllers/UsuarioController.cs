@@ -31,9 +31,9 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View("ManutencaoUsuario");
         }
 
-        public ActionResult Novo()
-        {
 
+        void CarregarCombos()
+        {
             var listaPerfil = new PerfilRepository().ListaPerfil(ServicoAtual.ID).ToList();
 
             var lista_perfil = new SelectList(
@@ -47,31 +47,35 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             ViewBag.ListaSituacao = new ServicoRepository().ListaSituacao();
 
             var cliente = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID).ToList();
-             ViewBag.Cliente = new SelectList
-              (
-                   cliente ,
-                   "ID",
-                   "Descricao"
-               );
-             var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
-             //ViewBag.Teste = listaCliente;
-             var listacli = new SelectList(
-                             listaCliente.ToList(),
-                             "ID",
-                             "Descricao"
-                         );
-             ViewBag.ListaCliente = listacli;
+            ViewBag.Cliente = new SelectList
+             (
+                  cliente,
+                  "ID",
+                  "Descricao"
+              );
+            var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
+            //ViewBag.Teste = listaCliente;
+            var listacli = new SelectList(
+                            listaCliente.ToList(),
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaCliente = listacli;
 
-             ViewBag.CodCliente = ClienteAtual.ID;
-             var listaServico = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), ClienteAtual.ID.ToString());
+            ViewBag.CodCliente = ClienteAtual.ID;
+            var listaServico = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), ClienteAtual.ID.ToString());
 
-             var lista = new SelectList(
-                             listaServico.ToList(),
-                             "ID",
-                             "Descricao"
-                         );
-             ViewBag.ListaServico = lista;
+            var lista = new SelectList(
+                            listaServico.ToList(),
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaServico = lista;
+        }
 
+        public ActionResult Novo()
+        {
+            CarregarCombos();
             return View("Novo");
         }
 
@@ -98,11 +102,17 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                  usu.ServicoID = int.Parse(frm["SelServico"].ToString());
                  usu.PerfilID  = int.Parse(frm["SelPerfil"].ToString());
                  usu.Situacao  = int.Parse(frm["SelSituacao"].ToString());
+                 usu.Email     = frm["email"].ToString();   
 
-                 usu.ID = new UsuarioRepository().IncluirUsuario(usu);
-                 ViewBag.Usuario = usu;   
+                 var usuRep = new UsuarioRepository();
+
+                 usu.ID = usuRep.IncluirUsuario(usu);
+                 ViewBag.Usuario = new UsuarioRepository().GetUsuario(usu.NomeUsuario);
+                 var _lista = usuRep.ListaClienteServicos(usu.ID);
+                 ViewBag.Lista = _lista;
                  ViewBag.Msg = "Gravado com sucesso.";
-                 
+
+                 CarregarCombos();
             }
             catch(Exception ex){
                 ViewBag.Error = ex.Message;

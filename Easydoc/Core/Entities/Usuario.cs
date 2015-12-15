@@ -11,6 +11,8 @@ namespace MK.Easydoc.Core.Entities
         public string NomeUsuario { get; set; }
         public string Senha { get; set; }
         public string NomeCompleto { get; set; }
+        public string NomeCliente { get; set; }
+        public string NomeServico { get; set; }
         public string Email { get; set; }
         public string Perfil { get; set; }
         public int PerfilID { get; set; }
@@ -32,5 +34,16 @@ namespace MK.Easydoc.Core.Entities
             Clientes = new List<Cliente>();
             Bloqueado = 0;
         }
+    }
+
+    public class ClienteServico
+    {
+        public int ClienteID { get; set; }
+        public int ServicoID { get; set; }
+        public string NomeCliente { get; set; }
+        public string NomeServico { get; set; }
+        public int PerfilID { get; set; }
+        public int Bloqueado { get; set; }
+        public int Situacao { get; set; }
     }
 }

@@ -91,6 +91,42 @@ namespace MK.Easydoc.Core.Repositories
             //catch (Exception ex) { this._logger.Error(ex.Message, ex); throw ex; }
         }
 
+        public List<ClienteServico> ListaClienteServicos(int idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_Listar_CadastroNovo");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+
+                List<ClienteServico> _usuarios = new List<ClienteServico>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _usuarios.Add(new ClienteServico
+                        {
+                            ClienteID   = int.Parse(_dr["IdCliente"].ToString()), 
+                            NomeCliente = _dr["Descricao_Cliente"].ToString(),
+                            ServicoID = int.Parse(_dr["IdServico"].ToString()),
+                            NomeServico = _dr["Descricao_Servico"].ToString(),
+                            PerfilID = int.Parse(_dr["Perfil"].ToString()),
+                            Bloqueado = int.Parse(_dr["Usuario_Bloqueado"].ToString())
+                        });
+                    }
+                }
+
+                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                return _usuarios.ToList();
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
         public Usuario GetUsuario(IDictionary<string, object> _queryParams)
         {
             try
@@ -111,8 +147,8 @@ namespace MK.Easydoc.Core.Repositories
                         //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
                         _usuarios.Add(new Usuario { ID = int.Parse(_dr["UserId"].ToString())
                             , NomeUsuario = _dr["UserName"].ToString()
-                            , NomeCompleto = _dr["UserName"].ToString()
-                            , Perfil = _dr["UserName"].ToString()
+                            , NomeCompleto = _dr["Nome"].ToString()
+                            , Perfil = _dr["Perfil"].ToString()
                             , Senha = _dr["Senha"].ToString()
                             , Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
 
@@ -156,18 +192,17 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             NomeUsuario = _dr["UserName"].ToString()
                             ,
-                            NomeCompleto = _dr["UserName"].ToString()
+                            NomeCompleto = _dr["Nome"].ToString()
                             ,
-                            Perfil = _dr["UserName"].ToString()
+                            Perfil = _dr["Perfil"].ToString()
                             ,
                             Senha = _dr["Senha"].ToString()
                             ,
                             Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
                             ,
-                            CPF = _dr["CPF"].ToString()
+                            CPF = _dr["Cpf"].ToString()
                             ,
                             Email = _dr["Email"].ToString()
-
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
                         });
                     }
@@ -191,7 +226,7 @@ namespace MK.Easydoc.Core.Repositories
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand("proc_Manutencao_Usuario");
-                _db.AddInParameter(_cmd, "@CPF", DbType.Decimal, decimal.Parse(usu.CPF));
+                _db.AddInParameter(_cmd, "@CPF", DbType.Decimal, Decimal.Parse(usu.CPF));
                 _db.AddInParameter(_cmd, "@Nome", DbType.String, usu.NomeCompleto);
                 _db.AddInParameter(_cmd, "@UserName", DbType.String, usu.NomeUsuario);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, usu.Senha);
@@ -200,6 +235,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int16, usu.ServicoID);
                 _db.AddInParameter(_cmd, "@Perfil", DbType.Int16, usu.PerfilID);
                 _db.AddInParameter(_cmd, "@Situacao", DbType.Int16, usu.Situacao);
+                _db.AddInParameter(_cmd, "@Email", DbType.String, usu.Email);
 
                 int ID_Gravou = 0;
 
