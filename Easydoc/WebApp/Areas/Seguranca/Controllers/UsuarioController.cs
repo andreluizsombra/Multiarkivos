@@ -92,6 +92,26 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         {
             try{
 
+                var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, frm["login"].ToString());
+                if(Ret.CodigoRetorno == 1){
+                    var _usu = new Usuario();
+
+                    _usu.CPF = frm["cpf"].ToString();
+                    _usu.NomeCompleto = frm["nome"].ToString();
+                    _usu.NomeUsuario = frm["login"].ToString();
+                    _usu.Senha = frm["senha"].ToString();
+                    _usu.TipoAcao = 1;
+                    _usu.ClienteID = int.Parse(frm["SelCliente"].ToString());
+                    _usu.ServicoID = int.Parse(frm["SelServico"].ToString());
+                    _usu.PerfilID = int.Parse(frm["SelPerfil"].ToString());
+                    _usu.Situacao = int.Parse(frm["SelSituacao"].ToString());
+                    _usu.Email = frm["email"].ToString();
+
+                    ViewBag.Usuario = _usu;
+                    CarregarCombos();
+                    throw new Exception(Ret.Mensagem);
+                }
+
                 var usu = new Usuario();
 
                  usu.CPF = frm["cpf"].ToString();

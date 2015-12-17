@@ -28,9 +28,9 @@
         margin-top:10px;
     }
 </style>
-@using (Html.BeginForm("Incluir","Usuario"))
-{
-<!--<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</div>-->
+
+<form action="/Seguranca/Usuario/Incluir" method="post">
+
   <div class="panel-body">
 
       <div class="row">
@@ -91,7 +91,7 @@
       </div>
   </div>
 
-if (ViewBag.ListaCliente != null)
+@if (ViewBag.ListaCliente != null)
 {
  <input type="hidden" id="selecionado" />
  <input type="hidden" id="cliente" name="cliente" />
@@ -125,8 +125,7 @@ if (ViewBag.ListaCliente != null)
             @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" }) 
         </div>
         <div class="col-lg-1 navbar-btn">
-                <input type="submit" class="btn btn-success" id="btn_incluir" value=" + Incluir" />
-            
+            <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="+ Incluir"/>
         </div>
     </div>
 
@@ -153,17 +152,24 @@ if (ViewBag.ListaCliente != null)
 </div>
  }
 
-}
+</form>
 
 <script>
-    $().ready(function () {
-        $("#btn_incluir").click(function (e) {
+    jQuery(document).ready(function () {
+
+        $("#btn_novo").click(function () {
+            //if ($('#cpf').val() != "") {
+            //    //$("#msglogin").html('Preencher CPF').show();
+            //    exibirmsgatencao('Preencher CPF');
+            //    return false;
+            //}
             if ($('#senha').val() != $('#confsenha').val()) {
                 exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
                 return false;
             }
             if ($("#SelServico option:selected").text() == "Selecione") {
                 exibirmsgatencao('Porfavor selecione Servico');
+                //alert('Porfavor selecione Servico');
                 return false;
             }
             if ($("#SelPerfil option:selected").text() == "Selecione") {
@@ -174,47 +180,7 @@ if (ViewBag.ListaCliente != null)
                 exibirmsgatencao('Porfavor selecione Situacao');
                 return false;
             }
-
-            
-            ValidarLogin($("#login").val());
-            //if ($("#cod").val() == 1) {
-            //    $("#msglogin").html("Login ja existe para outro usuário").show();
-            //    return false;
-            // }
-
-            ////var ret;
-            ////if (ret == 1) {
-            ////    return false;
-            ////} else {
-            ////    return true;
-            ////}
-
         });
-
-        function ValidarLogin(login) {
-            var v_rest = $.ajax({
-                type: 'POST', dataType: 'json',
-                url: '/Seguranca/Usuario/AjaxVerificaLoginDisponivel',
-                data: { nomeUsuario: login  },
-                success: function (data) {
-                    $(data).each(function () {
-                        // $("#cod").val(this.CodigoRetorno);
-                        if (this.CodigoRetorno == 1) {
-                            $("#msglogin").html(this.Mensagem).show();
-                        } else {
-                            $("#msglogin").html("Login disponível.").show();
-                        }
-                    });
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(xhr.status);
-                    alert(thrownError);
-                }
-            });
-            return false;
-        }
-        
-        
 
         $("#SelCliente").change(function () {
             $("#selecionado").val($("#SelCliente").val());
@@ -250,4 +216,32 @@ if (ViewBag.ListaCliente != null)
         });
 
     });
+
+    //$.ajax({
+    //    type: 'POST', dataType: 'json',
+    //    url: '/Seguranca/Usuario/AjaxVerificaLoginDisponivel',
+    //    data: { nomeUsuario: $("#login").val() },
+    //    success: function (data) {
+    //        retorno = false;
+    //        $(data).each(function () {
+    //            // $("#cod").val(this.CodigoRetorno);
+    //            if (this.CodigoRetorno == 1) {
+    //                $("#msglogin").html(this.Mensagem).show();
+    //                retorno = false;
+    //            } else {
+    //                retorno = true;
+    //                $("form").submit();
+    //                //$("#msglogin").html("Login disponível.").show();
+    //            }
+    //        });
+    //        return retorno;
+    //    },
+    //    error: function (xhr, ajaxOptions, thrownError) {
+    //        alert(xhr.status);
+    //        alert(thrownError);
+    //    }
+    //});
 </script>
+
+
+    

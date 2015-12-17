@@ -51,7 +51,7 @@ namespace MK.Easydoc.Core.Repositories
         public Dictionary<int, string> ListaSituacao()
         {
             Dictionary<int, string> mDic = new Dictionary<int, string>();
-            mDic.Add(-1, "Selecione");
+            mDic.Add(9, "Selecione");
             mDic.Add(0, "Ativo");
             mDic.Add(1, "Bloqueado");
             return mDic;
