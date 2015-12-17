@@ -18,8 +18,7 @@
     }
 }
     <div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
-
-
+    <input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
 <div class="well">
     <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
 </div>
@@ -93,7 +92,7 @@
 
 @if (ViewBag.ListaCliente != null)
 {
- <input type="hidden" id="selecionado" />
+ <input type="hidden" id="selecionado" name="selecionado" />
  <input type="hidden" id="cliente" name="cliente" />
  <input type="hidden" id="servico" name="servico" />
 
@@ -156,13 +155,13 @@
 
 <script>
     jQuery(document).ready(function () {
+        if ($("#stgravado").val() == 4) {
+            $("#login").attr('disabled', true)
+        } else { $("#login").attr('disabled', false) }
 
         $("#btn_novo").click(function () {
-            //if ($('#cpf').val() != "") {
-            //    //$("#msglogin").html('Preencher CPF').show();
-            //    exibirmsgatencao('Preencher CPF');
-            //    return false;
-            //}
+            $("#login").attr('disabled', false);
+
             if ($('#senha').val() != $('#confsenha').val()) {
                 exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
                 return false;
@@ -203,6 +202,32 @@
         $("#SelServico").change(function () {
             $("#cliente").val($("#SelCliente option:selected").text());
             $("#servico").val($("#SelServico option:selected").text());
+
+            //$.ajax({
+            //    type: 'POST', dataType: 'json',
+            //    url: '/Seguranca/Usuario/AjaxVerificaLoginDisponivel',
+            //    data: { nomeUsuario: $("#login").val() },
+            //    success: function (data) {
+            //        retorno = false;
+            //        $(data).each(function () {
+            //            // $("#cod").val(this.CodigoRetorno);
+            //            if (this.CodigoRetorno == 1) {
+            //                $("#msglogin").html(this.Mensagem).show();
+            //                retorno = false;
+            //            } else {
+            //                retorno = true;
+            //                $("form").submit();
+            //                //$("#msglogin").html("Login disponível.").show();
+            //            }
+            //        });
+            //        return retorno;
+            //    },
+            //    error: function (xhr, ajaxOptions, thrownError) {
+            //        alert(xhr.status);
+            //        alert(thrownError);
+            //    }
+            //});
+
         });
 
         $("#btnConf").click(function () {

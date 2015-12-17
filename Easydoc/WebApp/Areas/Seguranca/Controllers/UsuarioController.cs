@@ -76,6 +76,8 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         public ActionResult Novo()
         {
             CarregarCombos();
+            Session["TipoAcao"] = "1";
+            ViewBag.StGravado = 0; //Habilitar o campo Login
             return View("Novo");
         }
 
@@ -93,6 +95,9 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             try{
 
                 var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, frm["login"].ToString());
+                
+                if ((Session["TipoAcao"] != null) && (Session["TipoAcao"] == "4")) { Ret.CodigoRetorno = 0; }
+
                 if(Ret.CodigoRetorno == 1){
                     var _usu = new Usuario();
 
@@ -108,7 +113,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                     _usu.Email = frm["email"].ToString();
 
                     ViewBag.Usuario = _usu;
-                    CarregarCombos();
+                    //CarregarCombos();
                     throw new Exception(Ret.Mensagem);
                 }
 
@@ -118,7 +123,12 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                  usu.NomeCompleto = frm["nome"].ToString();
                  usu.NomeUsuario = frm["login"].ToString();
                  usu.Senha = frm["senha"].ToString();
-                 usu.TipoAcao = 1;
+
+                 if ((Session["TipoAcao"] != null) && (Session["TipoAcao"] != "4")){
+                     usu.TipoAcao = 1;
+                 }
+                 else { usu.TipoAcao = 4; }
+
                  usu.ClienteID = int.Parse(frm["SelCliente"].ToString());
                  usu.ServicoID = int.Parse(frm["SelServico"].ToString());
                  usu.PerfilID  = int.Parse(frm["SelPerfil"].ToString());
@@ -129,18 +139,32 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
                  var usuRep = new UsuarioRepository();
 
-                 usu.ID = usuRep.IncluirUsuario(usu);
-                    
+                 //Incluir um novo Usuario ou um novo servico a este usuario
+                 var Retorno = usuRep.IncluirUsuario(usu);
+                 if (Retorno.CodigoRetorno == -1){
+                     Session["TipoAcao"] = "1";
+                     ViewBag.StGravado = 1;
+                     throw new Exception(Retorno.Mensagem);
+                 }   
+                 if ((Retorno.CodigoRetorno == -2) || (Retorno.CodigoRetorno == -3)){
+                     Session["TipoAcao"] = "4";
+                     ViewBag.StGravado = 4; 
+                     throw new Exception(Retorno.Mensagem);
+                 }   
+
                  ViewBag.Usuario = new UsuarioRepository().GetUsuario(usu.NomeUsuario);
-                 var _lista = usuRep.ListaClienteServicos(usu.ID);
+                 var _lista = usuRep.ListaClienteServicos((int)Retorno.CodigoRetorno);  //Apos gravar sem erro retorna o codigo do novo usuario para CodigoRetorno  //(usu.ID);
                  ViewBag.Lista = _lista;
-                 CarregarCombos();
-                 ViewBag.Msg = "Gravado com sucesso.";
                  
+                 ViewBag.Msg = "Gravado com sucesso.";
+                 Session["TipoAcao"] = "4";
+                 ViewBag.StGravado = 4; //Deshabilita o campo Login
             }
             catch(Exception ex){
+                CarregarCombos();
                 ViewBag.Error = ex.Message;
             }
+            CarregarCombos();
             return View("Novo");
         }
 

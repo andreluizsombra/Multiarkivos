@@ -207,6 +207,33 @@ namespace MK.Easydoc.Core.Repositories
             }
         }
 
+        public List<Modulo> ListaModulos(int _idServico)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_MnuModuloPorServico"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+
+                var _Mod = new List<Modulo>();
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Mod.Add(new Modulo() { CodRetorno = int.Parse(_dr[0].ToString()), Mensagem = _dr[1].ToString(), ID = int.Parse(_dr[2].ToString()), Descricao = _dr[3].ToString() });
+                    }
+                }
+
+                return _Mod;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro no método ListaModulos, " + ex.Message);
+            }
+        }
+
         public Servico GetServico(IDictionary<string, object> _queryParams)
         { 
             try

@@ -219,7 +219,7 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
-        public int IncluirUsuario(Usuario usu)
+        public Retorno IncluirUsuario(Usuario usu)
         {
             try
             {
@@ -237,16 +237,17 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Situacao", DbType.Int16, usu.Situacao);
                 _db.AddInParameter(_cmd, "@Email", DbType.String, usu.Email);
 
-                int ID_Gravou = 0;
+                var _Ret = new Retorno();
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
                     {
-                        ID_Gravou = int.Parse(_dr[0].ToString());
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
                     }
                 }
-                return ID_Gravou;
+                return _Ret;
             }
             catch (Exception ex) { throw ex; }
         }
