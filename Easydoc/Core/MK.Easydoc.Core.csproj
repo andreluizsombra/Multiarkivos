@@ -208,6 +208,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
+    <Compile Include="Repositories\Dictionary.cs" />
     <Compile Include="Repositories\DocumentoRepository.cs" />
     <Compile Include="Repositories\Interfaces\IClienteRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDocumentoRepository.cs" />

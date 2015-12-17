@@ -119,7 +119,7 @@ namespace MK.Easydoc.Core.Repositories
                     }
                 }
 
-                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+                if (_usuarios == null) { throw new Erro("ListaClienteServicos não localizado."); }
 
                 return _usuarios.ToList();
             }
@@ -317,6 +317,40 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
 
         }
+
+        public Retorno VerificaLoginDisponivel(int idUsuario, string novoUserName)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_verificaLogin_Disponivel");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@UserName", DbType.String, novoUserName);
+
+                var _retorno = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        _retorno.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _retorno.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                if (_retorno == null) { throw new Erro("Retorno não localizado."); }
+
+                return _retorno;
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+
         #endregion
 
     }

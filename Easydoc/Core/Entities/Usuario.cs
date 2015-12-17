@@ -23,6 +23,7 @@ namespace MK.Easydoc.Core.Entities
         public int ClienteID { get; set; }
         public int ServicoID { get; set; }
         public int Situacao { get; set; }
+        public int TrocarSenha { get; set; }
         
         public Usuario() { 
             ID = 0;
@@ -33,6 +34,7 @@ namespace MK.Easydoc.Core.Entities
             Perfil  = string.Empty;
             Clientes = new List<Cliente>();
             Bloqueado = 0;
+            TrocarSenha = 0;
         }
     }
 
@@ -43,7 +45,7 @@ namespace MK.Easydoc.Core.Entities
         public string NomeCliente { get; set; }
         public string NomeServico { get; set; }
         public int PerfilID { get; set; }
-        public int Bloqueado { get; set; }
-        public int Situacao { get; set; }
+        public int? Bloqueado { get; set; }
+        public int? Situacao { get; set; }
     }
 }

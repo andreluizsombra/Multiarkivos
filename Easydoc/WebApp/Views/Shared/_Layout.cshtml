@@ -162,13 +162,13 @@
         @if (ViewBag.Error != null) { 
         <div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Atenção!</strong>@ViewBag.Error
+            <strong>Atenção!</strong>&nbsp;@ViewBag.Error
         </div>
         }
         @if (ViewBag.Msg != null) { 
         <div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <strong>Confirmado, </strong>@ViewBag.Msg
+            <strong>Confirmado, </strong>&nbsp;@ViewBag.Msg
         </div>
         }
 

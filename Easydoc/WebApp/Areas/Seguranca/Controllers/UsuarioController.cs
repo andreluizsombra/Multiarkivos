@@ -91,6 +91,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         public ActionResult Incluir(FormCollection frm)
         {
             try{
+
                 var usu = new Usuario();
 
                  usu.CPF = frm["cpf"].ToString();
@@ -102,22 +103,32 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                  usu.ServicoID = int.Parse(frm["SelServico"].ToString());
                  usu.PerfilID  = int.Parse(frm["SelPerfil"].ToString());
                  usu.Situacao  = int.Parse(frm["SelSituacao"].ToString());
-                 usu.Email     = frm["email"].ToString();   
+                 usu.Email     = frm["email"].ToString();
+
+                 if (frm["trocar"] != null) usu.TrocarSenha = int.Parse(frm["trocar"].ToString());
 
                  var usuRep = new UsuarioRepository();
 
                  usu.ID = usuRep.IncluirUsuario(usu);
+                    
                  ViewBag.Usuario = new UsuarioRepository().GetUsuario(usu.NomeUsuario);
                  var _lista = usuRep.ListaClienteServicos(usu.ID);
                  ViewBag.Lista = _lista;
-                 ViewBag.Msg = "Gravado com sucesso.";
-
                  CarregarCombos();
+                 ViewBag.Msg = "Gravado com sucesso.";
+                 
             }
             catch(Exception ex){
                 ViewBag.Error = ex.Message;
             }
             return View("Novo");
+        }
+
+        [HttpPost]
+        public JsonResult AjaxVerificaLoginDisponivel(string nomeUsuario)
+        {
+            var retorno = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, nomeUsuario);
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 
         // GET: /Seguranca/ManutencaoUsuario/

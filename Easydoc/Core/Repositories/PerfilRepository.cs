@@ -27,6 +27,7 @@ namespace MK.Easydoc.Core.Repositories
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
+                    _lstPerfil.Add(new Perfil() { ID = 0, Descricao = "Selecione" });
                     while (_dr.Read())
                     {
                         _lstPerfil.Add(new Perfil() { ID = int.Parse(_dr[0].ToString()), Descricao = _dr[0].ToString() });
