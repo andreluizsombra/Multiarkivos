@@ -89,6 +89,21 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return Json(cli.ToList(),JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public JsonResult AjaxListaModulos(int idServico)
+        {
+            var _modulo = new ServicoRepository().ListaModulos(idServico);
+            return Json(_modulo.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxCheckModulos(int idServico, int idPerfil)
+        {
+            var _modulo = new ServicoRepository().BuscarCheckModulos(idServico,idPerfil);
+            return Json(_modulo.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
         {

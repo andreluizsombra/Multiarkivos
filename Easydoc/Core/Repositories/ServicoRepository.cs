@@ -213,7 +213,7 @@ namespace MK.Easydoc.Core.Repositories
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                _cmd = _db.GetStoredProcCommand(String.Format("Get_MnuModuloPorServico"));
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_MenuModuloPorServico"));
 
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
 
@@ -233,6 +233,37 @@ namespace MK.Easydoc.Core.Repositories
                 throw new Exception("Erro no método ListaModulos, " + ex.Message);
             }
         }
+
+
+        public List<Modulo> BuscarCheckModulos(int _idServico, int _idPerfil)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_GetPerfilModuloPorServico"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int32, _idPerfil);
+
+                var _Mod = new List<Modulo>();
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Mod.Add(new Modulo() { CodRetorno = int.Parse(_dr[0].ToString()) });
+                    }
+                }
+
+                return _Mod;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro no método ListaModulos, " + ex.Message);
+            }
+        }
+
+
 
         public Servico GetServico(IDictionary<string, object> _queryParams)
         { 
