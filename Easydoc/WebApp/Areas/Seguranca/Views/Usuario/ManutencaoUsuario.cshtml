@@ -12,6 +12,9 @@
     td{
         text-align:left;
     }
+    .margin-top-botaolimpar{
+        margin-top:25px;
+    }
 </style>
 
 <div class="panel-heading">
@@ -44,7 +47,7 @@
                         </select>
                     </div>
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <label>Valor:</label>
                         <div class="input-group">
                             @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
@@ -52,10 +55,14 @@
                             <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
                             <span class="input-group-btn">
                                 <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
-                                <input type="button" id="btnLimpar" value="Limpar" class="btn btn-warning" onmouseover="" />
-                                <a href="@Url.Content("~")Seguranca/Usuario/Novo" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Cadastrar Novo Usuário</a>
                             </span>
                         </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="button" id="btnLimpar" value="Limpar" class="btn btn-warning margin-top-botaolimpar" onmouseover="" />
+                    </div>
+                    <div class="col-lg-2 margin-top-botaolimpar">
+                        <a href="@Url.Content("~")Seguranca/Usuario/Novo" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Cadastrar Novo Usuário</a>
                     </div>
                 </div>
 

@@ -20,7 +20,9 @@
     <div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
     <input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
 <div class="well">
-    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+        <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title 
+            &nbsp;<a href="/Seguranca/Usuario/Novo" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Usuário</a>
+        </h4>
 </div>
 <style>
     .margin-top{
@@ -184,14 +186,53 @@
 
 <script>
     jQuery(document).ready(function () {
+        BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
         $("#cpf").mask("999.999.999-99");
         if ($("#stgravado").val() == 4) {
+            $("#cpf").attr('disabled', true)
+            $("#nome").attr('disabled', true)
             $("#login").attr('disabled', true)
-        } else { $("#login").attr('disabled', false) }
+            $("#email").attr('disabled', true)
+            $("#senha").attr('disabled', true)
+            $("#confsenha").attr('disabled', true)
+            $("#trocar").attr('disabled', true)
+        } else {
+            $("#cpf").attr('disabled', false)
+            $("#nome").attr('disabled', false)
+            $("#login").attr('disabled', false)
+            $("#email").attr('disabled', false)
+            $("#senha").attr('disabled', false)
+            $("#confsenha").attr('disabled', false)
+            $("#trocar").attr('disabled', false)
+        }
+
+        function BotaoIncluir() {
+            if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
+            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != "") {
+                $("#btn_novo").attr('disabled', false)
+            } else { $("#btn_novo").attr('disabled', true) }
+        }
+
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keypress(function () {
+            BotaoIncluir();
+        });
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keyup(function () {
+            BotaoIncluir();
+        });
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keydown(function () {
+            BotaoIncluir();
+        });
 
         $("#btn_novo").click(function () {
             $("#cpf").unmask();
-            $("#login").attr('disabled', false);
+            //Deshabilitar campo para permitir enviar os dados para o conttroler
+            $("#cpf").attr('disabled', false)
+            $("#nome").attr('disabled', false)
+            $("#login").attr('disabled', false)
+            $("#email").attr('disabled', false)
+            $("#senha").attr('disabled', false)
+            $("#confsenha").attr('disabled', false)
+            $("#trocar").attr('disabled', false)
 
             if ($('#senha').val() != $('#confsenha').val()) {
                 exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
