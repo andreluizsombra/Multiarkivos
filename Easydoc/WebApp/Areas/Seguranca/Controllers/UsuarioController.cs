@@ -14,7 +14,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         // GET: /Seguranca/Usuario/
         public ActionResult Index()
         {
-            return View();
+            return View(); 
         }
 
         [HttpPost]
@@ -187,6 +187,13 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         public JsonResult AjaxVerificaLoginDisponivel(string nomeUsuario)
         {
             var retorno = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, nomeUsuario);
+            return Json(retorno, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxExcluirUsuario(int idUsuario, int idServico, int idUsuarioAtual)
+        {
+            var retorno = new UsuarioRepository().ExcluirUsuario(idUsuario, idServico, idUsuarioAtual);
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 

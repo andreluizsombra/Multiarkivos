@@ -22,7 +22,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 //AjaxCallTrocarServicoAtual(_serv.ID);
                 int _idservico = int.Parse(Session["IdServico"].ToString());
                 AjaxCallTrocarServicoAtual(_idservico);
-                
+                Session["UsuarioAtual_ID"] = UsuarioAtual.ID;
                 var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
                 ViewBag.Teste = listaCliente;
                 ViewBag.ListaCliente = new SelectList(

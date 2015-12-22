@@ -251,6 +251,32 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public Retorno ExcluirUsuario(int idUsuario, int idServico, int idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("Proc_Manu_ExcluirUsuario");
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int16, idServico);
+                _db.AddInParameter(_cmd, "@IdUsuarioExcluir", DbType.Int16, idUsuarioAtual);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public void BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
         {
             try
@@ -270,8 +296,7 @@ namespace MK.Easydoc.Core.Repositories
         public List<Usuario> GetUsuarioCadastro(int tipoConsulta, int Condicao, int idCliente, string txtPesq, int idUsuario)
         {
             try
-            {
-                DbCommand _cmd;
+            {   DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 
                 _cmd = _db.GetStoredProcCommand("Get_UsuarioCad");
@@ -299,7 +324,10 @@ namespace MK.Easydoc.Core.Repositories
                             CPF = _dr["CPF"].ToString()
                             ,
                             Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
-                            //,
+                            ,
+                            ServicoID = int.Parse(_dr["idServico"].ToString())
+                            ,
+                            NomeServico = _dr["Descricao"].ToString()
                             //Perfil = _dr["UserName"].ToString()
                             //,
                             //Senha = _dr["Senha"].ToString()
@@ -350,7 +378,6 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
 
         }
-
 
         #endregion
 
