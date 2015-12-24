@@ -38,6 +38,8 @@
                             <option value="1">Nome</option>
                             <option value="2">Login</option>
                             <option value="3">Cpf</option>
+                            <option value="4">Cliente</option>
+                            <option value="5">Serviço</option>
                         </select>
                     </div>
 
@@ -167,7 +169,7 @@
                     success: function (data) {
                         
                         $(data).each(function(){
-                            if(this.CodigoRetorno>0){
+                            if(this.CodigoRetorno==0){
                                 $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove();
                                 exibirmsg(this.Mensagem);
                             }

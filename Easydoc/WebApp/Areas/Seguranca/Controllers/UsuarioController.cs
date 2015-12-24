@@ -110,10 +110,11 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             try{
 
                 var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, frm["login"].ToString());
+                var RetCPF = new UsuarioRepository().VerificaCPFDisponivel(UsuarioAtual.ID, decimal.Parse(frm["cpf"].ToString()));
                 
                 if ((Session["TipoAcao"] != null) && (Session["TipoAcao"] == "4")) { Ret.CodigoRetorno = 0; }
 
-                if(Ret.CodigoRetorno == 1){
+                if(Ret.CodigoRetorno == 1 || RetCPF.CodigoRetorno==1){
                     var _usu = new Usuario();
 
                     _usu.CPF = frm["cpf"].ToString();
@@ -129,7 +130,10 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
                     ViewBag.Usuario = _usu;
                     //CarregarCombos();
-                    throw new Exception(Ret.Mensagem);
+                    if (RetCPF.CodigoRetorno == 1)
+                        throw new Exception(RetCPF.Mensagem);
+                    else
+                        throw new Exception(Ret.Mensagem);
                 }
 
                 var usu = new Usuario();

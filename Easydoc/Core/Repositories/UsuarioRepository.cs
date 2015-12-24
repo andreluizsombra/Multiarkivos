@@ -379,6 +379,37 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+        public Retorno VerificaCPFDisponivel(int idUsuario, decimal cpf)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_verificaCPF_Disponivel");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@CPF", DbType.Decimal, cpf);
+
+                var _retorno = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        _retorno.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _retorno.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                if (_retorno == null) { throw new Erro("Retorno não localizado. VerificaCPFDisponivel"); }
+
+                return _retorno;
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
         #endregion
 
     }

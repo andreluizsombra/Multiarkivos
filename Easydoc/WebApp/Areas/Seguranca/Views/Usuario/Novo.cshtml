@@ -186,6 +186,8 @@
 
 <script>
     jQuery(document).ready(function () {
+        $('#pnlHeader').slideUp('slow');
+
         BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
         $("#cpf").mask("999.999.999-99");
         if ($("#stgravado").val() == 4) {
@@ -208,7 +210,9 @@
 
         function BotaoIncluir() {
             if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
-            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != "") {
+            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
+                && $("#senha").val() == $("#confsenha").val())
+            {
                 $("#btn_novo").attr('disabled', false)
             } else { $("#btn_novo").attr('disabled', true) }
         }
