@@ -1505,9 +1505,9 @@
     <Content Include="Assets\css\app-style\fonts\locastyle.eot" />
     <Content Include="Assets\css\app-style\fonts\locastyle.ttf" />
     <Content Include="Assets\css\app-style\fonts\locastyle.woff" />
+    <Content Include="Areas\Seguranca\Views\Usuario\Novo.cshtml" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <Content Include="Areas\Seguranca\Views\Usuario\Novo.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />
@@ -2322,6 +2322,12 @@
     <Content Include="Scripts\DataTables\dataTables.select.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.js" />
+    <Content Include="Scripts\DataTables\responsive.bootstrap.min.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.js" />
+    <Content Include="Scripts\DataTables\responsive.foundation.min.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
+    <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

@@ -111,8 +111,8 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
                 var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, frm["login"].ToString());
                 var RetCPF = new UsuarioRepository().VerificaCPFDisponivel(UsuarioAtual.ID, decimal.Parse(frm["cpf"].ToString()));
-                
-                if ((Session["TipoAcao"] != null) && (Session["TipoAcao"] == "4")) { Ret.CodigoRetorno = 0; }
+
+                if ((Session["TipoAcao"] != null) && (Session["TipoAcao"] == "4")) { Ret.CodigoRetorno = 0; RetCPF.CodigoRetorno = 0; }
 
                 if(Ret.CodigoRetorno == 1 || RetCPF.CodigoRetorno==1){
                     var _usu = new Usuario();

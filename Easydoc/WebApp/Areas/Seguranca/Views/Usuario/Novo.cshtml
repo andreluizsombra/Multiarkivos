@@ -44,11 +44,14 @@
     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
     }
+    input#btn_novo {
+        margin-top: 23px;
+    }
 </style>
 
 <form action="/Seguranca/Usuario/Incluir" method="post">
 
-  <div class="panel-body">
+  <div id="pnlUsuario" class="panel-body">
 
       <div class="row">
           <div class="col-lg-3">
@@ -102,6 +105,9 @@
                   <div class="col-lg-2">
                       <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
                   </div>
+                  <div class="col-lg-2">
+                      <a href="#" class="btn btn-success" id="btn_incluir_usuario"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
+                  </div>
               </div>
           </div>
       </div>
@@ -116,26 +122,28 @@
         <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;Dados</h4>
     </div>
     
- <div class="panel-body">
+ <div id="pnlDados" class="panel-body">
     <div class="row">
-        <div class="col-lg-4">
-            <label>Cliente</label>
-            @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
-        </div>
-        <div class="col-lg-4">
-            <label>Serviço</label>
-            @Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" }) 
-        </div>
-        <div class="col-lg-1">
-            <label>Perfil</label>
-            @Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" }) 
-        </div>
-        <div class="col-lg-2">
-            <label>Situação</label>
-            @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" }) 
-        </div>
-        <div class="col-lg-1 navbar-btn">
-            <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="+ Incluir"/>
+        <div class="col-lg-12">
+            <div class="col-lg-4">
+                <label>Cliente</label>
+                @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-3">
+                <label>Serviço</label>
+                @Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                <label>Perfil</label>
+                @Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                <label>Situação</label>
+                @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-1">
+                <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="+ Incluir Serviço" />
+            </div>
         </div>
     </div>
 
@@ -187,10 +195,11 @@
 <script>
     jQuery(document).ready(function () {
         $('#pnlHeader').slideUp('slow');
-
+        $("#pnlDados").hide();
         BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
         $("#cpf").mask("999.999.999-99");
         if ($("#stgravado").val() == 4) {
+            $("#pnlDados").show();
             $("#cpf").attr('disabled', true)
             $("#nome").attr('disabled', true)
             $("#login").attr('disabled', true)
@@ -198,6 +207,7 @@
             $("#senha").attr('disabled', true)
             $("#confsenha").attr('disabled', true)
             $("#trocar").attr('disabled', true)
+            $("#btn_incluir_usuario").hide();
         } else {
             $("#cpf").attr('disabled', false)
             $("#nome").attr('disabled', false)
@@ -213,8 +223,12 @@
             $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
                 && $("#senha").val() == $("#confsenha").val())
             {
-                $("#btn_novo").attr('disabled', false)
-            } else { $("#btn_novo").attr('disabled', true) }
+               // $("#btn_novo").attr('disabled', false);
+                $("#btn_incluir_usuario").attr('disabled', false);
+            } else {
+               // $("#btn_novo").attr('disabled', true);
+                $("#btn_incluir_usuario").attr('disabled', true);
+            }
         }
 
         $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keypress(function () {
@@ -228,6 +242,7 @@
         });
 
         $("#btn_novo").click(function () {
+            $("#btn_incluir_usuario").hide();
             $("#cpf").unmask();
             //Deshabilitar campo para permitir enviar os dados para o conttroler
             $("#cpf").attr('disabled', false)
@@ -255,6 +270,19 @@
                 exibirmsgatencao('Porfavor selecione Situacao');
                 return false;
             }
+        });
+
+        $("#btn_incluir_usuario").click(function () {
+            $("#pnlDados").slideDown('slow');
+            $("#cpf").attr('disabled', true);
+            $("#nome").attr('disabled', true);
+            $("#login").attr('disabled', true);
+            $("#email").attr('disabled', true);
+            $("#senha").attr('disabled', true);
+            $("#confsenha").attr('disabled', true);
+            $("#trocar").attr('disabled', true);
+
+            $("#btn_incluir_usuario").hide();
         });
 
         $("#SelCliente").change(function () {
