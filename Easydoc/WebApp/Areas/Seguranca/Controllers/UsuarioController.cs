@@ -170,7 +170,8 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
                  var usuRep = new UsuarioRepository();
 
-                 //Incluir um novo Usuario ou um novo servico a este usuario
+                 
+                //Incluir um novo Usuario ou um novo servico a este usuario
                  var Retorno = usuRep.IncluirUsuario(usu);
                  if (Retorno.CodigoRetorno == -1){
                      Session["TipoAcao"] = "1";
@@ -179,11 +180,14 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                  }   
                  if ((Retorno.CodigoRetorno == -2) || (Retorno.CodigoRetorno == -3)){
                      Session["TipoAcao"] = "4";
-                     ViewBag.StGravado = 4; 
+                     ViewBag.StGravado = 4;
+                     ViewBag.Usuario = new UsuarioRepository().GetUsuario(usu.NomeUsuario);
+                     ViewBag.Lista = usuRep.ListaClienteServicos((int)Session["IdNovoUsuario"]);
                      throw new Exception(Retorno.Mensagem);
-                 }   
+                 }
 
                  ViewBag.Usuario = new UsuarioRepository().GetUsuario(usu.NomeUsuario);
+                 Session["IdNovoUsuario"] = (int)Retorno.CodigoRetorno;
                  var _lista = usuRep.ListaClienteServicos((int)Retorno.CodigoRetorno);  //Apos gravar sem erro retorna o codigo do novo usuario para CodigoRetorno  //(usu.ID);
                  ViewBag.Lista = _lista;
                  
