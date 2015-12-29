@@ -200,7 +200,12 @@
                         
                         $(data).each(function(){
                             if(this.CodigoRetorno==0){
-                                $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove();
+                                
+                                $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).attr('class','selected');
+                                var table = $('#tblUsuarios').DataTable();
+                                table.row('.selected').remove().draw( false );
+
+                                //$("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove().draw( false );
                                 exibirmsg(this.Mensagem);
                             }
                             else{exibirmsgatencao(this.Mensagem);}

@@ -45,7 +45,8 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
     }
     input#btn_novo {
-        margin-top: 23px;
+        margin-top: 24px;
+        margin-left: 15px;    
     }
 </style>
 
@@ -85,30 +86,30 @@
       </div>
 
       <div class="container-fluid margin-top">
-      <div class="row">
           <div class="panel panel-default">
               <div class="panel-body">
-                  <div class="col-lg-2">
-                      <div class="input-group">
-                          @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
-                          <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
-                          <input type="password" data-toggle="tooltip" title="Digite senha aqui" id="senha" name="senha" class="form-control" placeholder="Senha" value="@_usu.Senha" maxlength="15" required />
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <div class="input-group">
+                              @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                              <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                              <input type="password" data-toggle="tooltip" title="Digite senha aqui" id="senha" name="senha" class="form-control" placeholder="Senha" value="@_usu.Senha" maxlength="15" required />
+                          </div>
+                      </div>
+                      <div class="col-lg-2">
+                          <div class="input-group">
+                              @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                              <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                              <input type="password" data-toggle="tooltip" title="Digite confirma senha aqui" id="confsenha" name="confsenha" class="form-control" value="@_usu.Senha" placeholder="Confirma Senha" maxlength="15" required />
+                          </div>
+                      </div>
+                      <div class="col-lg-2">
+                          <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
+                      </div>
+                      <div class="col-lg-2">
+                          <a href="#" class="btn btn-success" id="btn_incluir_usuario" disabled="true"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
                       </div>
                   </div>
-                  <div class="col-lg-2">
-                      <div class="input-group">
-                          @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
-                          <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
-                          <input type="password" data-toggle="tooltip" title="Digite confirma senha aqui" id="confsenha" name="confsenha" class="form-control" value="@_usu.Senha" placeholder="Confirma Senha" maxlength="15" required />
-                      </div>
-                  </div>
-                  <div class="col-lg-2">
-                      <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
-                  </div>
-                  <div class="col-lg-2">
-                      <a href="#" class="btn btn-success" id="btn_incluir_usuario"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
-                  </div>
-              </div>
           </div>
       </div>
       </div>
@@ -125,7 +126,7 @@
  <div id="pnlDados" class="panel-body">
     <div class="row">
         <div class="col-lg-12">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <label>Cliente</label>
                 @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
             </div>
@@ -141,8 +142,8 @@
                 <label>Situação</label>
                 @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" })
             </div>
-            <div class="col-lg-1">
-                <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="+ Incluir Serviço" />
+            <div class="col-lg-2">
+                <input type="submit" class="btn btn-success pull-right" id="btn_novo" name="btn_novo" value="+ Incluir Serviço" />
             </div>
         </div>
     </div>
@@ -253,10 +254,7 @@
             $("#confsenha").attr('disabled', false)
             $("#trocar").attr('disabled', false)
 
-            if ($('#senha').val() != $('#confsenha').val()) {
-                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
-                return false;
-            }
+            
             if ($("#SelServico option:selected").text() == "Selecione") {
                 exibirmsgatencao('Porfavor selecione Servico');
                 //alert('Porfavor selecione Servico');
@@ -272,8 +270,62 @@
             }
         });
 
+        //BOTAO INCLUIR USUARIO
         $("#btn_incluir_usuario").click(function () {
-            $("#pnlDados").slideDown('slow');
+            if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
+                $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
+                && $("#senha").val() == $("#confsenha").val()) {
+            } else { return false; }
+
+            //VerificarCPF();********************************************
+            $("#cpf").unmask();
+            //debugger;
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarCPF',
+                data: { cpf: $("#cpf").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#cpf").mask("999.999.999-99");
+                        $("#cpf").focus();
+                        return false;
+                    } else {
+                        $("#cpf").mask("999.999.999-99");
+                        VerificarLOGIN();
+                    }
+                }
+            });
+
+            //*******************************************************
+
+                
+        });
+
+        function VerificarLOGIN() {
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarLOGIN',
+                data: { login: $("#login").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#login").focus();
+                        return false;
+                    } else {
+                        ExibirDados();
+                    }
+                }
+            });
+        }
+
+        function ExibirDados() {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
             $("#cpf").attr('disabled', true);
             $("#nome").attr('disabled', true);
             $("#login").attr('disabled', true);
@@ -282,8 +334,9 @@
             $("#confsenha").attr('disabled', true);
             $("#trocar").attr('disabled', true);
 
+            $("#pnlDados").slideDown('slow');
             $("#btn_incluir_usuario").hide();
-        });
+        }
 
         $("#SelCliente").change(function () {
             $("#selecionado").val($("#SelCliente").val());

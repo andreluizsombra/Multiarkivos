@@ -103,6 +103,18 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             var _modulo = new ServicoRepository().BuscarCheckModulos(idServico,idPerfil);
             return Json(_modulo.ToList(), JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult AjaxVerificarCPF(string cpf)
+        {
+            var RetCPF = new UsuarioRepository().VerificaCPFDisponivel(UsuarioAtual.ID, decimal.Parse(cpf.ToString()));
+            return Json(RetCPF, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult AjaxVerificarLOGIN(string login)
+        {
+            var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, login);
+            return Json(Ret, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
