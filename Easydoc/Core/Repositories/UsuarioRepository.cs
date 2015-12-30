@@ -218,6 +218,56 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
 
         }
+        public Usuario GetUsuarioID(int idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Get_UsuarioPorID");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+
+                List<Usuario> _usuarios = new List<Usuario>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
+                        _usuarios.Add(new Usuario
+                        {
+                            ID = int.Parse(_dr["UserId"].ToString())
+                            ,
+                            NomeUsuario = _dr["UserName"].ToString()
+                            ,
+                            NomeCompleto = _dr["Nome"].ToString()
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
+                            ,
+                            Senha = _dr["Senha"].ToString()
+                            ,
+                            Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
+                            ,
+                            CPF = _dr["Cpf"].ToString()
+                            ,
+                            Email = _dr["Email"].ToString()
+                            //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
+                        });
+                    }
+                }
+
+                //Criptografia _cripto = new Criptografia();
+                //Util _utils = new Util();
+
+                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                return _usuarios[0];
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
 
         public Retorno IncluirUsuario(Usuario usu)
         {
@@ -251,7 +301,35 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
+        public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("Proc_Manu_AlterarUsuario");
+                _db.AddInParameter(_cmd, "@idUsuarioAlt", DbType.Int16, _idusualt);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, _idusu);
+                _db.AddInParameter(_cmd, "@Nome", DbType.String, _nome);
+                _db.AddInParameter(_cmd, "@Login", DbType.String, _login);
+                _db.AddInParameter(_cmd, "@Email", DbType.String, _email);
+                _db.AddInParameter(_cmd, "@Senha", DbType.String, _senha);
+                _db.AddInParameter(_cmd, "@PrimeiroAcesso", DbType.Int16, _primacesso);
 
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public Retorno ExcluirUsuario(int idUsuario, int idServico, int idUsuarioAtual)
         {
             try

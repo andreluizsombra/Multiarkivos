@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
+using MK.Easydoc.Core.Infrastructure;
 
 namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 {
@@ -16,7 +17,51 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         {
             return View(); 
         }
+        
+        public ActionResult EditarUsuario(string nomeUsuario)
+        {
+            ViewBag.Usuario = new UsuarioRepository().GetUsuario(nomeUsuario);
+            return View("EditarUsuario");
+        }
+        [HttpPost]
+        public ActionResult Alterar(FormCollection frm)
+        {
+            
+            try
+            {
+                if (frm["login"].ToString() != frm["loginantes"].ToString()) //Se realmente foi alterado o login ai sim executa o VerificaLoginDisponivel
+                {
+                    var _ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, frm["login"].ToString());
+                    if (_ret.CodigoRetorno == 1)
+                    {
+                        throw new Exception(_ret.Mensagem);
+                    }
+                }
 
+                var alt = new UsuarioRepository();
+
+                int trocar = (frm["trocar"] != null) ? int.Parse(frm["trocar"].ToString()) : 0; 
+                var ret = alt.AlterarUsuario(int.Parse(frm["idusuario"].ToString())
+                    , UsuarioAtual.ID
+                    , frm["nome"].ToString()
+                    , frm["login"].ToString()
+                    , frm["email"].ToString()
+                    , frm["senha"].ToString()
+                    , trocar);
+                    //, int.Parse(frm["trocar"].ToString()));
+                if (ret.CodigoRetorno < 0)
+                {
+                    throw new Exception(ret.Mensagem);
+                }
+                ViewBag.Msg = "Gravado com sucesso.";
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+            }
+            ViewBag.Usuario = new UsuarioRepository().GetUsuarioID(int.Parse(frm["idusuario"].ToString()));
+            return View("EditarUsuario");
+        }
         [HttpPost]
         public ActionResult ListaUsuarios(FormCollection frm)
         {
