@@ -91,6 +91,7 @@
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
+                        <th>&nbsp;</th>
                        </tr>
                       </thead>
                         @*<th>Detalhes</th>
@@ -110,7 +111,7 @@
                                     <td><a href="#" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                     <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
-                                    <td><a href="#" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?nomeUsuario=@lst.NomeUsuario" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
                                     <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirUsuario(@lst.ID,@lst.ServicoID,@IdUsuarioAtual )"></i></a></td>
                                 </tr>
                             }
@@ -149,11 +150,12 @@
 </div><!-- /.modal -->
 @section Scripts {
 @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
 <script>
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
-
-        $("#tblUsuarios").dataTable({
+        //$("#tblUsuarios").DataTable();
+        $("#tblUsuarios").DataTable({
             language: { "sEmptyTable": "Nenhum registro encontrado",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
                 "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",

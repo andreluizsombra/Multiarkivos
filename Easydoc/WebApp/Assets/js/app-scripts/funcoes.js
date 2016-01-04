@@ -17,6 +17,33 @@ function exibirmsgatencao(txtmsg) {
     });
 }
 
+function validar(campo, msg) {
+    var cmp = $('#' + campo);
+
+    $('form').submit(function () {
+        if (cmp.val() == '') {
+            cmp.after("<span class='msgvalida text-danger'><i class='fa fa-exclamation-circle'></i>&nbsp;" + msg + "</span>").slideDown(8800);
+            //$('form').after("<div class='divcentro'><div class='row'>" + msg + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i id='btn_fechar' class='fa fa-close'></i></div></div>").slideDown(8800);
+            cmp.css('border-color', 'red');
+            setTimeout(function () {
+                $('.divcentro').remove();
+                $('.msgvalida').remove();
+            }, 3000);
+            $("#btn_fechar").click(function () {
+                $('.divcentro').remove();
+                $('.msgvalida').remove();
+                cmp.focus();
+            });
+
+            return false;
+        } else {
+            cmp.css('border-color', '');
+        }
+        return true;
+    });
+
+}
+
 function DataAtual() {
     var date = new Date();
     var day = date.getDate();

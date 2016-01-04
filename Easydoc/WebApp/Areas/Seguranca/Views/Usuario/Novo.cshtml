@@ -192,11 +192,13 @@
 <input type="hidden" id="idcliente" name="idcliente" />
 <input type="hidden" id="idservico" name="idservico" />
 <input type="hidden" id="verificar" name="verificar" />
+<input type="hidden" id="st_botaonovo" name="st_botaonovo" value="0" />
 
 <script>
     jQuery(document).ready(function () {
         $('#pnlHeader').slideUp('slow');
         $("#pnlDados").hide();
+
         BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
         $("#cpf").mask("999.999.999-99");
         if ($("#stgravado").val() == 4) {
@@ -221,8 +223,7 @@
 
         function BotaoIncluir() {
             if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
-            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
-                && $("#senha").val() == $("#confsenha").val())
+            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != "")
             {
                // $("#btn_novo").attr('disabled', false);
                 $("#btn_incluir_usuario").attr('disabled', false);
@@ -242,8 +243,12 @@
             BotaoIncluir();
         });
 
+        if ($("#st_botaonovo").val() == 0) {
+            $("#btn_novo").attr('disabled', true);
+        }
+        
         $("#btn_novo").click(function () {
-            $("#btn_incluir_usuario").hide();
+            
             $("#cpf").unmask();
             //Deshabilitar campo para permitir enviar os dados para o conttroler
             $("#cpf").attr('disabled', false)
@@ -254,9 +259,10 @@
             $("#confsenha").attr('disabled', false)
             $("#trocar").attr('disabled', false)
 
-            
+            validar('cpf', 'Preencher campo CPF...!!!');
+
             if ($("#SelServico option:selected").text() == "Selecione") {
-                exibirmsgatencao('Porfavor selecione Servico');
+                exibirmsgatencao('Porfavor selecione Serviço');
                 //alert('Porfavor selecione Servico');
                 return false;
             }
@@ -265,13 +271,21 @@
                 return false;
             }
             if ($("#SelSituacao option:selected").text() == "Selecione") {
-                exibirmsgatencao('Porfavor selecione Situacao');
+                exibirmsgatencao('Porfavor selecione Situação');
                 return false;
             }
+
+            //Apos confirmar todos os campos preenchidos
+            $("#btn_incluir_usuario").hide();
+            $("#btn_novo").attr('disabled', false);
         });
 
         //BOTAO INCLUIR USUARIO
         $("#btn_incluir_usuario").click(function () {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
             if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
                 $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
                 && $("#senha").val() == $("#confsenha").val()) {
@@ -297,10 +311,10 @@
                     }
                 }
             });
-
             //*******************************************************
-
-                
+            $("#st_botaonovo").val(1);
+            $("#btn_novo").attr('disabled', false);
+            console.log($("#st_botaonovo").val());
         });
 
         function VerificarLOGIN() {
@@ -326,6 +340,7 @@
                 exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
                 return false;
             }
+            $("#btn_novo").attr('disabled', false);
             $("#cpf").attr('disabled', true);
             $("#nome").attr('disabled', true);
             $("#login").attr('disabled', true);
@@ -357,6 +372,7 @@
             //window.location.href = url;
         });
         $("#SelServico").change(function () {
+            $("#btn_novo").attr('disabled', false);
             $("#cliente").val($("#SelCliente option:selected").text());
             $("#servico").val($("#SelServico option:selected").text());
 
