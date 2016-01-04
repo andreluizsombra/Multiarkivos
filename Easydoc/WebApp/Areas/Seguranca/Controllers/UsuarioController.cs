@@ -248,6 +248,19 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View("Novo");
         }
 
+        public ActionResult EditarServico(int idUsuario)
+        {
+            ViewBag.Usuario = new UsuarioRepository().GetUsuarioID(idUsuario);
+            Session["IdNovoUsuario"] = idUsuario;
+            var usuRep = new UsuarioRepository();
+            var _lista = usuRep.ListaClienteServicos(idUsuario);  
+            ViewBag.Lista = _lista;
+            Session["TipoAcao"] = "4";
+            ViewBag.StGravado = 4; //Deshabilita o campo Login
+            CarregarCombos();
+            return View("EditarServico");
+        }
+
         [HttpPost]
         public JsonResult AjaxVerificaLoginDisponivel(string nomeUsuario)
         {
@@ -259,6 +272,13 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         public JsonResult AjaxExcluirUsuario(int idUsuario, int idServico, int idUsuarioAtual)
         {
             var retorno = new UsuarioRepository().ExcluirUsuario(idUsuario, idServico, idUsuarioAtual);
+            return Json(retorno, JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpPost]
+        public JsonResult AjaxExcluirServicoUsuario(int idUsuario, int idUsuarioAtual, int idCliente, int idServico)
+        {
+            var retorno = new UsuarioRepository().ExcluirServicoUsuario(idUsuario, idUsuarioAtual, idCliente, idServico);
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
 

@@ -355,6 +355,32 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
+        public Retorno ExcluirServicoUsuario(int idUsuario, int idUsuarioAtual, int idCliente, int idServico)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("Proc_Manu_ExcluirServicoPorUsuario");
+                _db.AddInParameter(_cmd, "@idUsuarioExc", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuarioAtual);
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, idCliente);
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int16, idServico);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public void BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
         {
             try
