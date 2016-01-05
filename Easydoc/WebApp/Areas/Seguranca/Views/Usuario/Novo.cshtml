@@ -152,6 +152,7 @@
     </div>
 
      <div class="row">
+         <hr />
          <div class="col-lg-12">
              @if (ViewBag.Lista != null)
              {
@@ -233,7 +234,7 @@
     jQuery(document).ready(function () {
         $('#pnlHeader').slideUp('slow');
         $("#pnlDados").hide();
-
+        //PaginarTable("tblServicos");
         BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
         $("#cpf").mask("999.999.999-99");
         if ($("#stgravado").val() == 4) {
@@ -492,7 +493,32 @@
                     if (this.CodigoRetorno == 0) {
                         //debugger;
                         $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idcli").val() + $("#hdn_idserv").val()).attr('class', 'selected');
-                        var table = $('#tblServicos').DataTable();
+                        //var table = $('#tblServicos'); //$('#tblServicos').DataTable();
+                        var table = $("#tblServicos").DataTable({
+                            language: { "sEmptyTable": "Nenhum registro encontrado",
+                                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sInfoThousands": ".",
+                                "sLengthMenu": "_MENU_ resultados por página",
+                                "sLoadingRecords": "Carregando...",
+                                "sProcessing": "Processando...",
+                                "sZeroRecords": "Nenhum registro encontrado",
+                                "sSearch": "Pesquisar",
+                                "oPaginate": {
+                                    "sNext": "Próximo",
+                                    "sPrevious": "Anterior",
+                                    "sFirst": "Primeiro",
+                                    "sLast": "Último"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                                }
+                            }
+                        }
+                    );
                         table.row('.selected').remove().draw(false);
 
                         //$("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove().draw( false );
