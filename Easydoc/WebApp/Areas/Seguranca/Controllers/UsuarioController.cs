@@ -76,6 +76,13 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View("ManutencaoUsuario");
         }
 
+        public ActionResult ListaDetalheUsuario(int idUsuarioDetalhe)
+        {
+            var detalhe_usu = new UsuarioRepository().GetDetalheUsuario(idUsuarioDetalhe, UsuarioAtual.ID);
+            ViewBag.ListaDetalheUsuario = detalhe_usu.Take(1).ToList();
+            ViewBag.ListaDetalheClienteServico = detalhe_usu;
+            return View("DetalheUsuario");
+        }
 
         void CarregarCombos()
         {

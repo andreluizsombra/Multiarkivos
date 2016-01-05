@@ -108,7 +108,7 @@
                                     <td>@lst.NomeUsuario</td>
                                     <td>@lst.PerfilID</td>
                                     <td>@lst.NomeServico</td>
-                                    <td><a href="#" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                     <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?idUsuario=@lst.ID" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>

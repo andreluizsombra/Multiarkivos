@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Detalhes do Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //ViewBag.ListaDetalheUsuario = detalhe_usu;
+    //ViewBag.ListaDetalheClienteServico = detalhe_usu;
+}
+
+@if (ViewBag.ListaDetalheUsuario != null)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            @foreach (var lst in ViewBag.ListaDetalheUsuario)
+            {
+                <div class="col-lg-2">
+                    <label>CPF:</label><input type="text" value="@lst.CPF" class="form-control" disabled /><br />
+                </div>
+                <div class="col-lg-2">
+                    <label>Login:</label><input type="text" value="@lst.Login" class="form-control" disabled /><br />
+                </div>
+                <div class="col-lg-4">
+                    <label>Nome:</label><input type="text" value="@lst.Nome" class="form-control" disabled /><br />
+                </div>
+                <div class="col-lg-2">
+                    <label>E-Mail:</label><input type="text" value="@lst.Email" class="form-control" disabled /><br />
+                </div>
+                <div class="col-lg-2">
+                    <label>Tentativas Erradas:</label><input type="text" value="@lst.TentativasErradas" disabled class="form-control" /><br />
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@if (ViewBag.ListaDetalheClienteServico != null)
+{
+    <hr />
+    <div class="table-responsive">
+        <div class="row">
+            <div class="col-lg-12">
+            <table id="tblClienteServico" class="table table-striped table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Nome do Cliente</th>
+                        <th>CPF / CNPJ</th>
+                        <th>Data Criação</th>
+                        <th>Data Exclusão</th>
+                        <th>Data Alteração</th>
+                        <th>Status do Cliente</th>
+                        <th>Quant. Máxima</th>
+                        <th>E-mail Corporativo</th>
+                        <th>Servico</th>
+                        <th>Data Criação</th>
+                        <th>Arquivos de Dados</th>
+                        <th>Controle Atenção</th>
+                        <th>Dashboard Captura</th>
+                        <th>Dashboard Pendencias</th>
+                        <th>Dashboard Doc. por Modulo</th>
+                        <th>Script Regra Negocio</th>
+                    </tr>
+                </thead>
+                @foreach (var lst in ViewBag.ListaDetalheClienteServico)
+                {
+                    <tr>
+                        <td>@lst.NomeCliente</td>
+                        <td>@lst.CPFCNPJCliente</td>
+                        <td>@lst.DataCriacaoCliente</td>
+                        <td>@lst.DataExclusaoCliente</td>
+                        <td>@lst.DataAlteracaoCliente</td>
+
+                        <td>@lst.StatusCliente</td>
+                        <td>@lst.QuantidadeMaximaUsuarioCliente</td>
+                        <td>@lst.EmailCorporativoCliente</td>
+                        <td>@lst.Servico</td>
+                        <td>@lst.DataCriacaoServico</td>
+                        <td>@lst.ArquivosDeDadosServico</td>
+                        <td>@lst.ControleAtencaoServico</td>
+                        <td>@lst.DashboardCapturaServico</td>
+                        <td>@lst.DashboardPendenciasServico</td>
+                        <td>@lst.DashboardDocumentosPorModuloServico</td>
+                        <td>@lst.ScriptRegraNegocioServico</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    </div>
+}

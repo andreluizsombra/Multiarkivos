@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Cliente.cs" />
+    <Compile Include="Entities\DetalheUsuario.cs" />
     <Compile Include="Entities\Documento.cs" />
     <Compile Include="Entities\Graficos.cs" />
     <Compile Include="Entities\Lote.cs" />

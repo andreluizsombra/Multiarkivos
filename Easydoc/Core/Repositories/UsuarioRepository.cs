@@ -451,6 +451,77 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+        public List<DetalheUsuario> GetDetalheUsuario(int idUsuarioDetalhe, int id_Usuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_Manu_ListarDetalhesPorUsuario");
+                _db.AddInParameter(_cmd, "@idUsuarioDetalhe", DbType.Int16, idUsuarioDetalhe);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, id_Usuario );
+
+                List<DetalheUsuario> _usuarios = new List<DetalheUsuario>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _usuarios.Add(new DetalheUsuario
+                        {
+                            CPF = _dr[0].ToString()
+                            ,
+                            Login = _dr[1].ToString()
+                            ,
+                            Nome = _dr[2].ToString()
+                            ,
+                            Email = _dr[3].ToString()
+                            ,
+                            TentativasErradas = _dr[4].ToString()
+                            ,
+                            NomeCliente = _dr[5].ToString()
+                            ,
+                            CPFCNPJCliente = _dr[6].ToString()
+                            ,
+                            DataCriacaoCliente = _dr[7].ToString()
+                            ,
+                            DataExclusaoCliente = _dr[8].ToString()
+                            ,
+                            DataAlteracaoCliente = _dr[9].ToString()
+                            ,
+                            StatusCliente = _dr[10].ToString()
+                            ,
+                            QuantidadeMaximaUsuarioCliente = _dr[11].ToString()
+                            ,
+                            EmailCorporativoCliente = _dr[12].ToString()
+                            ,
+                            Servico = _dr[13].ToString()
+                            ,
+                            DataCriacaoServico = _dr[14].ToString()
+                            ,
+                            ArquivosDeDadosServico = _dr[15].ToString()
+                            ,
+                            ControleAtencaoServico = _dr[16].ToString()
+                            ,
+                            DashboardCapturaServico = _dr[17].ToString()
+                            ,
+                            DashboardPendenciasServico = _dr[18].ToString()
+                            ,
+                            DashboardDocumentosPorModuloServico = _dr[19].ToString()
+                            ,
+                            ScriptRegraNegocioServico = _dr[20].ToString()
+                        });
+                    }
+                }
+
+                if (_usuarios == null) { throw new Erro("DetalheUsuário não localizado."); }
+
+                return _usuarios.ToList();
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
         public Retorno VerificaLoginDisponivel(int idUsuario, string novoUserName)
         {
             try
