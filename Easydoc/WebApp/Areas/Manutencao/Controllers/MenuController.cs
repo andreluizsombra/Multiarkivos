@@ -15,6 +15,10 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             return View();
         }
+        public ActionResult ListaCliente()
+        {
+            return View("ListaCliente");
+        }
 
     }
 }

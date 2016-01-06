@@ -482,7 +482,8 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             NomeCliente = _dr[5].ToString()
                             ,
-                            CPFCNPJCliente = _dr[6].ToString()
+                            Servico = _dr[6].ToString()
+                            /*CPFCNPJCliente = _dr[6].ToString()
                             ,
                             DataCriacaoCliente = _dr[7].ToString()
                             ,
@@ -510,7 +511,7 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             DashboardDocumentosPorModuloServico = _dr[19].ToString()
                             ,
-                            ScriptRegraNegocioServico = _dr[20].ToString()
+                            ScriptRegraNegocioServico = _dr[20].ToString()*/
                         });
                     }
                 }

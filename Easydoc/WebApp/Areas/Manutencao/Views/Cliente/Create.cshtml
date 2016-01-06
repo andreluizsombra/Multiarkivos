@@ -1,0 +1,183 @@
+﻿@using MK.Easydoc.Core.Entities;
+@{
+
+    //var _usu = new Usuario();
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    ViewBag.Title = "Cadastrar Novo Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
+<input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
+<div class="well">
+    <h4 class="panel-title">
+        <i class="fa fa-users"></i>&nbsp;@ViewBag.Title
+        &nbsp;<a href="/Manutencao/Cliente/Create" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Cliente</a>
+    </h4>
+</div>
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+
+    hr {
+        margin-top: 15px;
+        margin-bottom: -5px;
+        border: 0;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .well {
+        min-height: 20px;
+        padding: 15px;
+        margin-bottom: 0px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    }
+
+    input#btn_novo {
+        /*margin-top: 24px;
+        margin-left: 15px;*/
+    }
+</style>
+
+<form action="/Seguranca/Usuario/Incluir" method="post">
+
+        <div id="pnlUsuario" class="panel-body">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        <select id="pes" name="pes" class="form-control">
+                            <option value="F" selected>Pessoa Física</option>
+                            <option value="J">Pessoa Jurídica</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                        <span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>
+                        <input type="text" data-toggle="tooltip" title="" id="cpfcnpj" name="cpfcnpj" class="form-control" placeholder="CPF/CNPJ" value="" maxlength="19" required />
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="input-group">
+                        @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                        <span class="input-group-addon" id="basic-vlct"><i class="fa fa-user"></i></span>
+                        <input type="text" data-toggle="tooltip" title="" id="nome" name="nome" class="form-control" placeholder="Nome" value="" maxlength="25" required />
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="input-group">
+                        @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                        <span class="input-group-addon" id="basic-vlct">Nro.</span>
+                        <input type="text" data-toggle="tooltip" title="" id="qtdusu" name="qtdusu" class="form-control" placeholder="Quantidade Usuário" value="" maxlength="11"/>
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <label>Status</label><br />
+                    <input type="checkbox" name="status" value="1" checked>&nbsp;Ativo
+                </div>
+                <div class="col-lg-2">
+                    <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <input type="hidden" id="selecionado" name="selecionado" />
+    <input type="hidden" id="cliente" name="cliente" />
+    <input type="hidden" id="servico" name="servico" />
+
+    <input type="hidden" id="idcliente" name="idcliente" />
+    <input type="hidden" id="idservico" name="idservico" />
+    <input type="hidden" id="verificar" name="verificar" />
+    <input type="hidden" id="st_botaonovo" name="st_botaonovo" value="0" />
+
+<script>
+    jQuery(document).ready(function () {
+        $('#pnlHeader').slideUp('slow');
+
+        if ($("#pes").val() == 'F') {
+            $("#cpfcnpj").mask("999.999.999-99");
+        } else {
+            $("#cpfcnpj").mask("999.999.999/9999-99");
+        }
+
+        $("#pes").change(function () {
+            $("#cpfcnpj").val('');
+            if ($("#pes").val() == 'F') {
+                $("#cpfcnpj").mask("999.999.999-99");
+            } else {
+                $("#cpfcnpj").mask("999.999.999/9999-99");
+            }
+            $("#cpfcnpj").focus();
+        });
+
+        $("#btn_novo").click(function () {
+
+            $("#cpfcnpj").unmask();
+            
+        });
+
+        //BOTAO INCLUIR USUARIO
+        $("#btn_incluir_usuario").click(function () {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
+            if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
+                $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
+                && $("#senha").val() == $("#confsenha").val()) {
+            } else { return false; }
+
+            //VerificarCPF();********************************************
+            $("#cpf").unmask();
+            //debugger;
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarCPF',
+                data: { cpf: $("#cpf").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#cpf").mask("999.999.999-99");
+                        $("#cpf").focus();
+                        return false;
+                    } else {
+                        $("#cpf").mask("999.999.999-99");
+                        VerificarLOGIN();
+                    }
+                }
+            });
+            //*******************************************************
+            $("#st_botaonovo").val(1);
+            $("#btn_novo").attr('disabled', false);
+            console.log($("#st_botaonovo").val());
+        });
+
+        function VerificarLOGIN() {
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarLOGIN',
+                data: { login: $("#login").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#login").focus();
+                        return false;
+                    } else {
+                        ExibirDados();
+                    }
+                }
+            });
+        }
+
+    });
+</script>
