@@ -15,6 +15,8 @@ namespace MK.Easydoc.Core.Entities
         public string EmailPrincipal { get; set; }
         public List<Servico> Servicos { get; set; }
         public string UrlCSS { get; set; }
+        public int TipoAcao { get; set; }
+        public int idUsuarioAtual { get; set; }
 
         public Cliente() {
             ID = 0;

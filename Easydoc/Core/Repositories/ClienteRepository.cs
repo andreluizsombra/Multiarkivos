@@ -43,6 +43,40 @@ namespace MK.Easydoc.Core.Repositories
 
         #region ICliente Members
 
+        public Retorno Incluir(Cliente usu)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Cliente");
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, usu.TipoAcao);
+                _db.AddInParameter(_cmd, "@CPF_CNPJ", DbType.Decimal, usu.CPF_CNPJ);
+                _db.AddInParameter(_cmd, "@Descricao", DbType.String, usu.Descricao);
+                _db.AddInParameter(_cmd, "@UrlEstilo", DbType.String, "URL.CSS");
+                _db.AddInParameter(_cmd, "@DataCriacao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataExclusao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataAlteracao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@Status", DbType.Int16, usu.Status);
+                _db.AddInParameter(_cmd, "@QtdeUsuario", DbType.Int16, usu.QtdeUsuario);
+                _db.AddInParameter(_cmd, "@Email_principal", DbType.String, usu.EmailPrincipal);
+                _db.AddInParameter(_cmd, "@idUsuarioAtual", DbType.Int16, usu.idUsuarioAtual);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
         public List<Cliente> ListarClientesUsuario(IDictionary<string, object> _queryParams)
         {
             try

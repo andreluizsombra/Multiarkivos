@@ -22,5 +22,36 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Incluir(FormCollection frm)
+        {
+            try
+            {
+                var cli = new Cliente()
+                {
+                    TipoAcao=1,
+                    CPF_CNPJ = Decimal.Parse(frm["cpfcnpj"].ToString()),
+                    Descricao = frm["nome"].ToString(),
+                    Status = int.Parse(frm["status"].ToString()),
+                    QtdeUsuario = int.Parse(frm["qtdusu"].ToString()),
+                    EmailPrincipal = frm["email"].ToString(),
+                    idUsuarioAtual = UsuarioAtual.ID
+                };
+                var cliRet = new ClienteRepository();
+                var Retorno = cliRet.Incluir(cli);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                ViewBag.Msg = Retorno.Mensagem;
+                return RedirectToAction("Index");
+            }
+            catch(Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                throw new Exception(ex.Message); 
+            }
+        }
     }
 }
