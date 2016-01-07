@@ -2335,6 +2335,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.js" />
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\pdfSlider.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

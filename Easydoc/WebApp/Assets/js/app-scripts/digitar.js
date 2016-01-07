@@ -131,6 +131,11 @@ var init = function () {
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _url);
+        $("#carousel").pdfSlider({
+            itemWidth: 900
+            //,itemHeight: 1000
+        });
+        $(".pdfSlider_hideControls").hide();
         //$("#viewerPDF").html('<a class="media" href="' + _url + '"></a>');
         //$('#viewerPDF').show();
         //CarregarImagemPdf(_url);

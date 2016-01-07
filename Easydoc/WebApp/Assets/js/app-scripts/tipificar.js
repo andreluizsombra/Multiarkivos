@@ -24,6 +24,11 @@ var trocar_imagem = function (_path) {
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _path);
+        $("#carousel").pdfSlider({
+            itemWidth: 900
+            //,itemHeight: 1000
+        });
+        $(".pdfSlider_hideControls").hide();
     } else {
         $("#viewer").show();
         $("#viewer").iviewer('loadImage', _path);
