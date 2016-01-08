@@ -34,9 +34,13 @@ namespace MK.Easydoc.Core.Repositories
             _cliente = (new Cliente
             {
                 ID = int.Parse(dt["IdCliente"].ToString()),
+                CPF_CNPJ = Decimal.Parse(dt["CPF_CNPJ"].ToString()),
                 Descricao = dt["Descricao"].ToString(),
                 UrlCSS = dt["UrlEstilo"].ToString(),
-                Servicos = new List<Servico>()
+                Servicos = new List<Servico>(),
+                EmailPrincipal = dt["Email_Principal"].ToString(),
+                Status = int.Parse(dt["Status"].ToString()),
+                QtdeUsuario = int.Parse(dt["QtdeUsuario"].ToString())
             });
             return _cliente;
         }
@@ -115,6 +119,38 @@ namespace MK.Easydoc.Core.Repositories
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_clientes_usuario_sel"));
 
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _clientes.Add(ConverteBaseObjeto(_dr));
+                    }
+                }
+                if (_clientes == null) { throw new Erro("Cliente não localizado."); }
+                return _clientes;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<Cliente> PesquisaCliente(int tipoConsulta, int condicao, int idCliente, string localizador, int idUsuario)
+        {
+            try
+            {
+                List<Cliente> _clientes = new List<Cliente>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_MANU_Cliente"));
+
+                _db.AddInParameter(_cmd, "@TipoConsulta", DbType.Int32, tipoConsulta);
+                _db.AddInParameter(_cmd, "@Condicao", DbType.Int32, condicao);
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int32, idCliente);
+                _db.AddInParameter(_cmd, "@Localizador", DbType.String, localizador);
                 _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))

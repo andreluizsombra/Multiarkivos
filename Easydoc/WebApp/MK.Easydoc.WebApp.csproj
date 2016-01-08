@@ -1514,6 +1514,7 @@
     <Content Include="Areas\Seguranca\Views\Usuario\DetalheUsuario.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Index.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Create.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Cliente\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />
