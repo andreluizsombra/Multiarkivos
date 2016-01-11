@@ -97,8 +97,8 @@
                             <tr id="lin_@lst.ID">
                                 <td>@lst.CPF_CNPJ</td>
                                 <td>@lst.Descricao</td>
-                                <td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
-                                <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?nomeUsuario=@lst.Descricao" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
+                                <!--<td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>-->
+                                <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?cpfcnpj=@lst.CPF_CNPJ" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
                                 <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.CPF_CNPJ,@IdUsuarioAtual,@lst.ID)"></i></a></td>
                             </tr>
                         }

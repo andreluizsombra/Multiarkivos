@@ -33,9 +33,11 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             return View();
         }
-        public ActionResult Edit()
+
+        public ActionResult Edit(string cpfcnpj)
         {
-            return View();
+            ViewBag.Cliente = new ClienteRepository().GetClienteCPFCNPJ(cpfcnpj, UsuarioAtual.ID);
+            return View("Edit");
         }
 
         [HttpPost]
@@ -48,7 +50,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     TipoAcao = 2,
                     CPF_CNPJ = Decimal.Parse(frm["cpfcnpj"].ToString()),
                     Descricao = frm["nome"].ToString(),
-                    Status = int.Parse(frm["status"].ToString()),
+                    Status = frm["status"]==null ? 0 : int.Parse(frm["status"].ToString()),
                     QtdeUsuario = int.Parse(frm["qtdusu"].ToString()),
                     EmailPrincipal = frm["email"].ToString(),
                     idUsuarioAtual = UsuarioAtual.ID
@@ -60,11 +62,13 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     throw new Exception(Retorno.Mensagem);
                 }
                 ViewBag.Msg = Retorno.Mensagem;
+                TempData["Msg"] = Retorno.Mensagem;
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = ex.Message;
+                TempData["Error"] = ex.Message;
                 return View("Create");
                 //throw new Exception(ex.Message); 
             }
@@ -73,8 +77,10 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
         {
+            
             try
             {
+
                 var cli = new Cliente()
                 {
                     TipoAcao=1,
@@ -85,6 +91,11 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     EmailPrincipal = frm["email"].ToString(),
                     idUsuarioAtual = UsuarioAtual.ID
                 };
+                ViewBag.Cliente = cli;
+                var RetCPF = new UsuarioRepository().VerificaCPFDisponivel(UsuarioAtual.ID, decimal.Parse(frm["cpfcnpj"].ToString()));
+                if (RetCPF.CodigoRetorno == 1)
+                    throw new Exception(RetCPF.Mensagem);
+
                 var cliRet = new ClienteRepository();
                 var Retorno = cliRet.Incluir(cli);
                 if (Retorno.CodigoRetorno < 0)
@@ -92,12 +103,14 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     throw new Exception(Retorno.Mensagem);
                 }
                 ViewBag.Msg = Retorno.Mensagem;
+                TempData["Msg"] = Retorno.Mensagem;
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
-            {
+            { 
                 ViewBag.Error = ex.Message;
-                return View("Create");
+                TempData["Error"] = ex.Message;
+                return View("Create",frm);
                 //throw new Exception(ex.Message); 
             }
         }

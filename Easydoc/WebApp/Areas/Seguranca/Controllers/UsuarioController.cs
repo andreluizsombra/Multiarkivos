@@ -244,12 +244,14 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                  ViewBag.Lista = _lista;
                  
                  ViewBag.Msg = "Gravado com sucesso.";
+                 TempData["Msg"] = "Gravado com sucesso.";
                  Session["TipoAcao"] = "4";
                  ViewBag.StGravado = 4; //Deshabilita o campo Login
             }
             catch(Exception ex){
                 CarregarCombos();
                 ViewBag.Error = ex.Message;
+                TempData["Error"] = ex.Message;
             }
             CarregarCombos();
             return View("Novo");

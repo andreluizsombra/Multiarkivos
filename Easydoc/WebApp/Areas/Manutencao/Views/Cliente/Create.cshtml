@@ -5,6 +5,11 @@
     var IdUsuarioAtual = Session["UsuarioAtual_ID"];
     ViewBag.Title = "Cadastrar Novo Cliente";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var _cli = new Cliente();
+    if (ViewBag.Cliente != null)
+    {
+         _cli = ViewBag.Cliente;
+    }
 
 }
 
@@ -68,26 +73,26 @@
                     <div class="input-group">
                         @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                         <span class="input-group-addon" id="basic-vlct"><i class="fa fa-user"></i></span>
-                        <input type="text" data-toggle="tooltip" title="" id="nome" name="nome" class="form-control" placeholder="Nome" value="" maxlength="25" required />
+                        <input type="text" data-toggle="tooltip" title="" id="nome" name="nome" class="form-control" placeholder="Nome" value="@_cli.Descricao" maxlength="25" required />
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="input-group">
                         @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                         <span class="input-group-addon" id="basic-vlct">Nro.</span>
-                        <input type="text" data-toggle="tooltip" title="" id="qtdusu" name="qtdusu" class="form-control" placeholder="Quantidade Usuário" value="" maxlength="11"/>
+                        <input type="text" data-toggle="tooltip" title="" id="qtdusu" name="qtdusu" class="form-control" placeholder="Quantidade Usuário" value="@_cli.QtdeUsuario" maxlength="11"/>
                     </div>
                 </div>
                 <div class="col-lg-2">
                     <div class="input-group">
                         @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                         <span class="input-group-addon" id="basic-vlct">@@</span>
-                        <input type="text" data-toggle="tooltip" title="Digite seu email aqui" id="email" name="email" class="form-control" placeholder="Email" value="" maxlength="500" required />
+                        <input type="text" data-toggle="tooltip" title="Digite seu email aqui" id="email" name="email" class="form-control" placeholder="Email" value="@_cli.EmailPrincipal" maxlength="500" required />
                     </div>
                 </div>
                 <div class="col-lg-1">
                     <label>Status</label><br />
-                    <input type="checkbox" id="status" name="status" value="1" checked>&nbsp;Ativo
+                    <input type="checkbox" id="status" name="status" value="@_cli.Status" checked>&nbsp;Ativo
                 </div>
                 <div class="col-lg-2">
                     <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />

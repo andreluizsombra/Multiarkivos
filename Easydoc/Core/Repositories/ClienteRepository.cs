@@ -9,6 +9,7 @@ using TecFort.Framework.Generico;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Infrastructure;
 using MK.Easydoc.Core.Repositories.Interfaces;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.Core.Repositories
 {
@@ -149,7 +150,7 @@ namespace MK.Easydoc.Core.Repositories
 
                 _db.AddInParameter(_cmd, "@TipoConsulta", DbType.Int32, tipoConsulta);
                 _db.AddInParameter(_cmd, "@Condicao", DbType.Int32, condicao);
-                _db.AddInParameter(_cmd, "@idCliente", DbType.Int32, idCliente);
+                _db.AddInParameter(_cmd, "@IdCliente", DbType.Int32, idCliente);
                 _db.AddInParameter(_cmd, "@Localizador", DbType.String, localizador);
                 _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
 
@@ -274,6 +275,33 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw new Erro(ex.Message);  }        
         }
+
+        public Cliente GetClienteCPFCNPJ(string cpfcnpj, int idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Cliente _cliente = new Cliente();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_Cliente_Por_CPF_CNPJ"));
+
+                _db.AddInParameter(_cmd, "@CPF_CNPJ", DbType.Decimal,decimal.Parse(cpfcnpj));
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int32, idUsuarioAtual);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _cliente = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_cliente == null) { throw new Erro("Cliente não localizado."); }
+                return _cliente;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
+
 
         #endregion IClienteRepository Members
 
