@@ -29,19 +29,24 @@ namespace MK.Easydoc.Core.Repositories
         #endregion
 
         private Servico ConverteBaseObjeto(IDataReader dt) {
-            Servico _servico = new Servico();
-            _servico = (new Servico
-            {
+            //Servico _servico = new Servico();
+            var _servico = new Servico(){
                 ID = int.Parse(dt["IdServico"].ToString()),
                 Descricao = dt["Descricao"].ToString(),
                 Default = bool.Parse(dt["ServicoDefault"].ToString()),
                 Documentos = new List<DocumentoModelo>(),
                 Modulos = new List<Modulo>(),
                 IdCliente = int.Parse(dt["IdCliente"].ToString()),
+
+                NomeCliente = dt["NomeCliente"].ToString(),
+                ServicoDefault = int.Parse(dt["ServicoDefault"].ToString()),
+                ArquivoDados = int.Parse(dt["ArquivoDados"].ToString()),
+                ControleAtencao = int.Parse(dt["ControleAtencao"].ToString()),
+
                 ScriptSQLDashboard_Captura = dt["ScriptSQLDashboard_Captura"].ToString(),
                 ScriptSQLDashboard_Pendencias = dt["ScriptSQLDashboard_Pendencias"].ToString(),
                 ScriptSQLDashboard_Doc_Modulo = dt["ScriptSQLDashboard_Doc_Modulo"].ToString()
-            });
+            };
             return _servico;
         
         }
@@ -315,8 +320,33 @@ namespace MK.Easydoc.Core.Repositories
                 return _servico;
             }
             catch (Exception ex) { throw new Erro(ex.Message); }
-        }		
+        }
 
+        public Servico ListaServicoCliente(int _idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Servico _servico = new Servico();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
+                //_db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _servicoID);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _servico = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_servico == null) { throw new Erro("Servico não localizado."); }
+                return _servico;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }		
         #endregion IServicoRepository Members
 
     }
