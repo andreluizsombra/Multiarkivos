@@ -26,6 +26,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
         {
+            var Retorno = new Retorno();
             try
             {
                 var cli = new Cliente()
@@ -33,23 +34,24 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     TipoAcao=1,
                     CPF_CNPJ = Decimal.Parse(frm["cpfcnpj"].ToString()),
                     Descricao = frm["nome"].ToString(),
-                    Status = int.Parse(frm["status"].ToString()),
+                    Status = frm["status"]==null ? 0 : int.Parse(frm["status"].ToString()),
                     QtdeUsuario = int.Parse(frm["qtdusu"].ToString()),
                     EmailPrincipal = frm["email"].ToString(),
                     idUsuarioAtual = UsuarioAtual.ID
                 };
                 var cliRet = new ClienteRepository();
-                var Retorno = cliRet.Incluir(cli);
+                Retorno = cliRet.Incluir(cli);
                 if (Retorno.CodigoRetorno < 0)
                 {
                     throw new Exception(Retorno.Mensagem);
                 }
-                ViewBag.Msg = Retorno.Mensagem;
+                //ViewBag.Msg = Retorno.Mensagem;
+                TempData["Msg"] = Retorno.Mensagem;
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["Error"] = Retorno.Mensagem;
                 throw new Exception(ex.Message); 
             }
         }

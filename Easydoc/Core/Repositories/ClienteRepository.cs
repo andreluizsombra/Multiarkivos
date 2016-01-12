@@ -49,7 +49,7 @@ namespace MK.Easydoc.Core.Repositories
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Cliente");
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Servico");
                 _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, usu.TipoAcao);
                 _db.AddInParameter(_cmd, "@CPF_CNPJ", DbType.Decimal, usu.CPF_CNPJ);
                 _db.AddInParameter(_cmd, "@Descricao", DbType.String, usu.Descricao);

@@ -177,6 +177,20 @@
             <strong>Confirmado, </strong>&nbsp;@ViewBag.Msg
         </div>
         }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Atenção!</strong>&nbsp;@TempData["Error"]
+            </div>
+        }
+        @if (TempData["Msg"] != null)
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Confirmado, </strong>&nbsp;@TempData["Msg"]
+            </div>
+        }
 
         <div id="msg" class="alert alert-success" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>

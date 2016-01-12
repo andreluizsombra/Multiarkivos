@@ -38,6 +38,12 @@ namespace MK.Easydoc.Core.Repositories
                 Documentos = new List<DocumentoModelo>(),
                 Modulos = new List<Modulo>(),
                 IdCliente = int.Parse(dt["IdCliente"].ToString()),
+
+                NomeCliente = dt["NomeCliente"].ToString(),
+                ServicoDefault = bool.Parse(dt["ServicoDefault"].ToString()),
+                ArquivoDados = bool.Parse(dt["ArquivoDados"].ToString()),
+                ControleAtencao = bool.Parse(dt["ControleAtencao"].ToString()),
+
                 ScriptSQLDashboard_Captura = dt["ScriptSQLDashboard_Captura"].ToString(),
                 ScriptSQLDashboard_Pendencias = dt["ScriptSQLDashboard_Pendencias"].ToString(),
                 ScriptSQLDashboard_Doc_Modulo = dt["ScriptSQLDashboard_Doc_Modulo"].ToString()
@@ -315,9 +321,71 @@ namespace MK.Easydoc.Core.Repositories
                 return _servico;
             }
             catch (Exception ex) { throw new Erro(ex.Message); }
-        }		
+        }
+
+        public List<Servico> ListaServicoCliente(int _idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                List<Servico> _servico = new List<Servico>();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        var _serv = new Servico();
+                        _serv = ConverteBaseObjeto(_dr);
+                        _servico.Add(_serv);
+                    }
+                }
+                if (_servico == null) { throw new Erro("Servico não localizado."); }
+                return _servico;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
+
+        public Retorno Incluir(Servico ser) 
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Servico");
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, ser.TipoAcao); //(1)Criar, (2)Alterar, (3)Excluir
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, ser.IdCliente);
+                _db.AddInParameter(_cmd, "@Descricao", DbType.String, ser.Descricao);
+                _db.AddInParameter(_cmd, "@ServicoDefault", DbType.Boolean, ser.ServicoDefault);
+                _db.AddInParameter(_cmd, "@ArquivoDAdos", DbType.Boolean, ser.ArquivoDados);
+                _db.AddInParameter(_cmd, "@ControleAtencao", DbType.Boolean, ser.ControleAtencao);
+                _db.AddInParameter(_cmd, "@DataCriacao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataExclusao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataAlteracao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@idUsuarioAtual", DbType.Int16, ser.IdUsuarioAtual);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
 
         #endregion IServicoRepository Members
 
     }
+
 }
