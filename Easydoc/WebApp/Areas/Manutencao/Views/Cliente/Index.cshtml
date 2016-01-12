@@ -30,7 +30,7 @@
 
     <div class="row margin-top">
         <div class="col-lg-10">
-            @using (Html.BeginForm("Index", "Cliente"))
+            @using (Html.BeginForm("Pesquisa", "Cliente"))
             {
                 @*<div class="well">*@
                 <div class="row">
@@ -38,8 +38,8 @@
                         <label>Pesquisa por:</label>
                         <select class="form-control" id="selTipo" name="selTipo">
                             <option value="0" selected="selected">Selecione</option>
-                            <option value="1">CPF/CNPJ</option>
-                            <option value="2">Nome</option>
+                            <option value="1">Descrição</option>
+                            <option value="2">CPF/CNPJ</option>
                         </select>
                     </div>
 
@@ -97,9 +97,9 @@
                             <tr id="lin_@lst.ID">
                                 <td>@lst.CPF_CNPJ</td>
                                 <td>@lst.Descricao</td>
-                                <td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
-                                <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?nomeUsuario=@lst.Descricao" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
-                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.ID,@IdUsuarioAtual )"></i></a></td>
+                                <!--<td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>-->
+                                <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?cpfcnpj=@lst.CPF_CNPJ" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
+                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.CPF_CNPJ,@IdUsuarioAtual,@lst.ID)"></i></a></td>
                             </tr>
                         }
                     }
@@ -130,7 +130,9 @@
         </div><!-- /.modal-content -->
         <input type="hidden" id="hdn_linha" name="hdn_linha" />
         <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idcliente" name="hdn_idcliente" />
         <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_cpfcnpj" name="hdn_cpfcnpj" />
         <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -182,18 +184,18 @@
 
             $("#btnExcluir").click(function () {
                 $.ajax({ type: "POST", dataType: "json",
-                    url: "/Seguranca/Usuario/AjaxExcluirCliente",
-                    data: { idUsuario: $("#hdn_idusu").val(), idServico: $("#hdn_idserv").val(), idUsuarioAtual: $("#hdn_idusuatual").val() },
+                    url: "/Manutencao/Cliente/AjaxExcluir",
+                    data: { cpf_cnpj: $("#hdn_cpfcnpj").val() },
                     success: function (data) {
-
                         $(data).each(function(){
-                            if(this.CodigoRetorno==0){
-
-                                $("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
-                                var table = $('#tblUsuarios').DataTable();
-                                table.row('.selected').remove().draw( false );
-                                
+                            if(this.CodigoRetorno==1){
+                                //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
+                                //var table = $('#tblUsuarios').DataTable();
+                                //table.row('.selected').remove().draw( false );
                                 exibirmsg(this.Mensagem);
+                                var surl = "http://" + window.location.host + '/Manutencao/Cliente/Index';
+                                window.location = surl;
+
                             }
                             else{exibirmsgatencao(this.Mensagem);}
                         });
@@ -209,10 +211,12 @@
 
    });
 
-   function ConfirmaExcluirCliente(idUsu, idUsuAtual) {
+   function ConfirmaExcluirCliente(cpfcnpj, idUsuAtual, idCliente) {
        $("#modalExcluir").modal('show');
        //Preencher campos ocultos
-       $("#hdn_idusu").val(idUsu);
+       //debugger;
+       $("#hdn_cpfcnpj").val(cpfcnpj);
+       $("#hdn_idcliente").val(cpfcnpj);
        $("#hdn_idusuatual").val(idUsuAtual);
    }
 

@@ -14,6 +14,7 @@ namespace MK.Easydoc.Core.Entities
         public int TipoAcao { get; set; }
         public int IdUsuarioAtual { get; set; }
         public int IdCliente { get; set; }
+<<<<<<< HEAD
 
 
         public string NomeCliente { get; set; }
@@ -21,6 +22,12 @@ namespace MK.Easydoc.Core.Entities
         public bool ArquivoDados { get; set; }
         public bool ControleAtencao { get; set; }
 
+=======
+        public string NomeCliente { get; set; }
+        public int ServicoDefault { get; set; }
+        public int ArquivoDados { get; set; }
+        public int ControleAtencao { get; set; }
+>>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
         public List<Modulo> Modulos { get; set; }
         public List<DocumentoModelo> Documentos { get; set; }
         public string ScriptSQLDashboard_Captura { get; set; }
@@ -36,6 +43,10 @@ namespace MK.Easydoc.Core.Entities
             //Cliente = new Cliente();
             Modulos = new List<Modulo>();
             Documentos = new List<DocumentoModelo>();
+            NomeCliente = string.Empty;
+            ServicoDefault = 0;
+            ArquivoDados = 0;
+            ControleAtencao = 0; 
             ScriptSQLDashboard_Captura = string.Empty;
             ScriptSQLDashboard_Pendencias = string.Empty;
             ScriptSQLDashboard_Doc_Modulo = string.Empty;

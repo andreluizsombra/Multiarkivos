@@ -17,6 +17,7 @@ namespace MK.Easydoc.Core.Entities
         public string UrlCSS { get; set; }
         public int TipoAcao { get; set; }
         public int idUsuarioAtual { get; set; }
+        public int IdCliente { get; set; }
 
         public Cliente() {
             ID = 0;
