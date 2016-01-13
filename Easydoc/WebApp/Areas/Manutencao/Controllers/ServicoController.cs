@@ -137,6 +137,33 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult AjaxExcluir(string idServico)
+        {
+            try
+            {
+                int _idservico = int.Parse(idServico);
+                var srv = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s=> s.ID==_idservico);
+                srv.TipoAcao = 3; //TipoAcao 3 é Exclusão
+                srv.IdUsuarioAtual = UsuarioAtual.ID; 
+                    
+                var Ret = new ServicoRepository();
+                var Retorno = Ret.Incluir(srv);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                //ViewBag.Msg = Retorno.Mensagem;
+                return Json(Retorno, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                //ViewBag.Error = ex.Message;
+                //throw new Exception(ex.Message);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         //
         // GET: /Manutencao/Servico/Edit/5
 

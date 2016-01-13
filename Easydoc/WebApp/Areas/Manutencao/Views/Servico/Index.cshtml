@@ -104,7 +104,7 @@
                                 <td>@lst.ControleAtencao</td>
                                 <td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                 <td><a href="@Url.Content("~/Manutencao/Servico/Edit/")@lst.ID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
-                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.ID,@IdUsuarioAtual )"></i></a></td>
+                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluir(@lst.ID,@IdUsuarioAtual,'@lst.Descricao')"></i></a></td>
                             </tr>
                         }
                     
@@ -125,6 +125,7 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <h3>Deseja realmente excluir ?</h3>
+                        <div id="nomeServico"></div>
                     </div>
                 </div>
             </div>
@@ -137,6 +138,7 @@
         <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
         <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
         <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+        <input type="hidden" id="hdn_nomeservico" name="hdn_nomeservico" />
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 @section Scripts {
@@ -187,18 +189,21 @@
 
             $("#btnExcluir").click(function () {
                 $.ajax({ type: "POST", dataType: "json",
-                    url: "/Seguranca/Usuario/AjaxExcluirCliente",
-                    data: { idUsuario: $("#hdn_idusu").val(), idServico: $("#hdn_idserv").val(), idUsuarioAtual: $("#hdn_idusuatual").val() },
+                    url: "/Manutencao/Servico/AjaxExcluir",
+                    data: { idServico: $("#hdn_idserv").val() },
                     success: function (data) {
 
                         $(data).each(function(){
                             if(this.CodigoRetorno==0){
 
-                                $("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
-                                var table = $('#tblUsuarios').DataTable();
-                                table.row('.selected').remove().draw( false );
+                                //$("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
+                                //var table = $('#tblUsuarios').DataTable();
+                                //table.row('.selected').remove().draw( false );
 
                                 exibirmsg(this.Mensagem);
+                                                                    
+                                var surl = "http://" + window.location.host + '/Manutencao/Servico/Index';
+                                window.location = surl;
                             }
                             else{exibirmsgatencao(this.Mensagem);}
                         });
@@ -214,13 +219,14 @@
 
    });
 
-   function ConfirmaExcluirCliente(idUsu, idUsuAtual) {
+   function ConfirmaExcluir(idServico, idUsuAtual, nomeServico) {
        $("#modalExcluir").modal('show');
        //Preencher campos ocultos
-       $("#hdn_idusu").val(idUsu);
+       $("#hdn_idserv").val(idServico);
        $("#hdn_idusuatual").val(idUsuAtual);
+       $("#nomeServico").empty();
+       $("#nomeServico").html(nomeServico);
    }
-
     </script>
 }
 
