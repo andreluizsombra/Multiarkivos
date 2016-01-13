@@ -98,6 +98,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 
         public ActionResult Edit(int id)
         {
+            var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s=> s.ID==id);
             return View();
         }
 

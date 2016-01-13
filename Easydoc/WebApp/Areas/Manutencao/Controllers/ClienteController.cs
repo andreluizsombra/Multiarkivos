@@ -77,11 +77,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
         {
-<<<<<<< HEAD
             var Retorno = new Retorno();
-=======
             
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
             try
             {
 
@@ -106,20 +103,10 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 {
                     throw new Exception(Retorno.Mensagem);
                 }
-<<<<<<< HEAD
-                //ViewBag.Msg = Retorno.Mensagem;
-=======
-                ViewBag.Msg = Retorno.Mensagem;
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
                 TempData["Msg"] = Retorno.Mensagem;
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
-<<<<<<< HEAD
-            {
-                TempData["Error"] = Retorno.Mensagem;
-                throw new Exception(ex.Message); 
-=======
             { 
                 ViewBag.Error = ex.Message;
                 TempData["Error"] = ex.Message;
@@ -153,7 +140,6 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 //ViewBag.Error = ex.Message;
                 //throw new Exception(ex.Message);
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
             }
         }
     }

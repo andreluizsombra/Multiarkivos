@@ -39,15 +39,10 @@ namespace MK.Easydoc.Core.Repositories
                 IdCliente = int.Parse(dt["IdCliente"].ToString()),
 
                 NomeCliente = dt["NomeCliente"].ToString(),
-<<<<<<< HEAD
+
                 ServicoDefault = bool.Parse(dt["ServicoDefault"].ToString()),
                 ArquivoDados = bool.Parse(dt["ArquivoDados"].ToString()),
                 ControleAtencao = bool.Parse(dt["ControleAtencao"].ToString()),
-=======
-                ServicoDefault = int.Parse(dt["ServicoDefault"].ToString()),
-                ArquivoDados = int.Parse(dt["ArquivoDados"].ToString()),
-                ControleAtencao = int.Parse(dt["ControleAtencao"].ToString()),
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
 
                 ScriptSQLDashboard_Captura = dt["ScriptSQLDashboard_Captura"].ToString(),
                 ScriptSQLDashboard_Pendencias = dt["ScriptSQLDashboard_Pendencias"].ToString(),
@@ -328,38 +323,6 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw new Erro(ex.Message); }
         }
 
-<<<<<<< HEAD
-        public List<Servico> ListaServicoCliente(int _idUsuarioAtual)
-=======
-        public Servico ListaServicoCliente(int _idUsuarioAtual)
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
-        {
-            try
-            {
-                DbCommand _cmd;
-                Database _db = DbConn.CreateDB();
-<<<<<<< HEAD
-                List<Servico> _servico = new List<Servico>();
-
-                _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
-
-                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
-
-                using (IDataReader _dr = _db.ExecuteReader(_cmd))
-                {
-                    while (_dr.Read())
-                    {
-                        var _serv = new Servico();
-                        _serv = ConverteBaseObjeto(_dr);
-                        _servico.Add(_serv);
-                    }
-                }
-                if (_servico == null) { throw new Erro("Servico não localizado."); }
-                return _servico;
-            }
-            catch (Exception ex) { throw new Erro(ex.Message); }
-        }
-
         public Retorno Incluir(Servico ser) 
         {
             try
@@ -393,29 +356,34 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
         }
 
-=======
-                Servico _servico = new Servico();
+        public List<Servico> ListaServicoCliente(int _idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                List<Servico> _servico = new List<Servico>();
 
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
->>>>>>> 9c14b3e5243ff18ed9e1a853bf2100e3b6e4b869
 
                 _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
-                //_db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _servicoID);
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
                     {
-                        _servico = ConverteBaseObjeto(_dr);
+                        var _serv = new Servico();
+                        _serv = ConverteBaseObjeto(_dr);
+                        _servico.Add(_serv);
                     }
                 }
                 if (_servico == null) { throw new Erro("Servico não localizado."); }
                 return _servico;
             }
             catch (Exception ex) { throw new Erro(ex.Message); }
-        }		
-        #endregion IServicoRepository Members
+        }
 
+        #endregion IServicoRepository Members
     }
 
 }
