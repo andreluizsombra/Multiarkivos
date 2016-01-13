@@ -1,14 +1,13 @@
 ﻿@using MK.Easydoc.Core.Entities
+@model MK.Easydoc.Core.Entities.Servico
 @{
-    var _Servico = new Servico();
-    if(ViewBag.Servico != null){_Servico = ViewBag.Servico;}
-    
-    //model MK.Easydoc.Core.Entities.Servico
-    //var _usu = new Usuario();
+//var _Servico = new Servico();
+  //  if (ViewBag.Servico != null) { _Servico = ViewBag.Servico; }
+
     var IdUsuarioAtual = Session["UsuarioAtual_ID"];
     ViewBag.Title = "Cadastrar Novo Serviço";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
+
 }
 
 <div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
@@ -48,8 +47,8 @@
     }
 </style>
 
-<form action="/Manutencao/Servico/Incluir" method="post">
-
+<form action="/Manutencao/Servico/Alterar" method="post">
+    <input type="hidden" id="idservico" name="idservico" value="@Model.ID" />
     <div id="pnlUsuario" class="panel-body">
         <div class="row">
             <div class="col-lg-2">
@@ -57,27 +56,27 @@
                     @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                     <!--<span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>-->
                     <label>Nome Serviço</label>
-                    <input type="text" data-toggle="tooltip" title="" id="nomeservico" name="nomeservico" class="form-control" placeholder="Desrição do Serviço" value="@_Servico.Descricao" required />
+                    <input type="text" data-toggle="tooltip" title="" id="nomeservico" name="nomeservico" class="form-control" placeholder="Desrição do Serviço" value="@Model.Descricao" required />
                 </div>
             </div>
             <div class="col-lg-2">
                 <div class="input-group">
                     @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                     <label>Cliente</label>
-                    @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text"), new { @class = "form-control" })
+                    @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text",Model.IdCliente), new { @class = "form-control" })
                 </div>
             </div>
             <div class="col-lg-2">
                 <br />
-                <input type="checkbox" id="servdefault" name="servdefault" value="True" checked>&nbsp;Serviço Padrão
-            </div>
-            <div class="col-lg-2">
-                <br/>
-                <input type="checkbox" id="arqdados" name="arqdados" value="True" checked>&nbsp;Arquivo Dados
+                <input type="checkbox" id="servdefault" name="servdefault" value="@Model.ServicoDefault" checked="@Model.ServicoDefault">&nbsp;Serviço Padrão
             </div>
             <div class="col-lg-2">
                 <br />
-                <input type="checkbox" id="contversao" name="contversao" value="True" checked>&nbsp;Controle Atenção
+                <input type="checkbox" id="arqdados" name="arqdados" value="@Model.ArquivoDados" checked="@Model.ArquivoDados">&nbsp;Arquivo Dados
+            </div>
+            <div class="col-lg-2">
+                <br />
+                <input type="checkbox" id="contatencao" name="contatencao" value="@Model.ControleAtencao" checked="@Model.ControleAtencao">&nbsp;Controle Atenção
             </div>
 
             <div class="col-lg-2">
@@ -87,12 +86,12 @@
     </div>
 </form>
 
+
 <input type="hidden" id="selecionado" name="selecionado" />
 <input type="hidden" id="cliente" name="cliente" />
 <input type="hidden" id="servico" name="servico" />
 
 <input type="hidden" id="idcliente" name="idcliente" />
-<input type="hidden" id="idservico" name="idservico" />
 <input type="hidden" id="verificar" name="verificar" />
 <input type="hidden" id="st_botaonovo" name="st_botaonovo" value="0" />
 
@@ -100,7 +99,7 @@
     jQuery(document).ready(function () {
       $('#pnlHeader').slideUp('slow');
 
-      
+
       $("#btn_novo").click(function () {
           if ($("#SelCliente").val() == "0") {
               exibirmsgatencao("Porfavor, Selecione um cliente");
@@ -110,3 +109,4 @@
 
     });
 </script>
+

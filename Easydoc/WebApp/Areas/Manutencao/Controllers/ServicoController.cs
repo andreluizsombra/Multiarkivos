@@ -33,8 +33,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 
         //
         // GET: /Manutencao/Servico/Create
-
-        public ActionResult Create()
+        void CarregarComboCliente()
         {
             var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
             var lista = new SelectList(
@@ -43,6 +42,10 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                             "Descricao"
                         );
             ViewBag.ListaCliente = lista;
+        }
+        public ActionResult Create()
+        {
+            CarregarComboCliente();
             return View();
         }
 
@@ -93,13 +96,55 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult Alterar(FormCollection frm)
+        {
+            var Retorno = new Retorno();
+            var _Servico = new Servico();
+            int _idServico = int.Parse(frm["idservico"].ToString());
+            try
+            {
+                var ser = new Servico()
+                {
+                    TipoAcao = 2,
+                    ID = _idServico, 
+                    Descricao = frm["nomeservico"].ToString(),
+                    IdCliente = int.Parse(frm["SelCliente"].ToString()),
+                    ServicoDefault =  frm["servdefault"]  == "on" ? true : false,
+                    ArquivoDados =    frm["arqdados"]     == "on" ? true : false,
+                    ControleAtencao = frm["contatencao"]  == "on" ? true : false,
+                    IdUsuarioAtual = UsuarioAtual.ID
+                };
+                _Servico = ser;
+                var Ret = new ServicoRepository();
+                Retorno = Ret.Incluir(ser);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                //ViewBag.Msg = Retorno.Mensagem;
+                TempData["Msg"] = Retorno.Mensagem;
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["Error"] = Retorno.Mensagem;
+                ViewBag.Servico = _Servico;
+                CarregarComboCliente();
+                var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s => s.ID == _idServico);
+                return View("Edit",lst);
+            }
+        }
+
         //
         // GET: /Manutencao/Servico/Edit/5
 
         public ActionResult Edit(int id)
         {
-            var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s=> s.ID==id);
-            return View();
+            var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s => s.ID == id);
+            CarregarComboCliente();
+            return View(lst);
         }
 
         //
