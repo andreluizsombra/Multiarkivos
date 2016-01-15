@@ -383,6 +383,38 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw new Erro(ex.Message); }
         }
 
+        public List<Servico> PesquisaServicoCliente(int tipoConsulta, int condicao, int idCliente, string localizador, int idUsuario)
+        {
+            try
+            {
+                List<Servico> _servico = new List<Servico>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_MANU_Servico"));
+
+                _db.AddInParameter(_cmd, "@TipoConsulta", DbType.Int32, tipoConsulta);
+                _db.AddInParameter(_cmd, "@Condicao", DbType.Int32, condicao);
+                _db.AddInParameter(_cmd, "@IdCliente", DbType.Int32, idCliente);
+                _db.AddInParameter(_cmd, "@Localizador", DbType.String, localizador);
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _servico.Add(ConverteBaseObjeto(_dr));
+                    }
+                }
+                if (_servico == null) { throw new Erro("Pesquisa servico ou cliente não localizado."); }
+                return _servico;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #endregion IServicoRepository Members
     }
 

@@ -21,9 +21,17 @@ namespace MK.Easydoc.WebApp
             );
 
             routes.MapRoute(
+              name: "ListaClientes",
+              url: "ListaClientes",
+              defaults: new { controller = "Cliente", action = "Lista" }
+            );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Login", action = "Index", area = "", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Login", action = "Index", area = "", id = UrlParameter.Optional },
+                new[] { "AppName.Controllers" }
+                // Parameter defaults
             );
         }
     }

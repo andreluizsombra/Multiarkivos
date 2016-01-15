@@ -23,6 +23,16 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             return View(lst);
         }
 
+        public ActionResult Pesquisa(FormCollection frm)
+        {
+            int _tipo = int.Parse(frm["selTipo"].ToString());
+            int _condicao = int.Parse(frm["selCondicao"].ToString());
+            string _txtpesquisa = frm["txtpesquisa"].ToString();
+            var lstServico = new ServicoRepository().PesquisaServicoCliente(_tipo, _condicao, UsuarioAtual.ID, _txtpesquisa, UsuarioAtual.ID);
+            ViewBag.ListaClientes = lstServico;
+            return View("Index",lstServico);
+        }
+
         //
         // GET: /Manutencao/Servico/Details/5
 

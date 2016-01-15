@@ -32,7 +32,7 @@
 
     <div class="row margin-top">
         <div class="col-lg-10">
-            @using (Html.BeginForm("Index", "Servico"))
+            @using (Html.BeginForm("Pesquisa", "Servico"))
             {
                 @*<div class="well">*@
                 <div class="row">
@@ -40,8 +40,8 @@
                         <label>Pesquisa por:</label>
                         <select class="form-control" id="selTipo" name="selTipo">
                             <option value="0" selected="selected">Selecione</option>
-                            <option value="1">Cliente</option>
-                            <option value="2">Servico</option>
+                            <option value="1">Nome Cliente</option>
+                            <option value="2">Nome Servico</option>
                         </select>
                     </div>
 
