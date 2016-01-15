@@ -67,9 +67,12 @@ namespace MK.Easydoc.WebApp.Controllers
                             
                             var cli = new ClienteRepository();
                             cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
+                            
+                            Session["IdCliente"] = cli.TCliente.ID;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;
+                                    
 
                             //var cli = new ClienteRepository();
                             //cli.PrimeiroCliente(model.NomeUsuario);

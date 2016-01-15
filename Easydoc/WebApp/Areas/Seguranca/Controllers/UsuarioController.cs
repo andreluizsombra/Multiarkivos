@@ -69,7 +69,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             int _condicao = int.Parse(frm["selCondicao"].ToString());
             string _txtpesquisa = frm["txtpesquisa"].ToString();
 
-            //int idcliente = new ClienteRepository().GetCliente()
+            int idcliente = new ClienteRepository().GetClienteServicoPorNome(Session["NomeServico"].ToString(), Session["NomeCliente"].ToString()).IdCliente;
 
             var usu = new UsuarioRepository().GetUsuarioCadastro(_tipo, _condicao, ClienteAtual.ID, _txtpesquisa, UsuarioAtual.ID);
             ViewBag.ListaUsuarios = usu;

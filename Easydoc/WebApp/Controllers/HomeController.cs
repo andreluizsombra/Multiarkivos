@@ -24,6 +24,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 AjaxCallTrocarServicoAtual(_idservico);
                 Session["UsuarioAtual_ID"] = UsuarioAtual.ID;
                 var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
+                
                 ViewBag.Teste = listaCliente;
                 ViewBag.ListaCliente = new SelectList(
                         listaCliente.ToList(),

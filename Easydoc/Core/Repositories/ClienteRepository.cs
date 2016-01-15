@@ -302,6 +302,35 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw new Erro(ex.Message); }
         }
 
+        
+        public Cliente GetClienteServicoPorNome(string nomeServico, string nomeCliente)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Cliente _cliente = new Cliente();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_ClienteSRVPorNome"));
+
+                _db.AddInParameter(_cmd, "@NomeServico", DbType.String, nomeServico);
+                _db.AddInParameter(_cmd, "@NomeCliente", DbType.String, nomeCliente);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        //_cliente = ConverteBaseObjeto(_dr);
+                        _cliente.IdServico = int.Parse(_dr["idServico"].ToString());
+                        _cliente.IdCliente = int.Parse(_dr["idCliente"].ToString());
+                    }
+                }
+                if (_cliente == null) { throw new Erro("Cliente não localizado."); }
+                return _cliente;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
+
 
         #endregion IClienteRepository Members
 
