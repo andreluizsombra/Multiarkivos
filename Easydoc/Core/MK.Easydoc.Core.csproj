@@ -217,6 +217,7 @@
     <Compile Include="Repositories\Interfaces\IPerfilRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServicoRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUsuarioRepository.cs" />
+    <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="Repositories\LoteRepository.cs" />
     <Compile Include="Repositories\PerfilRepository.cs" />
     <Compile Include="Repositories\ServicoRepository.cs" />
