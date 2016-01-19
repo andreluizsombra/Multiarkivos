@@ -36,7 +36,34 @@ namespace MK.Easydoc.WebApp.Controllers
         #endregion
 
         #region Public Properties
-
+        protected virtual int IdCliente_Atual
+        {
+            get {
+                try
+                {
+                    if (Session["IdCliente"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return int.Parse(Session["IdCliente"].ToString());
+                }
+                catch
+                {
+                    throw new Exception("Sessão expirou, porfavor efetuar login...");
+                }
+            }
+        }
+        protected virtual int IdServico_Atual
+        {
+            get {
+                try{
+                    if (Session["IdServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return int.Parse(Session["IdServico"].ToString()); 
+                }
+                catch
+                {
+                    throw new Exception("Sessão expirou, porfavor efetuar login...");
+                }
+            }
+        }
+        
         protected virtual Cliente ClienteAtual
         {
             get { return UserDataCookieHelper.GetUserDataCookie().ClienteAtual; }

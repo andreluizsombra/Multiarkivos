@@ -210,6 +210,7 @@
     <Compile Include="Areas\Manutencao\Controllers\MenuController.cs" />
     <Compile Include="Areas\Manutencao\Controllers\ServicoController.cs" />
     <Compile Include="Areas\Manutencao\ManutencaoAreaRegistration.cs" />
+    <Compile Include="Areas\Seguranca\Controllers\AuditoriaController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\MenuController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\UsuarioController.cs" />
     <Compile Include="Areas\Seguranca\SegurancaAreaRegistration.cs" />
@@ -1519,6 +1520,7 @@
     <Content Include="Areas\Manutencao\Views\Servico\Create.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Edit.cshtml" />
     <Content Include="Areas\Manutencao\Views\Servico\Edit.cshtml" />
+    <Content Include="Areas\Seguranca\Views\Auditoria\Listar.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />

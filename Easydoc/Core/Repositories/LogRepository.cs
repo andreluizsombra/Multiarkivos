@@ -83,5 +83,88 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
         }
 
+        public List<Log> ConsultaLOG(int idServico, int idAcao = 0, string Localizador = "")
+        {
+            var lstLOG = new List<Log>();
+            var _Ret = new Retorno();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("GET_LocalizarAuditoria");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, idServico);
+                _db.AddInParameter(_cmd, "@idAcao", DbType.Int16, idAcao);
+                _db.AddInParameter(_cmd, "@Localizador", DbType.String, Localizador);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        if (_dr.FieldCount==2 && int.Parse(_dr[0].ToString())<0)
+                        {
+                            throw new Exception("Erro, " + _dr[1].ToString());
+                        }
+                        else
+                        {
+                            lstLOG.Add(new Log()
+                            {
+                                IDLOG = decimal.Parse(_dr["IDLOG"].ToString()),
+                                Cliente = _dr["Cliente"].ToString(),
+                                Servico = _dr["Serviço"].ToString(),
+                                Acao = _dr["Ação"].ToString(),
+                                Localizador = _dr["Localizador"].ToString(),
+                                DataHora = DateTime.Parse(_dr["Data"].ToString())
+                            });
+                        }
+                        
+                    }
+                }
+                
+                return lstLOG;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public List<LogDetalhe> ConsultaLOG_Detalhe(int idLOG)
+        {
+            var lstLOG_Detalhe = new List<LogDetalhe>();
+            var _Ret = new Retorno();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("GET_LocalizarAuditoriaDetalhe");
+                _db.AddInParameter(_cmd, "@idLog", DbType.Int16, idLOG);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        if (_dr.FieldCount == 2 && int.Parse(_dr[0].ToString()) < 0)
+                        {
+                            throw new Exception("Erro, " + _dr[1].ToString());
+                        }
+                        else
+                        {
+                            lstLOG_Detalhe.Add(new LogDetalhe()
+                            {
+                                Data = DateTime.Parse(_dr["Data do evento"].ToString()).ToString("dd/MM/yyyy hh:mm:ss"),
+                                Detalhe = _dr["Descrição"].ToString(),
+                                Conteudo = _dr["Localizador"].ToString(),
+                            });
+                        }
+
+                    }
+                }
+
+                return lstLOG_Detalhe;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+
+
     }
 }

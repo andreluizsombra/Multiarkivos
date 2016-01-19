@@ -1,0 +1,283 @@
+﻿@using MK.Easydoc.WebApp.Controllers
+@{
+    ViewBag.Title = "Trilha de Auditoria";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+}
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+
+    .usu {
+        color: black;
+    }
+
+    td {
+        text-align: left;
+    }
+
+    .margin-top-botaolimpar {
+        margin-top: 25px;
+    }
+</style>
+
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row margin-top">
+        <div class="col-lg-10">
+            @using (Html.BeginForm("Pesquisa", "Auditoria"))
+            {
+                @*<div class="well">*@
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Ação:</label>
+                        @Html.DropDownList("SelAcao", new SelectList(ViewBag.ListaAcao, "ID", "Descricao"), new { @class = "form-control" })
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Condição:</label>
+                        <select class="form-control" id="selCondicao" name="selCondicao">
+                            <option value="1" selected="selected">=</option>
+                            <option value="2">Contem</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>Localizador:</label>
+                        <div class="input-group">
+                            @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                            <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
+                            <span class="input-group-btn">
+                                <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <input type="button" id="btnLimpar" value="Limpar" class="btn btn-warning margin-top-botaolimpar" onmouseover="" />
+                    </div>
+                    <!--<div class="col-lg-2 margin-top-botaolimpar">
+                        <a href="/Seguranca/Auditoria/Consulta" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Cadastrar Novo Cliente</a>
+                    </div>-->
+                </div>
+
+
+            }
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <hr />
+            <div class="table-responsive">
+                <table id="tblDados" class="table table-striped table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Serviço</th>
+                            <th>Ação</th>
+                            <th>Localizador</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    @if (ViewBag.ListaLOG != null)
+                    {
+                        foreach (var lst in ViewBag.ListaLOG)
+                        {
+                            <tr id="lin_@lst.IDLOG">
+                                <td>@lst.DataHora</td>
+                                <td>@lst.Cliente</td>
+                                <td>@lst.Servico</td>
+                                <td>@lst.Acao</td>
+                                <td>@lst.Localizador</td>
+                                <td><a href="#" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Detalhes" onclick="ExibirDetalhe(@lst.IDLOG)"></i></a></td>
+                                <!--<td><a href="@Url.Content("~/Seguranca/Auditoria/Edit/")@lst.IDLOG" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>-->
+                                <!--<td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(lst.CPF_CNPJ,IdUsuarioAtual,lst.ID)"></i></a></td>-->
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade col-lg-8" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Lista Detalhes</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        
+                        <div class="table-responsive">
+                            <table id="tblDetalhe" class="table table-striped table-hover table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th>Data</th>
+                                        <th>Detalhe</th>
+                                        <th>Conteudo</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <input type="hidden" id="hdn_linha" name="hdn_linha" />
+        <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idcliente" name="hdn_idcliente" />
+        <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_cpfcnpj" name="hdn_cpfcnpj" />
+        <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        //$("#tblUsuarios").DataTable();
+        $("#tblUsuarios").DataTable({
+            language: { "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+          }
+        );
+
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('#btnLimpar').click(function() {
+                $('table tr').empty();
+            });
+
+            $('i[id^=bloq_]').each(function(e){
+                if($(this).attr('bloqueado')=='0')
+                    $(this).css('color', 'black');
+                else
+                    $(this).css('color', 'red');
+            });
+
+            $("#btnExcluir").click(function () {
+                $.ajax({ type: "POST", dataType: "json",
+                    url: "/Manutencao/Cliente/AjaxExcluir",
+                    data: { cpf_cnpj: $("#hdn_cpfcnpj").val() },
+                    success: function (data) {
+                        $(data).each(function(){
+                            if(this.CodigoRetorno==1){
+                                //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
+                                //var table = $('#tblUsuarios').DataTable();
+                                //table.row('.selected').remove().draw( false );
+                                exibirmsg(this.Mensagem);
+                                var surl = "http://" + window.location.host + '/Manutencao/Cliente/Index';
+                                window.location = surl;
+
+                            }
+                            else{exibirmsgatencao(this.Mensagem);}
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var erro = JSON.parse(xhr.responseText);
+                        console.log(erro.Message);
+                    }
+                });
+
+                $("#modalExcluir").modal('hide');
+            });
+
+   });
+    
+    function ExibirDetalhe(idlog) {
+        $("#modalExcluir").modal('show');
+
+        $.ajax({
+            type: "POST", dataType: "json",
+            url: "/Seguranca/Auditoria/AjaxListaLogDetalhe",
+            data: { idLOG: idlog },
+            success: function (data) {
+                $('#tblDetalhe tbody').empty();
+                $(data).each(function () {
+                    $('#tblDetalhe tbody').append("<tr class='trdetalhe'><td>" + this.Data + "</td><td>" + this.Detalhe + "</td><td>" + this.Conteudo + "</td></tr>");
+                });
+                TabelaDetalhe;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var erro = JSON.parse(xhr.responseText);
+                console.log(erro.Message);
+            }
+        });
+
+    }
+
+    function TabelaDetalhe() {
+        $("#tblDetalhe").DataTable({
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        }
+        );
+    }
+
+
+    </script>
+}
+
+
