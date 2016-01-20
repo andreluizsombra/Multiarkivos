@@ -35,7 +35,7 @@ var ajax_listar_supervisao = function () {
                             _html += '<tr>';
                             _html += '<td class="hidden-xs">' + this.IdDocumento + '</td>';
                             _html += '<td class="hidden-xs">' + this.Matricula + '</td>';
-                            var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + this.PathArquivo;
+                            var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + this.PathArquivo;
                             _html += '<td><a href="' + _url + '" title="Arquivo do docuemnto" target="_blank" style="target-new: tab;target-new: tab;">Vizualizar.</a></td>';
                             _html += '</tr>';
 

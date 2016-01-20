@@ -216,10 +216,10 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
 
 
-                tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\ImageStorage", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
                 
                 //Novo caminho
-                tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/ImageStorage", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
 
                 if (tipificar == null) tipificar = new TipificarViewModel();
             }

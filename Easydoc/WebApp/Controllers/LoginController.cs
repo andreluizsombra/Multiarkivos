@@ -74,7 +74,6 @@ namespace MK.Easydoc.WebApp.Controllers
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;
                                     
-
                             //var cli = new ClienteRepository();
                             //cli.PrimeiroCliente(model.NomeUsuario);
                             //Session["NomeCliente"] = cli.TCliente.Descricao;
@@ -83,7 +82,7 @@ namespace MK.Easydoc.WebApp.Controllers
 
                             int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
                             log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, _idUsuario, 1, 1, 0, 0, model.NomeUsuario);
-                            log.RegistrarLOGDetalhe("Usuario autenticado no sistema", model.NomeUsuario);
+                            log.RegistrarLOGDetalhe(1, model.NomeUsuario);
 
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
                             
@@ -95,15 +94,12 @@ namespace MK.Easydoc.WebApp.Controllers
                 catch (Exception ex) {
                     //ModelState.AddModelError("Error", ex.Message);
                     log.RegistrarLOG(0, 0, 0, 0, 1, 2, 0, 0, model.NomeUsuario);
-                    log.RegistrarLOGDetalhe("Autenticacao Invalida", model.NomeUsuario);
+                    log.RegistrarLOGDetalhe(2, model.NomeUsuario);
                     ViewBag.Atencao = ex.Message;
                 }
             }
             return View("Index");
         }
-
-        
-
 
         //
         // GET: /Login/
@@ -114,7 +110,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 var log = new LogRepository();
                 int _idUsuario = new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).ID;
                 log.RegistrarLOG(int.Parse(Session["IdCliente"].ToString()), int.Parse(Session["IdServico"].ToString()), 0, _idUsuario, 2, 3, 0, 0, Session["NomeUsuario"].ToString());
-                log.RegistrarLOGDetalhe("Finalizou o sistema", Session["NomeUsuario"].ToString());
+                log.RegistrarLOGDetalhe(3, Session["NomeUsuario"].ToString());
 
                 AbandonarSessao();
                 FormsAuthentication.SignOut();

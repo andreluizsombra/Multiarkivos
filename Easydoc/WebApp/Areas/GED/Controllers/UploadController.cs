@@ -64,7 +64,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         }
         private string CriaDiretorio() {
 
-            string _raiz = HttpContext.Server.MapPath("~/ImageStorage/");//@"C:\Temp\img\upload";
+            string _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");//@"C:\Temp\img\upload";
             string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _diretorio = string.Format(@"{0}\{1}", _raiz, LoteImagens.PathCaptura.Trim());

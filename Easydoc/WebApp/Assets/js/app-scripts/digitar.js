@@ -116,7 +116,7 @@ function validarCamposAprovar() {
 
 var init = function () {
     //var _path = $("#arq").val();
-    //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //trocar_imagem(_url);
     bindControles();
     $("#viewer").show();
@@ -124,9 +124,9 @@ var init = function () {
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //var _url = "http://
-    //ImageStorage/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
@@ -277,7 +277,7 @@ var bindControles = function () {
     $('img').css('top', '0px');
 
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
     var iv1 = $("#viewer").iviewer({
         src: _url,

@@ -588,7 +588,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
     function FormatterLinkOpenArquivo(cellvalue, options, rowObject) {
 
-        //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + cellvalue;
+        //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         //var _ret = '<center><table border=0 cellspacing=10 cellpadding=10 ><tr><td> ';
         //_ret +='<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;">Visualizar</a>';
         //_ret += ' </td><td> ';
@@ -596,7 +596,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         //_ret += '</td></tr><table></center>'
 
 
-        var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + cellvalue;
+        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';

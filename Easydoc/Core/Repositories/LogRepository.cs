@@ -14,20 +14,24 @@ namespace MK.Easydoc.Core.Repositories
     public class LogRepository
     {
         private decimal idLOG { get; set; }
+        private decimal idServico { get; set; }
 
         public LogRepository(){
             idLOG = 0;
+            idServico = 0;
         }
-        public void RegistrarLOG(int idCliente, int idServico, int idMovimento=0, int idUsuario=0, int idModulo=0, int idAcao=0,
+        public void RegistrarLOG(int idCliente, int _idServico, int idMovimento=0, int idUsuario=0, int idModulo=0, int idAcao=0,
                                     int idEstacao=0, int idAutorizante=0,string Localizador="")
         {
                 try
                 {
+                    this.idServico = _idServico;
+
                     DbCommand _cmd;
                     Database _db = DbConn.CreateDB();
                     _cmd = _db.GetStoredProcCommand("LOG_InserirAuditoria");
                     _db.AddInParameter(_cmd, "@IDCLIENTE", DbType.Int16, idCliente);
-                    _db.AddInParameter(_cmd, "@IDSERVICO", DbType.Int16, idServico);
+                    _db.AddInParameter(_cmd, "@IDSERVICO", DbType.Int16, _idServico);
                     _db.AddInParameter(_cmd, "@IDMOVIMENTO", DbType.Int16, idMovimento);
                     _db.AddInParameter(_cmd, "@IDUSUARIO", DbType.Int16, idUsuario);
                     _db.AddInParameter(_cmd, "@IDMODULO", DbType.Int16, idModulo);
@@ -54,15 +58,16 @@ namespace MK.Easydoc.Core.Repositories
                 catch (Exception ex) { throw ex; }
         }
 
-        public Retorno RegistrarLOGDetalhe(string detalhe, string conteudo)
+        public Retorno RegistrarLOGDetalhe(int idAcao, string conteudo)
         {
             try
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand("LOG_InserirAuditoriaDetalhe");
-                _db.AddInParameter(_cmd, "@IdLog", DbType.String, idLOG);
-                _db.AddInParameter(_cmd, "@Detalhe", DbType.String, detalhe);
+                _db.AddInParameter(_cmd, "@IdLog", DbType.Int32, this.idLOG);
+                _db.AddInParameter(_cmd, "@IdAcao", DbType.Int32, idAcao);
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, this.idServico);
                 _db.AddInParameter(_cmd, "@Conteudo", DbType.String, conteudo);
 
                 var _Ret = new Retorno();
