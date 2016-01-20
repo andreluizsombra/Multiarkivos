@@ -53,12 +53,27 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
         #endregion
         private string RetornaDiretorioUpload() {
+            string _diretorio = String.Empty;
+            try
+            {
+                //string _raiz = HttpContext.Server.MapPath("~/Content/Uploads");//@"C:\Temp\img\upload";
+                //string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+                //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
 
-            //string _raiz = HttpContext.Server.MapPath("~/Content/Uploads");//@"C:\Temp\img\upload";
-            string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, LoteImagens.ID);
-            string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}", _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                string _cliente = IdCliente_Atual.ToString("D3");
+                string _servico = IdServico_Atual.ToString("D4");
+
+                //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, LoteImagens.ID);
+                ////string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}", _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                string DataCaptura = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("D2") + DateTime.Now.Day.ToString("D2");
+                string v_cliente = _cliente;
+                string v_servico = _servico;
+                _diretorio = string.Format(@"{0}\{1}\{2}", v_cliente, v_servico, DataCaptura);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             
            return _diretorio;
         }
@@ -307,7 +322,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 // renomeia e verifia se nao existe ja um arquivo com o mesmo nome.
                 do
                 {
-                    fine_new_name = string.Format("U{0}C{1}S{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+                    //fine_new_name = string.Format("U{0}C{1}S{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+                    fine_new_name = string.Format("{0}{1}{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+
                     file_new = file.Replace(qqfile, fine_new_name);
                 } while (System.IO.File.Exists(file_new));
                 
