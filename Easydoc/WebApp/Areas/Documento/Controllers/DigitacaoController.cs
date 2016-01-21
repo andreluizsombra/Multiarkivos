@@ -52,12 +52,11 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         public ActionResult Digitar(int id)
         {
+            RegistrarLOGSimples(4, 14, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo de digitacao
 
             bool UsaArquivoDados = _loteService.UsaArquivoDados(ServicoAtual.ID);
             bool EmUso;
-
-
-            
             
             MK.Easydoc.Core.Entities.Documento _documento = new Core.Entities.Documento();
             if (id==0)
@@ -205,6 +204,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
                 _docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID,1);
 
+                RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
+                // LOG: Enviou documento a supervisão
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(new RetornoViewModel(true, "Documento enviado para a supervisão!", null));
@@ -254,6 +255,10 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             //var lote = default(Lote);
             try
             {
+                RegistrarLOGSimples(4, 15, UsuarioAtual.NomeUsuario);
+                // LOG: Digitou documento
+
+
                 DocumentoDigitacaoViewModel _campoModelo = new DocumentoDigitacaoViewModel();
                 _campoModelo = ConverteJSONCampoModelo(documento_digitado);
 

@@ -8,6 +8,7 @@ using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Helpers;
 using MK.Easydoc.WebApp.ViewModels;
 using MK.Easydoc.WebApp.Infrastructure.Filters;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Controllers
 {
@@ -126,7 +127,12 @@ namespace MK.Easydoc.WebApp.Controllers
             }
         }
 
-
+        protected void RegistrarLOGSimples(int idModulo, int idAcao, string Localizador)
+        {
+            var log = new LogRepository();
+            log.RegistrarLOG(IdCliente_Atual, IdServico_Atual, 0, UsuarioAtual.ID,idModulo, idAcao, 0, 0, Localizador);
+            log.RegistrarLOGDetalhe(idAcao, Localizador);
+        }
         #endregion
 
         #region Protected Methods

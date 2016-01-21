@@ -100,6 +100,8 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 if (LoteImagens.ID == 0 || ServicoAtual.ID != LoteImagens.ServicoCaptura.ID)
                 {
                     LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, ServicoAtual.ID, RetornaDiretorioUpload());
+                    RegistrarLOGSimples(2, 5, LoteImagens.ID.ToString()); 
+                    // LOG: Criar Lote Vazio
                 }                                                            
             }
             catch (ValidationException ex) { 
@@ -201,6 +203,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     //---------------------------------------------------------------------------------------
                 }
 
+                RegistrarLOGSimples(2, 7, UsuarioAtual.NomeUsuario);
+                // LOG: Encerra LOTE
+
             }
             catch (ValidationException ex)
             {
@@ -216,6 +221,8 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             {
                 _loteService.ApagarLote(LoteImagens.ID);
                 LoteImagens = new Lote();
+                RegistrarLOGSimples(2, 8, LoteImagens.ID.ToString());
+                // LOG: Cancelou o lote na Captura
             }
             catch (ValidationException ex)
             {
@@ -362,8 +369,10 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 //_js = Json(o2);
                 // Get File Size
                 FileInfo f = new FileInfo(file_new);
-                file_Size = Convert.ToString(f.Length); 
+                file_Size = Convert.ToString(f.Length);
 
+                RegistrarLOGSimples(2, 6, LoteImagens.ID.ToString());
+                // LOG: Efetuou Upload do LOTE
             }
             catch (Exception ex)
             {

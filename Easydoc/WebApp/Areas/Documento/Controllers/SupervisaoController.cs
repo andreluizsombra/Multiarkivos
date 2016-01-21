@@ -34,6 +34,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         public ActionResult ListarPendentes()
         {
+            RegistrarLOGSimples(5, 17, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Supervisão
 
             List<MK.Easydoc.Core.Entities.Documento> _documentos = new List<Core.Entities.Documento>(); 
             List<Lote> _lotes = new List<Lote>();

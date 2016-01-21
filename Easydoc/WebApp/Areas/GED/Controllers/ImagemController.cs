@@ -14,6 +14,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
         public ActionResult Upload()
         {
+            
             return View();
         }
 

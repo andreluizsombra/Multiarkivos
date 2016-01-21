@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.WebApp.Controllers;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 {
@@ -14,6 +15,8 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
         public ActionResult Index()
         {
+            RegistrarLOGSimples(2, 4, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Captura
             return View();
         }
     }
