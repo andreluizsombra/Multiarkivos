@@ -27,6 +27,8 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         }
         public ActionResult Consulta()
         {
+            RegistrarLOGSimples(8, 24, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Seguranca/Trilha AUDITORIA
             CarregaSelAcao();
             return View("Listar");
         }

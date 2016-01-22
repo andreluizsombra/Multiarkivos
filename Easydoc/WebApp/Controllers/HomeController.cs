@@ -101,6 +101,8 @@ namespace MK.Easydoc.WebApp.Controllers
 
         public ActionResult Dashboard()
         {
+            RegistrarLOGSimples(9, 25, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo ESTATISTICA
             ViewBag.Message = "";
             //return View("Dashboard");
             return View("~/Views/Shared/_MorrisDonut.cshtml");

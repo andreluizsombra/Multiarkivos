@@ -34,6 +34,9 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         public ActionResult MontarConsulta()
         {
+            RegistrarLOGSimples(6, 18, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Consulta
+
             List<DocumentoConsulta> _cons = new List<DocumentoConsulta>();
             _cons.AddRange(_docService.ListarConsultasModelo(UsuarioAtual.ID, ServicoAtual.ID));
             ViewBag.Consultas = _cons;
@@ -75,7 +78,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 {
                     filtros += " and idStatus=1010";
                 }
-
 
                 _resultado = this._docService.PesquisarDocumentosConsulta(ServicoAtual.ID, id_documento_modelo, campos, filtros);
             }

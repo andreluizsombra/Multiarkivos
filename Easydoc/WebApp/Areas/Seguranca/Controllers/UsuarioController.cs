@@ -294,6 +294,8 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         // GET: /Seguranca/ManutencaoUsuario/
         public ActionResult ManutencaoUsuario()
         {
+            RegistrarLOGSimples(8, 23, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Seguranca/Usuario
             return View();
         }
         public void BloquearUsuario(int idUsuBloqueado)
