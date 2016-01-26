@@ -47,6 +47,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 }
                 catch
                 {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
                     throw new Exception("Sessão expirou, porfavor efetuar login...");
                 }
             }

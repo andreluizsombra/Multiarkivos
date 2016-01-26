@@ -157,6 +157,7 @@ var init = function () {
     $("#tblGrid").change(function () {
         ColunaAuto();
     });
+    
 }
 
 var RemoveCamposFiltro = function ($_obj) {
