@@ -12,6 +12,7 @@ blockUIMessage += "</div>";
 var blockUISettings = { title: '', centerY: 15, theme: true, showOverlay: true, message: blockUIMessage };
 
 var init = function () {
+
     $('#pnlHeader').slideUp('slow');
     var feeID = '';
     var datasetID = '';
@@ -517,34 +518,38 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
     function ExibirResultado() {
         //TODO: Não esta carregando os registros, somente manual no console do browse 
         //Andre Sombra 26/01/2016 
+        $("#tblConsulta").empty();
         $('thead').first().clone().appendTo('#tblConsulta');
         $('#tblGrid tbody').clone().appendTo('#tblConsulta');
-        $("#tblConsulta").DataTable({
-            language: {
-                "sEmptyTable": "Nenhum registro encontrado",
-                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ".",
-                "sLengthMenu": "_MENU_ resultados por página",
-                "sLoadingRecords": "Carregando...",
-                "sProcessing": "Processando...",
-                "sZeroRecords": "Nenhum registro encontrado",
-                "sSearch": "Pesquisar",
-                "oPaginate": {
-                    "sNext": "Próximo",
-                    "sPrevious": "Anterior",
-                    "sFirst": "Primeiro",
-                    "sLast": "Último"
-                },
-                "oAria": {
-                    "sSortAscending": ": Ordenar colunas de forma ascendente",
-                    "sSortDescending": ": Ordenar colunas de forma descendente"
+        
+        if ($("#tblStatus").val() == 0) {
+            $("#tblStatus").val(1); //Para aplicar o DataTable somente uma vez a tblConsulta
+            $("#tblConsulta").DataTable({
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
                 }
-            }
+            });
         }
-                    );
         console.log('entrou funcao teste');
     }
 

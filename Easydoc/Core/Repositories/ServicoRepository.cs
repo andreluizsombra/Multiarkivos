@@ -74,6 +74,7 @@ namespace MK.Easydoc.Core.Repositories
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand(String.Format(scriptConsulta));
 
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@PeriodoInicial", DbType.Int32, int.Parse(_queryParams["periodoInicial"].ToString()));
                 _db.AddInParameter(_cmd, "@PeriodoFinal", DbType.Int32, int.Parse(_queryParams["periodoFinal"].ToString()));
 

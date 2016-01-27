@@ -21,7 +21,7 @@
                 <table id="tblSupervisao" class="table table-striped table-hover">
                     <thead>
                         <tr>
-                            <th style="width:150px;">ID</th>
+                            <th style="width:150px;">Documento</th>
                             <th class="hidden-xs">Detalhes do documento</th>
                             <th></th>
                         </tr>
@@ -35,7 +35,7 @@
                                 <td class="hidden-xs">@item.CamposDocumentoDetalhe</td>
                                 <td>
                                     <div class="col-md-3 col-md-offset-5 ls-txt-right">
-                                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = @item.Documento.ID })" aria-label="Digitar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Digitação de documentos">Digitar</a>
+                                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = @item.Documento.ID })" aria-label="Digitar Documentos" class="btn btn-success" title="Efetuar Digitação de documentos"><i class="fa fa-check-square-o"></i>&nbsp;Supervisionar</a>
                                     </div>
 
                                 </td>

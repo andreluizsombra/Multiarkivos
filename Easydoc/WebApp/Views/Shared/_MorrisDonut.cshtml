@@ -369,30 +369,41 @@
             <!-- /.navbar-static-side -->
         </nav>
         </div>
+    
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-                <div class="col-lg-12">
+                    <!--<h1 class="page-header">Dashboard XX</h1>-->
                     <div class="panel panel-default">
-                        <div class="panel-body">
-                            <div class="col-lg-2">
-                                <label>Período Inicial</label>
-                                <input id="dtini" name="dtini" type="date" class="form-control input-sm" />
+                        <div class="panel-heading">
+                            <div class="panel-title">
+                                <h4 class="title"><i class="fa fa-bar-chart"></i>&nbsp;Dashboard</h4>
                             </div>
-                            <div class="col-lg-2">
-                                <label>Período Final</label>
-                                <div class="input-group">
-                                    <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
-                                    <div class="input-group-btn">
-                                        <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="col-lg-2">
+                                            <label>Período Inicial</label>
+                                            <input id="dtini" name="dtini" type="date" class="form-control input-sm" />
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label>Período Final</label>
+                                            <div class="input-group">
+                                                <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
+                                                <div class="input-group-btn">
+                                                    <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
+                
           </div>
                     <!-- /.row -->
                     @*<div class="row">
@@ -726,6 +737,8 @@
                 //  alert(item.label);
                 if (data == '') {
                     exibirmsgatencao("Nenhum registro encontrado nesse período, tente novamente...");
+                    $("#AreaChart").empty();
+                    $("#morris-donut-chart").empty();
                 } else {
                     $(data).each(function() {
                         $("#titulo-DonutChart").empty().append(this.Header);

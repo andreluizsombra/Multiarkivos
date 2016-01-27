@@ -285,6 +285,8 @@
     <Content Include="Assets\css\core-style\skins\_all-skins.css" />
     <Content Include="Assets\css\core-style\skins\_all-skins.min.css" />
     <Content Include="Assets\image\brand-multiarkivos_easydoc.JPG" />
+    <Content Include="Assets\image\icon\core-icon\botao_auditoria.png" />
+    <Content Include="Assets\image\icon\core-icon\botao_servico.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-240x240.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-315x315.png" />
