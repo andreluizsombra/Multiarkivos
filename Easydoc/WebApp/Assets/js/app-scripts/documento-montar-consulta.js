@@ -82,6 +82,7 @@ var init = function () {
         //MontaDataJSON();
         var json = MontaDataJSON();
         PesquisarDosumentos(json);
+        
         $('#pnl-result').show();
         ColunaAuto();
     });
@@ -157,7 +158,6 @@ var init = function () {
     $("#tblGrid").change(function () {
         ColunaAuto();
     });
-    
 }
 
 var RemoveCamposFiltro = function ($_obj) {
@@ -404,37 +404,38 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 }
 
 // TODO: AndrSombra 03/11/2015
-var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
+//var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
 
-    var arr = _campos.split(',');
+//    var arr = _campos.split(',');
 
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '../Consulta/AjaxCallConsultaDinamica',//action,
-        data: {
-            id_documento_modelo: parseInt(id_documento),//parseInt(jsonExecucao.idoc),
-            campos: _campos,
-            filtros: _where,
-            proc_name: _procedure,//jsonExecucao.proc
-        },
-        success: function (data) {
-            //Cabecalho
-            $(arr).each(function (i) {
-                console.log(data);
-            });
+//    $.ajax({
+//        type: 'POST',
+//        dataType: 'json',
+//        url: '../Consulta/AjaxCallConsultaDinamica',//action,
+//        data: {
+//            id_documento_modelo: parseInt(id_documento),//parseInt(jsonExecucao.idoc),
+//            campos: _campos,
+//            filtros: _where,
+//            proc_name: _procedure,//jsonExecucao.proc
+//        },
+//        success: function (data) {
 
-            $(data).each(function (x, arr) {
-                //console.log(data.arr[x]);
-            });
+//            //Cabecalho
+//            $(arr).each(function (i) {
+//                console.log(data);
+//            });
 
-            /* console.log(_campos);
-             for (var c in _campos) {
-                 console.log(c);
-             }*/
-        }
-    });
-}
+//            $(data).each(function (x, arr) {
+//                //console.log(data.arr[x]);
+//            });
+
+//            /* console.log(_campos);
+//             for (var c in _campos) {
+//                 console.log(c);
+//             }*/
+//        }
+//    });
+//}
 
 
     var MontarJQGrid = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
@@ -472,9 +473,15 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             width: 500,
             height: 300,
             hidegrid: false,
-            loadui: 'block',
+            loadui: '',
             altclass: 'alt-row-class',
             caption: ''
+            , complete: function() {
+                $('thead').first().clone().appendTo('#tblConsulta');
+                $('#tblGrid tbody').clone().appendTo('#tblConsulta');
+                $('#tblConsulta').DataTable();
+                console.log('completou');
+            }
         });
 
         //AndreSombra 05/11/2015
@@ -498,6 +505,47 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         $("#tblGrid").change(function () {
             ColunaAuto();
         });
+        console.log('Montou grid');
+       // $("#tblGrid tbody").change(function () {
+        // });
+        $("#gbox_tblGrid").hide();
+        setTimeout(function () {
+            ExibirResultado();
+        }, 1000);
+    }
+
+    function ExibirResultado() {
+        //TODO: Não esta carregando os registros, somente manual no console do browse 
+        //Andre Sombra 26/01/2016 
+        $('thead').first().clone().appendTo('#tblConsulta');
+        $('#tblGrid tbody').clone().appendTo('#tblConsulta');
+        $("#tblConsulta").DataTable({
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        }
+                    );
+        console.log('entrou funcao teste');
     }
 
     //TODO: AndreSombra 10/11/2015
@@ -507,7 +555,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
     }
 
     function JQGrid(caption) {
-        alert('teste ColunaAuto 2');
+        
         $("#tblGrid").jqGrid('GridUnload');
         var _idDocumentoModelo = parseInt($("#cboTiposDoc option:selected").val());
 
