@@ -649,14 +649,22 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //_ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '">Editar</a> ';
         //_ret += '</td></tr><table></center>'
 
+        debugger;
 
         var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
+        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos('+ rowObject.IdDocumento +')"><i class="fa fa-plus"></i></a> ';
 
         return _ret;
 
+    }
+
+    function AbreSubDocumentos(subdocs) {
+        alert('Documento: ' + subdocs);
+        $("#pnl_parametros").hide();
+        $("#pnl_resultado").hide();
     }
 
     function objedit(id, cellname, value) {

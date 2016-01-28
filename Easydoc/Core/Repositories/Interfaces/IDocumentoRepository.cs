@@ -36,5 +36,6 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         string SalvarConsultaDocumentoModelo(IDictionary<string, object> _queryParams);
         string AtualiarDocumentoCB(IDictionary<string, object> dictionary);
         List<DocumentoConsulta> ListarConsultasModelo(IDictionary<string, object> dictionary);
+        List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
     }
 }

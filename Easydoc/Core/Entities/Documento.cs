@@ -162,10 +162,12 @@ namespace MK.Easydoc.Core.Entities
         public string Descricao { get; set; }
         public bool Compartilhado { get; set; }
         public string ModeloJSON { get; set; }
-
-
     
     }
 
-
+    public class ConsultaDetalhe
+    {
+        public string Descricao { get; set; }
+        public string PathArquivo { get; set; }
+    }
 }

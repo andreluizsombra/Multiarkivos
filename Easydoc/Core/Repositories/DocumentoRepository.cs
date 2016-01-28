@@ -359,7 +359,40 @@ namespace MK.Easydoc.Core.Repositories
             {
                 throw;
             }
-        }                
+        }   
+        
+        public List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote)
+        {
+            List<ConsultaDetalhe> _campos = new List<ConsultaDetalhe>();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_Consulta_Detalhe_DocPai"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico );
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, idDocumento);
+                _db.AddInParameter(_cmd, "@idLote", DbType.Int32, idLote);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _campos.Add(new ConsultaDetalhe() { Descricao = _dr["Descricao"].ToString(), PathArquivo = _dr["PathArquivo"].ToString() });
+
+                    }
+                }
+
+                //if (_campos == null) { throw new Erro("Documento não localizado."); }
+
+                return _campos;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }   
+
         public List<CampoModelo> SelecionarDocumentoCampos(IDictionary<string, object> _queryParams)
         {
             List<CampoModelo> _campos = new List<CampoModelo>();

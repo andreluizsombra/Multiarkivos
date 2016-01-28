@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using MK.Easydoc.Core.Entities;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.WebApp.ViewModels;
@@ -212,5 +213,18 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return Json(new RetornoViewModel(true, null, _campos));
         }
 
+        //AjaxCallConsultaDetalhe
+        [HttpPost]
+        public JsonResult AjaxCallConsultaDetalhe(int idDoc, int idLote)
+        {
+            var _lista = new List<ConsultaDetalhe>();
+            try
+            {   
+                _lista = _docService.ListarConsultaDetalhe(IdServico_Atual, idDoc, idLote);
+                //_docService.ListarCamposModelo(id_documento_modelo).Where(c => c.FiltroConsulta).ToList<CampoModelo>();
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+            return Json(_lista, JsonRequestBehavior.AllowGet);
+        }
     }
 }

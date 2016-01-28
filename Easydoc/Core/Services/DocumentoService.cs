@@ -506,6 +506,7 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }
 
         }
+
         //proc_campo_documento_sel
         public List<CampoModelo> ListarCamposModelo(int idDocumentoModelo)
         {
@@ -539,6 +540,13 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }        
         }
 
+        public List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote)
+        {
+            try{
+                    return this._repository.ListarConsultaDetalhe(idServico, idDocumento, idLote);
+            }
+            catch (Exception ex) { throw new Exception("Erro em ListarConsultaDetalhe: "+ex.Message); }        
+        }
 
         #endregion IUserService Members
     }
