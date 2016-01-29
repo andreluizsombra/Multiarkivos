@@ -14,6 +14,10 @@ var blockUISettings = { title: '', centerY: 15, theme: true, showOverlay: true, 
 var init = function () {
 
     $('#pnlHeader').slideUp('slow');
+
+    //$("#tblDetalhe").hide();
+    $("#pnl_resultado_detalhe").hide();
+
     var feeID = '';
     var datasetID = '';
     $('#pnl-busca').hide();
@@ -158,6 +162,38 @@ var init = function () {
 
     $("#tblGrid").change(function () {
         ColunaAuto();
+    });
+
+    $("#btn_fechar_detalhe").click(function () {
+        $("#pnl_parametros").show();
+        $("#pnl_resultado").show();
+        $("#pnl_resultado_detalhe").hide();
+    });
+
+    $("#tblDetalhe").DataTable({
+        language: {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            }
+        }
     });
 }
 
@@ -649,22 +685,49 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //_ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '">Editar</a> ';
         //_ret += '</td></tr><table></center>'
 
-        debugger;
-
         var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
-        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos('+ rowObject.IdDocumento +')"><i class="fa fa-plus"></i></a> ';
+        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ')"><i class="fa fa-plus"></i></a> ';
 
         return _ret;
 
     }
 
-    function AbreSubDocumentos(subdocs) {
-        alert('Documento: ' + subdocs);
+    function AbreSubDocumentos(v_idDoc) {
+        //alert('Documento: ' + v_idDoc);
         $("#pnl_parametros").hide();
         $("#pnl_resultado").hide();
+        $("#pnl_resultado_detalhe").show();
+        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
+        //var _img_det = '';
+        //_img_det += '<a href=' + v_url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+        $("#tblDetalhe").show();
+        $("#tblDetalhe tbody").empty();
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallConsultaDetalhe",
+            type: 'POST',
+            datatype: 'json',
+            data: { idDoc: v_idDoc, idLote: 0 },
+            success: function (data) {
+                //debugger;
+                //_url =  + item.PathArquivo;
+                if (data == null) {
+                    exibirmsgatencao("Nenhum documento encontrado.");
+                    return;
+                }
+                
+                $.each(data, function (i, item) {
+                  //$("#tblDetalhe, tbody").append(item.Descricao);
+                  $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo + "' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
+                });
+                //if (data.success == true) {
+                //} else {
+                //    exibirmsgatencao("Nenhum documento encontrado.");
+                //}
+            },
+        });
     }
 
     function objedit(id, cellname, value) {

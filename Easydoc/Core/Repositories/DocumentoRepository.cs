@@ -372,7 +372,7 @@ namespace MK.Easydoc.Core.Repositories
 
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico );
                 _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, idDocumento);
-                _db.AddInParameter(_cmd, "@idLote", DbType.Int32, idLote);
+                _db.AddInParameter(_cmd, "@idLoteItem", DbType.Int32, idLote);
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
