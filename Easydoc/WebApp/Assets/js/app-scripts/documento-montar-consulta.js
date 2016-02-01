@@ -20,6 +20,7 @@ var init = function () {
 
     var feeID = '';
     var datasetID = '';
+
     $('#pnl-busca').hide();
     $('#pnl-result').hide();
     
@@ -295,7 +296,7 @@ function bindJqGrid(actionController, feeID, datasetID, step)
 var PesquisarDosumentos = function (json) {
     
     //var json = MontaDataJSON();
-
+    //debugger;
     var jsonDataName = "";
     var jsonDataModel = "";
     var jsonWhere = "";
@@ -310,10 +311,10 @@ var PesquisarDosumentos = function (json) {
 
     var strWhere = '';
     var strSelect = '';
-
+    //debugger;
     $(jsonDataModel).each(function (_index) {
 
-        if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo') {
+        if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo' && this.jsonmap != 'idLote') {
             if (strSelect == '') {
                 strSelect = this.jsonmap;
             } else {
@@ -329,6 +330,7 @@ var PesquisarDosumentos = function (json) {
             strWhere += ' ' + this.x + ' ' + this.sel + ' ' + this.op + ' ' + this.val;
         }
     });
+    //debugger;
     MontarJQGrid(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
     //ResultadoPesquisa(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
 }
@@ -344,7 +346,7 @@ var CarregarDocumentos = function (json) {
     var jsonExecucao = "";
 
     _json = eval("(" + json + ")");
-
+    
     jsonDataName = _json.th;
     jsonDataModel = eval('{' + JSON.stringify(_json.tr).replace('"#', '').replace('#"', '') + '}');
     jsonWhere = _json.where;
@@ -513,12 +515,6 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             loadui: '',
             altclass: 'alt-row-class',
             caption: ''
-            , complete: function() {
-                $('thead').first().clone().appendTo('#tblConsulta');
-                $('#tblGrid tbody').clone().appendTo('#tblConsulta');
-                $('#tblConsulta').DataTable();
-                console.log('completou');
-            }
         });
 
         //AndreSombra 05/11/2015
@@ -545,9 +541,11 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         console.log('Montou grid');
        // $("#tblGrid tbody").change(function () {
         // });
+
         $("#gbox_tblGrid").hide();
         setTimeout(function () {
             ExibirResultado();
+            console.log('Executou clone');
         }, 1000);
     }
 
@@ -586,8 +584,20 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                 }
             });
         }
-        console.log('entrou funcao teste');
-    }
+
+      //Esconder a coluna IdDocumento e idLote ====================================================           
+        var totLinha = $('#tblConsulta tr').length;
+        for (var i = 1; i < totLinha; i++) {
+            $("#tblConsulta tr:eq(" + i + ") td:eq(0)").hide(); //css('background-color', 'red');
+        }
+        for (var i = 1; i < totLinha; i++) {
+            $("#tblConsulta tr:eq(" + i + ") td:eq(1)").hide(); //css('background-color', 'green');
+        }
+        $("#tblConsulta th:contains('ID')").hide();
+        //$(".sorting_1").hide()
+        $("#tblConsulta th:contains('idLote')").hide();
+      //============================================================================================
+}
 
     //TODO: AndreSombra 10/11/2015
     function ColunaAuto() {
@@ -611,7 +621,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
             success: function (data, textstatus, xmlhttprequest) {
                 if (data == null) { return; }
-
+                //debugger;
                 if (data.success == true) {
                     result = data;
                     //if (result) {
@@ -631,7 +641,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                         var _json = "";
 
                         _json = eval("(" + data.output + ")");
-
+                        
                         jsonDataName = _json.th;//eval(columnsDataModel(data.output)); 
                         jsonDataModel = eval('{' + JSON.stringify(_json.tr).replace('"#', '').replace('#"', '') + '}');
                         jsonWhere = _json.where;
@@ -642,7 +652,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
                         $(jsonDataModel).each(function (_index) {
 
-                            if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo') {
+                            if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo' && this.jsonmap != 'idLote') {
                                 if (strSelect == '') {
                                     strSelect = this.jsonmap;
                                 } else {
@@ -689,13 +699,13 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
-        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ')"><i class="fa fa-plus"></i></a> ';
+        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ','+ rowObject.idLote +')"><i class="fa fa-plus"></i></a> ';
 
         return _ret;
 
     }
 
-    function AbreSubDocumentos(v_idDoc) {
+    function AbreSubDocumentos(v_idDoc, v_idLote) {
         //alert('Documento: ' + v_idDoc);
         $("#pnl_parametros").hide();
         $("#pnl_resultado").hide();
@@ -709,7 +719,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             url: "/Documento/Consulta/AjaxCallConsultaDetalhe",
             type: 'POST',
             datatype: 'json',
-            data: { idDoc: v_idDoc, idLote: 0 },
+            data: { idDoc: v_idDoc, idLote: v_idLote },
             success: function (data) {
                 //debugger;
                 //_url =  + item.PathArquivo;
@@ -752,7 +762,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             //_cn = this.colNames;
             //_html += monta_input(this.Rotulo, 'pesq_' + this.RotuloAbreviado + '_' + this.ID, this.ControleWEB, this.Rotulo, this.Descricao, this.Descricao, this.MaxLength, this.Requerido, this.ClasseCSS, this.Tabulacao);
         });
-
+        console.log(_cn.toString());
         return _cn;
     }
     function columnsDataModel(json) {
@@ -761,7 +771,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             _cm = this;
             //_html += monta_input(this.Rotulo, 'pesq_' + this.RotuloAbreviado + '_' + this.ID, this.ControleWEB, this.Rotulo, this.Descricao, this.Descricao, this.MaxLength, this.Requerido, this.ClasseCSS, this.Tabulacao);
         });
-
+        console.log(_cm.toString());
         return _cm;
     }
 
@@ -791,6 +801,9 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
         var _strTH = '"th": ["ID", ';
         var _strTR = '"tr": [{ name: "IdDocumento",  index: "IdDocumento",   jsonmap: "IdDocumento", align: "center",  width: 20, key: true},';
+
+        _strTH += '"idLote", ';
+        _strTR += '{ name: "idLote", index: "idLote", jsonmap: "idLote", align: "center", width: 20},';
 
         $('#lst-campos-sel li').each(function () {
             _strTH += '"' + this.innerText + '", ';
@@ -830,7 +843,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //alert(_strWHERE.toString());
 
         _str = _str + _strTH + _strTR + _strWHERE + _strEXEC + '}';
-
+        
         //_str = _str + _strTH + _strTR   + '}';
 
         //TODO: AndreSombra 12/11/2015
@@ -845,7 +858,8 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             var _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
             $('#txtValor-' + _id).mask(_mascara);
         });
-        
+       // debugger;
+        console.log(_str.toString());
         return _str;
     }
 
@@ -864,6 +878,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             }
         }
         str = str + "]";
+        console.log(_str.toString());
         return str;
     }
     //------end grid part----------

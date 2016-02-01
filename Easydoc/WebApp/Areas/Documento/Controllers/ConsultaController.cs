@@ -174,7 +174,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                             { name: 'PathArquivo', index: 'PathArquivo', jsonmap: 'PathArquivo', align: 'left', width: 30, sortable: false, formatter: '#FormatterLinkOpenArquivo#'}
                         ]}";
  */
-                sJson = @"{'th': ['ID', 'Matricula', 'Caixa', 'Período','Lote','Arquivo'],
+                sJson = @"{'th': ['ID', 'idLote', 'Matricula', 'Caixa', 'Período','Lote','Arquivo'],
                             'tr': [
                                             { name: 'IdDocumento',  index: 'IdDocumento',   jsonmap: 'IdDocumento', align: 'left',      width: 40, key: true},
                                             { name: 'Matricula',    index: 'Matricula',     jsonmap: 'Matricula',   align: 'center',    width: 100 },
