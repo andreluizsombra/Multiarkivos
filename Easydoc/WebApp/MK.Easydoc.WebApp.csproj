@@ -1523,6 +1523,7 @@
     <Content Include="Areas\Manutencao\Views\Cliente\Edit.cshtml" />
     <Content Include="Areas\Manutencao\Views\Servico\Edit.cshtml" />
     <Content Include="Areas\Seguranca\Views\Auditoria\Listar.cshtml" />
+    <Content Include="Areas\Documento\Views\Consulta\ListaDetalhe.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />

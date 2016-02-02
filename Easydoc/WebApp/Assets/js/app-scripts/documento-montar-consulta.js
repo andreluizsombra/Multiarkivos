@@ -171,31 +171,6 @@ var init = function () {
         $("#pnl_resultado_detalhe").hide();
     });
 
-    $("#tblDetalhe").DataTable({
-        language: {
-            "sEmptyTable": "Nenhum registro encontrado",
-            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sInfoThousands": ".",
-            "sLengthMenu": "_MENU_ resultados por página",
-            "sLoadingRecords": "Carregando...",
-            "sProcessing": "Processando...",
-            "sZeroRecords": "Nenhum registro encontrado",
-            "sSearch": "Pesquisar",
-            "oPaginate": {
-                "sNext": "Próximo",
-                "sPrevious": "Anterior",
-                "sFirst": "Primeiro",
-                "sLast": "Último"
-            },
-            "oAria": {
-                "sSortAscending": ": Ordenar colunas de forma ascendente",
-                "sSortDescending": ": Ordenar colunas de forma descendente"
-            }
-        }
-    });
 }
 
 var RemoveCamposFiltro = function ($_obj) {
@@ -542,9 +517,14 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
        // $("#tblGrid tbody").change(function () {
         // });
 
+        $("#tblGrid tr:eq(0)").remove();
         $("#gbox_tblGrid").hide();
+
         setTimeout(function () {
+            //$("#tblGrid tr:eq(1)").remove();
             ExibirResultado();
+            //$("#tblConsulta tr:eq(1)").remove();
+            //$("#tblConsulta_length").hide();
             console.log('Executou clone');
         }, 1000);
     }
@@ -552,6 +532,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
     function ExibirResultado() {
         //TODO: Não esta carregando os registros, somente manual no console do browse 
         //Andre Sombra 26/01/2016 
+
         $("#tblConsulta").empty();
         $('thead').first().clone().appendTo('#tblConsulta');
         $('#tblGrid tbody').clone().appendTo('#tblConsulta');
@@ -596,7 +577,9 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         $("#tblConsulta th:contains('ID')").hide();
         //$(".sorting_1").hide()
         $("#tblConsulta th:contains('idLote')").hide();
-      //============================================================================================
+        //============================================================================================
+
+        $("#tblConsulta_info").hide();
 }
 
     //TODO: AndreSombra 10/11/2015
@@ -713,8 +696,12 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
         //var _img_det = '';
         //_img_det += '<a href=' + v_url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+
+        //var table_detalhe = $("#tblDetalhe").DataTable();
+        //table_detalhe.destroy();
+
         $("#tblDetalhe").show();
-        $("#tblDetalhe tbody").empty();
+        
         $.ajax({
             url: "/Documento/Consulta/AjaxCallConsultaDetalhe",
             type: 'POST',
@@ -728,16 +715,68 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                     return;
                 }
                 
+                $("#tblDetalhe tbody").empty();
+                
                 $.each(data, function (i, item) {
                   //$("#tblDetalhe, tbody").append(item.Descricao);
                   $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo + "' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
                 });
-                //if (data.success == true) {
-                //} else {
-                //    exibirmsgatencao("Nenhum documento encontrado.");
-                //}
+
+                AplicarDataTable();
+                $("#tblDetalhe_info").hide();
             },
         });
+
+        $("#tblDetalhe").hide();
+        $.ajax({
+            url: "/Documento/Consulta/AjaxListaDetalhe",
+            type: 'POST',
+            datatype: 'html',
+            data: { idDoc: v_idDoc, idLote: v_idLote },
+            success: function (data) {
+                $("#lista_detalhe").empty();
+                $("#lista_detalhe").html(data);
+            },
+        });
+
+       //$("#tblDetalhe_length").hide(); //Ocultar Quantidade de paginas ,25,50...
+    }
+
+    function AplicarDataTable()
+    {
+        if ($("#tblStatus_detalhe").val() == 0) {
+            $("#tblStatus_detalhe").val(1); //Para aplicar o DataTable somente uma vez a tblConsulta
+            //$("#tblDetalhe").DataTable({
+            //    language: {
+            //        "sEmptyTable": "Nenhum registro encontrado",
+            //        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            //        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            //        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            //        "sInfoPostFix": "",
+            //        "sInfoThousands": ".",
+            //        "sLengthMenu": "_MENU_ resultados por página",
+            //        "sLoadingRecords": "Carregando...",
+            //        "sProcessing": "Processando...",
+            //        "sZeroRecords": "Nenhum registro encontrado",
+            //        "sSearch": "Pesquisar",
+            //        "oPaginate": {
+            //            "sNext": "Próximo",
+            //            "sPrevious": "Anterior",
+            //            "sFirst": "Primeiro",
+            //            "sLast": "Último"
+            //        },
+            //        "oAria": {
+            //            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            //            "sSortDescending": ": Ordenar colunas de forma descendente"
+            //        },
+            //    }
+            //});
+        }
+
+        var table_detalhe = $('#tblDetalhe').DataTable();
+        setInterval(function () {
+           // table_detalhe.ajax.reload();
+        }, 1000);
     }
 
     function objedit(id, cellname, value) {

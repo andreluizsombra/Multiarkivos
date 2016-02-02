@@ -49,6 +49,14 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ViewResult AjaxListaDetalhe(int idDoc, int idLote)
+        {
+            var _lista = new List<ConsultaDetalhe>();
+            _lista = _docService.ListarConsultaDetalhe(IdServico_Atual, idDoc, idLote);
+            return View("ListaDetalhe",_lista); 
+        }
+
         //AjaxCallConsultaDinamica
         [HttpPost]
         public JsonResult AjaxCallSalvarConsultaDinamica(int id_documento_modelo,string nome_consulta, string string_json)
