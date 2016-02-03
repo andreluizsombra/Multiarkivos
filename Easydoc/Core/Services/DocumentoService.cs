@@ -162,6 +162,18 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public List<DocumentoModelo> ListarTiposConsulta(int idServico)
+        {
+            try
+            {
+                this._queryParams.Clear();
+                this._queryParams["Servico_ID"] = idServico;
+
+                return this._repository.ListarTiposConsulta(idServico);
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public void AtualizarDocumento(Documento documento)
         {
             try

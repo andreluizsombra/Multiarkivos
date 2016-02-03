@@ -191,7 +191,7 @@ var listar_tipos_doc = function () {
 
     try {
         $.ajax({
-            url: '../Consulta/AjaxCallBuscarTiposDocumento',
+            url: '../Consulta/AjaxCallBuscarTiposDocumentoConsulta',
             dataType: 'json',
             type: 'POST',
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },

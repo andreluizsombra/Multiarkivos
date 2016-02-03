@@ -8,7 +8,6 @@ using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.Core.Infrastructure;
 
-
 namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 {
     public class ServicoController : BaseController

@@ -1,0 +1,186 @@
+﻿@using MK.Easydoc.Core.Repositories;
+@{
+    ViewBag.Title = "Cadastrar Novo Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .input[type="checkbox"]{
+        height:14px;
+    }
+</style>
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+
+@using (Html.BeginForm("Create", "Perfil", FormMethod.Post, new { @class = "" }))
+{
+
+if (ViewBag.ListaCliente != null)
+{ 
+    <input type="hidden" id="selecionado" />
+    <input type="hidden" id="cliente" name="cliente" />
+    <input type="hidden" id="servico" name="servico" />
+
+    <input type="hidden" id="idcliente" name="idcliente" />
+    <input type="hidden" id="idservico" name="idservico" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <label>Cliente : </label>@Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                &nbsp
+            </div>
+        </div>
+    </div>
+
+    if (ViewBag.ListaServico != null)
+    {
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <label>Serviço : </label>@Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    &nbsp
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <label>Nome do Perfil</label>
+                    <input type="text" id="nome" name="nome" class="form-control" required />
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-offset-3">
+                    
+                    <div class="table-responsive">
+                        <table id="tblModulos" class="table table-striped table-hover">
+                            <thead>
+                                <tr linha=titulo>
+                                    <th><i class="fa fa-list"></i>&nbsp;Modulos</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <div id="tabela"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    &nbsp
+                </div>
+            </div>
+        </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-offset-3">
+                <hr />
+                <input type="submit" id="btnConf" value="Gravar" class="btn btn-success" /> |
+                <a href="/Principal">Voltar</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                &nbsp
+            </div>
+        </div>
+    </div>
+    
+    }
+}
+}
+
+<script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        var tabela_modulos = $('#tblModulos');
+
+        $("#SelCliente").change(function () {
+            $("#selecionado").val($("#SelCliente").val());
+            //alert($("#SelCliente option:selected").text());
+            $("#cliente").val($("#SelCliente option:selected").text());
+            //$.post('/Cliente/ListaServico', { idCliente: $("#selecionado").val() });
+            var url = "/Manutencao/Perfil/ListaServico?idCliente=" + $("#selecionado").val();
+            window.location.href = url;
+        });
+
+        ExibirModulos();
+
+        $("#SelServico").change(function () {
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $("#servico").val($("#SelServico option:selected").text());
+            ExibirModulos();
+        });
+
+        $("#btnConf").click(function () {
+            if ($("#SelServico option:selected").text() == 'Selecione') {
+                exibirmsgatencao('Porfavor selecione um serviço...');
+                return false;
+            } else {
+                $("#idcliente").val($("#SelCliente").val());
+                $("#idservico").val($("#SelServico").val());
+            }
+        });
+
+        $("#SelServico").change(function () {
+            //$("#btn_novo").attr('disabled', false);
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $("#servico").val($("#SelServico option:selected").text());
+
+            AdicionarModulos();
+        });
+
+        function ExibirModulos() {
+            if ($("#SelServico option:selected").text() == 'Selecione') {
+                $("#tblModulos_wrapper").hide();
+            } else { $("#tblModulos_wrapper").show(); }
+        }
+
+        function AdicionarModulos() {
+            //Adicionar modulos conforme servico selecionado
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxListaModulos',
+                data: { idServico: $("#SelServico").val() },
+                success: function (data) {
+                    retorno = false;
+                    $("#tabela").empty();
+                    $('table tr[linha=modulo]').remove();
+                    $(data).each(function () {
+                        $('#tblModulos').append("<tr style='font-size:11px;' linha=modulo><td><input type='checkbox' id='chk_" + this.ID + "' name='chk_" + this.ID + "' class='' />&nbsp;" + this.Descricao + "</td></tr>");
+                    });
+                    //$("#tabela").append($("#tblModulos").html());
+                    return retorno;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                }
+            });
+        }
+
+    });
+</script>
+

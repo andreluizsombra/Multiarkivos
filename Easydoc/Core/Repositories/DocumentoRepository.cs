@@ -488,6 +488,39 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+
+        public List<DocumentoModelo> ListarTiposConsulta(int idServico)
+        {
+            try
+            {
+                DocumentoModelo _documento = new DocumentoModelo();
+                List<DocumentoModelo> _documentos = new List<DocumentoModelo>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_documentomodelo_servico_sel_consulta"));
+
+                //_db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, int.Parse(_queryParams["Usuario_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, idServico);
+
+                //_db.AddInParameter(_cmd, "@IdStatus", DbType.Int32, int.Parse(_queryParams["Status_ID"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _documentos.Add(ConverteBaseDocumento(_dr));
+                    }
+                }
+                if (_documentos == null) { throw new Erro("Documento não localizado."); }
+                return _documentos;//.Where(d => d.IdLote == int.Parse(_queryParams["Lote_ID"].ToString())).ToList<LoteItem>();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         private DocumentoModelo ConverteBaseDocumento(IDataReader dt)
         {
             DocumentoModelo _documento = new DocumentoModelo();

@@ -102,7 +102,7 @@
                                 <td>@lst.ServicoDefault</td>
                                 <td>@lst.ArquivoDados</td>
                                 <td>@lst.ControleAtencao</td>
-                                <td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
+                                <!--<td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>--> 
                                 <td><a href="@Url.Content("~/Manutencao/Servico/Edit/")@lst.ID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
                                 <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluir(@lst.ID,@IdUsuarioAtual,'@lst.Descricao')"></i></a></td>
                             </tr>

@@ -163,6 +163,24 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return Json(new RetornoViewModel(true, null, docs));
         }
 
+        [HttpPost]
+        public JsonResult AjaxCallBuscarTiposDocumentoConsulta()
+        {
+            var docs = default(List<MK.Easydoc.Core.Entities.DocumentoModelo>);
+
+            try
+            {
+                var lista = this._docService.ListarTiposConsulta(ServicoAtual.ID);
+
+                docs = (from doc in lista
+                        select doc
+                        ).ToList();
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+
+            return Json(new RetornoViewModel(true, null, docs));
+        }
+
         //AjaxCallGridHeadData
         [HttpPost]
         public JsonResult AjaxCallGridHeadData(int id_documento_modelo)
