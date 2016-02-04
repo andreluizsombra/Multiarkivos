@@ -41,5 +41,19 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+
+        public List<Perfil> ListaPerfil(int idCliente, int idServico)
+        {
+            string cmd = string.Format("exec Proc_Get_Perfil_Servico {0},{1}", idCliente,idServico);
+            var lista = new DbConn().RetornaDados(cmd);
+
+            var prf = new List<Perfil>();
+            prf.Add(new Perfil() { ID = -1, Descricao = "Selecione" });
+            foreach (DataRow item in lista.Rows)
+            {
+                prf.Add(new Perfil() { ID = int.Parse(item[0].ToString()), Descricao = item[1].ToString() });
+            }
+            return prf;
+        }
     }
 }

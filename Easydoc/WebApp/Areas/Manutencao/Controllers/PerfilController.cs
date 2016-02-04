@@ -10,17 +10,48 @@ using MK.Easydoc.Core.Infrastructure;
 
 namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 {
-    public class PerfilController : Controller
+    public class PerfilController : BaseController
     {
         //
         // GET: /Manutencao/Perfil/
 
         public ActionResult Index()
         {
-            return View("Index");
+            return RedirectToAction("Create");
+        }
+        public ActionResult Create()
+        {
+            ListaClienteServico(IdCliente_Atual.ToString(), IdServico_Atual);
+            ViewBag.idCliente = IdCliente_Atual;
+            ViewBag.idServico = IdServico_Atual;
+
+            return View("Create");
         }
 
         public ActionResult ListaServico(string idCliente)
+        {
+            ListaClienteServico(idCliente);
+            
+            return View("Create");
+        }
+
+        public ActionResult ListaPerfil(int idCliente, int idServico)
+        {
+            ListaClienteServico(idCliente.ToString(),idServico);
+            //Lista Perfil
+            var listaPerfil = new PerfilRepository().ListaPerfil(idCliente,idServico);
+            var lista_perfil = new SelectList(
+                            listaPerfil.ToList(),
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaPerfil = lista_perfil;
+
+            return View("Create");
+        }
+
+        //Metodo somente para Listar Cliente,Servicos e Perfil [Não é um Controller]
+        void ListaClienteServico(string idCliente, int idServico=0)
         {
             var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
             //ViewBag.Teste = listaCliente;
@@ -40,7 +71,14 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                         );
             ViewBag.ListaServico = lista;
 
-            return View("Create");
+            //Lista Perfil
+            var listaPerfil = new PerfilRepository().ListaPerfil(int.Parse(idCliente), idServico);
+            var lista_perfil = new SelectList(
+                            listaPerfil.ToList(),
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaPerfil = lista_perfil;
         }
 
         [HttpPost]
@@ -68,18 +106,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         //
         // GET: /Manutencao/Perfil/Create
 
-        public ActionResult Create()
-        {
-            var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
-            //ViewBag.Teste = listaCliente;
-            var lista = new SelectList(
-                            listaCliente.ToList(),
-                            "ID",
-                            "Descricao"
-                        );
-            ViewBag.ListaCliente = lista;
-            return View("Create");
-        }
+        
 
         //
         // POST: /Manutencao/Perfil/Create
