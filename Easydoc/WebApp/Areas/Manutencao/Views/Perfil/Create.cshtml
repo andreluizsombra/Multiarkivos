@@ -9,7 +9,7 @@
     .input[type="checkbox"]{
         height:14px;
     }
-    #btnNovo{
+    #btnNovo, #btnConfExcluir{
         margin-top:25px;
     }
 </style>
@@ -24,6 +24,7 @@
     {
       <input type="hidden" id="acao" name="acao" />
       <input type="hidden" id="modulos" name="modulos" />
+      <input type="hidden" id="qtdeModulos" name="qtdeModulos" />
       <input type="hidden" id="selecionado" />
       <input type="hidden" id="cliente" name="cliente" />
       <input type="hidden" id="servico" name="servico" />
@@ -56,6 +57,7 @@
             }
             <div class="col-lg-3">
                 <div class="btn btn-primary" id="btnNovo"><i class="fa fa-plus"></i>&nbsp;Novo</div>
+                <div class="btn btn-danger" id="btnConfExcluir"><i class="fa fa-trash"></i>&nbsp;Excluir</div>
             </div>
         </div>
     </div>
@@ -128,6 +130,34 @@
         <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
         <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
         <input type="hidden" id="hdn_idcli" name="hdn_idcli" />
+        <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Excluir Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Deseja realmente excluir ?</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <input type="hidden" id="hdn_linha" name="hdn_linha" />
+        <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idcliente" name="hdn_idcliente" />
+        <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_cpfcnpj" name="hdn_cpfcnpj" />
         <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -230,6 +260,14 @@
             $("#btnGravar").attr("disabled", false);
         }
 
+        $("#btnGravar").click(function () {
+            if (sel_modulos.toString() == "") {
+                exibirmsgatencao('Porfavor selecione um ou mais modulo(s) para gravar.');
+                IrTopo();
+                return false;
+            }
+        });
+
         AdicionarModulos();
         //Selecionar PERFIL
         $("#SelPerfil").change(function () {
@@ -263,7 +301,7 @@
             $("#acao").val(1);
             $("#modalPerfil").modal('show');
             $("#nome").focus();
-            sel_modulos = null;
+            sel_modulos = [];
             console.log(sel_modulos);
         });
 
@@ -289,7 +327,51 @@
         if (chk.prop("checked") == true)
         {
             sel_modulos.push(idChk);
+            $("#modulos").val(sel_modulos.toString());
+            $("#qtdeModulos").val(sel_modulos.length);
         }
     }
+
+    $("#btnConfExcluir").click(function () {
+        if ($("#SelPerfil").val() == "-1") {
+            exibirmsgatencao('Porfavor selecione um Perfil para excluir.');
+            IrTopo();
+            return false;
+        }
+
+        $("#modalExcluir").modal('show');
+        //Preencher campos ocultos
+        //debugger;
+        //$("#hdn_cpfcnpj").val(cpfcnpj);
+    });
+
+    $("#btnExcluir").click(function () {
+        $.ajax({
+            type: "POST", dataType: "json",
+            url: "/Manutencao/Perfil/AjaxExcluir",
+            data: { idservico: $("#SelServico").val(), idperfil: $("#SelPerfil").val() },
+            success: function (data) {
+                $(data).each(function () {
+                    if (this.CodigoRetorno == 1) {
+                        //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
+                        //var table = $('#tblUsuarios').DataTable();
+                        //table.row('.selected').remove().draw( false );
+                        exibirmsg(this.Mensagem);
+                        var surl = "http://" + window.location.host + '/Manutencao/Perfil/Index';
+                        window.location = surl;
+
+                    }
+                    else { exibirmsgatencao(this.Mensagem); }
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var erro = JSON.parse(xhr.responseText);
+                console.log(erro.Message);
+            }
+        });
+
+        $("#modalExcluir").modal('hide');
+    });
+
 </script>
 

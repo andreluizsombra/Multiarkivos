@@ -1,4 +1,9 @@
-﻿function RetMascara(campo, mascara) {
+﻿function IrTopo() {
+    $('html, body').animate({
+        scrollTop: 0
+    }, 1000, 'easeInOutCirc');
+}
+function RetMascara(campo, mascara) {
     $("#" + campo.id).mask(mascara);
     //alert('ok');
 }

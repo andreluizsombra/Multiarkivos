@@ -13,6 +13,63 @@ namespace MK.Easydoc.Core.Repositories
 {
     public class PerfilRepository:IPerfilRepository
     {
+        public Retorno Incluir(Perfil p)
+        {
+            
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Perfil");
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, p.TipoAcao);
+                _db.AddInParameter(_cmd, "@Descricao", DbType.String, p.Descricao);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, p.idServico);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@idModulo", DbType.String, p.idModulo);
+                _db.AddInParameter(_cmd, "@QtdeModulo", DbType.Int16, p.qtdeModulo);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public Retorno Excluir(Perfil p)
+        {
+
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Perfil");
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, p.TipoAcao);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, p.idServico);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, p.idPerfil);
+
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
         public List<Perfil> ListaPerfil(int idServico)
         {
             try

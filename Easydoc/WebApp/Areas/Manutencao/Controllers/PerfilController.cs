@@ -112,17 +112,63 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         // POST: /Manutencao/Perfil/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(FormCollection frm)
+        {
+            var Retorno = new Retorno();
+            try
+            {
+                var p = new Perfil()
+                {
+                     TipoAcao = 1,
+                     Descricao = frm["SelPerfil"].ToString(),
+                     idServico = int.Parse(frm["SelServico"].ToString()),
+                     idPerfil = 0,
+                     idModulo = frm["modulos"].ToString(),
+                     qtdeModulo = int.Parse(frm["qtdeModulos"].ToString()),
+                };
+
+                var perfilRet = new PerfilRepository();
+                Retorno = perfilRet.Incluir(p);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                TempData["Msg"] = Retorno.Mensagem;
+                return RedirectToAction("Index");
+
+            }
+            catch(Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AjaxExcluir(string idservico, string idperfil)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                var p = new Perfil()
+                {
+                    TipoAcao = 3, //TipoAcao 3 é Exclusão
+                    idPerfil = int.Parse(idperfil),
+                    idServico = int.Parse(idservico)
+                };
+                var Ret = new PerfilRepository();
+                var Retorno = Ret.Excluir(p);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                //ViewBag.Msg = Retorno.Mensagem;
+                return Json(Retorno, JsonRequestBehavior.AllowGet);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                TempData["Error"] = ex.Message;
+                //throw new Exception(ex.Message);
+                return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }
         }
 
