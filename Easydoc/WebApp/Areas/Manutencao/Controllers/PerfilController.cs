@@ -117,12 +117,14 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             var Retorno = new Retorno();
             try
             {
+
+                int idperfil = int.Parse(frm["acao"].ToString()) == 1 ? 0 : int.Parse(frm["SelPerfil"].ToString());
                 var p = new Perfil()
                 {
-                     TipoAcao = 1,
-                     Descricao = frm["SelPerfil"].ToString(),
+                     TipoAcao = int.Parse(frm["acao"].ToString()),
+                     Descricao = idperfil == 0 ? frm["SelPerfil"].ToString() : frm["nomeperfil"].ToString(),
                      idServico = int.Parse(frm["SelServico"].ToString()),
-                     idPerfil = 0,
+                     idPerfil = idperfil>0?idperfil:0,
                      idModulo = frm["modulos"].ToString(),
                      qtdeModulo = int.Parse(frm["qtdeModulos"].ToString()),
                 };

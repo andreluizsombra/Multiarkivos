@@ -24,7 +24,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, p.TipoAcao);
                 _db.AddInParameter(_cmd, "@Descricao", DbType.String, p.Descricao);
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int16, p.idServico);
-                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, p.idPerfil);
                 _db.AddInParameter(_cmd, "@idModulo", DbType.String, p.idModulo);
                 _db.AddInParameter(_cmd, "@QtdeModulo", DbType.Int16, p.qtdeModulo);
 
