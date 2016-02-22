@@ -63,6 +63,7 @@ namespace MK.Easydoc.Core.Repositories
             return mDic;
         }
 
+        
         public List<Graficos> ExibirDashboard_Doc_Modulo(IDictionary<string, object> _queryParams)
         {
             try

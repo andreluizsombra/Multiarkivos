@@ -13,7 +13,7 @@
     <div class="row">
         
         <!-- 1 - Tipíficação -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_11">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Tipificação : <strong>@ViewBag.QtdeTip</strong></h4>
@@ -30,7 +30,7 @@
 
 
         <!-- 2 - Digitação -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_12">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Digitação : <strong>@ViewBag.QtdeDig</strong></h4>
@@ -46,7 +46,7 @@
         </div>      
 
         <!-- 3 - Supervisão -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_13">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Supervisão : <strong>@ViewBag.QtdeSup</strong></h4>
@@ -63,7 +63,7 @@
         
         
         <!-- 3 - Consulta -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_14">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Consulta </h4>
@@ -80,6 +80,11 @@
     </div>
 </div>
 
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(2);
+    });
+</script>
 
 
 

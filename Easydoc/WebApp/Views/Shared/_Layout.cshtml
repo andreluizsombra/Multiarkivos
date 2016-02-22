@@ -11,6 +11,7 @@
     <link rel="icon" href="../../iconMK.png">
 
     <script src="~/Assets/js/app-scripts/funcoes.js"></script>
+    <script src="~/Assets/js/app-scripts/modulos.js"></script>
 
     <script src="~/Assets/plugins/jquery/jquery-2.1.4.min.js"></script>
     <script src="~/Assets/plugins/jquery/jquery-ui.min.js"></script>
@@ -238,7 +239,7 @@
 <script>
     $().ready(function () {
         $("#btnPendencias").css('display','none');
-
+        
         var id_servico = @Session["IdServico"];
         //alert(id_servico);
         $.ajax({
@@ -256,8 +257,13 @@
                 //var message = data.Message;
                 //$("#resultMessage").html(message);
             }
-       });
-  });
+        });
+
+       
+    });
+
+   
+
 </script>
 
 
