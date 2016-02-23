@@ -13,7 +13,7 @@
     <div class="row">
 
         <!-- 1 - Efetuar Captura -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_8">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Efetuar Captura</h4>
@@ -29,7 +29,7 @@
         </div>
 
         <!-- 2 - Upload Imagens-->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_9">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Efetuar Upload</h4>
@@ -37,7 +37,7 @@
                 <div class="">
                     <div class="img-botao-principal">
                         <a href="@Url.Action("Upload", new {area = "GED", controller = "Imagem"})" aria-label="Efetuar Upload" class="ls-btn ls-btn-sm" title="Efetuar Upload de Imagens">
-                            <img src="~/Assets/image/icon/core-icon/btn-upload-180x180.png" alt="Efetuar Upload" class="img-responsive center-block"/>
+                            <img src="~/Assets/image/icon/core-icon/btn-upload-180x180.png" alt="Efetuar Upload" class="img-responsive center-block" />
                         </a>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
         </div>
 
         <!-- 3 - Efetuar Inserção-->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_10">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Efetuar Inserção</h4>
@@ -66,4 +66,8 @@
 
     </div>
 </div>
-        
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(1);
+    });
+</script>        

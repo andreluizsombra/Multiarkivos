@@ -15,7 +15,7 @@
 
 
         <!-- 1 - Cadastro Cliente  -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_15">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Cadastro de Clientes</h4>
@@ -32,7 +32,7 @@
 
 
         <!-- 2 - Cadastro de serviços -->
-        <div class="col-md-3">
+        <div class="col-md-3 id="modulo_16">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Cadastro de Serviços</h4>
@@ -48,7 +48,7 @@
         </div>       
 
         <!-- 3 - Cadastro de Perfil -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_17">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Cadastro de Perfil</h4>
@@ -64,5 +64,10 @@
         </div>       
     </div>
 </div>
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(6);
+    });
+</script>
 
 

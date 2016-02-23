@@ -64,6 +64,21 @@ namespace MK.Easydoc.WebApp.Controllers
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
+        //TODO: AndreSombra 23/02/2016
+        [HttpPost]
+        public JsonResult VisualizarModuloPrincipal()
+        {
+            this._qryparams = new Dictionary<string, object>();
+            this._qryparams.Clear();
+            this._qryparams["idUsuario"] = UsuarioAtual.ID;
+            this._qryparams["idServico"] = ServicoAtual.ID;
+
+            var modulo = new PerfilRepository();
+            var resultado = modulo.ListarModuloPrincipal(this._qryparams);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
         //TODO: AndreSombra 17/11/2015
         [HttpPost]
         public JsonResult Dashboard_Doc_Modulo(int _periodoInicial, int _periodoFinal)

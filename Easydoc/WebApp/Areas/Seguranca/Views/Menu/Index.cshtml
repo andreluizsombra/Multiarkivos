@@ -13,7 +13,7 @@
     <div class="row">
 
         <!-- 1 - Manutenção de Usuarios  -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_18">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Manutenção de Usuários</h4>
@@ -27,8 +27,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-md-3">
+        <!-- 2 - Trilha de Auditoria  -->
+        <div class="col-md-3" id="modulo_19">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Trilha de Auditoria</h4>
@@ -39,8 +39,8 @@
                             <img src="~/Assets/image/icon/core-icon/botao_auditoria.png" alt="Captura de Imagens" class="img-responsive center-block" />
                         </a>
                     </div>
-                </div>    
-            </div>
+                </div>
+            </div> 
         </div>
 
         <div class="col-md-6">
@@ -49,3 +49,8 @@
 
     </div>
 </div>
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(7);
+    });
+</script>

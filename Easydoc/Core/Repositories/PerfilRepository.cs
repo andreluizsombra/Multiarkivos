@@ -142,5 +142,35 @@ namespace MK.Easydoc.Core.Repositories
                 throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Modulo, detalhes: " + ex.Message);
             }
         }
+
+        public List<AcessoModulo> ListarModuloPrincipal(IDictionary<string, object> _queryParams)
+        {
+            try
+            {
+                List<AcessoModulo> _itens = new List<AcessoModulo>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("VerificaPermissaoModuloPAI"));
+
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int32, int.Parse(_queryParams["idUsuario"].ToString()));
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["idServico"].ToString()));
+                //_db.AddInParameter(_cmd, "@idModulo", DbType.Int32, int.Parse(_queryParams["idModulo"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _itens.Add(new AcessoModulo() { idModulo = int.Parse(_dr["idModulo"].ToString()), Habilitado = int.Parse(_dr["Habilitado"].ToString()) });
+                    }
+                }
+
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o método ExibirDashboard_Doc_Modulo, detalhes: " + ex.Message);
+            }
+        }
     }
 }
