@@ -106,7 +106,7 @@
                                 <tr id="lin_@lst.ID@lst.ServicoID@IdUsuarioAtual">
                                     <td>@lst.NomeCompleto</td>
                                     <td>@lst.NomeUsuario</td>
-                                    <td>@lst.PerfilID</td>
+                                    <td>@lst.Perfil</td>
                                     <td>@lst.NomeServico</td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                     <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>

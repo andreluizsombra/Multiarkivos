@@ -432,7 +432,8 @@ namespace MK.Easydoc.Core.Repositories
                             ServicoID = int.Parse(_dr["idServico"].ToString())
                             ,
                             NomeServico = _dr["Descricao"].ToString()
-                            //Perfil = _dr["UserName"].ToString()
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
                             //,
                             //Senha = _dr["Senha"].ToString()
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
