@@ -84,10 +84,39 @@ namespace MK.Easydoc.Core.Repositories
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
-                    _lstPerfil.Add(new Perfil() { ID = 0, Descricao = "Selecione" });
+                    _lstPerfil.Add(new Perfil() { ID = -1, Descricao = "Selecione" });
                     while (_dr.Read())
                     {
                         _lstPerfil.Add(new Perfil() { ID = int.Parse(_dr[0].ToString()), Descricao = _dr[0].ToString() });
+                    }
+                }
+                if (_lstPerfil == null) { throw new Exception("Perfil não localizado."); }
+                return _lstPerfil;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<Perfil> ListaPerfilDescricao(int idServico)
+        {
+            try
+            {
+                List<Perfil> _lstPerfil = new List<Perfil>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_Get_Perfil"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    _lstPerfil.Add(new Perfil() { ID = -1, Descricao = "Selecione" });
+                    while (_dr.Read())
+                    {
+                        _lstPerfil.Add(new Perfil() { ID = int.Parse(_dr[0].ToString()), Descricao = _dr[1].ToString() });
                     }
                 }
                 if (_lstPerfil == null) { throw new Exception("Perfil não localizado."); }

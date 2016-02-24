@@ -17,9 +17,30 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
         {
             return View(); 
         }
-        
-        public ActionResult EditarUsuario(string nomeUsuario)
+
+        void CarregaPerfil(int _idservico)
         {
+            var listaPerfil = new PerfilRepository().ListaPerfilDescricao(_idservico).ToList();
+
+            var lista_perfil = new SelectList(
+                            listaPerfil,
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaPerfil = lista_perfil;
+        }
+        public ActionResult EditarUsuario(string nomeUsuario, int idServico, int idPerfil)
+        {
+            var listaPerfil = new PerfilRepository().ListaPerfilDescricao(idServico).ToList();
+
+            var lista_perfil = new SelectList(
+                            listaPerfil,
+                            "ID",
+                            "Descricao"
+                        );
+            ViewBag.ListaPerfil = lista_perfil;
+            ViewBag.IdServico = idServico;
+            ViewBag.IdPerfil = idPerfil;
             ViewBag.Usuario = new UsuarioRepository().GetUsuario(nomeUsuario);
             return View("EditarUsuario");
         }
@@ -47,13 +68,18 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                     , frm["login"].ToString()
                     , frm["email"].ToString()
                     , frm["senha"].ToString()
-                    , trocar);
+                    , trocar
+                    , int.Parse(frm["SelPerfil"].ToString())
+                    , int.Parse(frm["idservico"].ToString()));
                     //, int.Parse(frm["trocar"].ToString()));
                 if (ret.CodigoRetorno < 0)
                 {
                     throw new Exception(ret.Mensagem);
                 }
                 ViewBag.Msg = "Gravado com sucesso.";
+                ViewBag.ListaUsuarios = TempData["LstUsuarios"];
+                CarregaPerfil(int.Parse(frm["idservico"].ToString()));
+                ViewBag.IdPerfil = int.Parse(frm["SelPerfil"].ToString());
             }
             catch(Exception ex)
             {
@@ -62,6 +88,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             ViewBag.Usuario = new UsuarioRepository().GetUsuarioID(int.Parse(frm["idusuario"].ToString()));
             return View("EditarUsuario");
         }
+
         [HttpPost]
         public ActionResult ListaUsuarios(FormCollection frm)
         {
@@ -70,8 +97,17 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             string _txtpesquisa = frm["txtpesquisa"].ToString();
 
             int idclienteAtual = new ClienteRepository().GetClienteServicoPorNome(Session["NomeServico"].ToString(), Session["NomeCliente"].ToString()).IdCliente;
-
+            
+            Session["Filtro"] = new Filtro() { Tipo = _tipo, Condicao = _condicao, IdClienteAtual = idclienteAtual, Pesquisa = _txtpesquisa, IdUsuarioAtual = UsuarioAtual.ID };
             var usu = new UsuarioRepository().GetUsuarioCadastro(_tipo, _condicao, idclienteAtual, _txtpesquisa, UsuarioAtual.ID);
+            ViewBag.ListaUsuarios = usu;
+            return View("ManutencaoUsuario");
+        }
+
+        public ActionResult VoltarListaUsuarios()
+        {
+            var f = (Filtro)Session["Filtro"];
+            var usu = new UsuarioRepository().GetUsuarioCadastro(f.Tipo, f.Condicao, f.IdClienteAtual, f.Pesquisa, f.IdUsuarioAtual);
             ViewBag.ListaUsuarios = usu;
             return View("ManutencaoUsuario");
         }

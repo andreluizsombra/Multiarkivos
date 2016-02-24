@@ -194,6 +194,8 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             NomeCompleto = _dr["Nome"].ToString()
                             ,
+                            PerfilID = int.Parse(_dr["idPerfil"].ToString())
+                            ,
                             Perfil = _dr["Perfil"].ToString()
                             ,
                             Senha = _dr["Senha"].ToString()
@@ -301,7 +303,7 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
-        public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso)
+        public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso, int _idperfil, int _idservico)
         {
             try
             {
@@ -315,6 +317,8 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Email", DbType.String, _email);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, _senha);
                 _db.AddInParameter(_cmd, "@PrimeiroAcesso", DbType.Int16, _primacesso);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, _idperfil);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, _idservico);
 
                 var _Ret = new Retorno();
 
@@ -434,6 +438,8 @@ namespace MK.Easydoc.Core.Repositories
                             NomeServico = _dr["Descricao"].ToString()
                             ,
                             Perfil = _dr["Perfil"].ToString()
+                            ,
+                            PerfilID = int.Parse(_dr["idPerfil"].ToString())
                             //,
                             //Senha = _dr["Senha"].ToString()
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
@@ -484,6 +490,9 @@ namespace MK.Easydoc.Core.Repositories
                             NomeCliente = _dr[5].ToString()
                             ,
                             Servico = _dr[6].ToString()
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
+
                             /*CPFCNPJCliente = _dr[6].ToString()
                             ,
                             DataCriacaoCliente = _dr[7].ToString()
