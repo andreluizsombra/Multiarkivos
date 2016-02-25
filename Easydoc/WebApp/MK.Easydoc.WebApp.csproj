@@ -221,6 +221,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ServicoController.cs" />
     <Compile Include="Areas\GED\Controllers\UploadController.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Infrastructure\Filters\CacheFilterAttribute.cs" />
     <Compile Include="Infrastructure\Filters\CompressFilterAttribute.cs" />
     <Compile Include="Infrastructure\Filters\GrantAccessAttribute.cs" />

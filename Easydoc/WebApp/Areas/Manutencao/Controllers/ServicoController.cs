@@ -15,13 +15,14 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         //
         // GET: /Manutencao/Servico/
 
-        public ActionResult Index()
+        public ActionResult Index(string msg="")
         {
             RegistrarLOGSimples(7, 21, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao/Servico
 
             var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID);
             ViewBag.ListaCliente = lst;
+            TempData["Msg"] = msg;
             return View(lst);
         }
 

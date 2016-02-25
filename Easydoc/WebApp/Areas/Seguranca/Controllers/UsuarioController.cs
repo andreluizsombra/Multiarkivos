@@ -76,14 +76,14 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
                 {
                     throw new Exception(ret.Mensagem);
                 }
-                ViewBag.Msg = "Gravado com sucesso.";
+                TempData["Msg"] = "Gravado com sucesso.";
                 ViewBag.ListaUsuarios = TempData["LstUsuarios"];
                 CarregaPerfil(int.Parse(frm["idservico"].ToString()));
                 ViewBag.IdPerfil = int.Parse(frm["SelPerfil"].ToString());
             }
             catch(Exception ex)
             {
-                ViewBag.Error = ex.Message;
+                TempData["Error"] = ex.Message;
             }
             ViewBag.Usuario = new UsuarioRepository().GetUsuarioID(int.Parse(frm["idusuario"].ToString()));
             return View("EditarUsuario");

@@ -15,7 +15,7 @@
 <div class="well">
     <h4 class="panel-title">
         <i class="fa fa-users"></i>&nbsp;@ViewBag.Title
-        &nbsp;<a href="/Manutencao/Servico/Create" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Servico</a>
+        
     </h4>
 </div>
 <style>
@@ -78,9 +78,12 @@
                 <br />
                 <input type="checkbox" id="contatencao" name="contatencao" value="@Model.ControleAtencao" checked="@Model.ControleAtencao">&nbsp;Controle Atenção
             </div>
-
-            <div class="col-lg-2">
+        </div>
+        <div class="row">
+            <div class="col-lg-3 margin-top">
                 <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />
+                &nbsp;<a href="/Manutencao/Servico" class="btn btn-warning"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
+                &nbsp;<a href="/Manutencao/Servico/Create" class="btn btn-primary" style="color:black;"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Servico</a>
             </div>
         </div>
     </div>

@@ -299,8 +299,9 @@
 <script>
     $().ready(function () {
         $("#btnPendencias").css('display','none');
-        
         var id_servico = @Session["IdServico"];
+
+        $("#modalMSG").modal('show');
         //alert(id_servico);
         $.ajax({
             url: '@Url.Content("~")Home/RetornaPendencias',
@@ -318,12 +319,7 @@
                 //$("#resultMessage").html(message);
             }
         });
-
-       
     });
-
-   
-
 </script>
 
 

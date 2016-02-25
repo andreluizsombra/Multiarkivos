@@ -16,7 +16,7 @@
 <div class="well">
     <h4 class="panel-title">
         <i class="fa fa-users"></i>&nbsp;@ViewBag.Title
-        &nbsp;<a href="/Manutencao/Servico/Create" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Servico</a>
+        
     </h4>
 </div>
 <style>
@@ -55,33 +55,36 @@
             <div class="col-lg-2">
                 <div class="input-group">
                     @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                    <label>Cliente</label>
+                    @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text"), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                     <!--<span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>-->
                     <label>Nome Serviço</label>
                     <input type="text" data-toggle="tooltip" title="" id="nomeservico" name="nomeservico" class="form-control" placeholder="Desrição do Serviço" value="@_Servico.Descricao" required />
                 </div>
             </div>
             <div class="col-lg-2">
-                <div class="input-group">
-                    @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
-                    <label>Cliente</label>
-                    @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text"), new { @class = "form-control" })
-                </div>
+                    <label>&nbsp;</label><br />
+                    <input type="checkbox" id="servdefault" name="servdefault" value="True" checked>&nbsp;Serviço Padrão
             </div>
             <div class="col-lg-2">
-                <br />
-                <input type="checkbox" id="servdefault" name="servdefault" value="True" checked>&nbsp;Serviço Padrão
-            </div>
-            <div class="col-lg-2">
-                <br/>
+                <label>&nbsp;</label><br/>
                 <input type="checkbox" id="arqdados" name="arqdados" value="True" checked>&nbsp;Arquivo Dados
             </div>
             <div class="col-lg-2">
-                <br />
+                <label>&nbsp;</label><br />
                 <input type="checkbox" id="contversao" name="contversao" value="True" checked>&nbsp;Controle Atenção
             </div>
-
-            <div class="col-lg-2">
-                <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <input type="submit" class="btn btn-success margin-top" id="btn_novo" name="btn_novo" value="Gravar" />
+                &nbsp;<a href="/Manutencao/Servico" class="btn btn-warning margin-top"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
+                &nbsp;<a href="/Manutencao/Servico/Create" class="btn btn-warning margin-top" style="color:black;"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Serviço</a>
             </div>
         </div>
     </div>
