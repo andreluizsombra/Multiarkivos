@@ -90,19 +90,21 @@
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
-                    @if (ViewBag.ListaClientes != null)
-                    {
-                        foreach (var lst in ViewBag.ListaClientes)
+                    <tbody>
+                        @if (ViewBag.ListaClientes != null)
                         {
-                            <tr id="lin_@lst.ID">
-                                <td>@lst.CPF_CNPJ</td>
-                                <td>@lst.Descricao</td>
-                                <!--<td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>-->
-                                <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?cpfcnpj=@lst.CPF_CNPJ" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
-                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.CPF_CNPJ,@IdUsuarioAtual,@lst.ID)"></i></a></td>
-                            </tr>
+                            foreach (var lst in ViewBag.ListaClientes)
+                            {
+                                <tr id="lin_@lst.ID">
+                                    <td>@lst.CPF_CNPJ</td>
+                                    <td>@lst.Descricao</td>
+                                    <!--<td><a href="@Url.Content("~/Manutencao/Cliente/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>-->
+                                    <td><a href="@Url.Content("~/Manutencao/Cliente/Edit/")?cpfcnpj=@lst.CPF_CNPJ" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
+                                    <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirCliente(@lst.CPF_CNPJ,@IdUsuarioAtual,@lst.ID)"></i></a></td>
+                                </tr>
+                            }
                         }
-                    }
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -142,6 +144,7 @@
     <script>
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
+
         //$("#tblUsuarios").DataTable();
         $("#tblUsuarios").DataTable({
             language: { "sEmptyTable": "Nenhum registro encontrado",

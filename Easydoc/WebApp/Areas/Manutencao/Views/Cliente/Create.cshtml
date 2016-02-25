@@ -18,7 +18,6 @@
 <div class="well">
     <h4 class="panel-title">
         <i class="fa fa-users"></i>&nbsp;@ViewBag.Title
-        &nbsp;<a href="/Manutencao/Cliente/Create" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Cliente</a>
     </h4>
 </div>
 <style>
@@ -76,11 +75,17 @@
                         <input type="text" data-toggle="tooltip" title="" id="nome" name="nome" class="form-control" placeholder="Nome" value="@_cli.Descricao" maxlength="25" required />
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-1">
+                    &nbsp;<br />
+                    <input type="checkbox" id="status" name="status" value="@_cli.Status" checked>&nbsp;Ativo
+                </div>
+            </div>
+            <div class="row margin-top">
+                <div class="col-lg-2 col-lg-offset-2">
                     <div class="input-group">
                         @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                         <span class="input-group-addon" id="basic-vlct">Nro.</span>
-                        <input type="text" data-toggle="tooltip" title="" id="qtdusu" name="qtdusu" class="form-control" placeholder="Quantidade Usuário" value="@_cli.QtdeUsuario" maxlength="11"/>
+                        <input type="text" data-toggle="tooltip" title="" id="qtdusu" name="qtdusu" class="form-control" placeholder="Quantidade Usuário" value="@_cli.QtdeUsuario" maxlength="11" />
                     </div>
                 </div>
                 <div class="col-lg-2">
@@ -90,12 +95,10 @@
                         <input type="text" data-toggle="tooltip" title="Digite seu email aqui" id="email" name="email" class="form-control" placeholder="Email" value="@_cli.EmailPrincipal" maxlength="500" required />
                     </div>
                 </div>
-                <div class="col-lg-1">
-                    <label>Status</label><br />
-                    <input type="checkbox" id="status" name="status" value="@_cli.Status" checked>&nbsp;Ativo
-                </div>
+
                 <div class="col-lg-2">
                     <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />
+                    &nbsp;<a href="/Manutencao/Cliente/Create" class="btn btn-warning" style="color:black;"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Cliente</a>
                 </div>
             </div>
         </div>

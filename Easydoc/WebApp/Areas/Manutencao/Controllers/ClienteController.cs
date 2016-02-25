@@ -19,6 +19,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 
             var Clientes = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID);
             ViewBag.ListaClientes = Clientes.ToList();
+            
             return View();
         }
 

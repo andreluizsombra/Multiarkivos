@@ -180,17 +180,17 @@
         }
         @if (TempData["Error"] != null)
         {
-            <div class="alert alert-warning alert-dismissible" role="alert">
+            <!--<div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <strong>Atenção!</strong>&nbsp;@TempData["Error"]
-            </div>
+            </div>-->
         }
         @if (TempData["Msg"] != null)
         {
-            <div class="alert alert-success alert-dismissible" role="alert">
+            <!--<div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <strong>Confirmado, </strong>&nbsp;@TempData["Msg"]
-            </div>
+            </div>-->
         }
         <div id="msg" class="alert alert-success" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>
@@ -199,6 +199,66 @@
         <div id="msgatencao" class="alert alert-warning" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>&nbsp;
         </div>
+
+       @if (TempData["Msg"] != null)
+       {
+        <input type="hidden" id="hdn_msg" name="hdn_msg" value="1"/>
+        <div class="modal fade" id="modalMSG" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel">Mensagem</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                @TempData["Msg"]
+                                <label id="lblmsg"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+       }
+       
+        @if (TempData["Error"] != null)
+        {
+            <input type="hidden" id="hdn_msgerro" name="hdn_msg" value="1" />
+            <div class="modal fade" id="modalERRO" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="gridSystemModalLabel">Mensagem</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    @TempData["Error"]
+                                    <label id="lblmsg_erro"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        }
+
+
+
+
+
+
         <div class="panel panel-default">
             <!-- Your Page Content Here -->
             @RenderSection("featured", required: false)
