@@ -97,6 +97,7 @@ namespace MK.Easydoc.WebApp.Controllers
                     log.RegistrarLOG(0, 0, 0, 0, 1, 2, 0, 0, model.NomeUsuario);
                     log.RegistrarLOGDetalhe(2, model.NomeUsuario);
                     ViewBag.Atencao = ex.Message;
+                    TempData["Msg"] = ex.Message;
                 }
             }
             return View("Index");
