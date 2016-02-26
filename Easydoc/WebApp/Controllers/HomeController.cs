@@ -55,7 +55,7 @@ namespace MK.Easydoc.WebApp.Controllers
             this._qryparams = new Dictionary<string, object>();
             this._qryparams.Clear();
             this._qryparams["idUsuario"] = UsuarioAtual.ID;
-            this._qryparams["idServico"] = ServicoAtual.ID;
+            this._qryparams["idServico"] = IdServico_Atual; //ServicoAtual.ID;
             this._qryparams["idModulo"] = _idModulo;
 
             var modulo = new PerfilRepository();
@@ -71,7 +71,7 @@ namespace MK.Easydoc.WebApp.Controllers
             this._qryparams = new Dictionary<string, object>();
             this._qryparams.Clear();
             this._qryparams["idUsuario"] = UsuarioAtual.ID;
-            this._qryparams["idServico"] = ServicoAtual.ID;
+            this._qryparams["idServico"] = IdServico_Atual; //ServicoAtual.ID;
 
             var modulo = new PerfilRepository();
             var resultado = modulo.ListarModuloPrincipal(this._qryparams);
