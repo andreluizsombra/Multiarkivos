@@ -41,6 +41,11 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             List<Lote> _lotes = new List<Lote>();
             List<DocumentoLoteViewModel> _documentosView = new List<DocumentoLoteViewModel>();
 
+            if (ServicoAtual == null)
+            {
+                return RedirectToAction("EncerrarAcesso", "Login");
+            }
+
             _documentos.AddRange(_docService.ListarDocumentosSupervisao(UsuarioAtual.ID, 1, ServicoAtual.ID).ToList<Core.Entities.Documento>());
             
             foreach (Core.Entities.Documento  _documento in _documentos)
