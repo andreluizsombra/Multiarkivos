@@ -124,7 +124,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     //logica com json
                     if (LoteImagens.Log.Dados == null)
                     {
-                        return Json(new RetornoViewModel(false, "O arquivo de dados do lote não foi importado ou é inválido. Favor verificar!", null, RetornoType.ValidationExceptions));
+                        return Json(new RetornoViewModel(false, "O arquivo de importação do dados do lote é inválido. Favor verificar!", null, RetornoType.ValidationExceptions));
                     }
                     if (LoteImagens.ID != 0 && ServicoAtual.ID == LoteImagens.ServicoCaptura.ID && LoteImagens.Itens.Count > 0)
                     {

@@ -59,7 +59,7 @@
                     @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text"), new { @class = "form-control" })
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <div class="input-group">
                     @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                     <!--<span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>-->
@@ -67,17 +67,21 @@
                     <input type="text" data-toggle="tooltip" title="" id="nomeservico" name="nomeservico" class="form-control" placeholder="Desrição do Serviço" value="@_Servico.Descricao" required />
                 </div>
             </div>
-            <div class="col-lg-2">
+           <!-- <div class="col-lg-2">
                     <label>&nbsp;</label><br />
                     <input type="checkbox" id="servdefault" name="servdefault" value="True" checked>&nbsp;Serviço Padrão
             </div>
+            -->
             <div class="col-lg-2">
                 <label>&nbsp;</label><br/>
-                <input type="checkbox" id="arqdados" name="arqdados" value="True" checked>&nbsp;Arquivo Dados
+                <input type="checkbox" id="arqdados" name="arqdados" value="True" checked>&nbsp;Importar Arquivo
+            </div>
+            <div class="col-lg-3">
+                <label>&nbsp;</label><br />
+                <input type="checkbox" id="contversao" name="contversao" value="True" checked>&nbsp;Controle Atenção
             </div>
             <div class="col-lg-2">
                 <label>&nbsp;</label><br />
-                <input type="checkbox" id="contversao" name="contversao" value="True" checked>&nbsp;Controle Atenção
             </div>
         </div>
         <div class="row">

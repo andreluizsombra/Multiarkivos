@@ -46,7 +46,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                             "Descricao"
                         );
             ViewBag.ListaPerfil = lista_perfil;
-
+            ViewBag.idServico = idServico;
             return View("Create");
         }
 
@@ -62,6 +62,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                         );
             ViewBag.ListaCliente = listacli;
             ViewBag.CodCliente = idCliente;
+            ViewBag.idCliente = idCliente;
+            ViewBag.idServico = idServico;
             var listaServico = new ClienteRepository().ListaServicoPorCliente(Session["NomeUsuario"].ToString(), idCliente);
 
             var lista = new SelectList(

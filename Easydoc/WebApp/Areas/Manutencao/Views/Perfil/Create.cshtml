@@ -187,6 +187,7 @@
             //alert($("#SelCliente option:selected").text());
             $("#cliente").val($("#SelCliente option:selected").text());
             //$.post('/Cliente/ListaServico', { idCliente: $("#selecionado").val() });
+
             var url = "/Manutencao/Perfil/ListaServico?idCliente=" + $("#selecionado").val();
             window.location.href = url;
         });
@@ -200,7 +201,6 @@
             $("#cliente").val($("#SelCliente option:selected").text());
             $("#servico").val($("#SelServico option:selected").text());
             
-            //var url = "/Manutencao/Perfil/ListaServico?idCliente=" + $("#selecionado").val();
             var url = "/Manutencao/Perfil/ListaPerfil?idCliente=" + $("#SelCliente").val() + "&idServico=" + $("#SelServico").val();
             window.location.href = url;
         });

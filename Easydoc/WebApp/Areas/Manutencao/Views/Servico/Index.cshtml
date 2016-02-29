@@ -84,8 +84,8 @@
                         <tr>
                             <th>Serviço</th>
                             <th>Cliente</th>
-                            <th>Serviço Padrão</th>
-                            <th>Arquivo Dados</th>
+                            <!--<th>Serviço Padrão</th>-->
+                            <th>Importação de Arquivo</th>
                             <th>Controle Versão</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
@@ -98,7 +98,7 @@
                             <tr id="lin_@lst.ID">
                                 <td>@lst.Descricao</td>
                                 <td>@lst.NomeCliente</td>
-                                <td>@CustomHelper.SimNao(lst.ServicoDefault.ToString())</td>
+                                <!--<td>@CustomHelper.SimNao(lst.ServicoDefault.ToString())</td>-->
                                 <td>@CustomHelper.SimNao(lst.ArquivoDados.ToString())</td>
                                 <td>@CustomHelper.SimNao(lst.ControleAtencao.ToString())</td>
                                 <!--<td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>--> 
