@@ -17,8 +17,9 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             RegistrarLOGSimples(7, 20, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao/Cliente
 
-            var Clientes = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID);
-            ViewBag.ListaClientes = Clientes.ToList();
+            //Não exbir lista
+            //var Clientes = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID);
+            //ViewBag.ListaClientes = Clientes.ToList();
             
             return View();
         }

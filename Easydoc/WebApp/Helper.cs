@@ -15,9 +15,10 @@ using System.Web;
             {
                 var resultado = "";
                 if (value.Length == 11)
-                    resultado = String.Format("{0:000-000-000/00}", long.Parse(value));
+                    resultado = value.Substring(0, 3) + "." + value.Substring(3, 3) + "." + value.Substring(6, 3) + "-" + value.Substring(9, 2);
+                //resultado = String.Format("{0:000.000.000-00}", long.Parse(value));
                 else if (value.Length == 14)
-                    resultado = String.Format("{0:00.000.000/0000-00}", long.Parse(value));
+                    resultado = value.Substring(0, 2) + "." + value.Substring(2, 3) + "." + value.Substring(5, 3) + "/" + value.Substring(8, 4) + "-" + value.Substring(12, 2);
 
                 return MvcHtmlString.Create(String.Format("{0}", resultado));
             }

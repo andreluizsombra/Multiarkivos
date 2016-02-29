@@ -200,7 +200,7 @@
             <i class="glyphicon glyphicon-ok"></i>&nbsp;
         </div>
 
-       @if (TempData["Msg"] != null)
+       @if (TempData["Msg"] != null && TempData["Msg"] != "")
        {
         <input type="hidden" id="hdn_msg" name="hdn_msg" value="1"/>
         <div class="modal fade" id="modalMSG" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
@@ -227,7 +227,7 @@
         </div><!-- /.modal -->
        }
        
-        @if (TempData["Error"] != null)
+        @if (TempData["Error"] != null && TempData["Error"] != "")
         {
             <input type="hidden" id="hdn_msgerro" name="hdn_msg" value="1" />
             <div class="modal fade" id="modalERRO" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">

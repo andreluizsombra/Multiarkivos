@@ -20,8 +20,9 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             RegistrarLOGSimples(7, 21, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao/Servico
 
-            var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID);
-            ViewBag.ListaCliente = lst;
+            //var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID);
+            //ViewBag.ListaCliente = lst;
+            List<Servico> lst = null;
             TempData["Msg"] = msg;
             return View(lst);
         }
