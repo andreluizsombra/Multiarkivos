@@ -122,7 +122,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
 
         void CarregarCombos()
         {
-            var listaPerfil = new PerfilRepository().ListaPerfil(ServicoAtual.ID).ToList();
+            var listaPerfil = new PerfilRepository().ListaPerfilDescricao(ServicoAtual.ID).ToList();
 
             var lista_perfil = new SelectList(
                             listaPerfil,
