@@ -138,6 +138,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     throw new Exception(Retorno.Mensagem);
                 }
                 //ViewBag.Msg = Retorno.Mensagem;
+                TempData["Msg"] = Retorno.Mensagem;
                 return Json(Retorno, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

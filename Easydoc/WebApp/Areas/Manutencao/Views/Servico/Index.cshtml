@@ -149,6 +149,49 @@
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
         //$("#tblUsuarios").DataTable();
+        $("#btnExcluir").click(function () {
+            $.ajax({ type: "POST", dataType: "json",
+                url: "/Manutencao/Servico/AjaxExcluir",
+                data: { idServico: $("#hdn_idserv").val() },
+                success: function (data) {
+
+                    $(data).each(function(){
+                        if(this.CodigoRetorno==1){
+
+                            //$("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
+                            //var table = $('#tblUsuarios').DataTable();
+                            //table.row('.selected').remove().draw( false );
+
+                            exibirmsg(this.Mensagem);
+                                                                    
+                            var surl = "http://" + window.location.host + '/Manutencao/Servico/Index';
+                            window.location = surl;
+                        }
+                        else{exibirmsgatencao(this.Mensagem); console.log(this.Mensagem)}
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var erro = JSON.parse(xhr.responseText);
+                    console.log(erro.Message);
+                }
+            });
+
+            $("#modalExcluir").modal('hide');
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#btnLimpar').click(function() {
+            $('table tr').empty();
+        });
+
+        $('i[id^=bloq_]').each(function(e){
+            if($(this).attr('bloqueado')=='0')
+                $(this).css('color', 'black');
+            else
+                $(this).css('color', 'red');
+        });
+
         $("#tblUsuarios").DataTable({
             language: { "sEmptyTable": "Nenhum registro encontrado",
                 "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
@@ -174,49 +217,6 @@
             }
           }
         );
-
-            $('[data-toggle="tooltip"]').tooltip();
-
-            $('#btnLimpar').click(function() {
-                $('table tr').empty();
-            });
-
-            $('i[id^=bloq_]').each(function(e){
-                if($(this).attr('bloqueado')=='0')
-                    $(this).css('color', 'black');
-                else
-                    $(this).css('color', 'red');
-            });
-
-            $("#btnExcluir").click(function () {
-                $.ajax({ type: "POST", dataType: "json",
-                    url: "/Manutencao/Servico/AjaxExcluir",
-                    data: { idServico: $("#hdn_idserv").val() },
-                    success: function (data) {
-
-                        $(data).each(function(){
-                            if(this.CodigoRetorno==1){
-
-                                //$("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
-                                //var table = $('#tblUsuarios').DataTable();
-                                //table.row('.selected').remove().draw( false );
-
-                                exibirmsg(this.Mensagem);
-                                                                    
-                                var surl = "http://" + window.location.host + '/Manutencao/Servico/Index';
-                                window.location = surl;
-                            }
-                            else{exibirmsgatencao(this.Mensagem);}
-                        });
-                    },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        var erro = JSON.parse(xhr.responseText);
-                        console.log(erro.Message);
-                    }
-                });
-
-                $("#modalExcluir").modal('hide');
-            });
 
    });
 

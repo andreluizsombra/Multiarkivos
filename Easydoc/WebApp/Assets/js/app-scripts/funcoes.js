@@ -1,4 +1,13 @@
-﻿function IrTopo() {
+﻿var ConverteData = function (data) {
+
+    if (data == '') { return "-" }
+    var _ret = '';
+
+    _ret = data.substr(6, 2) + '/' + data.substr(4, 2) + '/' + data.substr(0, 4);
+
+    return _ret;
+}
+function IrTopo() {
     $('html, body').animate({
         scrollTop: 0
     }, 1000, 'easeInOutCirc');

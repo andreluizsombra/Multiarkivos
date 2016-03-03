@@ -147,32 +147,33 @@
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
 
-        //$("#tblUsuarios").DataTable();
-        $("#tblUsuarios").DataTable({
-            language: { "sEmptyTable": "Nenhum registro encontrado",
-                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sInfoThousands": ".",
-                "sLengthMenu": "_MENU_ resultados por página",
-                "sLoadingRecords": "Carregando...",
-                "sProcessing": "Processando...",
-                "sZeroRecords": "Nenhum registro encontrado",
-                "sSearch": "Pesquisar",
-                "oPaginate": {
-                    "sNext": "Próximo",
-                    "sPrevious": "Anterior",
-                    "sFirst": "Primeiro",
-                    "sLast": "Último"
+        $("#btnExcluir").click(function () {
+            console.log($("#hdn_cpfcnpj").val());
+            $.ajax({ type: "POST", dataType: "json",
+                url: "/Manutencao/Cliente/AjaxExcluir",
+                data: { cpf_cnpj: $("#hdn_cpfcnpj").val() },
+                success: function (data) {
+                    $(data).each(function(){
+                        if(this.CodigoRetorno==1){
+                            //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
+                            //var table = $('#tblUsuarios').DataTable();
+                            //table.row('.selected').remove().draw( false );
+                            exibirmsg(this.Mensagem);
+                            var surl = "http://" + window.location.host + '/Manutencao/Cliente/Index';
+                            window.location = surl;
+
+                        }
+                        else{exibirmsgatencao(this.Mensagem);}
+                    });
                 },
-                "oAria": {
-                    "sSortAscending": ": Ordenar colunas de forma ascendente",
-                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var erro = JSON.parse(xhr.responseText);
+                    console.log(erro.Message);
                 }
-            }
-          }
-        );
+            });
+
+            $("#modalExcluir").modal('hide');
+        });
 
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -187,33 +188,31 @@
                     $(this).css('color', 'red');
             });
 
-            $("#btnExcluir").click(function () {
-                $.ajax({ type: "POST", dataType: "json",
-                    url: "/Manutencao/Cliente/AjaxExcluir",
-                    data: { cpf_cnpj: $("#hdn_cpfcnpj").val() },
-                    success: function (data) {
-                        $(data).each(function(){
-                            if(this.CodigoRetorno==1){
-                                //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
-                                //var table = $('#tblUsuarios').DataTable();
-                                //table.row('.selected').remove().draw( false );
-                                exibirmsg(this.Mensagem);
-                                var surl = "http://" + window.location.host + '/Manutencao/Cliente/Index';
-                                window.location = surl;
-
-                            }
-                            else{exibirmsgatencao(this.Mensagem);}
-                        });
+        //$("#tblUsuarios").DataTable();
+            $("#tblUsuarios").DataTable({
+                language: { "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
                     },
-                    error: function (xhr, ajaxOptions, thrownError) {
-                        var erro = JSON.parse(xhr.responseText);
-                        console.log(erro.Message);
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
                     }
-                });
-
-                $("#modalExcluir").modal('hide');
-            });
-
+                }
+            });          
    });
 
    function ConfirmaExcluirCliente(cpfcnpj, idUsuAtual, idCliente) {

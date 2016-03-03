@@ -84,9 +84,9 @@
                       <thead>
                        <tr>
                         <th>Nome</th>
+                        <th>Serviço</th>
                         <th>Login</th>
                         <th>Perfil</th>
-                        <th>Serviço</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
@@ -105,9 +105,9 @@
                             {
                                 <tr id="lin_@lst.ID@lst.ServicoID@IdUsuarioAtual">
                                     <td>@lst.NomeCompleto</td>
+                                    <td>@lst.NomeServico</td>
                                     <td>@lst.NomeUsuario</td>
                                     <td>@lst.Perfil</td>
-                                    <td>@lst.NomeServico</td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                     <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario&&idServico=@lst.ServicoID&&idPerfil=@lst.PerfilID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
