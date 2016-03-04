@@ -27,11 +27,21 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             return View(lst);
         }
 
+        public ActionResult Listar()
+        {
+            var f = (Filtro)Session["Filtro"];
+            var lstServico = new ServicoRepository().PesquisaServicoCliente(f.Tipo, f.Condicao, UsuarioAtual.ID, f.Pesquisa, UsuarioAtual.ID);
+            ViewBag.ListaClientes = lstServico;
+            return View("index",lstServico);
+        }
+
+
         public ActionResult Pesquisa(FormCollection frm)
         {
             int _tipo = int.Parse(frm["selTipo"].ToString());
             int _condicao = int.Parse(frm["selCondicao"].ToString());
             string _txtpesquisa = frm["txtpesquisa"].ToString();
+            Session["Filtro"] = new Filtro() { Tipo = _tipo, Condicao = _condicao, Pesquisa = _txtpesquisa, IdUsuarioAtual = UsuarioAtual.ID };
             var lstServico = new ServicoRepository().PesquisaServicoCliente(_tipo, _condicao, UsuarioAtual.ID, _txtpesquisa, UsuarioAtual.ID);
             ViewBag.ListaClientes = lstServico;
             return View("Index",lstServico);

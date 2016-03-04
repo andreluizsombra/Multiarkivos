@@ -306,6 +306,7 @@
     <Content Include="Assets\image\icon\core-icon\btn-finaliza-315x315.png" />
     <Content Include="Assets\image\icon\core-icon\btn-perfil-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-seguranca-180x180.png" />
+    <Content Include="Assets\image\icon\core-icon\btn-servico-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-240x240.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-315x315.png" />
