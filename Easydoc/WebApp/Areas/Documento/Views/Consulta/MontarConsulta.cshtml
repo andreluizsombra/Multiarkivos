@@ -107,7 +107,8 @@
                             <div id="pnl-filtro-f-99000" class="row col-md-12 ls-xs-space">
 
                                 <div class="col-md-2">
-                                    <!-- 03/03/2016 <label>Condição</label>-->
+                                    <!-- 03/03/2016-->
+                                    <label>Condição</label>
                                     <label>&nbsp;</label>
                                 </div>
 
@@ -116,35 +117,30 @@
                                     <select id="sel-index-99000" class="form-control"></select>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <label>Valor</label>
-                                    <input type="text" id="txtValor-99000" class="form-control" name="nome" placeholder="Valor" required>
-                                </div>
-
                                 <div class="col-md-2">
-                                    <!-- 03/03/2016 <label>Operador</label>-->
-                                    <select id="sel-operador-99000" class="form-control" style="color:white; border-color:white;">
-                                        <option value="=" selected="selected"> Igual </option>
-                                    </select>
-                                       <!-- <option value="Like"> Contém </option>
+                                    <!-- 03/03/2016--> 
+                                    <label>Operador</label>
+                                    <select id="sel-operador-99000" class="form-control">
+                                        <option value="="> Igual </option>
+                                        <option value="Like"> Contém </option>
                                         <option value="!="> Diferente </option>
                                         <option value=">"> Maior </option>
                                         @*<option value=">="> Maior Igual </option>*@
                                         <option value="<"> Menor </option>
                                         @*<option value="<="> Menor Igual </option>*@
-                                    -->    
-                                    
-                                       
+                                    </select>    
                                 </div>
 
-                               
+                                <div class="col-md-3">
+                                    <label>Valor</label>
+                                    <input type="text" id="txtValor-99000" class="form-control" name="nome" placeholder="Valor" required>
+                                </div>
 
-                                <!-- 03/03/2016
+                                <!--03/03/2016-->
                                 <div class="col-md-1">
                                     <label>Incluir</label>
                                     <button id="add-campos" class="btn btn-primary">+</button>
                                 </div>
-                                    -->
 
                             </div>
                             <p></p>
@@ -152,26 +148,19 @@
                         <hr />
 
                         @*<div class="btn-group btn-group-justified">*@
-
                         <div class="col-md-4">
                             <div class="navbar-btn">
                                 <button id="btn-pesquisar" class="btn btn-info"><i class="glyphicon glyphicon-search"></i>&nbsp;Pesquisar</button>
                                 <button id="btn-limpar" class="btn btn-warning"><i class="glyphicon glyphicon-erase"></i>&nbsp;Limpar&nbsp;</button>
-                                <!--03/03/2016
+                                <!--03/03/2016-->
                                 <button id="btn-ordenar" data-target="#modal-order-consulta" class="btn btn-primary"><i class="glyphicon glyphicon-sort-by-order"></i>&nbsp;Ordenar</button>
-                                -->
                             </div>
                         </div>
-
-
                     </fieldset>
                 </div>
             </div>
-
         </div>
     </div>
-
-
     <!-- Lista -->
     <div id="pnl_resultado" class="row">
         <div class="col-md-12">

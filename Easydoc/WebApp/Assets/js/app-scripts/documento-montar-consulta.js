@@ -681,7 +681,8 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
-        // 03/03/2016 _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
+        // 03/03/2016 
+        _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
         _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ','+ rowObject.idLote +')"><i class="fa fa-plus"></i></a> ';
 
         return _ret;
