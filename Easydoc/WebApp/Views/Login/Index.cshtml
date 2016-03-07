@@ -3,6 +3,14 @@
 @{
     Layout = null;
     ViewBag.Title = "Login";
+    string nome_usario = "";
+    if (Request.Cookies["Login"] != null)
+    {
+        if (Request.Cookies["Login"]["lembrarnome"] == "sim")
+        {
+            nome_usario = Request.Cookies["Login"]["username"].ToString();
+        }    
+    }
 }
 
 <!DOCTYPE html>
@@ -97,7 +105,7 @@
                 @Html.AntiForgeryToken()
 
                 <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.NomeUsuario, htmlAttributes: new { @class = "form-control", @id = "inputEmail", @required = "", placeholder = "Usuário" })
+                    @Html.TextBoxFor(m => m.NomeUsuario, htmlAttributes: new { @class = "form-control", @id = "inputEmail", @required = "", placeholder = "Usuário", @Value = nome_usario })
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
@@ -200,6 +208,10 @@
         });
 
         $("#modalMSG").modal('show');
+
+        if ($("#inputEmail").val() != "") {
+            $("#inputPassword").focus();
+        }
 
     });
 </script>

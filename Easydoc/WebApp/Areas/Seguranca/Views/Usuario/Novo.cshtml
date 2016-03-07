@@ -170,7 +170,7 @@
                             <td>@lst.NomeServico</td>
                             <td>@lst.PerfilID</td>
                             <td>@lst.Bloqueado</td>
-                            <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExclusao(@_usu.ID,@IdUsuarioAtual,@lst.ClienteID,@lst.ServicoID)"></i></a></td>
+                            <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExclusao(@_usu.ID,@IdUsuarioAtual,@lst.ClienteID,@lst.ServicoID,@lst.NomeCliente,@lst.NomeServico)"></i></a></td>
                         </tr>
                     }
                 </table>
@@ -473,13 +473,18 @@
 
     });
 
-    function ConfirmaExclusao(idUsu, idUsuAtual, idCliente, idServico) {
-        $("#modalExcluir").modal('show');
-        //Preencher campos ocultos
-        $("#hdn_idusu").val(idUsu);
-        $("#hdn_idusuatual").val(idUsuAtual);
-        $("#hdn_idcli").val(idCliente);
-        $("#hdn_idserv").val(idServico);
+    function ConfirmaExclusao(idUsu, idUsuAtual, idCliente, idServico, nomeCliente, nomeServico) {
+        if((nomeCliente == $("#nomeCliente").attr("placeholder"))&&(nomeServico == $("#nomeServico").attr("placeholder"))){
+            exibirmsgatencao("Cliente e Serviço em uso ! , Operação não pode ser executada.");
+            return false;
+        }else{
+            $("#modalExcluir").modal('show');
+            //Preencher campos ocultos
+            $("#hdn_idusu").val(idUsu);
+            $("#hdn_idusuatual").val(idUsuAtual);
+            $("#hdn_idcli").val(idCliente);
+            $("#hdn_idserv").val(idServico);
+        }
         
     }
 

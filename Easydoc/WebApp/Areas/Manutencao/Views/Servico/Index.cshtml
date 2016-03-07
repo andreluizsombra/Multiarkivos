@@ -220,13 +220,18 @@
 
    });
 
-   function ConfirmaExcluir(idServico, idUsuAtual, nomeServico) {
-       $("#modalExcluir").modal('show');
-       //Preencher campos ocultos
-       $("#hdn_idserv").val(idServico);
-       $("#hdn_idusuatual").val(idUsuAtual);
-       $("#nomeServico").empty();
-       $("#nomeServico").html(nomeServico);
+    function ConfirmaExcluir(idServico, idUsuAtual, nomeServico) {
+        if(nomeServico == $("#nomeServico").attr("placeholder")){
+            exibirmsgatencao("Serviço "+ nomeServico +" em uso ! , Operação não pode ser executada.");
+            return false;
+        }else{
+            $("#modalExcluir").modal('show');
+            //Preencher campos ocultos
+            $("#hdn_idserv").val(idServico);
+            $("#hdn_idusuatual").val(idUsuAtual);
+            $("#nomeServico").empty();
+            $("#nomeServico").html(nomeServico);
+        }
    }
     </script>
 }

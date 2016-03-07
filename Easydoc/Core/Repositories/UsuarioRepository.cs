@@ -139,7 +139,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
 
                 List<Usuario> _usuarios = new List<Usuario>();
-
+                
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
@@ -270,6 +270,20 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+        public void LiberaUsuarioLogado(int _idServico, int _idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("LiberaUsuarioLogado");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, _idServico);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, _idUsuario);
+
+                _db.ExecuteNonQuery(_cmd);
+            }
+            catch (Exception ex) { throw ex; }
+        }
 
         public Retorno IncluirUsuario(Usuario usu)
         {

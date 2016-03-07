@@ -23,8 +23,8 @@ function exibirmsg(txtmsg) {
    //     $('#msg').slideUp(1000);
    // });
 
-    $("#modalMSG").modal('show');
-    $("#lblmsg").text(txtmsg);
+    $("#modalMSGPADRAO").modal('show');
+    $("#lbl_msgpadrao").empty().html(txtmsg);
 }
 
 function exibirmsgatencao(txtmsg) {
@@ -33,8 +33,11 @@ function exibirmsgatencao(txtmsg) {
     //    $('#msgatencao').slideUp(1000);
     //});
 
-    $("#modalERRO").modal('show');
-    $("#lblmsg_erro").text(txtmsg);
+    //$("#modalERRO").modal('show');
+    //$("#lblmsg_erro").text(txtmsg);
+
+    $("#modalMSGERRO").modal('show');
+    $("#lbl_msgerro").empty().html(txtmsg);
 }
 
 function PaginarTable(nmTable) {

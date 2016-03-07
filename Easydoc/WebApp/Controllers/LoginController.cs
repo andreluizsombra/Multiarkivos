@@ -65,7 +65,19 @@ namespace MK.Easydoc.WebApp.Controllers
                         {
                             Session["NomeUsuario"] = model.NomeUsuario;
 
-                            
+                            //TODO: 07/03/2016 Verifica se foi selecionado o Relembre-me e cria um cokie para armazenar o nome do usuário.
+                            if (Request.Cookies["Login"] == null)
+                            {
+                                if (model.ManterConectado) 
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = model.NomeUsuario;
+                                    cokLogin["lembrarnome"] = "sim";
+                                    cokLogin.Expires = DateTime.Now.AddDays(1d);
+                                    Response.Cookies.Add(cokLogin);
+                                }
+                            }
+
                             var cli = new ClienteRepository();
                             cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
                             
@@ -114,6 +126,9 @@ namespace MK.Easydoc.WebApp.Controllers
                 log.RegistrarLOG(int.Parse(Session["IdCliente"].ToString()), int.Parse(Session["IdServico"].ToString()), 0, _idUsuario, 2, 3, 0, 0, Session["NomeUsuario"].ToString());
                 log.RegistrarLOGDetalhe(3, Session["NomeUsuario"].ToString());
 
+                //TODO: 07/03/2016 Novo metodo usando a proc LiberaUsuarioLogado
+                new UsuarioRepository().LiberaUsuarioLogado(IdServico_Atual, UsuarioAtual.ID);
+                
                 AbandonarSessao();
                 FormsAuthentication.SignOut();
                 this.SingOut();
