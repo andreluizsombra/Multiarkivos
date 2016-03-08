@@ -285,7 +285,7 @@
                 return false;
             }
 
-            //Lista somente os marcadose vai pegando o codigo do modulo e vai adicionando e separando por virgula.
+            //Lista somente os marcados e vai pegando o codigo do modulo e vai adicionando e separando por virgula.
             sel_modulos = [];
             $("td [marcou=1]").each(function () {
                 sel_modulos.push(this.attributes.getNamedItem("codigo").value);
@@ -294,8 +294,8 @@
             $("#modulos").val(sel_modulos.toString());
             $("#qtdeModulos").val(sel_modulos.length);
 
-            var e = document.getElementById("SelPerfil");
-            var itemSelecionado = e.options[e.selectedIndex].text;
+            var e = document.getElementById("SelPerfil"); console.log('SelPerfil: '+e);
+            var itemSelecionado = e.options[e.selectedIndex].text; console.log('itemSelecionado '+itemSelecionado);
             $("#nomeperfil").val(itemSelecionado);
         });
 

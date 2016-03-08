@@ -16,101 +16,124 @@
     <div class="container-fluid">
         <br />
         <div class="row">
-
-            <div class="col-md-3 " >
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Criar um lote vazio</h4>
-                    </div>
-                    <div class="">
-                        <div class="img-botao-principal">
-                            <a id="btnGerarLote" href="#" aria-label="Criar um lote vazio para iniciar UPLOAD." title="Criar um lote vazio">
-                                <img src="~/Assets/image/icon/core-icon/btn-upload-180x180.png" class="img-responsive center-block" />
-                            </a>
+            <div class="col-md-12">
+                <div class="col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Criar um lote vazio</h4>
+                        </div>
+                        <div class="">
+                            <div class="img-botao-principal">
+                                <a id="btnGerarLote" href="#" aria-label="Criar um lote vazio para iniciar UPLOAD." title="Criar um lote vazio">
+                                    <img src="~/Assets/image/icon/core-icon/btn-upload-180x180.png" class="img-responsive center-block" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Cancelar Lote</h4>
-                    </div>
-                    <div class="">
-                        <div class="img-botao-principal">
-                            <a id="btnCancelarLote" href="#" aria-label="Cancela um lote, apaga as imagens e habilita a criação de um novo" title="Cancelar Lote">
-                                <img src="~/Assets/image/icon/core-icon/btn-cancela-180x180.png" class="img-responsive center-block" />
-                            </a>
+                <div class="col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Cancelar Lote</h4>
+                        </div>
+                        <div class="">
+                            <div class="img-botao-principal">
+                                <a id="btnCancelarLote" href="#" aria-label="Cancela um lote, apaga as imagens e habilita a criação de um novo" title="Cancelar Lote">
+                                    <img src="~/Assets/image/icon/core-icon/btn-cancela-180x180.png" class="img-responsive center-block" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Encerrar</h4>
-                    </div>
-                    <div class="">
-                        <div class="img-botao-principal">
-                            <a id="btnEncerrarLote" href="#" aria-label="Encerra o lote e encaminha para fila de tipificação." title="Encerrar Lote">
-                                <img src="~/Assets/image/icon/core-icon/btn-finaliza-180x180.png" class="img-responsive center-block" />
-                            </a>
+                <div class="col-md-3">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Encerrar</h4>
+                        </div>
+                        <div class="">
+                            <div class="img-botao-principal">
+                                <a id="btnEncerrarLote" href="#" aria-label="Encerra o lote e encaminha para fila de tipificação." title="Encerrar Lote">
+                                    <img src="~/Assets/image/icon/core-icon/btn-finaliza-180x180.png" class="img-responsive center-block" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-3">&nbsp;</div>
+                <!--<div class="col-md-3">&nbsp;</div>-->
+            </div>
         </div>
     </div>
     
     <div class="container-fluid">
-        <div class="panel panel-default">
-            <div class="row">
+        <div class="row">
                 <div class="col-md-12">
-                    <div id="painel-upload" class="box board-box" style="display:none">
-                        @*<header class="info-header">
+                    <div class="panel panel-default">
+                        
+                                <div id="painel-upload" class="box board-box" style="display:none">
+                            
+                                @*<header class="info-header">
                 <h2 class="title-3 ico-images">UPLOAD - Efetuar Upload de Imagens</h2>
             </header>*@
-                        <div class="col-lg-9">
-                            
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <div id="completo"></div>
-                                <div id="solteaqui" style="border:1px dotted black;" class="well well-lg lead">
-                                    Arraste e solte os arquivos <i class="glyphicon glyphicon-camera"></i><strong>&nbsp;AQUI</strong>
+                                <div class="col-lg-9">
 
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                        </div>
+                                    </div>
                                 </div>
-                                @*<div class="qq-upload-extra-drop-area">Soltar arquivos aqui também</div>*@
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9">
-                                @*<div id="progressbar"></div>*@
-                                <div id="file-uploader">
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        <div id="completo"></div>
+                                        <div id="solteaqui" style="border:1px dotted black;" class="well well-lg lead">
+                                            Arraste e solte os arquivos <i class="glyphicon glyphicon-camera"></i><strong>&nbsp;AQUI</strong>
 
-                                    <noscript>
-                                        <p>Por favor, habilite o módulo Javascript do seu navegador.</p>
-                                    </noscript>
-                                    <span>Enviar arquivo</span>
+                                        </div>
+                                        @*<div class="qq-upload-extra-drop-area">Soltar arquivos aqui também</div>*@
+                                    </div>
                                 </div>
-                                </div>
-                        </div>
+                                <div class="row">
+                                    <div class="col-lg-9">
+                                        @*<div id="progressbar"></div>*@
+                                        <div id="file-uploader">
 
-                            </div>
+                                            <noscript>
+                                                <p>Por favor, habilite o módulo Javascript do seu navegador.</p>
+                                            </noscript>
+                                            <span>Enviar arquivo</span>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                     </div>
+                   
+            </div>
         </div>
     </div>
 
-
+    <div class="modal fade" id="modalEncerra" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="gridSystemModalLabel" style="font-family:Arial;"><i class="fa fa-question-circle"></i>&nbsp;Informação</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Upload efetuado, deseja encerrar lote agora ?</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSim" class="btn btn-success"><i id="icon_sim" class="fa fa-check-circle-o fa-lg"></i>&nbsp;Sim</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Não</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!--
     <div id="sending-stats" class="row">

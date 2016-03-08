@@ -170,7 +170,7 @@ function listar_tipos_doc_CallBack(json) {
     $("#cboTiposDoc option").remove();
     $(json).each(function () {
         //$("#cboTiposDoc").append("<option value='" + this.ID + "'>" + this.Descricao + "</option>");
-        $("#listaTipoDoc").append("<li class='list-group-item'>" + this.ID + " - " + this.Descricao + "</li>");
+        $("#listaTipoDoc").append("<li id='li_"+this.ID+"' class='list-group-item'>" + this.ID + " - " + this.Descricao + "</li>");
     });
 }
 
@@ -210,46 +210,52 @@ var listar_documento_tipificar = function (_idLote) {
 //Quando clica no botão salvar
 var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
     var methodName = GetMethodName(arguments.callee);
-    try {
-        $.ajax({
-            url: '../Tipificacao/AjaxCallTipificarDocumento',
-            cache: false,
-            dataType: 'json',
-            type: 'POST',
-            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
-            data: {
-                id_lote: parseInt(_idLote),
-                id_item: parseInt(_idLoteItem),
-                id_documento_modelo: parseInt(_idDocumentoModelo)
-            },
-            success: function (data, textstatus, xmlhttprequest) {
-                if (data == null) { return; }
-                exibirmsg('Documento tipificado com sucesso.');
-                
-                window.location.href = 'Tipificar';
-                if (data.success == true) {
-                    data = data.output;
-                    listar_documento_tipificar_CallBack(data);
-                    $.unblockUI();
-                    
-                }
-                else {
-                    
-                    $.unblockUI();
-                    $('div#modal-resultado-tipificacao span#texto-resultado').text(data.message);
-
-                    //locastyle.modal.open({ target: '#modal-resultado-tipificacao' });
-                    //$('div#modal-resultado-tipificacao').show();
-                    //$('div#modal-resultado-tipificacao').modal('show').on('hide', function () {
-                    //    window.location = window.location.toString().replace(/#/gi, '');
-                    //})
-                    //window.location = window.location.toString().replace(/#/gi, '');
-                    //Exception.show(data.message, methodName);
-                }
-            }
-        });
+    
+    if ($("#li_" + _idDocumentoModelo).length == 0) {
+        exibirmsgatencao('Código não existe na lista, tente novamente...');
+        return false;
     }
-    catch (e) { Exception.show(e.toString(), methodName); }
+    
+        try {
+            $.ajax({
+                url: '../Tipificacao/AjaxCallTipificarDocumento',
+                cache: false,
+                dataType: 'json',
+                type: 'POST',
+                beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+                data: {
+                    id_lote: parseInt(_idLote),
+                    id_item: parseInt(_idLoteItem),
+                    id_documento_modelo: parseInt(_idDocumentoModelo)
+                },
+                success: function (data, textstatus, xmlhttprequest) {
+                    if (data == null) { return; }
+                    //exibirmsg('Documento tipificado com sucesso.');
+
+                    window.location.href = 'Tipificar';
+                    if (data.success == true) {
+                        data = data.output;
+                        listar_documento_tipificar_CallBack(data);
+                        $.unblockUI();
+
+                    }
+                    else {
+
+                        $.unblockUI();
+                        $('div#modal-resultado-tipificacao span#texto-resultado').text(data.message);
+
+                        //locastyle.modal.open({ target: '#modal-resultado-tipificacao' });
+                        //$('div#modal-resultado-tipificacao').show();
+                        //$('div#modal-resultado-tipificacao').modal('show').on('hide', function () {
+                        //    window.location = window.location.toString().replace(/#/gi, '');
+                        //})
+                        //window.location = window.location.toString().replace(/#/gi, '');
+                        //Exception.show(data.message, methodName);
+                    }
+                }
+            });
+        }
+        catch (e) { Exception.show(e.toString(), methodName); }
 }
 
 
