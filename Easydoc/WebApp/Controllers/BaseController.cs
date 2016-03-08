@@ -70,6 +70,40 @@ namespace MK.Easydoc.WebApp.Controllers
                 }
             }
         }
+
+        protected virtual string NomeCliente
+        {
+            get{
+                try{
+                    if (Session["NomeCliente"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return Session["NomeCliente"].ToString();
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return "-1";
+                }
+            }
+        }
+
+        protected virtual string NomeServico
+        {
+            get
+            {
+                try
+                {
+                    if (Session["NomeNomeServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return Session["NomeServico"].ToString();
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return "-1";
+                }
+            }
+        }
         
         protected virtual Cliente ClienteAtual
         {

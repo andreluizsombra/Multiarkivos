@@ -78,10 +78,13 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
            return _diretorio;
         }
         private string CriaDiretorio() {
-
+            //TODO: 08/03/2016
             string _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");//@"C:\Temp\img\upload";
-            string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            //string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            string _cliente = StringFormatHelper.RemoveSpecialCharacters(NomeCliente.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            string _servico = StringFormatHelper.RemoveSpecialCharacters(NomeServico.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            
             string _diretorio = string.Format(@"{0}\{1}", _raiz, LoteImagens.PathCaptura.Trim());
             //string _diretorio = string.Format(@"{0}\{1}\{2}", _raiz, LoteImagens.PathCaptura.Trim(), LoteImagens.ID);
             //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -97,9 +100,11 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         {
             try
             {
-                if (LoteImagens.ID == 0 || ServicoAtual.ID != LoteImagens.ServicoCaptura.ID)
+                //if (LoteImagens.ID == 0 || ServicoAtual.ID != LoteImagens.ServicoCaptura.ID)
+                //TODO: 08/03/2016
+                if (LoteImagens.ID == 0 || IdServico_Atual != LoteImagens.ServicoCaptura.ID)
                 {
-                    LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, ServicoAtual.ID, RetornaDiretorioUpload());
+                    LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, IdServico_Atual, RetornaDiretorioUpload());
                     RegistrarLOGSimples(2, 5, LoteImagens.ID.ToString()); 
                     // LOG: Criar Lote Vazio
                 }                                                            
