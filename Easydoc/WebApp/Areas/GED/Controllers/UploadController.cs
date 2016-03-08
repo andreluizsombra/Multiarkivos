@@ -120,7 +120,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         {
             try
             {
-
+                
                 int _ret = 0;
                 bool UsaArquivoDados = _loteService.UsaArquivoDados(ServicoAtual.ID);
 

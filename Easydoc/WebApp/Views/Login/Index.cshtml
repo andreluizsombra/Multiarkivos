@@ -9,6 +9,10 @@
         if (Request.Cookies["Login"]["lembrarnome"] == "sim")
         {
             nome_usario = Request.Cookies["Login"]["username"].ToString();
+        }
+        else
+        {
+            nome_usario = "";
         }    
     }
 }

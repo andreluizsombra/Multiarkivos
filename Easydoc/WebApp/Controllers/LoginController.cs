@@ -77,10 +77,16 @@ namespace MK.Easydoc.WebApp.Controllers
                                     Response.Cookies.Add(cokLogin);
                                 }
                             }
+                            else
+                            {
+                                if (model.ManterConectado == false) Response.Cookies.Remove("Login");
+                            }
 
                             var cli = new ClienteRepository();
                             cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
-                            
+
+                            if (cli == null) TempData["Error"] = "Nenhum Cliente e Serviço Padrão selecionado...";
+
                             Session["IdCliente"] = cli.TCliente.ID;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;

@@ -45,6 +45,7 @@ var EncerrarLote = function () {
         async: false,
         beforeSend: function (xhr) { $.blockUI(blockUISettings); },
         success: function (data, textstatus, xmlhttprequest) {
+            debugger;
             if (data == null) { return; }
 
             if (data.success == true) {
