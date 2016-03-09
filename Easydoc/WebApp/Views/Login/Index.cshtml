@@ -45,7 +45,8 @@
 
     <!-- Bootstrap 3.3.5 -->
     <link href="~/Assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-   
+    <!-- font-awesome -->
+    <link href="/sbadmin2/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -169,11 +170,11 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="gridSystemModalLabel">Login</h4>
+                            <h4 class="modal-title" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Login</h4>
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-lg-12">
                                     @TempData["Msg"]
                                     <label id="lblmsg"></label>
                                 </div>
