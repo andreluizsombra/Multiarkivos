@@ -247,7 +247,7 @@
                     $('table tr[linha=modulo]').remove();
                     var col = 1;
                     $(data).each(function () {
-                        $('#tblModulos tbody').append("<tr style='font-size:11px;' linha=modulo><td><input type='checkbox' id='chk_" + this.ID + "' name='chk_" + this.ID + "' codigo=" + this.ID + " class='' onclick=VerificarChk('" + this.ID + "') />&nbsp;" + this.Descricao + "</td></tr>");
+                        $('#tblModulos tbody').append("<tr style='font-size:11px;' linha=modulo><td><input type='checkbox' id='chk_" + this.ID + "' name='chk_" + this.ID + "' codigo=" + this.ID + " marcou='0' class='checar' onclick=VerificarChk('" + this.ID + "') />&nbsp;" + this.Descricao + "</td></tr>");
                     });
                     //$("#tabela").append($("#tblModulos").html());
                     return retorno;
@@ -304,6 +304,7 @@
         $("#SelPerfil").change(function () {
             $("#acao").val(2);
             $("input[type='checkbox']").prop("checked", false);
+            $(".checar").attr('marcou', '0');
             //Habilitar modulos conforme PERFIL selecionado
             $.ajax({
                 type: 'POST', dataType: 'json',
@@ -312,13 +313,10 @@
                 success: function (data) {
                     //$("input[type='checkbox']").attr('checked', '""')
                     //$("input[type='checkbox']").removeAttr('checked');
-
                     $(data).each(function () {
-                        
                         //$('#chk_' + this.CodRetorno).attr('checked', 'checked');
                         $('#chk_' + this.CodRetorno).prop("checked", true);
                         VerificarChk(this.CodRetorno);
-
                         //console.log(this.CodRetorno);
                     });
                 },
@@ -345,10 +343,12 @@
                 $("#nome").focus();
                 return false;
             } else {
+                $("#modulos").val('');
                 $("#SelPerfil").append("<option value=" + $("#nome").val() + ">" + $("#nome").val() + "</option>");
                 $("#SelPerfil").val($("#nome").val());
                 $("input[type='checkbox']").prop("checked", false);
                 $("#modalPerfil").modal('hide');
+                $(".checar").attr('marcou', '0'); //Marcar todos os checkbox com 0
             }
         });
         console.log(sel_modulos);
@@ -405,6 +405,7 @@
                         //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
                         //var table = $('#tblUsuarios').DataTable();
                         //table.row('.selected').remove().draw( false );
+                        sel_modulos = [];
                         exibirmsg(this.Mensagem);
                         var surl = "http://" + window.location.host + '/Manutencao/Perfil/Create';
                         window.location = surl;

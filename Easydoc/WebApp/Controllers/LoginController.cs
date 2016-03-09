@@ -79,7 +79,20 @@ namespace MK.Easydoc.WebApp.Controllers
                             }
                             else
                             {
-                                if (model.ManterConectado == false) Response.Cookies.Remove("Login");
+                                if (model.ManterConectado)
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = model.NomeUsuario;
+                                    cokLogin["lembrarnome"] = "sim";
+                                    Response.Cookies.Set(cokLogin);
+                                }
+                                if (model.ManterConectado == false)
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = "";
+                                    cokLogin["lembrarnome"] = "nao";
+                                    Response.Cookies.Set(cokLogin);
+                                }
                             }
 
                             var cli = new ClienteRepository();

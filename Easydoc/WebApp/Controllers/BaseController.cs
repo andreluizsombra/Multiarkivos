@@ -21,7 +21,7 @@ namespace MK.Easydoc.WebApp.Controllers
         private readonly IServicoService _servicoService;
 
         private readonly IClienteService _clienteService;
-        private IDictionary<string, object> _prm;
+        public IDictionary<string, object> _prm;
 
         #endregion
 
@@ -108,13 +108,10 @@ namespace MK.Easydoc.WebApp.Controllers
         
         protected virtual Cliente ClienteAtual
         {
-            //TODO: 08/03/2016
+            //TODO: 09/03/2016
             get
             {
-                _prm.Clear();
-                _prm["Usuario_ID"] = UsuarioAtual.ID;
-                _prm["Cliente_ID"] = IdCliente_Atual;
-                var cli = new ClienteRepository().GetCliente(_prm);
+                var cli = new ClienteRepository().GetCliente(UsuarioAtual.ID,IdCliente_Atual);
                 return cli;
                 //return UserDataCookieHelper.GetUserDataCookie().ClienteAtual;
             }

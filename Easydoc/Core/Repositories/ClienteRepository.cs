@@ -275,6 +275,32 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw new Erro(ex.Message);  }        
         }
+        public Cliente GetCliente(int idUsuario, int idCliente)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Cliente _cliente = new Cliente();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_cliente_get"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+                _db.AddInParameter(_cmd, "@IdCliente", DbType.Int32, idCliente);
+                //_db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _queryParams["Servico_ID"]);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _cliente = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_cliente == null) { throw new Erro("Cliente não localizado."); }
+                return _cliente;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
 
         public Cliente GetClienteCPFCNPJ(string cpfcnpj, int idUsuarioAtual)
         {
