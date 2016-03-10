@@ -14,7 +14,11 @@ namespace MK.Easydoc.WebApp.Controllers
         public ActionResult Index()
         {
             //AjaxCallTrocarServicoAtual(0);
-            //ViewBag.Message = string.Empty;
+            //TODO: 10/03/2016
+            if (new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).TrocarSenha == 1)
+            {
+                return RedirectToAction("TrocarSenha");
+            }
 
             if (ServicoAtual == null)
             {
@@ -34,6 +38,10 @@ namespace MK.Easydoc.WebApp.Controllers
             }
             
             return View();
+        }
+
+        public ViewResult TrocarSenha(){
+            return View("TrocaSenha");
         }
 
         [HttpPost]

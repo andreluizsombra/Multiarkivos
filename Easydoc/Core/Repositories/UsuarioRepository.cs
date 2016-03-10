@@ -205,6 +205,8 @@ namespace MK.Easydoc.Core.Repositories
                             CPF = _dr["Cpf"].ToString()
                             ,
                             Email = _dr["Email"].ToString()
+                            ,
+                            TrocarSenha = int.Parse(_dr["Temporario"].ToString())
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
                         });
                     }

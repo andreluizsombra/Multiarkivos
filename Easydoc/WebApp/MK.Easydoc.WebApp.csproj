@@ -2391,6 +2391,7 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_MorrisDonut.cshtml" />
     <Content Include="Views\Shared\_Pendencias.cshtml" />
+    <Content Include="Views\Home\TrocaSenha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\App_LocalResources\" />
