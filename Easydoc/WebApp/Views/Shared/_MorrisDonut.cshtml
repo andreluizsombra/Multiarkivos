@@ -834,11 +834,26 @@
                         data: data,
                         xkey: 'Data_Captura',
                         ykeys: ['Quantidade_Capturada'],
+                        labels: ['Quantidade Capturada','Data'],
+                        pointSize: 2,
+                        hideHover: 'auto',
+                        resize: true,
+                        xLabelFormat: function (date) {
+                            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+                        },
+                        xLabelFormat: function (y) { return ''; }
+                    });
+                    /*Morris.Area({
+                        element: 'morris-area-chart',
+                        data: data,
+                        xkey: 'Data_Captura',
+                        ykeys: ['Quantidade_Capturada'],
                         labels: ['Quantidade Capturada'],
                         pointSize: 2,
                         hideHover: 'auto',
                         resize: true
-                    });
+                    });*/
+
                     //$('text').attr('text-anchor', 'middle').hide(); //Esconde os textos do grafico
                 }
 
