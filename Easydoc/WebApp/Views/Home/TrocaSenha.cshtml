@@ -70,6 +70,8 @@
 
 <script>
     $().ready(function () {
+        $("#btn_mnu_principal").hide();
+        $("#btn_lista_cliente").hide();
         $("#txt_senha_atual").focus();
         $("#btnGravar").click(function () {
             if ($("#txt_senha_nova").val() != $("#txt_conf_senha").val()) {
