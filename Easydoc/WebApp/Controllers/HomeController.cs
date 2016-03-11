@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
+using MK.Easydoc.Core.Infrastructure.Framework;
+using TecFort.Framework.Generico;
 
 namespace MK.Easydoc.WebApp.Controllers
 {
@@ -42,6 +44,38 @@ namespace MK.Easydoc.WebApp.Controllers
 
         public ViewResult TrocarSenha(){
             return View("TrocaSenha");
+        }
+
+        [HttpPost]
+        public ActionResult TrocarSenha(FormCollection frm)
+        {
+            try
+            {
+                var _cripto = new Criptografia();
+                var _utils = new Util();
+
+                string senha_atual = _cripto.Executar(frm["txt_senha_atual"].Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+                string senha_nova =  _cripto.Executar(frm["txt_senha_nova"].Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+
+                var ret = new UsuarioRepository().AtualizarSenha(UsuarioAtual.ID, senha_atual, senha_nova);
+                if (ret.CodigoRetorno >= 0)
+                {
+                    TempData["Msg"] = ret.Mensagem.ToString();
+                    return RedirectToRoute("Principal");
+                    //return View("TrocaSenha");
+                }
+                else
+                {
+                    throw new Exception(ret.Mensagem.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                //TempData["Error"] = ex.Message;
+                TempData["Msg"] = ex.Message;
+                //ViewBag.MsgError = ex.Message;
+                return View("TrocaSenha");
+            }
         }
 
         [HttpPost]

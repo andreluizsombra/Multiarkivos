@@ -1,15 +1,16 @@
 ﻿@{
     ViewBag.Title = "Trocar Senha";
+    //TempData["Error"] = ViewBag.MsgError;
 }
 
 <style>
     #btnGravar, #btnCancelar {
+        margin-top: 35px;
+    }
+    .panel-success{
         margin-top: 15px;
     }
-    .container-fluid {
-        padding-top: 15px;
-        padding-bottom:15px;
-    }
+    
     label{
         padding-top: 10px;
     }
@@ -23,40 +24,55 @@
 
 @using (Html.BeginForm("TrocarSenha", "Home", FormMethod.Post, new { @class = "" }))
 {
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-3">
-                <label>Senha atual</label>
-                <input type="password" id="txt_senhatual" name="txt_senhatual" class="form-control" required />
+    <div class="container">
+
+        <div class="col-md-offset-3">
+            <div class="panel panel-success">
+                <!--<div class="panel-heading">
+                    <h4 class="panel-title">Cadastro de Clientes</h4>
+                </div>-->
+                <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Senha atual</label>
+                                <input type="password" id="txt_senha_atual" name="txt_senha_atual" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Nova senha</label>
+                                <input type="password" id="txt_senha_nova" name="txt_senha_nova" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Confirma senha</label>
+                                <input type="password" id="txt_conf_senha" name="txt_conf_senha" class="form-control" required />
+                            </div>
+                            <div class="col-md-9">
+                                <button type="submit" id="btnGravar" class="btn btn-success"><i class="fa fa-check"></i>&nbsp; Confirmar</button>
+                                <a href="/Login" id="btnCancelar" class="btn btn-warning">Cancelar</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                        </div>
+                    
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <label>Nova senha</label>
-                <input type="password" id="txt_novasenha" name="txt_novasenha" class="form-control" required />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <label>Confirma senha</label>
-                <input type="password" id="txt_confsenha" name="txt_confsenha" class="form-control" required />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <button type="submit" id="btnGravar" class="btn btn-success"><i class="fa fa-check"></i>&nbsp; Confirmar</button>
-                <a href="/Login" id="btnCancelar" class="btn btn-warning">Cancelar</a>
-            </div>
-        </div>
+        </div> 
+
+       
         
    </div>
 }
 
 <script>
     $().ready(function () {
-        $("#txt_senhatual").focus();
+        $("#txt_senha_atual").focus();
         $("#btnGravar").click(function () {
-            if ($("#txt_novasenha").val() != $("#txt_confsenha").val()) {
+            if ($("#txt_senha_nova").val() != $("#txt_conf_senha").val()) {
                 exibirmsgatencao('Atenção, Nova senha e Confirma senha estão diferentes, tente novamente...');
                 return false;
             }

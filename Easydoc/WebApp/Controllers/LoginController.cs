@@ -10,7 +10,8 @@ using MK.Easydoc.Core.Entities;
 using System.Collections.Generic;
 using MK.Easydoc.Core.Repositories;
 using System.Linq;
-
+using TecFort.Framework.Generico;
+using MK.Easydoc.Core.Infrastructure.Framework;
 namespace MK.Easydoc.WebApp.Controllers
 {
     public class LoginController : BaseController
@@ -56,7 +57,11 @@ namespace MK.Easydoc.WebApp.Controllers
             {
                 try
                 {
-                    bool valido = this._usuarioService.ValidarUsuario(model.NomeUsuario, model.Senha);
+                    var _cripto = new Criptografia();
+                    var _utils = new Util();
+                    string _senha = _cripto.Executar(model.Senha.Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+
+                    bool valido = this._usuarioService.ValidarUsuario(model.NomeUsuario, _senha);
 
                     if (valido)
                     {

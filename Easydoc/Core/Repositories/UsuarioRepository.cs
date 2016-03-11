@@ -71,7 +71,8 @@ namespace MK.Easydoc.Core.Repositories
 
                 if (_usuarios[0].Bloqueado == 1) { throw new Exception("Usuário Bloqueado, contate o administrador."); }
 
-                usuario.Senha = _cripto.Executar(usuario.Senha.Trim(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+                //TODO: 11/03/2016 Comentando aqui, estava criptografando novamente e deixando sempre a senha diferente.
+                //usuario.Senha = _cripto.Executar(usuario.Senha.Trim(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
 
                 if (usuario.Senha.Trim() == _usuarios[0].Senha.Trim())
                 {
@@ -606,6 +607,39 @@ namespace MK.Easydoc.Core.Repositories
 
 
                 if (_retorno == null) { throw new Erro("Retorno não localizado. VerificaCPFDisponivel"); }
+
+                return _retorno;
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+        public Retorno AtualizarSenha(int idUsuario, string senhaAntiga, string senhaNova)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("AtualizaSenha");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@SenhaAntiga", DbType.String, senhaAntiga);
+                _db.AddInParameter(_cmd, "@SenhaNova", DbType.String, senhaNova);
+
+                var _retorno = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        _retorno.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _retorno.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                if (_retorno == null) { throw new Erro("Retorno não localizado. AtualizarSenha"); }
 
                 return _retorno;
             }
