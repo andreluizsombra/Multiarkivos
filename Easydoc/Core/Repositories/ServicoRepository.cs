@@ -342,6 +342,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@DataExclusao", DbType.Int16, 0);
                 _db.AddInParameter(_cmd, "@DataAlteracao", DbType.Int16, 0);
                 _db.AddInParameter(_cmd, "@idUsuarioAtual", DbType.Int16, ser.IdUsuarioAtual);
+                _db.AddInParameter(_cmd, "@DescricaoAntiga", DbType.String, ser.DescricaoAntiga);
 
                 var _Ret = new Retorno();
 
@@ -355,7 +356,9 @@ namespace MK.Easydoc.Core.Repositories
                 }
                 return _Ret;
             }
-            catch (Exception ex) { throw ex; }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
         }
 
         public List<Servico> ListaServicoCliente(int _idUsuarioAtual)

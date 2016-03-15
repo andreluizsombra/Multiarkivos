@@ -27,6 +27,7 @@ jQuery(document).ready(function () {
      //   alert(this.id);
     //})
     
+        
 });
 
 function BoxPosicaoInicial() {
@@ -189,13 +190,18 @@ var init = function () {
     $('input').each(function () {
         var campo = $("#" + this.id);
         campo.attr('onfocus', 'MoverCampos(this)');
-
-        
     });
 
-    
+    $('#txtValor').keypress(function (e) {
+        if (e.which == 13) {
+            if ($('#txtValor').val() != "") {
+                $("#aguarde").html("Aguarde, registrando ocorrência.");
+                $("#btn_salvarModal").click();
+                $("#aguarde").Empty();
+            }
+        }
+    });
 
-    
     //$(".odd").remove();
     
 }
@@ -679,7 +685,6 @@ var OcorrenciaSelecionada = function (idocorr) {
     $("#txtValor").val(idocorr);
     $("#btn_salvarModal").click();
     $("#aguarde").Empty();
-
 };
 
 var ListaOcorrencias = function() {

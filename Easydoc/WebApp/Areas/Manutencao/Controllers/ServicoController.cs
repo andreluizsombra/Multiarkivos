@@ -126,6 +126,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             var Retorno = new Retorno();
             var _Servico = new Servico();
             int _idServico = int.Parse(frm["idservico"].ToString());
+            string _desc_antiga = frm["desc_antiga"].ToString();
             try
             {
                 var ser = new Servico()
@@ -137,7 +138,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     ServicoDefault =  frm["servdefault"]  == "on" ? true : false,
                     ArquivoDados =    frm["arqdados"]     == "on" ? true : false,
                     ControleAtencao = frm["contatencao"]  == "on" ? true : false,
-                    IdUsuarioAtual = UsuarioAtual.ID
+                    IdUsuarioAtual = UsuarioAtual.ID,
+                    DescricaoAntiga = _desc_antiga
                 };
                 _Servico = ser;
                 var Ret = new ServicoRepository();

@@ -27,7 +27,7 @@ namespace MK.Easydoc.Core.Entities
         public string ScriptSQLDashboard_Captura { get; set; }
         public string ScriptSQLDashboard_Pendencias { get; set; }
         public string ScriptSQLDashboard_Doc_Modulo { get; set; }
-
+        public string DescricaoAntiga { get; set; }
         public Servico()
         {
             ID = 0;
