@@ -826,6 +826,29 @@ namespace MK.Easydoc.Core.Repositories
             //    throw;
             //}
         }
+        public List<Ocorrencia> ListaOcorrencia(int _idServico)
+        {
+            List<Ocorrencia> _Ocorrencia = new List<Ocorrencia>();
+            DbCommand _cmd;
+            Database _db = DbConn.CreateDB();
+            _cmd = _db.GetStoredProcCommand(String.Format("proc_get_Ocorrencia"));
+            _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+            //_db.AddInParameter(_cmd, "@Tipo", DbType.Int32, int.Parse(_queryParams["tipo"].ToString()));
+            using (IDataReader _dr = _db.ExecuteReader(_cmd))
+            {
+                while (_dr.Read())
+                {
+                    _Ocorrencia.Add(new Ocorrencia
+                    {
+                        IdOcorrencia = int.Parse(_dr["idOcorrencia"].ToString()),
+                        descOcorrencia = _dr["Ocorrencia"].ToString(),
+                    });
+
+                }
+            }
+            return _Ocorrencia;
+        }
+
         public string GetDuplicidade(IDictionary<string, object> _queryParams)
         {
             string _ret="";
@@ -1030,6 +1053,27 @@ namespace MK.Easydoc.Core.Repositories
             return result;
         }
         #endregion MetodosPrivados
+
+        public List<Ocorrencia> ListarOcorrencia(int idServico)
+        {
+            try
+            {
+                List<Ocorrencia> _lista = new List<Ocorrencia>();
+                var lista = ListaOcorrencia(idServico);
+
+                foreach (var lst in lista)
+                {
+                    _lista.Add(new Ocorrencia() { IdOcorrencia = lst.IdOcorrencia, descOcorrencia = lst.descOcorrencia });
+                }
+
+                if (_lista == null) { throw new Erro("Ocorrencia não localizado."); }
+                return _lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 
 }

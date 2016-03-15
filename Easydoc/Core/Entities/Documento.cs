@@ -150,7 +150,17 @@ namespace MK.Easydoc.Core.Entities
         }
     }
 
+    public class Ocorrencia
+    {
+        public int IdOcorrencia { get; set; }
+        public string descOcorrencia  { get; set; }
 
+        public Ocorrencia()
+        {
+            IdOcorrencia = 0;
+            descOcorrencia = "";
+        }
+    }
 
     public class DocumentoConsulta {
 

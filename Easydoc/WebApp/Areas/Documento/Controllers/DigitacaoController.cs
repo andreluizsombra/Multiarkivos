@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.Core.Entities;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.WebApp.ViewModels;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -177,6 +178,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     return RedirectToAction("ListarPendentes", new { area = "Documento", controller = "Supervisao" });
                 }
             }
+            ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual);
             return View(_documento);
         }
 
@@ -415,7 +417,12 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return _documentoDigitacao;
         }
 
-       
+        [HttpPost]
+        public JsonResult AjaxListaOcorrencias(int idServico)
+        {
+            var _ocor = new DocumentoRepository().ListaOcorrencia(idServico);
+            return Json(_ocor.ToList(), JsonRequestBehavior.AllowGet);
+        }
 
 
     }
