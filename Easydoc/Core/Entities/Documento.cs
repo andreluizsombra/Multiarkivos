@@ -152,13 +152,25 @@ namespace MK.Easydoc.Core.Entities
 
     public class Ocorrencia
     {
+        //TODO: 16/03/2016
         public int IdOcorrencia { get; set; }
         public string descOcorrencia  { get; set; }
-
+        public int idCliente { get; set; }
+        public int idServico { get; set; }
+        public string nomeCliente { get; set; }
+        public string nomeServico { get; set; }
+        public int TipoAcao { get; set; }
+        public int idUsuario { get; set; }
         public Ocorrencia()
         {
             IdOcorrencia = 0;
             descOcorrencia = "";
+            idCliente = 0;
+            idServico = 0;
+            nomeCliente = "";
+            nomeServico = "";
+            TipoAcao = 0;
+            idUsuario = 0;
         }
     }
 

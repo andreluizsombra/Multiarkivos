@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Nova Ocorrência";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+
+    #btnGravar{
+        margin-left: 15px;
+    }
+    #combos {
+        margin-left: 2px;
+    }
+</style>
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+
+<div class="container-fluid">
+
+    @using (Html.BeginForm("Incluir", "Ocorrencia", FormMethod.Post, new { @class = "" }))
+    {
+        <input type="hidden" id="idservico" name="idservico" />
+        <input type="hidden" id="idocorrencia" name="idocorrencia" value="@ViewBag.idOcorrencia" />
+        <input type="hidden" id="selecionado" />
+        <input type="hidden" id="cliente" name="cliente" />
+        <input type="hidden" id="servico" name="servico" />
+    <div class="container-fluid">
+        <div id="combos" class="row margin-top">
+            <div class="col-md-3">
+                <label>Cliente : </label>@Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.idCliente), new { @class = "form-control" })
+            </div>
+            @if (ViewBag.ListaServico != null)
+            {
+                <div class="col-md-3">
+                    <label>Serviço : </label>@Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", ViewBag.idServico), new { @class = "form-control" })
+                </div>
+            }
+        </div>
+        <div class="row>">
+                @if (ViewBag.ListaServico != null)
+                {
+                 <div class="col-md-6">
+                     <label class="margin-top">Descrição da Ocorrência</label>
+                     <input type="text" id="nomeocorrencia" name="nomeocorrencia" class="form-control" value="@ViewBag.nomeOcorrencia" />
+                 </div>
+                }
+        </div>
+        <div class="row">
+                @if(ViewBag.ListaServico != null)
+                {
+                    <div class="col-md-12 margin-top">
+                        <button type="submit" id="btnGravar" class="btn btn-success">Gravar</button>&nbsp;|
+                        <a href="@Url.Action("ListaOcorrencias","Ocorrencia")">&nbsp;Voltar</a>
+                    </div>
+                }
+        </div>
+        <p>&nbsp;</p>
+    </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+        $().ready(function () {
+            $('#pnlHeader').slideUp('slow');
+            //$("#tblUsuarios").DataTable();
+            
+            $("#btnGravar").click(function(e){
+                if ($("#SelCliente").val() == -1) {
+                    exibirmsgatencao("Selecione um cliente.");
+                    e.preventDefault();
+                    return false;
+                }
+                if ($("#SelServico").val() == 0) {
+                    exibirmsgatencao("Selecione um Servico.");
+                    e.preventDefault();
+                    return false;
+                }
+                if ($("#nomeocorrencia").val() == 0) {
+                    exibirmsgatencao("Digite um nome ocorrência.");
+                    e.preventDefault();
+                    return false;
+                }
+            });
+               
+
+            $("#SelCliente").change(function () {
+                $("#selecionado").val($("#SelCliente").val());
+                $("#cliente").val($("#SelCliente option:selected").text());
+                var url = "/Manutencao/Ocorrencia/ListaServicoNovaOcorrencia?idCliente=" + $("#selecionado").val();
+                window.location.href = url;
+            });
+
+            var id_servico = $("#SelServico").val();
+            $("#SelServico").val(id_servico);
+
+            $("#SelServico").change(function () {
+                $("#idservico").val($("#SelServico").val());
+                $("#cliente").val($("#SelCliente option:selected").text());
+                $("#servico").val($("#SelServico option:selected").text());
+                //var url = "/Manutencao/Perfil/ListaPerfil?idCliente=" + $("#SelCliente").val() + "&idServico=" + $("#SelServico").val();
+                //window.location.href = url;
+            });
+        });
+</script>
+}

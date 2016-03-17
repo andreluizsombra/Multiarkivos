@@ -210,7 +210,7 @@ namespace MK.Easydoc.Core.Repositories
             var lista = new DbConn().RetornaDados(cmd);
 
             var cli = new List<Cliente>();
-            cli.Add(new Cliente() { ID = 0, Descricao = "Selecione" });
+            cli.Add(new Cliente() { ID = -1, Descricao = "Selecione" });
             foreach (DataRow item in lista.Rows)
             {
                 cli.Add(new Cliente() { ID = int.Parse(item[0].ToString()), Descricao = item[1].ToString() });
