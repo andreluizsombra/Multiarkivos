@@ -17,13 +17,21 @@ var init = function () {
 
     //$("#tblDetalhe").hide();
     $("#pnl_resultado_detalhe").hide();
+    $('#pnl-busca').hide();
+    $('#pnl-result').hide();
+
+    $("#cboTiposDoc").change(function () {
+        $("#pnl_resultado_detalhe").hide();
+        $('#pnl-busca').hide();
+        $('#pnl-result').hide();
+    });
+    $("#sel-index-99000").change(function () {
+        $("#btn-limpar").click();
+    });
 
     var feeID = '';
     var datasetID = '';
 
-    $('#pnl-busca').hide();
-    $('#pnl-result').hide();
-    
     bindJqGrid("SetPayInvoice", feeID, datasetID, 1);
     listar_tipos_doc();
     

@@ -157,6 +157,20 @@
             //window.location.href = url;
         });
 
+        $("#btnBuscar").click(function(e){
+            if($("#SelCliente").val()==-1){
+                exibirmsgatencao('Selecione um cliente.');
+                e.preventDefault();
+                return false;
+            }
+            if($("#SelServico").val()==0){
+                exibirmsgatencao('Selecione um serviço.');
+                e.preventDefault();
+                return false;
+            }
+        });
+        
+
         $("#btnExcluir").click(function () {
             $.ajax({ type: "POST", dataType: "json",
                 url: "/Manutencao/Ocorrencia/AjaxExcluir",
