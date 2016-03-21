@@ -133,7 +133,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                         status = "";
                         break;
                 }
-                
 
                 string det;
                 ViewData["Det"] = "";

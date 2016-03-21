@@ -126,14 +126,24 @@ namespace MK.Easydoc.Core.Entities
         public DocumentoModelo Modelo { get; set; }
         public List<DocumentoImagem> Arquivos { get; set; }
         public List<Motivo> Motivos { get; set; }//walmir
-
+        public List<Perguntas> Perguntas { get; set; }
         public Documento()
         {
             ID = 0;
             StatusDocumento = 0;
             Modelo = new DocumentoModelo();
             Arquivos = new List<DocumentoImagem>();
+            Perguntas = new List<Perguntas>();
         }    
+    }
+
+    public class Perguntas
+    {
+        public int idServico { get; set; }
+        public int idFormalizacao { get; set; }
+        public string Descricao { get; set; }
+        public string DescCompleta { get; set; }
+        public int Status { get; set; }
     }
     
     public class Motivo

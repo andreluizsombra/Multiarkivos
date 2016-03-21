@@ -196,6 +196,7 @@
     <Compile Include="Areas\Documento\Controllers\ConsultaController.cs" />
     <Compile Include="Areas\Documento\Controllers\DigitacaoController.cs" />
     <Compile Include="Areas\Documento\Controllers\DocumentoController.cs" />
+    <Compile Include="Areas\Documento\Controllers\FormalizacaoController.cs" />
     <Compile Include="Areas\Documento\Controllers\MenuController.cs" />
     <Compile Include="Areas\Documento\Controllers\ProcessarController.cs" />
     <Compile Include="Areas\Documento\Controllers\SupervisaoController.cs" />
@@ -343,6 +344,7 @@
     <Content Include="Assets\js\app-scripts\digitar.js" />
     <Content Include="Assets\js\app-scripts\documento-consultar.js" />
     <Content Include="Assets\js\app-scripts\documento-montar-consulta.js" />
+    <Content Include="Assets\js\app-scripts\formalizacao.js" />
     <Content Include="Assets\js\app-scripts\funcoes.js" />
     <Content Include="Assets\js\app-scripts\login.js" />
     <Content Include="Assets\js\app-scripts\documento-supervisao-listar.js" />
@@ -1550,6 +1552,7 @@
     <Content Include="Content\bootstrap-toggle.less" />
     <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap-toggle.min.js.map" />
     <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap2-toggle.min.js.map" />
+    <Content Include="Areas\Documento\Views\Formalizacao\Formalizar.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />

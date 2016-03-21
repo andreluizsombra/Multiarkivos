@@ -269,7 +269,7 @@ namespace MK.Easydoc.Core.Repositories
                         _documento.StatusDocumento = int.Parse(_dr["idStatus"].ToString());
 
                         _documento.Modelo.Campos = new List<CampoModelo>();
-
+                        _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString())); //TODO: 21/03/2016
                         _documentos.Add(_documento);
                         //TODO: Criar Proc para retornar os campos e metodo para carregar esta propriedade (Ja retornar o doctocampos e o modelocapo)
                     }
@@ -285,6 +285,46 @@ namespace MK.Easydoc.Core.Repositories
             }
         
         }
+
+        public List<Perguntas> ListarPerguntas(int _idServico)
+        {
+            //DocumentoModelo _modelo = new DocumentoModelo();
+            //Documento _documento = new Documento();
+            List<Perguntas> _documentos = new List<Perguntas>();
+
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_Perguntas_Formalizacao"));
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, _idServico );
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _documentos.Add(new Perguntas()
+                        {
+                            idServico = _idServico,
+                            idFormalizacao = int.Parse(_dr["idformalizacao"].ToString())
+                            ,
+                            Descricao = _dr["Descricao"].ToString(),
+                            DescCompleta = _dr["DescricaoCompleta"].ToString()
+                            ,
+                            Status = int.Parse(_dr["status"].ToString())
+                        });
+                    }
+                }
+
+                if (_documentos == null) { throw new Erro("Documento não localizado."); }
+                return _documentos;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public Documento SelecionarDocumento(IDictionary<string, object> _queryParams)
         {
             DocumentoModelo _modelo = new DocumentoModelo();

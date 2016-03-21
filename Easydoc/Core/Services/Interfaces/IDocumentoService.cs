@@ -38,5 +38,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         void AtualiarDocumentoCB(int idUsuario, int idServico, int idLote, bool verso, string CB, string NomeImagemFim);
         List<DocumentoConsulta> ListarConsultasModelo(int idUsuario, int idServico);
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
+
+        Documento GetDocumentoFormalizar(int idUsuatio, int idServico);
     }
 }
