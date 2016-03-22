@@ -122,55 +122,48 @@
 
                     @*<h2 class="ls-title-3 ls-ico-images"><strong>@Html.DisplayFor(model => model.Modelo.Rotulo)</strong> ID: @Model.ID</h2>
                         <h5 class="lls-label-text"> @Html.Raw(ViewData["Det"].ToString())</h5>*@
-                    <div class="col-lg-10">
-                        @foreach (MK.Easydoc.Core.Entities.Perguntas _campo in Model.Perguntas)
-                        {
-                            <div class="row">
-                                <div class="col-lg-10">
-                                    <input type="checkbox" id="chkcampo_@_campo.idFormalizacao" name="chkcampo_@_campo.idFormalizacao" data-onstyle="success" />
-                                </div>
-                            </div>
-                        }
-                    </div>
-
-                    <div class="row">&nbsp;</div>
-                    <p class="col-lg-10">
-                        <div class="row">
-                            <div class="col-lg-10">
-                                <div class="col-lg-10">
-                                    <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
-                                    @if (Model.StatusDocumento == 2000)
-                                    {
-                                        <!--21/03/2016-->
-                                        <input type="hidden" id="txtstatus" value="2000" />
-                                        <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
-                                        <a id="btn_voltapesquisa" class="btn btn-warning" href="#"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar</a>
-                                        <a id="btn_salvar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Gravar</a>
-                                    }
-                                    
-                                    @*if (Model.StatusDocumento == 1000)
-    {
-      <input type="hidden" id="txtstatus" value="1000" />
-      <a id="btn_salvar" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Aprovar</a>
-      <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
-    }
-    else if (Model.StatusDocumento == 1020)
-    {
-        <input type="hidden" id="txtstatus" value="1020" />
-        <a id="btn_Aprovar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Aprovar</a>
-        <a id="btn_excluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;Excluir</a>
-    }
-    else if (Model.StatusDocumento == 1010)
-    {
-        <input type="hidden" id="txtstatus" value="1010" />
-        <a id="btn_voltapesquisa" class="btn btn-info" href="#"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar a pesquisa</a>
-        <a id="btn_enviaSupervisaoLiderado" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
-    }*@
-                                    
-                                </div>
+                        <div class="col-lg-10">
+                            <div class="text-justify text-black">
+                                <textarea rows="3" id="txt_perg" class="form-control"></textarea>
                             </div>
                         </div>
-                    </p>
+                        <div class="col-lg-12">
+
+                            <p class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="col-lg-12">
+                                            <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
+                                            @if (Model.StatusDocumento == 2000)
+                                            {
+                                        <!--21/03/2016-->
+                                                <input type="hidden" id="txtstatus" value="2000" />
+                                                <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
+                                                <a id="btn_voltapesquisa" class="btn btn-warning" href="#"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar</a>
+                                                <a id="btn_salvar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Gravar</a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                            <div class="panel-body">
+                                @foreach (MK.Easydoc.Core.Entities.Perguntas _campo in Model.Perguntas)
+                                {
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <label class="checkbox-inline" style="margin-top:5px;" onmouseover="exibirPergunta('@_campo.DescCompleta')" onmouseout="limpaPergunta()">
+                                                <input type="checkbox" id="chkcampo_@_campo.idFormalizacao" name="chkcampo_@_campo.idFormalizacao" data-onstyle="success" value="@_campo.idFormalizacao" />
+                                                @_campo.Descricao
+                                            </label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="row">&nbsp;</div>
+                        
                 </div>
             </div>
 
@@ -309,10 +302,10 @@
     @Scripts.Render("~/bundles/jqueryval")
 <script>
     $().ready(function () {
-        $("[type='checkbox']").bootstrapToggle({
+       /* $("[type='checkbox']").bootstrapToggle({
             on: 'Sim',
             off: 'Não'
-        });
+        });*/
         $("#tblOcorrencia").DataTable({
             language: {
                 "sEmptyTable": "Nenhum registro encontrado",

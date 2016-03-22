@@ -202,4 +202,12 @@ namespace MK.Easydoc.Core.Entities
         public string Descricao { get; set; }
         public string PathArquivo { get; set; }
     }
+
+    public class Formalizacao
+    {
+        public int IdServico { get; set; }
+        public int IdDocumento { get; set; }
+        public int IdFormalizacao { get; set; }
+        public int Valor { get; set; }
+    }
 }

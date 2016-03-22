@@ -31,6 +31,39 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
         }
 
+        [HttpPost]
+        public JsonResult AjaxGravarFormalizacaoPorPergunta(string idDocumento, string idFormalizacao, string valor )
+        {
+            var _frm = new Formalizacao()
+            {
+                IdServico = IdServico_Atual
+                ,
+                IdDocumento = int.Parse(idDocumento)
+                ,
+                IdFormalizacao = int.Parse(idFormalizacao)
+                ,
+                Valor = int.Parse(valor)
+            };
+            var _formalizacao = new DocumentoRepository().GravarFormalizacao(_frm);
+            return Json(_formalizacao, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxMudaStatusDocumento(string idDocumento)
+        {
+            string erro = "0";
+            try
+            {
+                _docService.MudaStatusDocumento(int.Parse(idDocumento), UsuarioAtual.ID, 2010);
+            }
+            catch (Exception erx)
+            {
+                erro = erx.Message;
+                return Json(erro, JsonRequestBehavior.AllowGet);
+            }
+            return Json(erro, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Digitar(int id)
         {
             //RegistrarLOGSimples(4, 14, UsuarioAtual.NomeUsuario);

@@ -1,4 +1,11 @@
-﻿
+﻿function exibirPergunta(txtperg) {
+    $("#txt_perg").empty();
+    $("#txt_perg").html(txtperg);
+}
+function limpaPergunta() {
+  //  $("#txt_perg").val('');
+}
+
 jQuery(document).ready(function () {
 
     $('#pnlHeader').slideUp('slow');
@@ -121,6 +128,10 @@ var init = function () {
     //var _path = $("#arq").val();
     //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //trocar_imagem(_url);
+    $("[type='checkbox']").bootstrapToggle({
+        on: 'Sim',
+        off: 'Não'
+    });
 
     bindControles();
     $("#viewer").show();
@@ -308,10 +319,16 @@ var bindControles = function () {
     $("#fit").click(function () { iv1.iviewer('fit'); });
     $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
     $("#fit").trigger("click");
+
     $("#btn_salvar").click(function () {
-        // alert('teste aqui');
-        ////locastyle.modal.open({ target: "#modal-duplicidade" });
-        return validarCampos();
+        $('[type="checkbox"]').each(function () {
+            var iddocumento = $('#IdDocumento').val();
+            var idformalizacao = $("#" + this.id).val();
+            var valor = $("#" + this.id).prop('checked') == true ? 1 : 0;
+            ajax_formalizar(iddocumento, idformalizacao, valor);
+        });
+        ajax_mudastatus_documento($('#IdDocumento').val());
+        window.location = window.location.toString().replace(/#/gi, '');
     });
 
     $("#btn_salvarDup").click(function () {
@@ -439,6 +456,73 @@ var bindControles = function () {
     });
 
 }
+
+var ajax_formalizar = function (_idDocumento, _idFormalizacao, _Valor) {
+
+    var methodName = GetMethodName(arguments.callee);
+    try {
+        $.ajax({
+            url: '../../Formalizacao/AjaxGravarFormalizacaoPorPergunta',
+            cache: false,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+            data: { idDocumento: _idDocumento, idFormalizacao: _idFormalizacao, valor: _Valor },
+            success: function (data, textstatus, xmlhttprequest) {
+                if (data == null) {
+                    return;
+                }
+                if (data.success == true) {
+                    $.unblockUI();
+                    //window.location = window.location.toString().replace(/#/gi, '');
+                }
+                else {
+                    $.unblockUI();
+                    $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
+                }
+            }
+        });
+    }
+    catch (e) { Exception.show(e.toString(), methodName); }
+}
+
+var ajax_mudastatus_documento = function (_idDocumento) {
+
+    var methodName = GetMethodName(arguments.callee);
+    try {
+        $.ajax({
+            url: '../../Formalizacao/AjaxMudaStatusDocumento',
+            cache: false,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+            data: { idDocumento: _idDocumento },
+            success: function (data, textstatus, xmlhttprequest) {
+                if (data == null) {
+                    return;
+                }
+                if (data.success == true) {
+                    $.unblockUI();
+                    $(data).each(function () {
+                        debugger;
+                        console.log(data);
+                    });
+                    //window.location = window.location.toString().replace(/#/gi, '');
+                }
+                else {
+                    $.unblockUI();
+                    $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
+                }
+            }
+        });
+    }
+    catch (e) { Exception.show(e.toString(), methodName); }
+}
+
+
+
+
+
 
 var digitar_documento = function () {
     var $_retorno = gerar_json_documento();

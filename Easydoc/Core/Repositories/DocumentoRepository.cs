@@ -269,7 +269,7 @@ namespace MK.Easydoc.Core.Repositories
                         _documento.StatusDocumento = int.Parse(_dr["idStatus"].ToString());
 
                         _documento.Modelo.Campos = new List<CampoModelo>();
-                        _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString())); //TODO: 21/03/2016
+                        _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID); //TODO: 21/03/2016 ListarDocumentosStatus , agora incluindo lista de perguntas
                         _documentos.Add(_documento);
                         //TODO: Criar Proc para retornar os campos e metodo para carregar esta propriedade (Ja retornar o doctocampos e o modelocapo)
                     }
@@ -286,7 +286,35 @@ namespace MK.Easydoc.Core.Repositories
         
         }
 
-        public List<Perguntas> ListarPerguntas(int _idServico)
+        public Retorno GravarFormalizacao(Formalizacao frm)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("Inserir_documento_formalizacao");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, frm.IdServico);
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int16, frm.IdDocumento);
+                _db.AddInParameter(_cmd, "@idFormalizacao", DbType.Int16, frm.IdFormalizacao);
+                _db.AddInParameter(_cmd, "@Valor", DbType.Int16, frm.Valor);
+                
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+
+        public List<Perguntas> ListarPerguntas(int _idServico, int _idDocumentoModelo)
         {
             //DocumentoModelo _modelo = new DocumentoModelo();
             //Documento _documento = new Documento();
@@ -298,6 +326,7 @@ namespace MK.Easydoc.Core.Repositories
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand(String.Format("Get_Perguntas_Formalizacao"));
                 _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, _idServico );
+                _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, _idDocumentoModelo);
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
