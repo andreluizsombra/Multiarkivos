@@ -33,9 +33,41 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style type="text/css">
+        .panel-default > .panel-heading {
+            color: #333333;
+            background-color: #f5f5f5;
+            border-color: #dddddd;
+        }
+
+        .panel-heading {
+            padding: 10px 15px;
+            border-bottom: 1px solid transparent;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+
+        .panel-title {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 16px;
+            color: inherit;
+        }
+
+        h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+            font-family: "Ubuntu",Tahoma,"Helvetica Neue",Helvetica,Arial,sans-serif;
+            font-weight: 500;
+            line-height: 1.1;
+            color: inherit;
+        }
+    </style>
+
 </head>
+
 <body>
-   
+
+       
     <div id="wrapper">
         <!-- Navigation -->
         <nav id="BarraNav" class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -369,30 +401,52 @@
             <!-- /.navbar-static-side -->
         </nav>
         </div>
+    
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-                <div class="col-lg-12">
+                    <!--<h1 class="page-header">Dashboard XX</h1>-->
                     <div class="panel panel-default">
+                        <p></p>
+                        <div class="panel-heading">
+                                <h4 class="panel-title"><i class="fa fa-bar-chart"></i>&nbsp;Dashboard</h4>
+                        </div>
                         <div class="panel-body">
-                            <div class="col-lg-2">
-                                <label>Período Inicial</label>
-                                <input id="dtini" name="dtini" type="date" class="form-control input-sm" />
-                            </div>
-                            <div class="col-lg-2">
-                                <label>Período Final</label>
-                                <div class="input-group">
-                                    <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
-                                    <div class="input-group-btn">
-                                        <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                            <div class="col-lg-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                      <div class="row">
+                                        <div class="col-lg-2">
+                                            <label>Período Inicial</label>
+                                            <input id="dtini" name="dtini" type="date" class="form-control input-sm" />
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <label>Período Final</label>
+                                            <div class="input-group">
+                                                <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
+                                                <div class="input-group-btn">
+                                                    <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                                                </div>
+                                            </div>
+                                            <!--<label>Período Final</label>
+                                            <div class="input-group">
+                                                <input id="dtfim" name="dtfim" type="date" class="form-control input-sm" />
+                                                <div class="input-group-btn">
+                                                    <button id="btn_atualizar" class="btn btn-primary btn-sm">Atualizar</button>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div class="col-lg-8">
+                                            &nbsp;
+                                        </div>
+                                      </div>  
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
+                
           </div>
                     <!-- /.row -->
                     @*<div class="row">
@@ -726,6 +780,8 @@
                 //  alert(item.label);
                 if (data == '') {
                     exibirmsgatencao("Nenhum registro encontrado nesse período, tente novamente...");
+                    $("#AreaChart").empty();
+                    $("#morris-donut-chart").empty();
                 } else {
                     $(data).each(function() {
                         $("#titulo-DonutChart").empty().append(this.Header);
@@ -790,11 +846,26 @@
                         data: data,
                         xkey: 'Data_Captura',
                         ykeys: ['Quantidade_Capturada'],
+                        labels: ['Quantidade Capturada','Data'],
+                        pointSize: 2,
+                        hideHover: 'auto',
+                        resize: true,
+                        xLabelFormat: function (date) {
+                            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear();
+                        },
+                        xLabelFormat: function (y) { return ''; }
+                    });
+                    /*Morris.Area({
+                        element: 'morris-area-chart',
+                        data: data,
+                        xkey: 'Data_Captura',
+                        ykeys: ['Quantidade_Capturada'],
                         labels: ['Quantidade Capturada'],
                         pointSize: 2,
                         hideHover: 'auto',
                         resize: true
-                    });
+                    });*/
+
                     //$('text').attr('text-anchor', 'middle').hide(); //Esconde os textos do grafico
                 }
 

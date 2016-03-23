@@ -126,14 +126,24 @@ namespace MK.Easydoc.Core.Entities
         public DocumentoModelo Modelo { get; set; }
         public List<DocumentoImagem> Arquivos { get; set; }
         public List<Motivo> Motivos { get; set; }//walmir
-
+        public List<Perguntas> Perguntas { get; set; }
         public Documento()
         {
             ID = 0;
             StatusDocumento = 0;
             Modelo = new DocumentoModelo();
             Arquivos = new List<DocumentoImagem>();
+            Perguntas = new List<Perguntas>();
         }    
+    }
+
+    public class Perguntas
+    {
+        public int idServico { get; set; }
+        public int idFormalizacao { get; set; }
+        public string Descricao { get; set; }
+        public string DescCompleta { get; set; }
+        public int Status { get; set; }
     }
     
     public class Motivo
@@ -150,7 +160,29 @@ namespace MK.Easydoc.Core.Entities
         }
     }
 
-
+    public class Ocorrencia
+    {
+        //TODO: 16/03/2016
+        public int IdOcorrencia { get; set; }
+        public string descOcorrencia  { get; set; }
+        public int idCliente { get; set; }
+        public int idServico { get; set; }
+        public string nomeCliente { get; set; }
+        public string nomeServico { get; set; }
+        public int TipoAcao { get; set; }
+        public int idUsuario { get; set; }
+        public Ocorrencia()
+        {
+            IdOcorrencia = 0;
+            descOcorrencia = "";
+            idCliente = 0;
+            idServico = 0;
+            nomeCliente = "";
+            nomeServico = "";
+            TipoAcao = 0;
+            idUsuario = 0;
+        }
+    }
 
     public class DocumentoConsulta {
 
@@ -162,10 +194,20 @@ namespace MK.Easydoc.Core.Entities
         public string Descricao { get; set; }
         public bool Compartilhado { get; set; }
         public string ModeloJSON { get; set; }
-
-
     
     }
 
+    public class ConsultaDetalhe
+    {
+        public string Descricao { get; set; }
+        public string PathArquivo { get; set; }
+    }
 
+    public class Formalizacao
+    {
+        public int IdServico { get; set; }
+        public int IdDocumento { get; set; }
+        public int IdFormalizacao { get; set; }
+        public int Valor { get; set; }
+    }
 }

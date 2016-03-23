@@ -18,6 +18,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<Documento> ListarDocumentosTipificar(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosSupervisao(int idUsuario, int idOrigem, int idServico);
         List<DocumentoModelo> ListarTipos(int idServico);
+        List<DocumentoModelo> ListarTiposConsulta(int idServico);
         Documento GetDocumentoDigitar(int idUsuatio, int idServico);
         Documento SelecionaDocumentoDigitar(int idUsuatio, int idServico, int idDocumento);
         List<Motivo> GetMotivoDigitar(int idServico, int Tipo);
@@ -36,5 +37,8 @@ namespace MK.Easydoc.Core.Services.Interfaces
         string SalvarConsultaDocumentoModelo(int idUsuario, int idServico, int idDocumentoModelo, string nomeConsulta, string descricao, bool compartilhado, string stringJSON);
         void AtualiarDocumentoCB(int idUsuario, int idServico, int idLote, bool verso, string CB, string NomeImagemFim);
         List<DocumentoConsulta> ListarConsultasModelo(int idUsuario, int idServico);
+        List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
+
+        Documento GetDocumentoFormalizar(int idUsuatio, int idServico);
     }
 }

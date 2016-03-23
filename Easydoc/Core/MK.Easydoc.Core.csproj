@@ -185,10 +185,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Acao.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\DetalheUsuario.cs" />
     <Compile Include="Entities\Documento.cs" />
+    <Compile Include="Entities\Filtro.cs" />
     <Compile Include="Entities\Graficos.cs" />
+    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\LogDetalhe.cs" />
     <Compile Include="Entities\Lote.cs" />
     <Compile Include="Entities\Modulo.cs" />
     <Compile Include="Entities\Perfil.cs" />
@@ -208,6 +212,7 @@
     <Compile Include="Infrastructure\ValidationException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AcaoRepository.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\Dictionary.cs" />
     <Compile Include="Repositories\DocumentoRepository.cs" />
@@ -217,7 +222,9 @@
     <Compile Include="Repositories\Interfaces\IPerfilRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServicoRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUsuarioRepository.cs" />
+    <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="Repositories\LoteRepository.cs" />
+    <Compile Include="Repositories\OcorrenciaRepository.cs" />
     <Compile Include="Repositories\PerfilRepository.cs" />
     <Compile Include="Repositories\ServicoRepository.cs" />
     <Compile Include="Repositories\UsuarioRepository.cs" />

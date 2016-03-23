@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
+using MK.Easydoc.Core.Infrastructure.Framework;
+using TecFort.Framework.Generico;
 
 namespace MK.Easydoc.WebApp.Controllers
 {
@@ -14,7 +16,11 @@ namespace MK.Easydoc.WebApp.Controllers
         public ActionResult Index()
         {
             //AjaxCallTrocarServicoAtual(0);
-            //ViewBag.Message = string.Empty;
+            //TODO: 10/03/2016
+            if (new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).TrocarSenha == 1)
+            {
+                return RedirectToAction("TrocarSenha");
+            }
 
             if (ServicoAtual == null)
             {
@@ -24,6 +30,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 AjaxCallTrocarServicoAtual(_idservico);
                 Session["UsuarioAtual_ID"] = UsuarioAtual.ID;
                 var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
+                
                 ViewBag.Teste = listaCliente;
                 ViewBag.ListaCliente = new SelectList(
                         listaCliente.ToList(),
@@ -35,6 +42,42 @@ namespace MK.Easydoc.WebApp.Controllers
             return View();
         }
 
+        public ViewResult TrocarSenha(){
+            return View("TrocaSenha");
+        }
+
+        [HttpPost]
+        public ActionResult TrocarSenha(FormCollection frm)
+        {
+            try
+            {
+                var _cripto = new Criptografia();
+                var _utils = new Util();
+
+                string senha_atual = _cripto.Executar(frm["txt_senha_atual"].Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+                string senha_nova =  _cripto.Executar(frm["txt_senha_nova"].Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+
+                var ret = new UsuarioRepository().AtualizarSenha(UsuarioAtual.ID, senha_atual, senha_nova);
+                if (ret.CodigoRetorno >= 0)
+                {
+                    TempData["Msg"] = ret.Mensagem.ToString();
+                    return RedirectToRoute("Principal");
+                    //return View("TrocaSenha");
+                }
+                else
+                {
+                    throw new Exception(ret.Mensagem.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                //TempData["Error"] = ex.Message;
+                TempData["Msg"] = ex.Message;
+                //ViewBag.MsgError = ex.Message;
+                return View("TrocaSenha");
+            }
+        }
+
         [HttpPost]
         public JsonResult RetornaPendencias(int idServico)
         {
@@ -44,6 +87,37 @@ namespace MK.Easydoc.WebApp.Controllers
                     {
                         rest = flag.ToString()
                     };
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        //TODO: AndreSombra 22/02/2016
+        [HttpPost]
+        public JsonResult VisualizarModulo(int _idModulo)
+        {
+            this._qryparams = new Dictionary<string, object>();
+            this._qryparams.Clear();
+            this._qryparams["idUsuario"] = UsuarioAtual.ID;
+            this._qryparams["idServico"] = IdServico_Atual; //ServicoAtual.ID;
+            this._qryparams["idModulo"] = _idModulo;
+
+            var modulo = new PerfilRepository();
+            var resultado = modulo.ListarModulo(this._qryparams);
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        //TODO: AndreSombra 23/02/2016
+        [HttpPost]
+        public JsonResult VisualizarModuloPrincipal()
+        {
+            this._qryparams = new Dictionary<string, object>();
+            this._qryparams.Clear();
+            this._qryparams["idUsuario"] = UsuarioAtual.ID;
+            this._qryparams["idServico"] = IdServico_Atual; //ServicoAtual.ID;
+
+            var modulo = new PerfilRepository();
+            var resultado = modulo.ListarModuloPrincipal(this._qryparams);
+
             return Json(resultado, JsonRequestBehavior.AllowGet);
         }
 
@@ -100,6 +174,8 @@ namespace MK.Easydoc.WebApp.Controllers
 
         public ActionResult Dashboard()
         {
+            RegistrarLOGSimples(9, 25, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo ESTATISTICA
             ViewBag.Message = "";
             //return View("Dashboard");
             return View("~/Views/Shared/_MorrisDonut.cshtml");

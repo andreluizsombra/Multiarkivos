@@ -107,10 +107,11 @@
                           </div>
                       </div>
                       <div class="col-lg-2">
-                          <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
+                          <a href="#" class="btn btn-success" id="btn_incluir_usuario" disabled="true"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
                       </div>
                       <div class="col-lg-2">
-                          <a href="#" class="btn btn-success" id="btn_incluir_usuario" disabled="true"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
+                         &nbsp;
+                          <!--<input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.-->
                       </div>
                   </div>
           </div>
@@ -169,7 +170,7 @@
                             <td>@lst.NomeServico</td>
                             <td>@lst.PerfilID</td>
                             <td>@lst.Bloqueado</td>
-                            <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExclusao(@_usu.ID,@IdUsuarioAtual,@lst.ClienteID,@lst.ServicoID)"></i></a></td>
+                            <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExclusao(@_usu.ID,@IdUsuarioAtual,@lst.ClienteID,@lst.ServicoID,@lst.NomeCliente,@lst.NomeServico)"></i></a></td>
                         </tr>
                     }
                 </table>
@@ -472,13 +473,18 @@
 
     });
 
-    function ConfirmaExclusao(idUsu, idUsuAtual, idCliente, idServico) {
-        $("#modalExcluir").modal('show');
-        //Preencher campos ocultos
-        $("#hdn_idusu").val(idUsu);
-        $("#hdn_idusuatual").val(idUsuAtual);
-        $("#hdn_idcli").val(idCliente);
-        $("#hdn_idserv").val(idServico);
+    function ConfirmaExclusao(idUsu, idUsuAtual, idCliente, idServico, nomeCliente, nomeServico) {
+        if((nomeCliente == $("#nomeCliente").attr("placeholder"))&&(nomeServico == $("#nomeServico").attr("placeholder"))){
+            exibirmsgatencao("Cliente e Serviço em uso ! , Operação não pode ser executada.");
+            return false;
+        }else{
+            $("#modalExcluir").modal('show');
+            //Preencher campos ocultos
+            $("#hdn_idusu").val(idUsu);
+            $("#hdn_idusuatual").val(idUsuAtual);
+            $("#hdn_idcli").val(idCliente);
+            $("#hdn_idserv").val(idServico);
+        }
         
     }
 

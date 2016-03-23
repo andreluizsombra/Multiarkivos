@@ -5,6 +5,11 @@ using System.Text;
 
 namespace MK.Easydoc.Core.Entities
 {
+    public class AcessoModulo
+    {
+        public int idModulo { get; set; }
+        public int Habilitado { get; set; }
+    }
     public class Graficos
     {
         public string label { get; set; }

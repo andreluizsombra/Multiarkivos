@@ -8,6 +8,7 @@ using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.WebApp.ViewModels;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 {
@@ -87,6 +88,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 ViewBag.IdLoteItem = _lotes[0].Itens[0].ID;
                 return View();
             }
+            RegistrarLOGSimples(3, 10, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo de tipificacao
         }
 
         //public ActionResult Tipificar(string id_lote)
@@ -132,6 +135,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     //return View("Menu");
                     return Json(new RetornoViewModel(false, "Todos os documentos deste lote foram tipificados com sucesso!", tipificar));
                 }
+                RegistrarLOGSimples(3, 11, UsuarioAtual.NomeUsuario);
+                // LOG: Tipificou o documento
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
@@ -153,9 +158,12 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 lote.StatusLote = 1020;
                 _loteService.AtualizarLote(lote);
 
+                RegistrarLOGSimples(3, 12, UsuarioAtual.NomeUsuario);
+                // LOG: Enviou documento para supervisão
                 tipificar = new TipificarViewModel();
-                return Json(new RetornoViewModel(false, "Lote encaminhado para supervisão!", tipificar));
 
+                return Json(new RetornoViewModel(false, "Lote encaminhado para supervisão!", tipificar));
+                
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
@@ -216,10 +224,10 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
 
 
-                tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\ImageStorage", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
                 
                 //Novo caminho
-                tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/ImageStorage", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
 
                 if (tipificar == null) tipificar = new TipificarViewModel();
             }

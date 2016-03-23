@@ -11,6 +11,7 @@
     <link rel="icon" href="../../iconMK.png">
 
     <script src="~/Assets/js/app-scripts/funcoes.js"></script>
+    <script src="~/Assets/js/app-scripts/modulos.js"></script>
 
     <script src="~/Assets/plugins/jquery/jquery-2.1.4.min.js"></script>
     <script src="~/Assets/plugins/jquery/jquery-ui.min.js"></script>
@@ -30,6 +31,8 @@
     <link href="/sbadmin2/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <link href="~/Assets/plugins/pdfSlider/pdfSlider.css" rel="stylesheet" />
+    <link href="~/Assets/plugins/bootstrap-toggle-master/css/bootstrap-toggle.min.css" rel="stylesheet" />
+    
 
     <!-- dataTables -->
     <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -75,15 +78,15 @@
                                     <h5>Usuário :&nbsp;</h5>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="@Session["NomeUsuario"]" disabled>
+                                    <input class="form-control" type="text" id="nomeUsuario" placeholder="@Session["NomeUsuario"]" disabled>
                                 </td>
                             </tr>
                             <tr>
                                 <td align="right">
-                                    <h5><a href="@Url.Content("~/Cliente/Lista")"><i class="glyphicon glyphicon-user"></i></a> Nome do Cliente :</h5>
+                                    <h5><a href="@Url.Content("~/Cliente/Lista")" id="btn_lista_cliente"><i class="glyphicon glyphicon-user"></i></a> Nome do Cliente :</h5>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="@Session["NomeCliente"]" disabled>
+                                    <input class="form-control" type="text" id="nomeCliente" placeholder="@Session["NomeCliente"]" disabled>
                                 </td>
                             </tr>
                             <tr>
@@ -91,7 +94,7 @@
                                     <h5>Tipo de serviço :</h5>
                                 </td>
                                 <td>
-                                    <input class="form-control" type="text" id="formGroupInputSmall" placeholder="@Session["NomeServico"]" disabled>
+                                    <input class="form-control" type="text" id="nomeServico" placeholder="@Session["NomeServico"]" disabled>
                                 </td>
                             </tr>
                             <!-- <tr>
@@ -107,43 +110,6 @@
                 </div>
             </div>
         </div>
-
-        <!--
-        Usuário         : @Session["NomeUsuario"] <br />
-        <a href="@Url.Content("~/Cliente/Lista")"><i class="glyphicon glyphicon-user"></i></a>
-        Nome do Cliente : @Session["NomeCliente"] <br />
-        Tipo de serviço : @Session["NomeServico"]<br />
-        Data            : @DateTime.Now.ToString("dd/MM/yyyy")<br />-->
-        <!--<div class="col
-        -md-3">&nbsp;</div>
-        <div class="col-md-4">
-            <div class="row">
-                <div class="col-md-12">&nbsp;</div>
-            </div>
-
-            <div class="col-md-5 conteudo">
-                <p class="text-justify">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Usuário         : @Session["NomeUsuario"] <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="@Url.Content("~/Cliente/Lista")"><i class="glyphicon glyphicon-user"></i></a>
-                    Nome do Cliente : @Session["NomeCliente"] <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tipo de serviço : @Session["NomeServico"]<br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data            : @DateTime.Now.ToString("dd/MM/yyyy")<br />
-                </p>
-            </div>
-        </div>
-        </div>-->
-        <!--<div class="con
-        teudo">
-            <p class="text-justify">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Usuário         : @Session["NomeUsuario"] <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <a href="@Url.Content("~/Cliente/Lista")"><i class="glyphicon glyphicon-user"></i></a>
-                Nome do Cliente : @Session["NomeCliente"] <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tipo de serviço : @Session["NomeServico"]<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Data            : @DateTime.Now.ToString("dd/MM/yyyy")<br />
-            </p>
-        </div>-->
 
         <div class="panel panel-default">
             <div class="row">
@@ -179,17 +145,17 @@
         }
         @if (TempData["Error"] != null)
         {
-            <div class="alert alert-warning alert-dismissible" role="alert">
+            <!--<div class="alert alert-warning alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <strong>Atenção!</strong>&nbsp;@TempData["Error"]
-            </div>
+            </div>-->
         }
         @if (TempData["Msg"] != null)
         {
-            <div class="alert alert-success alert-dismissible" role="alert">
+            <!--<div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <strong>Confirmado, </strong>&nbsp;@TempData["Msg"]
-            </div>
+            </div>-->
         }
         <div id="msg" class="alert alert-success" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>
@@ -198,6 +164,122 @@
         <div id="msgatencao" class="alert alert-warning" role="alert" style="display:none;">
             <i class="glyphicon glyphicon-ok"></i>&nbsp;
         </div>
+
+       @if (TempData["Msg"] != null && TempData["Msg"] != "")
+       {
+        <input type="hidden" id="hdn_msg" name="hdn_msg" value="1"/>
+        <div class="modal fade" id="modalMSG" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Mensagem</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                @TempData["Msg"]
+                                <label id="lblmsg"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+       }
+       
+        @if (TempData["Error"] != null && TempData["Error"] != "")
+        {
+            <input type="hidden" id="hdn_msgerro" name="hdn_msg" value="1" />
+            <div class="modal fade" id="modalERRO" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Mensagem</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    @TempData["Error"]
+                                    <label id="lblmsg_erro"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        }
+
+
+        <!--
+        ==================================================================            
+        -->
+
+        <input type="hidden" id="hdn_msg" name="hdn_msg" value="1" />
+        <div class="modal fade" id="modalMSGPADRAO" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Mensagem</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label id="lbl_msgpadrao"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+        <!--====================================================================-->
+
+
+        <input type="hidden" id="hdn_msgerro" name="hdn_msg" value="1" />
+        <div class="modal fade" id="modalMSGERRO" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title text-warning" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Mensagem</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label id="lbl_msgerro"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!--<button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>-->
+                        <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Fechar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!--
+        ==================================================================
+        -->
+
+
+
+
         <div class="panel panel-default">
             <!-- Your Page Content Here -->
             @RenderSection("featured", required: false)
@@ -238,8 +320,9 @@
 <script>
     $().ready(function () {
         $("#btnPendencias").css('display','none');
-
         var id_servico = @Session["IdServico"];
+
+        $("#modalMSG").modal('show');
         //alert(id_servico);
         $.ajax({
             url: '@Url.Content("~")Home/RetornaPendencias',
@@ -256,8 +339,8 @@
                 //var message = data.Message;
                 //$("#resultMessage").html(message);
             }
-       });
-  });
+        });
+    });
 </script>
 
 

@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Editar Ocorrência";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+    #btnAlterar{
+        margin-left:15px;
+    }
+</style>
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+
+<div class="container-fluid">
+    
+@using (Html.BeginForm("Alterar", "Ocorrencia", FormMethod.Post, new { @class = "" }))
+{
+    <input type="hidden" id="idservico" name="idservico" value="@ViewBag.idServico" />
+    <input type="hidden" id="idocorrencia" name="idocorrencia" value="@ViewBag.idOcorrencia" />
+    <div class="row>">
+        <div class="col-md-6">
+                <label class="margin-top">Descrição da Ocorrência</label>
+                <input type="text" id="nomeocorrencia" name="nomeocorrencia" class="form-control" value="@ViewBag.nomeOcorrencia" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 margin-top">
+            <button type="submit" id="btnAlterar" class="btn btn-success">Alterar</button>&nbsp;|
+            <a href="@Url.Action("ListaOcorrencias","Ocorrencia")">&nbsp;Voltar</a>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+}
+</div>

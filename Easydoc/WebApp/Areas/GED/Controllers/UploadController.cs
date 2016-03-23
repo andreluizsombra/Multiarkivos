@@ -53,20 +53,38 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
         #endregion
         private string RetornaDiretorioUpload() {
+            string _diretorio = String.Empty;
+            try
+            {
+                //string _raiz = HttpContext.Server.MapPath("~/Content/Uploads");//@"C:\Temp\img\upload";
+                //string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+                //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
 
-            //string _raiz = HttpContext.Server.MapPath("~/Content/Uploads");//@"C:\Temp\img\upload";
-            string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, LoteImagens.ID);
-            string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}", _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                string _cliente = IdCliente_Atual.ToString("D3");
+                string _servico = IdServico_Atual.ToString("D4");
+
+                //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}\{6}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, LoteImagens.ID);
+                ////string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}", _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+                string DataCaptura = DateTime.Now.Year.ToString() + DateTime.Now.Month.ToString("D2") + DateTime.Now.Day.ToString("D2");
+                string v_cliente = _cliente;
+                string v_servico = _servico;
+                _diretorio = string.Format(@"{0}\{1}\{2}", v_cliente, v_servico, DataCaptura);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             
            return _diretorio;
         }
         private string CriaDiretorio() {
-
-            string _raiz = HttpContext.Server.MapPath("~/ImageStorage/");//@"C:\Temp\img\upload";
-            string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            //TODO: 08/03/2016
+            string _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");//@"C:\Temp\img\upload";
+            //string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            string _cliente = StringFormatHelper.RemoveSpecialCharacters(NomeCliente.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            string _servico = StringFormatHelper.RemoveSpecialCharacters(NomeServico.Trim().Replace(@" ", "_")).Replace(@" ", "_");
+            
             string _diretorio = string.Format(@"{0}\{1}", _raiz, LoteImagens.PathCaptura.Trim());
             //string _diretorio = string.Format(@"{0}\{1}\{2}", _raiz, LoteImagens.PathCaptura.Trim(), LoteImagens.ID);
             //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -82,9 +100,13 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         {
             try
             {
-                if (LoteImagens.ID == 0 || ServicoAtual.ID != LoteImagens.ServicoCaptura.ID)
+                //if (LoteImagens.ID == 0 || ServicoAtual.ID != LoteImagens.ServicoCaptura.ID)
+                //TODO: 08/03/2016
+                if (LoteImagens.ID == 0 || IdServico_Atual != LoteImagens.ServicoCaptura.ID)
                 {
-                    LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, ServicoAtual.ID, RetornaDiretorioUpload());
+                    LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, IdServico_Atual, RetornaDiretorioUpload());
+                    RegistrarLOGSimples(2, 5, LoteImagens.ID.ToString()); 
+                    // LOG: Criar Lote Vazio
                 }                                                            
             }
             catch (ValidationException ex) { 
@@ -98,7 +120,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         {
             try
             {
-
+                
                 int _ret = 0;
                 bool UsaArquivoDados = _loteService.UsaArquivoDados(ServicoAtual.ID);
 
@@ -107,7 +129,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     //logica com json
                     if (LoteImagens.Log.Dados == null)
                     {
-                        return Json(new RetornoViewModel(false, "O arquivo de dados do lote não foi importado ou é inválido. Favor verificar!", null, RetornoType.ValidationExceptions));
+                        return Json(new RetornoViewModel(false, "O arquivo de importação do dados do lote é inválido. Favor verificar!", null, RetornoType.ValidationExceptions));
                     }
                     if (LoteImagens.ID != 0 && ServicoAtual.ID == LoteImagens.ServicoCaptura.ID && LoteImagens.Itens.Count > 0)
                     {
@@ -186,6 +208,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     //---------------------------------------------------------------------------------------
                 }
 
+                RegistrarLOGSimples(2, 7, UsuarioAtual.NomeUsuario);
+                // LOG: Encerra LOTE
+
             }
             catch (ValidationException ex)
             {
@@ -201,6 +226,8 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             {
                 _loteService.ApagarLote(LoteImagens.ID);
                 LoteImagens = new Lote();
+                RegistrarLOGSimples(2, 8, LoteImagens.ID.ToString());
+                // LOG: Cancelou o lote na Captura
             }
             catch (ValidationException ex)
             {
@@ -307,7 +334,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 // renomeia e verifia se nao existe ja um arquivo com o mesmo nome.
                 do
                 {
-                    fine_new_name = string.Format("U{0}C{1}S{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+                    //fine_new_name = string.Format("U{0}C{1}S{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+                    fine_new_name = string.Format("{0}{1}{2}_{3}{4}{5}{6}{7}{8}", UsuarioAtual.ID, ServicoAtual.IdCliente, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond, file_Extension);
+
                     file_new = file.Replace(qqfile, fine_new_name);
                 } while (System.IO.File.Exists(file_new));
                 
@@ -345,8 +374,10 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 //_js = Json(o2);
                 // Get File Size
                 FileInfo f = new FileInfo(file_new);
-                file_Size = Convert.ToString(f.Length); 
+                file_Size = Convert.ToString(f.Length);
 
+                RegistrarLOGSimples(2, 6, LoteImagens.ID.ToString());
+                // LOG: Efetuou Upload do LOTE
             }
             catch (Exception ex)
             {

@@ -1,20 +1,43 @@
-﻿function RetMascara(campo, mascara) {
+﻿var ConverteData = function (data) {
+
+    if (data == '') { return "-" }
+    var _ret = '';
+
+    _ret = data.substr(6, 2) + '/' + data.substr(4, 2) + '/' + data.substr(0, 4);
+
+    return _ret;
+}
+function IrTopo() {
+    $('html, body').animate({
+        scrollTop: 0
+    }, 1000, 'easeInOutCirc');
+}
+function RetMascara(campo, mascara) {
     $("#" + campo.id).mask(mascara);
     //alert('ok');
 }
 
 function exibirmsg(txtmsg) {
-    $('#msg').html("<i class='glyphicon glyphicon-ok'></i>&nbsp;" + txtmsg + "<button type='button' id='btnfechar' class='close' aria-label='Close'><span >&times;</span></button>").slideDown(1000);
-    $('#btnfechar').click(function () {
-        $('#msg').slideUp(1000);
-    });
+   // $('#msg').html("<i class='glyphicon glyphicon-ok'></i>&nbsp;" + txtmsg + "<button type='button' id='btnfechar' class='close' aria-label='Close'><span >&times;</span></button>").slideDown(1000);
+   // $('#btnfechar').click(function () {
+   //     $('#msg').slideUp(1000);
+   // });
+
+    $("#modalMSGPADRAO").modal('show');
+    $("#lbl_msgpadrao").empty().html(txtmsg);
 }
 
 function exibirmsgatencao(txtmsg) {
-    $('#msgatencao').html("<i class='glyphicon glyphicon-ok'></i>&nbsp;<strong>Atenção,&nbsp;</strong>" + txtmsg + "<button type='button' id='btnfecharatencao' class='close' aria-label='Close'><span >&times;</span></button>").slideDown(1000);
-    $('#btnfecharatencao').click(function () {
-        $('#msgatencao').slideUp(1000);
-    });
+    //$('#msgatencao').html("<i class='glyphicon glyphicon-ok'></i>&nbsp;<strong>Atenção,&nbsp;</strong>" + txtmsg + "<button type='button' id='btnfecharatencao' class='close' aria-label='Close'><span >&times;</span></button>").slideDown(1000);
+    //$('#btnfecharatencao').click(function () {
+    //    $('#msgatencao').slideUp(1000);
+    //});
+
+    //$("#modalERRO").modal('show');
+    //$("#lblmsg_erro").text(txtmsg);
+
+    $("#modalMSGERRO").modal('show');
+    $("#lbl_msgerro").empty().html(txtmsg);
 }
 
 function PaginarTable(nmTable) {

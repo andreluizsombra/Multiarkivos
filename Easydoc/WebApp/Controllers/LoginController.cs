@@ -10,7 +10,8 @@ using MK.Easydoc.Core.Entities;
 using System.Collections.Generic;
 using MK.Easydoc.Core.Repositories;
 using System.Linq;
-
+using TecFort.Framework.Generico;
+using MK.Easydoc.Core.Infrastructure.Framework;
 namespace MK.Easydoc.WebApp.Controllers
 {
     public class LoginController : BaseController
@@ -47,15 +48,20 @@ namespace MK.Easydoc.WebApp.Controllers
         // POST: /Login/
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Autenticar(LoginViewModel model, string returnUrl)
-
         {
+            var log = new LogRepository();
+
             AbandonarSessao();
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    bool valido = this._usuarioService.ValidarUsuario(model.NomeUsuario, model.Senha);
+                    var _cripto = new Criptografia();
+                    var _utils = new Util();
+                    string _senha = _cripto.Executar(model.Senha.Trim().ToString(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+
+                    bool valido = this._usuarioService.ValidarUsuario(model.NomeUsuario, _senha);
 
                     if (valido)
                     {
@@ -64,36 +70,74 @@ namespace MK.Easydoc.WebApp.Controllers
                         {
                             Session["NomeUsuario"] = model.NomeUsuario;
 
-                            
+                            //TODO: 07/03/2016 Verifica se foi selecionado o Relembre-me e cria um cokie para armazenar o nome do usuário.
+                            if (Request.Cookies["Login"] == null)
+                            {
+                                if (model.ManterConectado) 
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = model.NomeUsuario;
+                                    cokLogin["lembrarnome"] = "sim";
+                                    cokLogin.Expires = DateTime.Now.AddDays(1d);
+                                    Response.Cookies.Add(cokLogin);
+                                }
+                            }
+                            else
+                            {
+                                if (model.ManterConectado)
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = model.NomeUsuario;
+                                    cokLogin["lembrarnome"] = "sim";
+                                    Response.Cookies.Set(cokLogin);
+                                }
+                                if (model.ManterConectado == false)
+                                {
+                                    HttpCookie cokLogin = new HttpCookie("Login");
+                                    cokLogin["username"] = "";
+                                    cokLogin["lembrarnome"] = "nao";
+                                    Response.Cookies.Set(cokLogin);
+                                }
+                            }
+
                             var cli = new ClienteRepository();
                             cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
+
+                            if (cli == null) TempData["Error"] = "Nenhum Cliente e Serviço Padrão selecionado...";
+
+                            Session["IdCliente"] = cli.TCliente.ID;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;
-
+                                    
                             //var cli = new ClienteRepository();
                             //cli.PrimeiroCliente(model.NomeUsuario);
                             //Session["NomeCliente"] = cli.TCliente.Descricao;
                             //Session["NomeServico"] = cli.Servico;
                             //Session["IdServico"] = cli.idServico;
+                            // LOG: Login Autenticado
+                            int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
+                            log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, _idUsuario, 1, 1, 0, 0, model.NomeUsuario);
+                            log.RegistrarLOGDetalhe(1, model.NomeUsuario);
 
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
+                            
                         }
 
                         FormsAuthentication.SetAuthCookie(model.NomeUsuario, false);
                     }
                 }
                 catch (Exception ex) {
-                    
                     //ModelState.AddModelError("Error", ex.Message);
+                    // LOG: Login Não Autenticado
+                    log.RegistrarLOG(0, 0, 0, 0, 1, 2, 0, 0, model.NomeUsuario);
+                    log.RegistrarLOGDetalhe(2, model.NomeUsuario);
                     ViewBag.Atencao = ex.Message;
+                    TempData["Msg"] = ex.Message;
                 }
             }
             return View("Index");
         }
-
-        
-
 
         //
         // GET: /Login/
@@ -101,7 +145,14 @@ namespace MK.Easydoc.WebApp.Controllers
         {
             try
             {
+                var log = new LogRepository(); // LOG: LOG no Lougout
+                int _idUsuario = new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).ID;
+                log.RegistrarLOG(int.Parse(Session["IdCliente"].ToString()), int.Parse(Session["IdServico"].ToString()), 0, _idUsuario, 2, 3, 0, 0, Session["NomeUsuario"].ToString());
+                log.RegistrarLOGDetalhe(3, Session["NomeUsuario"].ToString());
 
+                //TODO: 07/03/2016 Novo metodo usando a proc LiberaUsuarioLogado
+                new UsuarioRepository().LiberaUsuarioLogado(IdServico_Atual, UsuarioAtual.ID);
+                
                 AbandonarSessao();
                 FormsAuthentication.SignOut();
                 this.SingOut();

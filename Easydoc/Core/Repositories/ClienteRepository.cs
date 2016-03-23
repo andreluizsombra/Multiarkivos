@@ -210,7 +210,7 @@ namespace MK.Easydoc.Core.Repositories
             var lista = new DbConn().RetornaDados(cmd);
 
             var cli = new List<Cliente>();
-            cli.Add(new Cliente() { ID = 0, Descricao = "Selecione" });
+            cli.Add(new Cliente() { ID = -1, Descricao = "Selecione" });
             foreach (DataRow item in lista.Rows)
             {
                 cli.Add(new Cliente() { ID = int.Parse(item[0].ToString()), Descricao = item[1].ToString() });
@@ -275,6 +275,32 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw new Erro(ex.Message);  }        
         }
+        public Cliente GetCliente(int idUsuario, int idCliente)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Cliente _cliente = new Cliente();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_cliente_get"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+                _db.AddInParameter(_cmd, "@IdCliente", DbType.Int32, idCliente);
+                //_db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _queryParams["Servico_ID"]);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _cliente = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_cliente == null) { throw new Erro("Cliente não localizado."); }
+                return _cliente;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
 
         public Cliente GetClienteCPFCNPJ(string cpfcnpj, int idUsuarioAtual)
         {
@@ -294,6 +320,35 @@ namespace MK.Easydoc.Core.Repositories
                     while (_dr.Read())
                     {
                         _cliente = ConverteBaseObjeto(_dr);
+                    }
+                }
+                if (_cliente == null) { throw new Erro("Cliente não localizado."); }
+                return _cliente;
+            }
+            catch (Exception ex) { throw new Erro(ex.Message); }
+        }
+
+        
+        public Cliente GetClienteServicoPorNome(string nomeServico, string nomeCliente)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                Cliente _cliente = new Cliente();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_ClienteSRVPorNome"));
+
+                _db.AddInParameter(_cmd, "@NomeServico", DbType.String, nomeServico);
+                _db.AddInParameter(_cmd, "@NomeCliente", DbType.String, nomeCliente);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        //_cliente = ConverteBaseObjeto(_dr);
+                        _cliente.IdServico = int.Parse(_dr["idServico"].ToString());
+                        _cliente.IdCliente = int.Parse(_dr["idCliente"].ToString());
                     }
                 }
                 if (_cliente == null) { throw new Erro("Cliente não localizado."); }

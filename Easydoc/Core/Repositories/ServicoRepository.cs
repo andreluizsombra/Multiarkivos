@@ -39,9 +39,10 @@ namespace MK.Easydoc.Core.Repositories
                 IdCliente = int.Parse(dt["IdCliente"].ToString()),
 
                 NomeCliente = dt["NomeCliente"].ToString(),
-                ServicoDefault = int.Parse(dt["ServicoDefault"].ToString()),
-                ArquivoDados = int.Parse(dt["ArquivoDados"].ToString()),
-                ControleAtencao = int.Parse(dt["ControleAtencao"].ToString()),
+
+                ServicoDefault = bool.Parse(dt["ServicoDefault"].ToString()),
+                ArquivoDados = bool.Parse(dt["ArquivoDados"].ToString()),
+                ControleAtencao = bool.Parse(dt["ControleAtencao"].ToString()),
 
                 ScriptSQLDashboard_Captura = dt["ScriptSQLDashboard_Captura"].ToString(),
                 ScriptSQLDashboard_Pendencias = dt["ScriptSQLDashboard_Pendencias"].ToString(),
@@ -62,6 +63,7 @@ namespace MK.Easydoc.Core.Repositories
             return mDic;
         }
 
+        
         public List<Graficos> ExibirDashboard_Doc_Modulo(IDictionary<string, object> _queryParams)
         {
             try
@@ -73,6 +75,7 @@ namespace MK.Easydoc.Core.Repositories
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand(String.Format(scriptConsulta));
 
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@PeriodoInicial", DbType.Int32, int.Parse(_queryParams["periodoInicial"].ToString()));
                 _db.AddInParameter(_cmd, "@PeriodoFinal", DbType.Int32, int.Parse(_queryParams["periodoFinal"].ToString()));
 
@@ -322,32 +325,102 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw new Erro(ex.Message); }
         }
 
-        public Servico ListaServicoCliente(int _idUsuarioAtual)
+        public Retorno Incluir(Servico ser) 
         {
             try
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                Servico _servico = new Servico();
+                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Servico");
+                _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, ser.TipoAcao); //(1)Criar, (2)Alterar, (3)Excluir
+                _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, ser.IdCliente);
+                _db.AddInParameter(_cmd, "@Descricao", DbType.String, ser.Descricao);
+                _db.AddInParameter(_cmd, "@ServicoDefault", DbType.Boolean, ser.ServicoDefault);
+                _db.AddInParameter(_cmd, "@ArquivoDAdos", DbType.Boolean, ser.ArquivoDados);
+                _db.AddInParameter(_cmd, "@ControleAtencao", DbType.Boolean, ser.ControleAtencao);
+                _db.AddInParameter(_cmd, "@DataCriacao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataExclusao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@DataAlteracao", DbType.Int16, 0);
+                _db.AddInParameter(_cmd, "@idUsuarioAtual", DbType.Int16, ser.IdUsuarioAtual);
+                _db.AddInParameter(_cmd, "@DescricaoAntiga", DbType.String, ser.DescricaoAntiga);
 
-                _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
-
-                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
-                //_db.AddInParameter(_cmd, "@IdServico", DbType.Int16, _servicoID);
+                var _Ret = new Retorno();
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
                     {
-                        _servico = ConverteBaseObjeto(_dr);
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<Servico> ListaServicoCliente(int _idUsuarioAtual)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                List<Servico> _servico = new List<Servico>();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_servicos_usuario_sel"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, _idUsuarioAtual);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        var _serv = new Servico();
+                        _serv = ConverteBaseObjeto(_dr);
+                        _servico.Add(_serv);
                     }
                 }
                 if (_servico == null) { throw new Erro("Servico não localizado."); }
                 return _servico;
             }
             catch (Exception ex) { throw new Erro(ex.Message); }
-        }		
-        #endregion IServicoRepository Members
+        }
 
+        public List<Servico> PesquisaServicoCliente(int tipoConsulta, int condicao, int idCliente, string localizador, int idUsuario)
+        {
+            try
+            {
+                List<Servico> _servico = new List<Servico>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_MANU_Servico"));
+
+                _db.AddInParameter(_cmd, "@TipoConsulta", DbType.Int32, tipoConsulta);
+                _db.AddInParameter(_cmd, "@Condicao", DbType.Int32, condicao);
+                _db.AddInParameter(_cmd, "@IdCliente", DbType.Int32, idCliente);
+                _db.AddInParameter(_cmd, "@Localizador", DbType.String, localizador);
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _servico.Add(ConverteBaseObjeto(_dr));
+                    }
+                }
+                if (_servico == null) { throw new Erro("Pesquisa servico ou cliente não localizado."); }
+                return _servico;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        #endregion IServicoRepository Members
     }
+
 }

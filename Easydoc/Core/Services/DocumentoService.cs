@@ -162,6 +162,18 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public List<DocumentoModelo> ListarTiposConsulta(int idServico)
+        {
+            try
+            {
+                this._queryParams.Clear();
+                this._queryParams["Servico_ID"] = idServico;
+
+                return this._repository.ListarTiposConsulta(idServico);
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public void AtualizarDocumento(Documento documento)
         {
             try
@@ -506,6 +518,47 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }
 
         }
+
+        public Documento GetDocumentoFormalizar(int idUsuario, int idServico)
+        {
+            try
+            {
+                Documento _documento = new Documento();
+
+                this._queryParams.Clear();
+                this._queryParams["Usuario_ID"] = idUsuario;
+                //this._queryParams["Origem_ID"] = idOrigem;
+                this._queryParams["Servico_ID"] = idServico;
+
+                //TODO: Atualizar a data de atualização do doc e pegar apenas os que estiverem com data de atualização maior que 10 minutos
+                _documento = this._repository.ListarDocumentosStatus(this._queryParams).Where(d => d.StatusDocumento == 2000).FirstOrDefault();
+
+                if (_documento != null)
+                {
+                    this._queryParams.Clear();
+                    this._queryParams["Usuario_ID"] = idUsuario;
+                    this._queryParams["Documento_ID"] = _documento.ID;
+                    this._queryParams["Servico_ID"] = idServico;
+
+                    _documento.Modelo.Campos.AddRange(_repository.SelecionarDocumentoCampos(_queryParams).Where(c => c.Digita).ToList<CampoModelo>());
+                    _documento.Arquivos.AddRange(_repository.SelecionarDocumentoImagens(_queryParams).ToList<DocumentoImagem>());
+
+                    this._queryParams.Clear();
+                    this._queryParams["Documento"] = _documento;
+                    _repository.AtualizarDocumento(_queryParams);
+                }
+                else
+                {
+                    _documento = new Documento();
+                }
+
+                return _documento;
+
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
         //proc_campo_documento_sel
         public List<CampoModelo> ListarCamposModelo(int idDocumentoModelo)
         {
@@ -539,6 +592,13 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }        
         }
 
+        public List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote)
+        {
+            try{
+                    return this._repository.ListarConsultaDetalhe(idServico, idDocumento, idLote);
+            }
+            catch (Exception ex) { throw new Exception("Erro em ListarConsultaDetalhe: "+ex.Message); }        
+        }
 
         #endregion IUserService Members
     }

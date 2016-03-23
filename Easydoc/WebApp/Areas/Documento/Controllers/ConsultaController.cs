@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using MK.Easydoc.Core.Entities;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.WebApp.ViewModels;
@@ -34,6 +35,9 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         public ActionResult MontarConsulta()
         {
+            RegistrarLOGSimples(6, 18, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo Consulta
+
             List<DocumentoConsulta> _cons = new List<DocumentoConsulta>();
             _cons.AddRange(_docService.ListarConsultasModelo(UsuarioAtual.ID, ServicoAtual.ID));
             ViewBag.Consultas = _cons;
@@ -43,6 +47,14 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         public ActionResult Consultar()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ViewResult AjaxListaDetalhe(int idDoc, int idLote)
+        {
+            var _lista = new List<ConsultaDetalhe>();
+            _lista = _docService.ListarConsultaDetalhe(IdServico_Atual, idDoc, idLote);
+            return View("ListaDetalhe",_lista); 
         }
 
         //AjaxCallConsultaDinamica
@@ -75,7 +87,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 {
                     filtros += " and idStatus=1010";
                 }
-
 
                 _resultado = this._docService.PesquisarDocumentosConsulta(ServicoAtual.ID, id_documento_modelo, campos, filtros);
             }
@@ -152,6 +163,24 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return Json(new RetornoViewModel(true, null, docs));
         }
 
+        [HttpPost]
+        public JsonResult AjaxCallBuscarTiposDocumentoConsulta()
+        {
+            var docs = default(List<MK.Easydoc.Core.Entities.DocumentoModelo>);
+
+            try
+            {
+                var lista = this._docService.ListarTiposConsulta(ServicoAtual.ID);
+
+                docs = (from doc in lista
+                        select doc
+                        ).ToList();
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+
+            return Json(new RetornoViewModel(true, null, docs));
+        }
+
         //AjaxCallGridHeadData
         [HttpPost]
         public JsonResult AjaxCallGridHeadData(int id_documento_modelo)
@@ -171,7 +200,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                             { name: 'PathArquivo', index: 'PathArquivo', jsonmap: 'PathArquivo', align: 'left', width: 30, sortable: false, formatter: '#FormatterLinkOpenArquivo#'}
                         ]}";
  */
-                sJson = @"{'th': ['ID', 'Matricula', 'Caixa', 'Período','Lote','Arquivo'],
+                sJson = @"{'th': ['ID', 'idLote', 'Matricula', 'Caixa', 'Período','Lote','Arquivo'],
                             'tr': [
                                             { name: 'IdDocumento',  index: 'IdDocumento',   jsonmap: 'IdDocumento', align: 'left',      width: 40, key: true},
                                             { name: 'Matricula',    index: 'Matricula',     jsonmap: 'Matricula',   align: 'center',    width: 100 },
@@ -210,5 +239,18 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return Json(new RetornoViewModel(true, null, _campos));
         }
 
+        //AjaxCallConsultaDetalhe
+        [HttpPost]
+        public JsonResult AjaxCallConsultaDetalhe(int idDoc, int idLote)
+        {
+            var _lista = new List<ConsultaDetalhe>();
+            try
+            {   
+                _lista = _docService.ListarConsultaDetalhe(IdServico_Atual, idDoc, idLote);
+                //_docService.ListarCamposModelo(id_documento_modelo).Where(c => c.FiltroConsulta).ToList<CampoModelo>();
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+            return Json(_lista, JsonRequestBehavior.AllowGet);
+        }
     }
 }

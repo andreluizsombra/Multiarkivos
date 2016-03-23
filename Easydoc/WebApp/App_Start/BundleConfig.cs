@@ -23,7 +23,8 @@ namespace MK.Easydoc.WebApp
                         //"~/Assets/plugins/jquery/jquery.validate.js",
                         "~/Assets/plugins/jquery/jquery.mask.js",
                         //"~/Assets/plugins/jquery/jquery.validate.unobtrusive.js",
-                        "~/Assets/plugins/jquery/jquery.blockui.js"));
+                        "~/Assets/plugins/jquery/jquery.blockui.js",
+                        "~/Assets/plugins/bootstrap-toggle-master/js/bootstrap-toggle.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

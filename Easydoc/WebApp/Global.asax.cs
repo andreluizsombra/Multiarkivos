@@ -49,9 +49,16 @@ namespace MK.Easydoc.WebApp
             );
 
             routes.MapRoute(
+             name: "Logout",
+             url: "Logout",
+             defaults: new { controller = "Login", action = "EncerrarAcesso" }
+           );
+
+            routes.MapRoute(
                 "Default", // Route name
                 "{controller}/{action}/{id}", // URL with parameters
-                new { controller = "Login", action = "Index",area="", id = UrlParameter.Optional } // Parameter defaults
+                new { controller = "Login", action = "Index", area = "", id = UrlParameter.Optional }, // Parameter defaults
+                new[] { "MK.Easydoc.WebApp.Controllers" }
             );
              
         }

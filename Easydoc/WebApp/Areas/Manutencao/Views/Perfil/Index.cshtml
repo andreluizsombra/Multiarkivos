@@ -1,0 +1,14 @@
+﻿@using MK.Easydoc.Core.Repositories;
+@{
+    ViewBag.Title = "Lista de Perfil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        @Html.ActionLink("Novo", "Create", "Perfil")
+    </div>
+</div>

@@ -12,12 +12,26 @@ blockUIMessage += "</div>";
 var blockUISettings = { title: '', centerY: 15, theme: true, showOverlay: true, message: blockUIMessage };
 
 var init = function () {
+
     $('#pnlHeader').slideUp('slow');
-    var feeID = '';
-    var datasetID = '';
+
+    //$("#tblDetalhe").hide();
+    $("#pnl_resultado_detalhe").hide();
     $('#pnl-busca').hide();
     $('#pnl-result').hide();
-    
+
+    $("#cboTiposDoc").change(function () {
+        $("#pnl_resultado_detalhe").hide();
+        $('#pnl-busca').hide();
+        $('#pnl-result').hide();
+    });
+    $("#sel-index-99000").change(function () {
+        $("#btn-limpar").click();
+    });
+
+    var feeID = '';
+    var datasetID = '';
+
     bindJqGrid("SetPayInvoice", feeID, datasetID, 1);
     listar_tipos_doc();
     
@@ -82,6 +96,7 @@ var init = function () {
         //MontaDataJSON();
         var json = MontaDataJSON();
         PesquisarDosumentos(json);
+        
         $('#pnl-result').show();
         ColunaAuto();
     });
@@ -157,6 +172,13 @@ var init = function () {
     $("#tblGrid").change(function () {
         ColunaAuto();
     });
+
+    $("#btn_fechar_detalhe").click(function () {
+        $("#pnl_parametros").show();
+        $("#pnl_resultado").show();
+        $("#pnl_resultado_detalhe").hide();
+    });
+
 }
 
 var RemoveCamposFiltro = function ($_obj) {
@@ -177,7 +199,7 @@ var listar_tipos_doc = function () {
 
     try {
         $.ajax({
-            url: '../Consulta/AjaxCallBuscarTiposDocumento',
+            url: '../Consulta/AjaxCallBuscarTiposDocumentoConsulta',
             dataType: 'json',
             type: 'POST',
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
@@ -257,7 +279,7 @@ function bindJqGrid(actionController, feeID, datasetID, step)
 var PesquisarDosumentos = function (json) {
     
     //var json = MontaDataJSON();
-
+    //debugger;
     var jsonDataName = "";
     var jsonDataModel = "";
     var jsonWhere = "";
@@ -272,10 +294,10 @@ var PesquisarDosumentos = function (json) {
 
     var strWhere = '';
     var strSelect = '';
-
+    //debugger;
     $(jsonDataModel).each(function (_index) {
 
-        if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo') {
+        if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo' && this.jsonmap != 'idLote') {
             if (strSelect == '') {
                 strSelect = this.jsonmap;
             } else {
@@ -291,6 +313,7 @@ var PesquisarDosumentos = function (json) {
             strWhere += ' ' + this.x + ' ' + this.sel + ' ' + this.op + ' ' + this.val;
         }
     });
+    //debugger;
     MontarJQGrid(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
     //ResultadoPesquisa(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
 }
@@ -306,7 +329,7 @@ var CarregarDocumentos = function (json) {
     var jsonExecucao = "";
 
     _json = eval("(" + json + ")");
-
+    
     jsonDataName = _json.th;
     jsonDataModel = eval('{' + JSON.stringify(_json.tr).replace('"#', '').replace('#"', '') + '}');
     jsonWhere = _json.where;
@@ -403,37 +426,38 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 }
 
 // TODO: AndrSombra 03/11/2015
-var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
+//var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
 
-    var arr = _campos.split(',');
+//    var arr = _campos.split(',');
 
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: '../Consulta/AjaxCallConsultaDinamica',//action,
-        data: {
-            id_documento_modelo: parseInt(id_documento),//parseInt(jsonExecucao.idoc),
-            campos: _campos,
-            filtros: _where,
-            proc_name: _procedure,//jsonExecucao.proc
-        },
-        success: function (data) {
-            //Cabecalho
-            $(arr).each(function (i) {
-                console.log(data);
-            });
+//    $.ajax({
+//        type: 'POST',
+//        dataType: 'json',
+//        url: '../Consulta/AjaxCallConsultaDinamica',//action,
+//        data: {
+//            id_documento_modelo: parseInt(id_documento),//parseInt(jsonExecucao.idoc),
+//            campos: _campos,
+//            filtros: _where,
+//            proc_name: _procedure,//jsonExecucao.proc
+//        },
+//        success: function (data) {
 
-            $(data).each(function (x, arr) {
-                //console.log(data.arr[x]);
-            });
+//            //Cabecalho
+//            $(arr).each(function (i) {
+//                console.log(data);
+//            });
 
-            /* console.log(_campos);
-             for (var c in _campos) {
-                 console.log(c);
-             }*/
-        }
-    });
-}
+//            $(data).each(function (x, arr) {
+//                //console.log(data.arr[x]);
+//            });
+
+//            /* console.log(_campos);
+//             for (var c in _campos) {
+//                 console.log(c);
+//             }*/
+//        }
+//    });
+//}
 
 
     var MontarJQGrid = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
@@ -471,7 +495,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             width: 500,
             height: 300,
             hidegrid: false,
-            loadui: 'block',
+            loadui: '',
             altclass: 'alt-row-class',
             caption: ''
         });
@@ -497,7 +521,74 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         $("#tblGrid").change(function () {
             ColunaAuto();
         });
+        console.log('Montou grid');
+       // $("#tblGrid tbody").change(function () {
+        // });
+
+        $("#tblGrid tr:eq(0)").remove();
+        $("#gbox_tblGrid").hide();
+
+        setTimeout(function () {
+            //$("#tblGrid tr:eq(1)").remove();
+            ExibirResultado();
+            //$("#tblConsulta tr:eq(1)").remove();
+            //$("#tblConsulta_length").hide();
+            console.log('Executou clone');
+        }, 1000);
     }
+
+    function ExibirResultado() {
+        //TODO: Não esta carregando os registros, somente manual no console do browse 
+        //Andre Sombra 26/01/2016 
+
+        $("#tblConsulta").empty();
+        $('thead').first().clone().appendTo('#tblConsulta');
+        $('#tblGrid tbody').clone().appendTo('#tblConsulta');
+        
+        if ($("#tblStatus").val() == 0) {
+            $("#tblStatus").val(1); //Para aplicar o DataTable somente uma vez a tblConsulta
+            $("#tblConsulta").DataTable({
+                language: {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+            });
+        }
+
+      //Esconder a coluna IdDocumento e idLote ====================================================           
+        var totLinha = $('#tblConsulta tr').length;
+        for (var i = 1; i < totLinha; i++) {
+            $("#tblConsulta tr:eq(" + i + ") td:eq(0)").hide(); //css('background-color', 'red');
+        }
+        for (var i = 1; i < totLinha; i++) {
+            $("#tblConsulta tr:eq(" + i + ") td:eq(1)").hide(); //css('background-color', 'green');
+        }
+        $("#tblConsulta th:contains('ID')").hide();
+        //$(".sorting_1").hide()
+        $("#tblConsulta th:contains('idLote')").hide();
+        //============================================================================================
+
+        $("#tblConsulta_info").hide();
+}
 
     //TODO: AndreSombra 10/11/2015
     function ColunaAuto() {
@@ -506,7 +597,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
     }
 
     function JQGrid(caption) {
-        alert('teste ColunaAuto 2');
+        
         $("#tblGrid").jqGrid('GridUnload');
         var _idDocumentoModelo = parseInt($("#cboTiposDoc option:selected").val());
 
@@ -521,7 +612,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
             success: function (data, textstatus, xmlhttprequest) {
                 if (data == null) { return; }
-
+                //debugger;
                 if (data.success == true) {
                     result = data;
                     //if (result) {
@@ -541,7 +632,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
                         var _json = "";
 
                         _json = eval("(" + data.output + ")");
-
+                        
                         jsonDataName = _json.th;//eval(columnsDataModel(data.output)); 
                         jsonDataModel = eval('{' + JSON.stringify(_json.tr).replace('"#', '').replace('#"', '') + '}');
                         jsonWhere = _json.where;
@@ -552,7 +643,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
                         $(jsonDataModel).each(function (_index) {
 
-                            if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo') {
+                            if (this.jsonmap != 'IdDocumento' && this.jsonmap != 'PathArquivo' && this.jsonmap != 'idLote') {
                                 if (strSelect == '') {
                                     strSelect = this.jsonmap;
                                 } else {
@@ -588,21 +679,113 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
     function FormatterLinkOpenArquivo(cellvalue, options, rowObject) {
 
-        //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + cellvalue;
+        //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         //var _ret = '<center><table border=0 cellspacing=10 cellpadding=10 ><tr><td> ';
         //_ret +='<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;">Visualizar</a>';
         //_ret += ' </td><td> ';
         //_ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '">Editar</a> ';
         //_ret += '</td></tr><table></center>'
 
-
-        var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + cellvalue;
+        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+        // 03/03/2016 
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
+        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ','+ rowObject.idLote +')"><i class="fa fa-plus"></i></a> ';
 
         return _ret;
 
+    }
+
+    function AbreSubDocumentos(v_idDoc, v_idLote) {
+        //alert('Documento: ' + v_idDoc);
+        $("#pnl_parametros").hide();
+        $("#pnl_resultado").hide();
+        $("#pnl_resultado_detalhe").show();
+        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
+        //var _img_det = '';
+        //_img_det += '<a href=' + v_url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+
+        //var table_detalhe = $("#tblDetalhe").DataTable();
+        //table_detalhe.destroy();
+
+        $("#tblDetalhe").show();
+        
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallConsultaDetalhe",
+            type: 'POST',
+            datatype: 'json',
+            data: { idDoc: v_idDoc, idLote: v_idLote },
+            success: function (data) {
+                //debugger;
+                //_url =  + item.PathArquivo;
+                if (data == null) {
+                    exibirmsgatencao("Nenhum documento encontrado.");
+                    return;
+                }
+                
+                $("#tblDetalhe tbody").empty();
+                
+                $.each(data, function (i, item) {
+                  //$("#tblDetalhe, tbody").append(item.Descricao);
+                  $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo + "' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
+                });
+
+                AplicarDataTable();
+                $("#tblDetalhe_info").hide();
+            },
+        });
+
+        $("#tblDetalhe").hide();
+        $.ajax({
+            url: "/Documento/Consulta/AjaxListaDetalhe",
+            type: 'POST',
+            datatype: 'html',
+            data: { idDoc: v_idDoc, idLote: v_idLote },
+            success: function (data) {
+                $("#lista_detalhe").empty();
+                $("#lista_detalhe").html(data);
+            },
+        });
+
+       //$("#tblDetalhe_length").hide(); //Ocultar Quantidade de paginas ,25,50...
+    }
+
+    function AplicarDataTable()
+    {
+        if ($("#tblStatus_detalhe").val() == 0) {
+            $("#tblStatus_detalhe").val(1); //Para aplicar o DataTable somente uma vez a tblConsulta
+            //$("#tblDetalhe").DataTable({
+            //    language: {
+            //        "sEmptyTable": "Nenhum registro encontrado",
+            //        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            //        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            //        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            //        "sInfoPostFix": "",
+            //        "sInfoThousands": ".",
+            //        "sLengthMenu": "_MENU_ resultados por página",
+            //        "sLoadingRecords": "Carregando...",
+            //        "sProcessing": "Processando...",
+            //        "sZeroRecords": "Nenhum registro encontrado",
+            //        "sSearch": "Pesquisar",
+            //        "oPaginate": {
+            //            "sNext": "Próximo",
+            //            "sPrevious": "Anterior",
+            //            "sFirst": "Primeiro",
+            //            "sLast": "Último"
+            //        },
+            //        "oAria": {
+            //            "sSortAscending": ": Ordenar colunas de forma ascendente",
+            //            "sSortDescending": ": Ordenar colunas de forma descendente"
+            //        },
+            //    }
+            //});
+        }
+
+        var table_detalhe = $('#tblDetalhe').DataTable();
+        setInterval(function () {
+           // table_detalhe.ajax.reload();
+        }, 1000);
     }
 
     function objedit(id, cellname, value) {
@@ -627,7 +810,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             //_cn = this.colNames;
             //_html += monta_input(this.Rotulo, 'pesq_' + this.RotuloAbreviado + '_' + this.ID, this.ControleWEB, this.Rotulo, this.Descricao, this.Descricao, this.MaxLength, this.Requerido, this.ClasseCSS, this.Tabulacao);
         });
-
+        console.log(_cn.toString());
         return _cn;
     }
     function columnsDataModel(json) {
@@ -636,7 +819,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             _cm = this;
             //_html += monta_input(this.Rotulo, 'pesq_' + this.RotuloAbreviado + '_' + this.ID, this.ControleWEB, this.Rotulo, this.Descricao, this.Descricao, this.MaxLength, this.Requerido, this.ClasseCSS, this.Tabulacao);
         });
-
+        console.log(_cm.toString());
         return _cm;
     }
 
@@ -666,6 +849,9 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
 
         var _strTH = '"th": ["ID", ';
         var _strTR = '"tr": [{ name: "IdDocumento",  index: "IdDocumento",   jsonmap: "IdDocumento", align: "center",  width: 20, key: true},';
+
+        _strTH += '"idLote", ';
+        _strTR += '{ name: "idLote", index: "idLote", jsonmap: "idLote", align: "center", width: 20},';
 
         $('#lst-campos-sel li').each(function () {
             _strTH += '"' + this.innerText + '", ';
@@ -705,7 +891,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
         //alert(_strWHERE.toString());
 
         _str = _str + _strTH + _strTR + _strWHERE + _strEXEC + '}';
-
+        
         //_str = _str + _strTH + _strTR   + '}';
 
         //TODO: AndreSombra 12/11/2015
@@ -720,7 +906,8 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             var _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
             $('#txtValor-' + _id).mask(_mascara);
         });
-        
+       // debugger;
+        console.log(_str.toString());
         return _str;
     }
 
@@ -739,6 +926,7 @@ var ResultadoPesquisa = function (id_documento, _campos, _where, _procedure, jso
             }
         }
         str = str + "]";
+        console.log(_str.toString());
         return str;
     }
     //------end grid part----------

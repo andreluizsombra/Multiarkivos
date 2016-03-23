@@ -71,7 +71,8 @@ namespace MK.Easydoc.Core.Repositories
 
                 if (_usuarios[0].Bloqueado == 1) { throw new Exception("Usuário Bloqueado, contate o administrador."); }
 
-                usuario.Senha = _cripto.Executar(usuario.Senha.Trim(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+                //TODO: 11/03/2016 Comentando aqui, estava criptografando novamente e deixando sempre a senha diferente.
+                //usuario.Senha = _cripto.Executar(usuario.Senha.Trim(), _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
 
                 if (usuario.Senha.Trim() == _usuarios[0].Senha.Trim())
                 {
@@ -139,7 +140,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
 
                 List<Usuario> _usuarios = new List<Usuario>();
-
+                
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
                     while (_dr.Read())
@@ -194,6 +195,8 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             NomeCompleto = _dr["Nome"].ToString()
                             ,
+                            PerfilID = int.Parse(_dr["idPerfil"].ToString())
+                            ,
                             Perfil = _dr["Perfil"].ToString()
                             ,
                             Senha = _dr["Senha"].ToString()
@@ -203,6 +206,8 @@ namespace MK.Easydoc.Core.Repositories
                             CPF = _dr["Cpf"].ToString()
                             ,
                             Email = _dr["Email"].ToString()
+                            ,
+                            TrocarSenha = int.Parse(_dr["Temporario"].ToString())
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
                         });
                     }
@@ -268,6 +273,20 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+        public void LiberaUsuarioLogado(int _idServico, int _idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("LiberaUsuarioLogado");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, _idServico);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, _idUsuario);
+
+                _db.ExecuteNonQuery(_cmd);
+            }
+            catch (Exception ex) { throw ex; }
+        }
 
         public Retorno IncluirUsuario(Usuario usu)
         {
@@ -301,7 +320,7 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
-        public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso)
+        public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso, int _idperfil, int _idservico)
         {
             try
             {
@@ -315,6 +334,8 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@Email", DbType.String, _email);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, _senha);
                 _db.AddInParameter(_cmd, "@PrimeiroAcesso", DbType.Int16, _primacesso);
+                _db.AddInParameter(_cmd, "@idPerfil", DbType.Int16, _idperfil);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, _idservico);
 
                 var _Ret = new Retorno();
 
@@ -432,7 +453,10 @@ namespace MK.Easydoc.Core.Repositories
                             ServicoID = int.Parse(_dr["idServico"].ToString())
                             ,
                             NomeServico = _dr["Descricao"].ToString()
-                            //Perfil = _dr["UserName"].ToString()
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
+                            ,
+                            PerfilID = int.Parse(_dr["idPerfil"].ToString())
                             //,
                             //Senha = _dr["Senha"].ToString()
                             //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
@@ -483,6 +507,9 @@ namespace MK.Easydoc.Core.Repositories
                             NomeCliente = _dr[5].ToString()
                             ,
                             Servico = _dr[6].ToString()
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
+
                             /*CPFCNPJCliente = _dr[6].ToString()
                             ,
                             DataCriacaoCliente = _dr[7].ToString()
@@ -580,6 +607,39 @@ namespace MK.Easydoc.Core.Repositories
 
 
                 if (_retorno == null) { throw new Erro("Retorno não localizado. VerificaCPFDisponivel"); }
+
+                return _retorno;
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+        public Retorno AtualizarSenha(int idUsuario, string senhaAntiga, string senhaNova)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("AtualizaSenha");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@SenhaAntiga", DbType.String, senhaAntiga);
+                _db.AddInParameter(_cmd, "@SenhaNova", DbType.String, senhaNova);
+
+                var _retorno = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        _retorno.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _retorno.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                if (_retorno == null) { throw new Erro("Retorno não localizado. AtualizarSenha"); }
 
                 return _retorno;
             }

@@ -5,6 +5,7 @@ jQuery(document).ready(function () {
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
 
+
     var AtualizarPagina = function () {
         if ($('#IdDocumento').val() == 0) {
             window.location = window.location.toString().replace(/#/gi, '');
@@ -25,6 +26,8 @@ jQuery(document).ready(function () {
     //$('input[required=true]').each(function () {
      //   alert(this.id);
     //})
+    
+        
 });
 
 function BoxPosicaoInicial() {
@@ -116,17 +119,18 @@ function validarCamposAprovar() {
 
 var init = function () {
     //var _path = $("#arq").val();
-    //var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //trocar_imagem(_url);
+
     bindControles();
     $("#viewer").show();
     $("#viewer").iviewer('set_zoom', 10);
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //var _url = "http://
-    //ImageStorage/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
@@ -186,14 +190,20 @@ var init = function () {
     $('input').each(function () {
         var campo = $("#" + this.id);
         campo.attr('onfocus', 'MoverCampos(this)');
-
-        
     });
 
+    $('#txtValor').keypress(function (e) {
+        if (e.which == 13) {
+            if ($('#txtValor').val() != "") {
+                $("#aguarde").html("Aguarde, registrando ocorrência.");
+                $("#btn_salvarModal").click();
+                $("#aguarde").Empty();
+            }
+        }
+    });
 
-   // BoxPosicaoInicial(); //Colocar o box na posicao incial.
-   // console.log('aqui 2');
-
+    //$(".odd").remove();
+    
 }
 
 //Colocar texto em Maiusculo
@@ -277,7 +287,7 @@ var bindControles = function () {
     $('img').css('top', '0px');
 
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
     var iv1 = $("#viewer").iviewer({
         src: _url,
@@ -668,4 +678,37 @@ var gerar_json_documento = function () {
     $_retorno = $_retorno.substr(0, $_retorno.length - 1);
     $_retorno += ']}}';
     return $_retorno;
+}
+
+var OcorrenciaSelecionada = function (idocorr) {
+    $("#aguarde").html("Aguarde, registrando ocorrência.");
+    $("#txtValor").val(idocorr);
+    $("#btn_salvarModal").click();
+    $("#aguarde").Empty();
+};
+
+var ListaOcorrencias = function() {
+    $.ajax({
+        type: 'POST', dataType: 'json',
+        url:  '../../Digitacao/AjaxListaOcorrencias',
+        data: { idServico: $("#idservico").val() },
+        success: function (data) {
+            debugger;
+            if (data == null) {
+                $.unblockUI();
+                return;
+            }
+            if (data.success == true) {
+                $.unblockUI();
+                $(data).each(function () {
+                    $('#tblOcorrencia tbody').append("<tr><td>" + this.IdOcorrencia + "</td><td>" + this.descOcorrencia + "</td></tr>");
+                });
+                //$("#tabela").append($("#tblModulos").html());
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //alert(xhr.status);
+            //alert(thrownError);
+        }
+    });
 }

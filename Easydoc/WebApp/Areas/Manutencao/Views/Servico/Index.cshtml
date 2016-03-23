@@ -1,0 +1,240 @@
+﻿@model IEnumerable<MK.Easydoc.Core.Entities.Servico>
+@using MK.Easydoc.WebApp.Controllers
+
+@{
+    ViewBag.Title = "Manutenção de Serviços";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+}
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+
+    .usu {
+        color: black;
+    }
+
+    td {
+        text-align: left;
+    }
+
+    .margin-top-botaolimpar {
+        margin-top: 25px;
+    }
+</style>
+
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row margin-top">
+        <div class="col-lg-10">
+            @using (Html.BeginForm("Pesquisa", "Servico"))
+            {
+                @*<div class="well">*@
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Pesquisa por:</label>
+                        <select class="form-control" id="selTipo" name="selTipo">
+                            <option value="0" selected="selected">Selecione</option>
+                            <option value="1">Nome Cliente</option>
+                            <option value="2">Nome Servico</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Condição:</label>
+                        <select class="form-control" id="selCondicao" name="selCondicao">
+                            <option value="1" selected="selected">=</option>
+                            <option value="2">Contém</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>Localizador:</label>
+                        <div class="input-group">
+                            @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                            <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
+                            <span class="input-group-btn">
+                                <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <a href="/Manutencao/Servico" id="btnLimpar" class="btn btn-warning margin-top-botaolimpar" onmouseover="">Limpar</a></div>
+                    <div class="col-lg-2 margin-top-botaolimpar">
+                        <a href="/Manutencao/Servico/Create" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Novo Serviço</a>
+                    </div>
+                </div>
+                <label>&nbsp;</label>
+            }
+        </div>
+    </div>
+</div>
+@if (Model != null) { 
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <hr />
+            <div class="table-responsive">
+                <table id="tblUsuarios" class="table table-striped table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Cliente</th>
+                            <!--<th>Serviço Padrão</th>-->
+                            <th>Importação de Arquivo</th>
+                            <th>Controle Versão</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    
+                        @foreach (var lst in Model)
+                        {
+                            <tr id="lin_@lst.ID">
+                                <td>@lst.Descricao</td>
+                                <td>@lst.NomeCliente</td>
+                                <!--<td>@CustomHelper.SimNao(lst.ServicoDefault.ToString())</td>-->
+                                <td>@CustomHelper.SimNao(lst.ArquivoDados.ToString())</td>
+                                <td>@CustomHelper.SimNao(lst.ControleAtencao.ToString())</td>
+                                <!--<td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>--> 
+                                <td><a href="@Url.Content("~/Manutencao/Servico/Edit/")@lst.ID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
+                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluir(@lst.ID,@IdUsuarioAtual,'@lst.Descricao')"></i></a></td>
+                            </tr>
+                        }
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Excluir Serviço</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Deseja realmente excluir ?</h3>
+                        <div id="nomeServico"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <input type="hidden" id="hdn_linha" name="hdn_linha" />
+        <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+        <input type="hidden" id="hdn_nomeservico" name="hdn_nomeservico" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        //$("#tblUsuarios").DataTable();
+        $("#btnExcluir").click(function () {
+            $.ajax({ type: "POST", dataType: "json",
+                url: "/Manutencao/Servico/AjaxExcluir",
+                data: { idServico: $("#hdn_idserv").val() },
+                success: function (data) {
+
+                    $(data).each(function(){
+                        if(this.CodigoRetorno==1){
+
+                            //$("#lin_" + $("#hdn_idusu").val()).attr('class','selected');
+                            //var table = $('#tblUsuarios').DataTable();
+                            //table.row('.selected').remove().draw( false );
+
+                            exibirmsg(this.Mensagem);
+                                                                    
+                            var surl = "http://" + window.location.host + '/Manutencao/Servico/Listar';
+                            window.location = surl;
+                        }
+                        else{exibirmsgatencao(this.Mensagem); console.log(this.Mensagem)}
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    var erro = JSON.parse(xhr.responseText);
+                    console.log(erro.Message);
+                }
+            });
+
+            $("#modalExcluir").modal('hide');
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $('#btnLimpar').click(function() {
+            $('table tr').empty();
+        });
+
+        $('i[id^=bloq_]').each(function(e){
+            if($(this).attr('bloqueado')=='0')
+                $(this).css('color', 'black');
+            else
+                $(this).css('color', 'red');
+        });
+
+        $("#tblUsuarios").DataTable({
+            language: { "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+          }
+        );
+
+   });
+
+    function ConfirmaExcluir(idServico, idUsuAtual, nomeServico) {
+        if(nomeServico == $("#nomeServico").attr("placeholder")){
+            exibirmsgatencao("Serviço "+ nomeServico +" em uso ! , Operação não pode ser executada.");
+            return false;
+        }else{
+            $("#modalExcluir").modal('show');
+            //Preencher campos ocultos
+            $("#hdn_idserv").val(idServico);
+            $("#hdn_idusuatual").val(idUsuAtual);
+            $("#nomeServico").empty();
+            $("#nomeServico").html(nomeServico);
+        }
+   }
+    </script>
+}
+
+

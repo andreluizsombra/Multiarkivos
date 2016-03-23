@@ -28,6 +28,7 @@ namespace MK.Easydoc.Core.Entities
         public string DashboardPendenciasServico { get; set; }
         public string DashboardDocumentosPorModuloServico { get; set; }
         public string ScriptRegraNegocioServico { get; set; }
+        public string Perfil { get; set; }
 
         public DetalheUsuario() {
          CPF = string.Empty;
@@ -51,6 +52,7 @@ namespace MK.Easydoc.Core.Entities
          DashboardPendenciasServico = string.Empty;
          DashboardDocumentosPorModuloServico = string.Empty;
          ScriptRegraNegocioServico = string.Empty;
+         Perfil = string.Empty;
         }
     }
 }

@@ -196,6 +196,7 @@
     <Compile Include="Areas\Documento\Controllers\ConsultaController.cs" />
     <Compile Include="Areas\Documento\Controllers\DigitacaoController.cs" />
     <Compile Include="Areas\Documento\Controllers\DocumentoController.cs" />
+    <Compile Include="Areas\Documento\Controllers\FormalizacaoController.cs" />
     <Compile Include="Areas\Documento\Controllers\MenuController.cs" />
     <Compile Include="Areas\Documento\Controllers\ProcessarController.cs" />
     <Compile Include="Areas\Documento\Controllers\SupervisaoController.cs" />
@@ -208,7 +209,11 @@
     <Compile Include="Areas\GED\GEDAreaRegistration.cs" />
     <Compile Include="Areas\Manutencao\Controllers\ClienteController.cs" />
     <Compile Include="Areas\Manutencao\Controllers\MenuController.cs" />
+    <Compile Include="Areas\Manutencao\Controllers\OcorrenciaController.cs" />
+    <Compile Include="Areas\Manutencao\Controllers\PerfilController.cs" />
+    <Compile Include="Areas\Manutencao\Controllers\ServicoController.cs" />
     <Compile Include="Areas\Manutencao\ManutencaoAreaRegistration.cs" />
+    <Compile Include="Areas\Seguranca\Controllers\AuditoriaController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\MenuController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\UsuarioController.cs" />
     <Compile Include="Areas\Seguranca\SegurancaAreaRegistration.cs" />
@@ -218,6 +223,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ServicoController.cs" />
     <Compile Include="Areas\GED\Controllers\UploadController.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Infrastructure\Filters\CacheFilterAttribute.cs" />
     <Compile Include="Infrastructure\Filters\CompressFilterAttribute.cs" />
     <Compile Include="Infrastructure\Filters\GrantAccessAttribute.cs" />
@@ -283,6 +289,7 @@
     <Content Include="Assets\css\core-style\skins\_all-skins.css" />
     <Content Include="Assets\css\core-style\skins\_all-skins.min.css" />
     <Content Include="Assets\image\brand-multiarkivos_easydoc.JPG" />
+    <Content Include="Assets\image\icon\core-icon\btn-auditoria-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-240x240.png" />
     <Content Include="Assets\image\icon\core-icon\btn-cancela-315x315.png" />
@@ -299,7 +306,9 @@
     <Content Include="Assets\image\icon\core-icon\btn-finaliza-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-finaliza-240x240.png" />
     <Content Include="Assets\image\icon\core-icon\btn-finaliza-315x315.png" />
+    <Content Include="Assets\image\icon\core-icon\btn-perfil-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-seguranca-180x180.png" />
+    <Content Include="Assets\image\icon\core-icon\btn-servico-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-180x180.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-240x240.png" />
     <Content Include="Assets\image\icon\core-icon\btn-supervisao-315x315.png" />
@@ -335,9 +344,11 @@
     <Content Include="Assets\js\app-scripts\digitar.js" />
     <Content Include="Assets\js\app-scripts\documento-consultar.js" />
     <Content Include="Assets\js\app-scripts\documento-montar-consulta.js" />
+    <Content Include="Assets\js\app-scripts\formalizacao.js" />
     <Content Include="Assets\js\app-scripts\funcoes.js" />
     <Content Include="Assets\js\app-scripts\login.js" />
     <Content Include="Assets\js\app-scripts\documento-supervisao-listar.js" />
+    <Content Include="Assets\js\app-scripts\modulos.js" />
     <Content Include="Assets\js\app-scripts\tipificar.js" />
     <Content Include="Assets\js\app-scripts\upload.js" />
     <Content Include="Assets\js\core-scripts\app.js" />
@@ -347,6 +358,19 @@
     <Content Include="Assets\js\core-scripts\npm.js" />
     <Content Include="Assets\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Assets\plugins\bootstrap-slider\slider.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\css\bootstrap-toggle.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\css\bootstrap-toggle.min.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\css\bootstrap2-toggle.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\css\bootstrap2-toggle.min.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\doc\header.png" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\doc\nyt.png" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\doc\nytdev.svg" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\doc\script.js" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\doc\stylesheet.css" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap-toggle.js" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap-toggle.min.js" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap2-toggle.js" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap2-toggle.min.js" />
     <Content Include="Assets\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
     <Content Include="Assets\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.min.js" />
     <Content Include="Assets\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.css" />
@@ -1514,7 +1538,21 @@
     <Content Include="Areas\Seguranca\Views\Usuario\DetalheUsuario.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Index.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Create.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Servico\Index.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Servico\Create.cshtml" />
     <Content Include="Areas\Manutencao\Views\Cliente\Edit.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Servico\Edit.cshtml" />
+    <Content Include="Areas\Seguranca\Views\Auditoria\Listar.cshtml" />
+    <Content Include="Areas\Documento\Views\Consulta\ListaDetalhe.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Perfil\Index.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Perfil\Create.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Ocorrencia\Index.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Ocorrencia\Edit.cshtml" />
+    <Content Include="Areas\Manutencao\Views\Ocorrencia\Create.cshtml" />
+    <Content Include="Content\bootstrap-toggle.less" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap-toggle.min.js.map" />
+    <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap2-toggle.min.js.map" />
+    <Content Include="Areas\Documento\Views\Formalizacao\Formalizar.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />
@@ -2376,6 +2414,7 @@
     <Content Include="Views\Home\Dashboard.cshtml" />
     <Content Include="Views\Shared\_MorrisDonut.cshtml" />
     <Content Include="Views\Shared\_Pendencias.cshtml" />
+    <Content Include="Views\Home\TrocaSenha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\App_LocalResources\" />

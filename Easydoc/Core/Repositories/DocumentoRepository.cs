@@ -269,7 +269,7 @@ namespace MK.Easydoc.Core.Repositories
                         _documento.StatusDocumento = int.Parse(_dr["idStatus"].ToString());
 
                         _documento.Modelo.Campos = new List<CampoModelo>();
-
+                        _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID); //TODO: 21/03/2016 ListarDocumentosStatus , agora incluindo lista de perguntas
                         _documentos.Add(_documento);
                         //TODO: Criar Proc para retornar os campos e metodo para carregar esta propriedade (Ja retornar o doctocampos e o modelocapo)
                     }
@@ -285,6 +285,75 @@ namespace MK.Easydoc.Core.Repositories
             }
         
         }
+
+        public Retorno GravarFormalizacao(Formalizacao frm)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand("Inserir_documento_formalizacao");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, frm.IdServico);
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int16, frm.IdDocumento);
+                _db.AddInParameter(_cmd, "@idFormalizacao", DbType.Int16, frm.IdFormalizacao);
+                _db.AddInParameter(_cmd, "@Valor", DbType.Int16, frm.Valor);
+                
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+
+        public List<Perguntas> ListarPerguntas(int _idServico, int _idDocumentoModelo)
+        {
+            //DocumentoModelo _modelo = new DocumentoModelo();
+            //Documento _documento = new Documento();
+            List<Perguntas> _documentos = new List<Perguntas>();
+
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_Perguntas_Formalizacao"));
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, _idServico );
+                _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, _idDocumentoModelo);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _documentos.Add(new Perguntas()
+                        {
+                            idServico = _idServico,
+                            idFormalizacao = int.Parse(_dr["idformalizacao"].ToString())
+                            ,
+                            Descricao = _dr["Descricao"].ToString(),
+                            DescCompleta = _dr["DescricaoCompleta"].ToString()
+                            ,
+                            Status = int.Parse(_dr["status"].ToString())
+                        });
+                    }
+                }
+
+                if (_documentos == null) { throw new Erro("Documento não localizado."); }
+                return _documentos;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public Documento SelecionarDocumento(IDictionary<string, object> _queryParams)
         {
             DocumentoModelo _modelo = new DocumentoModelo();
@@ -359,7 +428,40 @@ namespace MK.Easydoc.Core.Repositories
             {
                 throw;
             }
-        }                
+        }   
+        
+        public List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote)
+        {
+            List<ConsultaDetalhe> _campos = new List<ConsultaDetalhe>();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_Consulta_Detalhe_DocPai"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico );
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, idDocumento);
+                _db.AddInParameter(_cmd, "@idLoteItem", DbType.Int32, idLote);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _campos.Add(new ConsultaDetalhe() { Descricao = _dr["Descricao"].ToString(), PathArquivo = _dr["PathArquivo"].ToString() });
+
+                    }
+                }
+
+                //if (_campos == null) { throw new Erro("Documento não localizado."); }
+
+                return _campos;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }   
+
         public List<CampoModelo> SelecionarDocumentoCampos(IDictionary<string, object> _queryParams)
         {
             List<CampoModelo> _campos = new List<CampoModelo>();
@@ -455,6 +557,39 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+
+        public List<DocumentoModelo> ListarTiposConsulta(int idServico)
+        {
+            try
+            {
+                DocumentoModelo _documento = new DocumentoModelo();
+                List<DocumentoModelo> _documentos = new List<DocumentoModelo>();
+
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_documentomodelo_servico_sel_consulta"));
+
+                //_db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, int.Parse(_queryParams["Usuario_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, idServico);
+
+                //_db.AddInParameter(_cmd, "@IdStatus", DbType.Int32, int.Parse(_queryParams["Status_ID"].ToString()));
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _documentos.Add(ConverteBaseDocumento(_dr));
+                    }
+                }
+                if (_documentos == null) { throw new Erro("Documento não localizado."); }
+                return _documentos;//.Where(d => d.IdLote == int.Parse(_queryParams["Lote_ID"].ToString())).ToList<LoteItem>();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         private DocumentoModelo ConverteBaseDocumento(IDataReader dt)
         {
             DocumentoModelo _documento = new DocumentoModelo();
@@ -760,6 +895,29 @@ namespace MK.Easydoc.Core.Repositories
             //    throw;
             //}
         }
+        public List<Ocorrencia> ListaOcorrencia(int _idServico)
+        {
+            List<Ocorrencia> _Ocorrencia = new List<Ocorrencia>();
+            DbCommand _cmd;
+            Database _db = DbConn.CreateDB();
+            _cmd = _db.GetStoredProcCommand(String.Format("proc_get_Ocorrencia"));
+            _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+            //_db.AddInParameter(_cmd, "@Tipo", DbType.Int32, int.Parse(_queryParams["tipo"].ToString()));
+            using (IDataReader _dr = _db.ExecuteReader(_cmd))
+            {
+                while (_dr.Read())
+                {
+                    _Ocorrencia.Add(new Ocorrencia
+                    {
+                        IdOcorrencia = int.Parse(_dr["idOcorrencia"].ToString()),
+                        descOcorrencia = _dr["Ocorrencia"].ToString(),
+                    });
+
+                }
+            }
+            return _Ocorrencia;
+        }
+
         public string GetDuplicidade(IDictionary<string, object> _queryParams)
         {
             string _ret="";
@@ -964,6 +1122,27 @@ namespace MK.Easydoc.Core.Repositories
             return result;
         }
         #endregion MetodosPrivados
+
+        public List<Ocorrencia> ListarOcorrencia(int idServico)
+        {
+            try
+            {
+                List<Ocorrencia> _lista = new List<Ocorrencia>();
+                var lista = ListaOcorrencia(idServico);
+
+                foreach (var lst in lista)
+                {
+                    _lista.Add(new Ocorrencia() { IdOcorrencia = lst.IdOcorrencia, descOcorrencia = lst.descOcorrencia });
+                }
+
+                if (_lista == null) { throw new Erro("Ocorrencia não localizado."); }
+                return _lista;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 
 }

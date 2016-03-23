@@ -38,8 +38,8 @@
                             <option value="1">Nome</option>
                             <option value="2">Login</option>
                             <option value="3">Cpf</option>
-                            <option value="4">Cliente</option>
-                            <option value="5">Serviço</option>
+                            <!--<option value="4">Cliente</option>
+                            <option value="5">Serviço</option>-->
                         </select>
                     </div>
 
@@ -47,7 +47,7 @@
                         <label>Condição:</label>
                         <select class="form-control" id="selCondicao" name="selCondicao">
                             <option value="1" selected="selected">=</option>
-                            <option value="2">Contem</option>
+                            <option value="2">Contém</option>
                         </select>
                     </div>
 
@@ -84,9 +84,9 @@
                       <thead>
                        <tr>
                         <th>Nome</th>
+                        <th>Serviço</th>
                         <th>Login</th>
                         <th>Perfil</th>
-                        <th>Serviço</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
                         <th>&nbsp;</th>
@@ -105,12 +105,12 @@
                             {
                                 <tr id="lin_@lst.ID@lst.ServicoID@IdUsuarioAtual">
                                     <td>@lst.NomeCompleto</td>
-                                    <td>@lst.NomeUsuario</td>
-                                    <td>@lst.PerfilID</td>
                                     <td>@lst.NomeServico</td>
+                                    <td>@lst.NomeUsuario</td>
+                                    <td>@lst.Perfil</td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
                                     <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
-                                    <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario&&idServico=@lst.ServicoID&&idPerfil=@lst.PerfilID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?idUsuario=@lst.ID" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
                                     <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirUsuario(@lst.ID,@lst.ServicoID,@IdUsuarioAtual )"></i></a></td>
                                 </tr>

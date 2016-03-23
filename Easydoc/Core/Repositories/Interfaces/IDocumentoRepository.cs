@@ -12,7 +12,9 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         List<CampoModelo> SelecionarDocumentoCampos(IDictionary<string, object> _queryParams);
         List<DocumentoImagem> SelecionarDocumentoImagens(IDictionary<string, object> _queryParams);
         List<DocumentoModelo> ListarTipos(IDictionary<string, object> _queryParams);
+        List<DocumentoModelo> ListarTiposConsulta(int idServico);
         List<CampoModelo> ListarCamposModelo(IDictionary<string, object> _queryParams);
+        
         //Walmir
         List<Motivo> SelecionarMotivo(IDictionary<string, object> _queryParams);
         string GetDuplicidade(IDictionary<string, object> _queryParams);
@@ -36,5 +38,6 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         string SalvarConsultaDocumentoModelo(IDictionary<string, object> _queryParams);
         string AtualiarDocumentoCB(IDictionary<string, object> dictionary);
         List<DocumentoConsulta> ListarConsultasModelo(IDictionary<string, object> dictionary);
+        List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
     }
 }

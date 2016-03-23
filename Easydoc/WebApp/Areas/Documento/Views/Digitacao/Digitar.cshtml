@@ -86,6 +86,7 @@
     {
         <input type="hidden" id="IdDocumento" value="@Model.ID" />
         <input type="hidden" id="IdDocumentoModelo" value="@Model.Modelo.ID" />
+        <input type="hidden" id="idservico" value="@Session["IdServico"]"/>
         if (Model.ID != 0)
         {
 
@@ -119,8 +120,6 @@
                                     </div>
                                 </fieldset>
                             </div>
-
-
 
                             @foreach (MK.Easydoc.Core.Entities.DocumentoImagem _arquivos in Model.Arquivos)
                             {
@@ -174,7 +173,8 @@
                                     {
                                 <input type="hidden" id="txtstatus" value="1000" />
                                 <a id="btn_salvar" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Aprovar</a>
-                                <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
+                                <!--03/03/2016-->
+                                    <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
                                     }
                                     else if (Model.StatusDocumento == 1020)
                                     {
@@ -232,11 +232,11 @@
                 <div class="modal-header">
                     @if (Model.StatusDocumento == 1000)
                     {
-                        <h4 class="modal-title">Supervisão!</h4>
+                        <h3 class="modal-title"><i class="fa fa-check-square"></i>&nbsp;Supervisão!</h3>
                     }
                     else if (Model.StatusDocumento == 1020)
                     {
-                        <h4 class="modal-title">Exclusão!</h4>
+                        <h3 class="modal-title"><i class="fa fa-trash"></i>&nbsp;Exclusão!</h3>
                     }
                     <br />
                     <small>Digite o código referente ao motivo.</small>
@@ -249,7 +249,7 @@
                     onkeydown="return ( event.ctrlKey || event.altKey
                     || (47<event.keyCode && event.keyCode<58 && event.shiftKey==false)
                     || (95<event.keyCode && event.keyCode<106)
-                    || (event.keyCode==8) || (event.keyCode==9)
+                    || (event.keyCode == 8) || (event.keyCode == 9) || (event.keyCode == 13)
                     || (event.keyCode>34 && event.keyCode<40)
                     || (event.keyCode==46) )"
                     campo="8" class="" tabindex="1" value="" required="required" maxlength="1" />
@@ -257,7 +257,7 @@
                     @if (Model.StatusDocumento == 1000)
                     {
                         @*<a id="btn_salvarModal" class="btn btn-primary btn-sm" href="#">Salvar</a>*@
-                        <div id="btn_salvarModal" class="btn btn-primary btn-sm">Salvar</div>
+                        <div id="btn_salvarModal" class="btn btn-primary">Salvar</div>
                     }
                     else if (Model.StatusDocumento == 1020)
                     {
@@ -265,7 +265,36 @@
                     }
                      
                 </div>
-            
+                <hr/>
+                <div class="panel-warning">
+                    <h2 id="aguarde" class="text-warning text-center"></h2>
+                </div>
+                
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel-body">
+                                <table id="tblOcorrencia" class="table table-striped">
+                                    <thead>
+                                        <tr><th>Código</th><th>Ocorrência</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.ListaOcorrencia != null)
+                                        {
+                                            foreach (var itm in ViewBag.ListaOcorrencia)
+                                            {
+                                                <tr onclick="OcorrenciaSelecionada('@itm.IdOcorrencia')" style="cursor:pointer">
+                                                    <td>@itm.IdOcorrencia</td>
+                                                    <td>@itm.descOcorrencia</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                    
                 <div class="modal-footer">
                     <button class="btn btn-warning" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp;Cancelar</button><br>
                 </div>
@@ -297,6 +326,35 @@
         </div>
     </div><!-- /.modal -->
 }
-
+<script>
+    $().ready(function () {
+        $("#tblOcorrencia").DataTable({
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
+        //ListaOcorrencias();
+    });
+</script>
 
 

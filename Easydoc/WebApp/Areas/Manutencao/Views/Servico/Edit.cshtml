@@ -1,0 +1,116 @@
+﻿@using MK.Easydoc.Core.Entities
+@model MK.Easydoc.Core.Entities.Servico
+@{
+//var _Servico = new Servico();
+  //  if (ViewBag.Servico != null) { _Servico = ViewBag.Servico; }
+
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    ViewBag.Title = "Cadastrar Novo Serviço";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
+<input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
+<div class="well">
+    <h4 class="panel-title">
+        <i class="fa fa-users"></i>&nbsp;Cadastrar Novo Serviço
+        
+    </h4>
+</div>
+<style>
+    .margin-top {
+        margin-top: 10px;
+    }
+
+    hr {
+        margin-top: 15px;
+        margin-bottom: -5px;
+        border: 0;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .well {
+        min-height: 20px;
+        padding: 15px;
+        margin-bottom: 0px;
+        background-color: #f5f5f5;
+        border: 1px solid #e3e3e3;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+        box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    }
+
+    input#btn_novo {
+        /*margin-top: 24px;
+        margin-left: 15px;*/
+    }
+</style>
+
+<form action="/Manutencao/Servico/Alterar" method="post">
+    <input type="hidden" id="idservico" name="idservico" value="@Model.ID" />
+    <input type="hidden" id="desc_antiga" name="desc_antiga" value="@Model.Descricao" />
+    <div id="pnlUsuario" class="panel-body">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="input-group">
+                    @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                    <!--<span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>-->
+                    <label>Nome Serviço</label>
+                    <input type="text" data-toggle="tooltip" title="" id="nomeservico" name="nomeservico" class="form-control" placeholder="Desrição do Serviço" value="@Model.Descricao" required />
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="input-group">
+                    @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                    <label>Cliente</label>
+                    @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text",Model.IdCliente), new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <br />
+                <input type="checkbox" id="servdefault" name="servdefault" value="@Model.ServicoDefault" checked="@Model.ServicoDefault">&nbsp;Serviço Padrão
+            </div>
+            <div class="col-lg-2">
+                <br />
+                <input type="checkbox" id="arqdados" name="arqdados" value="@Model.ArquivoDados" checked="@Model.ArquivoDados">&nbsp;Importação de Dados
+            </div>
+            <div class="col-lg-2">
+                <br />
+                <input type="checkbox" id="contatencao" name="contatencao" value="@Model.ControleAtencao" checked="@Model.ControleAtencao">&nbsp;Controle Atenção
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 margin-top">
+                <input type="submit" class="btn btn-success" id="btn_novo" name="btn_novo" value="Gravar" />
+                &nbsp;<a href="/Manutencao/Servico" class="btn btn-warning"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
+                &nbsp;<a href="/Manutencao/Servico/Create" class="btn btn-primary" style="color:black;"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Servico</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<input type="hidden" id="selecionado" name="selecionado" />
+<input type="hidden" id="cliente" name="cliente" />
+<input type="hidden" id="servico" name="servico" />
+
+<input type="hidden" id="idcliente" name="idcliente" />
+<input type="hidden" id="verificar" name="verificar" />
+<input type="hidden" id="st_botaonovo" name="st_botaonovo" value="0" />
+
+<script>
+    jQuery(document).ready(function () {
+      $('#pnlHeader').slideUp('slow');
+
+
+      $("#btn_novo").click(function () {
+          if ($("#SelCliente").val() == "0") {
+              exibirmsgatencao("Porfavor, Selecione um cliente");
+              return false;
+          }
+      });
+
+    });
+</script>
+

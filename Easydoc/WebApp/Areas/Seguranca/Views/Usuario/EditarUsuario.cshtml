@@ -52,6 +52,9 @@
 <form action="@Url.Content("~/Seguranca/Usuario/Alterar")" method="post">
     <input type="hidden" id="idusuario" name="idusuario" value="@_usu.ID" />
     <input type="hidden" id="loginantes" name="loginantes" value="@_usu.NomeUsuario" />
+    <input type="hidden" id="idservico" name="idservico" value="@ViewBag.IdServico" />
+    <input type="hidden" id="idperfil" name="idperfil" value="@ViewBag.IdPerfil" />
+    
     <div id="pnlUsuario" class="panel-body">
 
         <div class="row">
@@ -84,6 +87,8 @@
                 </div>
             </div>
         </div>
+        
+      
 
         <div class="container-fluid margin-top">
             <div class="panel panel-default">
@@ -104,20 +109,40 @@
                             </div>
                         </div>
                         <div class="col-lg-2">
-                            <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
+                            <input type="submit" class="btn btn-success" id="btnAlterar" value="Alterar Usuário">
+                            <a href="/Seguranca/Usuario/VoltarListaUsuarios" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
                         </div>
                         <div class="col-lg-2">
-                            <input type="submit" class="btn btn-success" id="btnAlterar" value="Alterar Usuário">
+                            <!--<input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                @if (ViewBag.ListaPerfil != null)
+                {
+                    <div class="col-lg-3">
+                        <label>Perfil </label>
+                        @Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" })
+                    </div>
+                }
+            </div>
+        </div>
+
     </div>
 </form>
 <script>
     jQuery(document).ready(function () {
         $("#cpf").attr('disabled', true);
+
+        $("#SelPerfil").val($("#idperfil").val());
+
+        $("#SelPerfil").change(function () {
+          $("#idperfil").val($("#SelPerfil").val()); //Altera valor do input idperfil para o id do perfil selecinado no combo
+        });
 
         $("#btnAlterar").click(function () {
             if ($('#senha').val() != $('#confsenha').val()) {

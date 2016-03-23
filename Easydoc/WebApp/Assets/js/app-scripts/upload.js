@@ -1,12 +1,15 @@
 ﻿jQuery(document).ready(function () { init(); });
 
 var init = function () {
+
     $('a#btnGerarLote')
         .bind('click', function (event) { event.preventDefault(); GerarLote(); });
     $('a#btnCancelarLote')
         .unbind('click');
     $('a#btnEncerrarLote')
         .unbind('click');
+    $('#btnSim')
+        .bind('click', function (event) { event.preventDefault(); BotaoSim() });
 }
 
 var bindControles = function () {
@@ -34,6 +37,12 @@ function limpamsg() {
     $('#msgatencao').hide();
 }
 
+var BotaoSim = function () {
+    
+    $("#modalEncerra").modal('hide');
+    EncerrarLote();
+}
+
 var EncerrarLote = function () {
     $('#msg').slideUp(1000);
     $.ajax({
@@ -49,7 +58,7 @@ var EncerrarLote = function () {
 
             if (data.success == true) {
                 
-                exibirmsg('Documento capturado com sucesso.');
+                //exibirmsg('Documento capturado com sucesso.');
 
                 $('a#btnGerarLote')
                     .bind('click', function (event) { event.preventDefault(); GerarLote(); });
@@ -188,8 +197,11 @@ var createUploader = function () {
                // alert(x);
 
                 $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
-                exibirmsg('Operação efetuada com sucesso.');
+                //exibirmsg('Operação efetuada com sucesso.');
                 HabilitarEncerrarLote();
+
+                //Caixa modal Ecerrar Lote confirmando Sim ou Nao
+                $("#modalEncerra").modal('show');
             }
             return;
         },

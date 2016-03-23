@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 <div class="panel-heading">
     <h4 class="panel-title">Documento</h4>
 </div>
@@ -12,10 +11,9 @@
 
     <br />
     <div class="row">
-
-
+        
         <!-- 1 - Tipíficação -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_11">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Tipificação : <strong>@ViewBag.QtdeTip</strong></h4>
@@ -32,7 +30,7 @@
 
 
         <!-- 2 - Digitação -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_12">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Digitação : <strong>@ViewBag.QtdeDig</strong></h4>
@@ -48,7 +46,7 @@
         </div>      
 
         <!-- 3 - Supervisão -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_13">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Supervisão : <strong>@ViewBag.QtdeSup</strong></h4>
@@ -64,8 +62,8 @@
         </div>    
         
         
-        <!-- 3 - Consulta -->
-        <div class="col-md-3">
+        <!-- 4 - Consulta -->
+        <div class="col-md-3" id="modulo_14">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Consulta </h4>
@@ -78,10 +76,31 @@
                     </div>
                 </div>
             </div>
-        </div>      
+        </div>   
+        
+        <!-- 5 - Formalização -->
+        <div class="col-md-3" id="modulo_12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Formalização</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Formalizacao", id = 0 })" aria-label="Efetuar Digitação de documentos tipificados" class="ls-btn ls-btn-sm" title="Efetuar Digitação de documentos">
+                            <img src="~/Assets/image/icon/core-icon/btn-digitacao-180x180.png" alt="Tipíficação" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>        
     </div>
 </div>
 
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(2);
+    });
+</script>
 
 
 

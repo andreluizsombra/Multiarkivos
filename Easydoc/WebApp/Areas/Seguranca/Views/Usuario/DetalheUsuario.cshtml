@@ -47,6 +47,7 @@
                         <tr>
                             <th>Nome do Cliente</th>
                             <th>Servico</th>
+                            <th>Perfil</th>
                         </tr>
                     </thead>
                     @foreach (var lst in ViewBag.ListaDetalheClienteServico)
@@ -54,6 +55,7 @@
                         <tr>
                             <td>@lst.NomeCliente</td>
                             <td>@lst.Servico</td>
+                            <td>@lst.Perfil</td>
                         </tr>
                     }
                 </table>
