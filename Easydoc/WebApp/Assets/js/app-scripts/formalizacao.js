@@ -442,6 +442,7 @@ var bindControles = function () {
 
         ////locastyle.modal.open({ target: "#modal-supervisao" });
         $('#modal-supervisao').modal();
+        ListaOcorrencias();
         txtValor.focus();
 
     });
@@ -660,7 +661,7 @@ var ajax_enviar_supervisao = function (_idDocumento, _idMotivo) {
     var methodName = GetMethodName(arguments.callee);
     try {
         $.ajax({
-            url: '../../Digitacao/AjaxCallEnviarDocumentoSupervisao',
+            url: '../../Formalizacao/AjaxCallEnviarDocumentoSupervisao',
             cache: false,
             dataType: 'json',
             type: 'POST',
@@ -774,10 +775,10 @@ var OcorrenciaSelecionada = function (idocorr) {
 var ListaOcorrencias = function () {
     $.ajax({
         type: 'POST', dataType: 'json',
-        url: '../../Digitacao/AjaxListaOcorrencias',
+        url: '../../Formalizacao/AjaxListaOcorrencias',
         data: { idServico: $("#idservico").val() },
         success: function (data) {
-            debugger;
+           // debugger;
             if (data == null) {
                 $.unblockUI();
                 return;

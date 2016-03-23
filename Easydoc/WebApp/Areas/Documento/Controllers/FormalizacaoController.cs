@@ -55,6 +55,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             try
             {
                 _docService.MudaStatusDocumento(int.Parse(idDocumento), UsuarioAtual.ID, 2010);
+                bool EmUso = _docService.EmUso(int.Parse(idDocumento), UsuarioAtual.ID, 2);
             }
             catch (Exception erx)
             {
@@ -62,6 +63,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 return Json(erro, JsonRequestBehavior.AllowGet);
             }
             return Json(erro, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxListaOcorrencias(int idServico)
+        {
+            var _ocor = new DocumentoRepository().ListaOcorrencia(idServico);
+            return Json(_ocor.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Digitar(int id)
@@ -193,6 +201,23 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual);
             return View("Formalizar",_documento);
+        }
+
+        [HttpPost]
+        public ActionResult AjaxCallEnviarDocumentoSupervisao(int id_documento, int id_motivo)
+        {
+            try
+            {
+                MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1020 });
+                _docService.AtualizarDocumento(_doc);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
+                _docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID, 1);
+
+                RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
+                // LOG: Enviou documento a supervisão
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+            return Json(new RetornoViewModel(true, "Documento enviado para a supervisão!", null));
         }
 
         public ActionResult Index()

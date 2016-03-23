@@ -175,7 +175,7 @@
         <div class="col-md-12">
             <header class="">
                 <div id="msgatencao" class="alert alert-warning" role="alert">
-                    <i class='glyphicon glyphicon-ok'></i><strong>Aguarde!,&nbsp;</strong><label>Procurando documento a digitar...</label><span></span>
+                    <i class='glyphicon glyphicon-ok'></i><strong>Aguarde!,&nbsp;</strong><label>Procurando documento a formalizar ...</label><span></span>
                     <button type='button' id='btnfecharprocurando' class='close' aria-label='Close'><span>&times;</span></button>
                     <img src="~/Images/carregando.gif" class="text-center" />
                 </div>
@@ -226,12 +226,12 @@
                     || (event.keyCode==46) )"
                            campo="8" class="" tabindex="1" value="" required="required" maxlength="1" />
 
-                    @if (Model.StatusDocumento == 1000)
+                    @if (Model.StatusDocumento == 2000)
                     {
                         @*<a id="btn_salvarModal" class="btn btn-primary btn-sm" href="#">Salvar</a>*@
                         <div id="btn_salvarModal" class="btn btn-primary">Salvar</div>
                     }
-                    else if (Model.StatusDocumento == 1020)
+                    else if (Model.StatusDocumento == 2010)
                     {
                         <a id="btn_salvarModalExcluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;excluir</a>
                     }
