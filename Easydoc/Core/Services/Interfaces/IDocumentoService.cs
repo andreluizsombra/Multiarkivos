@@ -21,7 +21,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<DocumentoModelo> ListarTiposConsulta(int idServico);
         Documento GetDocumentoDigitar(int idUsuatio, int idServico);
         Documento SelecionaDocumentoDigitar(int idUsuatio, int idServico, int idDocumento);
-        List<Motivo> GetMotivoDigitar(int idServico, int Tipo);
+        //List<Motivo> GetMotivoDigitar(int idServico, int Tipo);
         bool EmUso(int idDocumento, int idUsuario, int Tipo);
         string GetDuplicidade(int idDocumento);
         string GetMotivo(int idDocumento);
@@ -40,5 +40,6 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
 
         Documento GetDocumentoFormalizar(int idUsuatio, int idServico);
+        List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo);
     }
 }

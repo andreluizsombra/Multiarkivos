@@ -438,9 +438,7 @@ namespace MK.Easydoc.Core.Services
             //catch (Exception ex) { throw ex; }
         }
 
-
-
-        public List<Motivo> GetMotivoDigitar(int idServico, int Tipo)
+        /*public List<Motivo> GetMotivoDigitar_Antigo(int idServico, int Tipo)
         {
             //try
             //{
@@ -450,6 +448,20 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams["tipo"] = Tipo;
                 _Motivo.AddRange(_repository.SelecionarMotivo(_queryParams));                
                 return _Motivo;
+            //}
+            //catch (Exception ex) { throw ex; }
+        }*/
+
+        public List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo)
+        {
+            //try
+            //{
+            List<Ocorrencia> _Motivo = new List<Ocorrencia>();
+            this._queryParams.Clear();
+            this._queryParams["iddocumentomodelo"] = idServico;
+            this._queryParams["tipo"] = Tipo;
+            _Motivo.AddRange(_repository.ListaOcorrencia(idServico));
+            return _Motivo;
             //}
             //catch (Exception ex) { throw ex; }
         }

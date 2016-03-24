@@ -453,7 +453,7 @@ var bindControles = function () {
         txtValor.focus();
     });
     $("#btn_voltapesquisa").click(function () {
-        history.go(-1);
+        ajax_voltar_documento_emuso($('#IdDocumento').val());
     });
 
 }
@@ -505,7 +505,7 @@ var ajax_mudastatus_documento = function (_idDocumento) {
                 if (data.success == true) {
                     $.unblockUI();
                     $(data).each(function () {
-                        debugger;
+                        //debugger;
                         console.log(data);
                     });
                     //window.location = window.location.toString().replace(/#/gi, '');
@@ -521,8 +521,39 @@ var ajax_mudastatus_documento = function (_idDocumento) {
 }
 
 
+var ajax_voltar_documento_emuso = function (_idDocumento) {
 
-
+    var methodName = GetMethodName(arguments.callee);
+    try {
+        $.ajax({
+            url: '../../Formalizacao/AjaxVoltarDocumentoEmUso',
+            cache: false,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+            data: { idDocumento: _idDocumento },
+            success: function (data, textstatus, xmlhttprequest) {
+                //debugger;
+                if (data == null) {
+                    return;
+                }
+                if (data.CodigoRetorno == 1) {
+                    $.unblockUI();
+                   
+                    exibirmsgatencao('Erro, ' + data.Mensagem);
+                    return false;
+                } else {
+                    $.unblockUI();
+                    $('div#modal-resultado-digitacao span#texto-resultado').text(data.Mensagem);
+                    var surl = "http://" + window.location.host + '/Documento/Menu';
+                    window.location = surl;
+                }
+                    //window.location = window.location.toString().replace(/#/gi, '');
+            }
+        });
+    }
+    catch (e) { Exception.show(e.toString(), methodName); }
+}
 
 
 var digitar_documento = function () {

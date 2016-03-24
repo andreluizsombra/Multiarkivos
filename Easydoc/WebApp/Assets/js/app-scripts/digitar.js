@@ -2,6 +2,7 @@
 jQuery(document).ready(function () {
     
     $('#pnlHeader').slideUp('slow');
+    $('#tblMotivos').hide();
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
 
@@ -435,7 +436,7 @@ var bindControles = function () {
         txtValor.focus();
     });
     $("#btn_voltapesquisa").click(function () {
-        history.go(-1);
+        ajax_voltar_documento_emuso($('#IdDocumento').val());
     });
 
 }
@@ -503,6 +504,41 @@ var ajax_digitar_documento = function ($_campos_json) {
     catch (e) { Exception.show(e.toString(), methodName); }
 
 }
+
+var ajax_voltar_documento_emuso = function (_idDocumento) {
+
+    var methodName = GetMethodName(arguments.callee);
+    try {
+        $.ajax({
+            url: '../../Formalizacao/AjaxVoltarDocumentoEmUso',
+            cache: false,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+            data: { idDocumento: _idDocumento },
+            success: function (data, textstatus, xmlhttprequest) {
+                debugger;
+                if (data == null) {
+                    return;
+                }
+                if (data.CodigoRetorno == 1) {
+                    $.unblockUI();
+
+                    exibirmsgatencao('Erro, ' + this.Mensagem);
+                    return false;
+                } else {
+                    $.unblockUI();
+                    $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
+                    var surl = "http://" + window.location.host + '/Documento/Menu';
+                    window.location = surl;
+                }
+                //window.location = window.location.toString().replace(/#/gi, '');
+            }
+        });
+    }
+    catch (e) { Exception.show(e.toString(), methodName); }
+}
+
 
 //AjaxCallExcuirDocumento
 var ajax_exluir = function (_idDocumento, _idMotivo) {
@@ -684,6 +720,7 @@ var OcorrenciaSelecionada = function (idocorr) {
     $("#aguarde").html("Aguarde, registrando ocorrência.");
     $("#txtValor").val(idocorr);
     $("#btn_salvarModal").click();
+    $("#btn_salvarModalExcluir").click();
     $("#aguarde").Empty();
 };
 

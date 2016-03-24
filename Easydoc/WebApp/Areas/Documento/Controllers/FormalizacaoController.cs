@@ -8,6 +8,7 @@ using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories;
+using MK.Easydoc.Core.Infrastructure;
 using MK.Easydoc.WebApp.ViewModels;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -51,7 +52,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         [HttpPost]
         public JsonResult AjaxMudaStatusDocumento(string idDocumento)
         {
-            string erro = "0";
+            var ret = new Retorno();
             try
             {
                 _docService.MudaStatusDocumento(int.Parse(idDocumento), UsuarioAtual.ID, 2010);
@@ -59,10 +60,28 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             catch (Exception erx)
             {
-                erro = erx.Message;
-                return Json(erro, JsonRequestBehavior.AllowGet);
+                ret.CodigoRetorno = 1;
+                ret.Mensagem = erx.Message;
+                return Json(ret, JsonRequestBehavior.AllowGet);
             }
-            return Json(erro, JsonRequestBehavior.AllowGet);
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxVoltarDocumentoEmUso(string idDocumento)
+        {
+            var ret = new Retorno();
+            try
+            {
+                bool EmUso = _docService.EmUso(int.Parse(idDocumento), UsuarioAtual.ID, 2);
+            }
+            catch (Exception erx)
+            {
+                ret.CodigoRetorno=1;
+                ret.Mensagem = erx.Message;
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            return Json(ret, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -99,7 +118,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 _documento = _docService.SelecionaDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID, id);
             }
 
-            List<Motivo> _motivo;
+            List<Ocorrencia> _motivo;
             ViewData["dupliciadade"] = "";
             if (_documento.StatusDocumento == 1000)
             {
@@ -182,11 +201,11 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             ViewData["Valida"] = "";
             ViewData["Just"] = "<table>";
             ViewData["Just"] = ViewData["Just"] + "<tr><td>Cod.<td>Descrição</td></tr> ";
-            foreach (Motivo motivo in _motivo)
+            foreach (Ocorrencia motivo in _motivo)
             {
 
-                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.atalho + "<td> " + motivo.descricao + "</td></tr>";
-                ViewData["Valida"] = ViewData["Valida"] + motivo.atalho.ToString();
+                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.IdOcorrencia + "<td> " + motivo.descOcorrencia + "</td></tr>";
+                ViewData["Valida"] = ViewData["Valida"] + motivo.IdOcorrencia.ToString();
             }
             ViewData["Just"] = ViewData["Just"] + "</table>";
 

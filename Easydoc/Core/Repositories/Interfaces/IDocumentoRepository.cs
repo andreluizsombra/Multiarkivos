@@ -16,7 +16,7 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         List<CampoModelo> ListarCamposModelo(IDictionary<string, object> _queryParams);
         
         //Walmir
-        List<Motivo> SelecionarMotivo(IDictionary<string, object> _queryParams);
+        //List<Motivo> SelecionarMotivo(IDictionary<string, object> _queryParams);
         string GetDuplicidade(IDictionary<string, object> _queryParams);
         bool EmUso(IDictionary<string, object> _queryParams);
         string GetMotivo(IDictionary<string, object> _queryParams);
@@ -39,5 +39,7 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         string AtualiarDocumentoCB(IDictionary<string, object> dictionary);
         List<DocumentoConsulta> ListarConsultasModelo(IDictionary<string, object> dictionary);
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
+        List<Ocorrencia> ListaOcorrencia(int _idServico);
+        //List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo);
     }
 }

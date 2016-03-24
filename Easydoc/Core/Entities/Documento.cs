@@ -171,6 +171,7 @@ namespace MK.Easydoc.Core.Entities
         public string nomeServico { get; set; }
         public int TipoAcao { get; set; }
         public int idUsuario { get; set; }
+        
         public Ocorrencia()
         {
             IdOcorrencia = 0;

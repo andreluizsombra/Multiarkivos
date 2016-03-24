@@ -77,15 +77,15 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 _documento = _docService.SelecionaDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID,id);
             }
 
-            List<Motivo> _motivo;
+            List<Ocorrencia> _motivo;
             ViewData["dupliciadade"] = "";
             if (_documento.StatusDocumento == 1000)
             {
-                _motivo = _docService.GetMotivoDigitar(_documento.Modelo.ID, 1);
+                _motivo = _docService.GetMotivoDigitar(IdServico_Atual, 1);
             }
             else
             {
-                _motivo = _docService.GetMotivoDigitar(_documento.Modelo.ID, 2);
+                _motivo = _docService.GetMotivoDigitar(IdServico_Atual, 2);
                 ViewData["dupliciadade"] = "";
                 if (_documento.Modelo.ID == 10)
                 {                    
@@ -158,13 +158,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             ViewData["Just"] = "";
             ViewData["Valida"] = "";
-            ViewData["Just"] = "<table>";
+            ViewData["Just"] = "<table id='tblMotivos'>";
             ViewData["Just"] = ViewData["Just"] + "<tr><td>Cod.<td>Descrição</td></tr> ";
-            foreach (Motivo motivo in _motivo)
+            foreach (Ocorrencia motivo in _motivo)
             {
 
-                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.atalho + "<td> " + motivo.descricao +"</td></tr>";
-                ViewData["Valida"] = ViewData["Valida"] + motivo.atalho.ToString();          
+                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.IdOcorrencia + "<td> " + motivo.descOcorrencia +"</td></tr>";
+                ViewData["Valida"] = ViewData["Valida"] + motivo.IdOcorrencia.ToString();          
             }
             ViewData["Just"] = ViewData["Just"] + "</table>";
 

@@ -745,6 +745,7 @@ namespace MK.Easydoc.Core.Repositories
             }
         }
 
+
         public string PesquisarMotivo(IDictionary<string, object> _queryParams)
         {
             string _mensagem = string.Empty;
@@ -868,7 +869,7 @@ namespace MK.Easydoc.Core.Repositories
         }  
 
         //Walmir
-        public List<Motivo> SelecionarMotivo(IDictionary<string, object> _queryParams)
+        public List<Motivo> SelecionarMotivo_ANTIGO(IDictionary<string, object> _queryParams)
         {
             List<Motivo> _Motivo = new List<Motivo>();
             //try
@@ -895,6 +896,7 @@ namespace MK.Easydoc.Core.Repositories
             //    throw;
             //}
         }
+
         public List<Ocorrencia> ListaOcorrencia(int _idServico)
         {
             List<Ocorrencia> _Ocorrencia = new List<Ocorrencia>();
