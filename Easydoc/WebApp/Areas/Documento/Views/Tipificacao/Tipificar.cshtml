@@ -10,6 +10,11 @@
 <link href="~/Assets/plugins/pdfSlider/pdfSlider.css" rel="stylesheet" />
 
 <style>
+     #container {
+        overflow: auto;
+        /*-webkit-overflow-scrolling: touch;*/
+        height: 800px;
+    }
     .viewer {
         width: 100%;
         height: 100%;
@@ -23,6 +28,7 @@
 
      object {
         width: 800px;
+        height: 800px;
         /*height: 800px;*/
     }
 </style>
@@ -70,37 +76,47 @@
     -->
         
     <div class="ls-box ls-board-box">
-            <div class="row">
-                <div class="col-lg-8">
-                     <div class="container-fluid">
-                        <div id="viewer" class="viewer"></div>
-                         <!--Para PDF, carrousel é padrão pelo componente-->
-                         <div id="carousel" class="col-lg-8">
-                             <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
-                             <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
-                         </div>
-                        <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
-                            <a id="in" href="#" class="ls-ico-zoomin"></a><br>
-                            <a id="out" href="#" class="ls-ico-zoomout"></a><br>
-                            <a id="fit" href="#" class="ls-ico-screen"></a><br>
-                            <a id="orig" href="#" class="ls-ico-spinner"></a><br>
-                        </div>
-                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="container-fluid">
-                        <!--<div class="ls-box action" style="margin-left:-40px; margin-right:20px;">-->
-                        <div class="ls-box action">
-                            <label>Código</label>
-                            <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
-                            <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
-                            <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm" href="edit.html">Excluir</a>
-
-                            <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;"></ul>
-                        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="container-fluid">
+                    <div class="ls-box ls-board-box">
+                        <fieldset class="wrapper">
+                            <!--<div class="wrapper col-md-8">-->
+                            <div class="ls-box-group">
+                                <div class="col-md-10">
+                                    <div id="viewer" class="viewer"></div>
+                                    <!--Para PDF, carrousel é padrão pelo componente-->
+                                    <div id="carousel" class="col-lg-10">
+                                        <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
+                                        <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
+                                    <a id="in" href="#" class="ls-ico-zoomin"></a><br>
+                                    <a id="out" href="#" class="ls-ico-zoomout"></a><br>
+                                    <a id="fit" href="#" class="ls-ico-screen"></a><br>
+                                    <a id="orig" href="#" class="ls-ico-spinner"></a><br>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                        </fieldset>
                     </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="container-fluid">
+                    <!--<div class="ls-box action" style="margin-left:-40px; margin-right:20px;">-->
+                    <div class="ls-box action">
+                        <label>Código</label>
+                        <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
+                        <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
+                        <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm" href="edit.html">Excluir</a>
+                        <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         </div>
 
         <div class="ls-modal fade test" id="modal-resultado-tipificacao">
