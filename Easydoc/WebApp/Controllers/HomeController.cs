@@ -83,11 +83,19 @@ namespace MK.Easydoc.WebApp.Controllers
         {
             var serv = new ServicoRepository();
             bool flag = serv.GetControleAtencao(idServico);
-             var resultado = new
+            var resultado = new
                     {
                         rest = flag.ToString()
                     };
             return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxVerificatroca(string idUsuario)
+        {
+           var ret = new UsuarioRepository();
+           int valor = ret.VerificaTroca(int.Parse(idUsuario));
+           return Json(valor, JsonRequestBehavior.AllowGet);
         }
 
         //TODO: AndreSombra 22/02/2016
@@ -201,6 +209,7 @@ namespace MK.Easydoc.WebApp.Controllers
         public ActionResult Inicio()
         {
             ViewBag.Message = "";
+            Session["UsuarioAtual_ID"] = UsuarioAtual.ID;
             //ViewBag.UsuarioAtual = UsuarioAtual;
             return View();
         }

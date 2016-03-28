@@ -340,6 +340,23 @@
                 //$("#resultMessage").html(message);
             }
         });
+
+        var _idusuario = @Session["UsuarioAtual_ID"];
+        $.ajax({
+            url: '@Url.Content("~")Home/AjaxVerificatroca',
+            type: 'POST',
+            data: {idUsuario: _idusuario},
+            success: function (data) {
+                debugger;
+                if(data==0){
+                    $("#btn_lista_cliente").hide();
+                }
+                else{
+                    $("#btn_lista_cliente").show();
+                }
+
+            }
+        });
     });
 </script>
 

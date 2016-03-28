@@ -646,6 +646,32 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
 
         }
+
+        public int VerificaTroca(int idUsuario)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("proc_verifica_troca_srv_cli");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+
+                int retorno = 0;
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        retorno = int.Parse(_dr["Retorno"].ToString());
+                    }
+                }
+
+                return retorno;
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
         #endregion
 
     }
