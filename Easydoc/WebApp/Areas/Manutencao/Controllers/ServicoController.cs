@@ -103,7 +103,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 //ViewBag.Msg = Retorno.Mensagem;
                 TempData["Msg"] = Retorno.Mensagem;
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { msg=Retorno.Mensagem });
             }
             catch
             {
@@ -151,7 +151,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 //ViewBag.Msg = Retorno.Mensagem;
                 TempData["Msg"] = Retorno.Mensagem;
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { msg = Retorno.Mensagem });
             }
             catch
             {

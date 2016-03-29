@@ -128,6 +128,12 @@
             $("#cpfcnpj").mask("99.999.999/9999-99");
         }
 
+        $("#chkTipo").prop('checked') == true ? $("#cpfcnpj").mask("99.999.999/9999-99") : $("#cpfcnpj").mask("999.999.999-99");
+        $("#chkTipo").change(function () {
+            $("#cpfcnpj").val('');
+            $("#chkTipo").prop('checked') == true ? $("#cpfcnpj").mask("99.999.999/9999-99") : $("#cpfcnpj").mask("999.999.999-99");
+        });
+
         $('#chkTipo').bootstrapToggle({
             on: 'Pessoa Jurídica',
             off: 'Pessoa Física',
