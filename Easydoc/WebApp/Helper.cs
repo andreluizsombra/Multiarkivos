@@ -13,6 +13,7 @@ using System.Web;
             }
             public static MvcHtmlString FormatToCpfOrCnpj(string value)
             {
+                //Formatar string passada por parametro
                 var resultado = "";
                 if (value.Length == 11)
                     resultado = value.Substring(0, 3) + "." + value.Substring(3, 3) + "." + value.Substring(6, 3) + "-" + value.Substring(9, 2);
