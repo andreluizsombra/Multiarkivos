@@ -25,7 +25,7 @@ var trocar_imagem = function (_path) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _path);
         $("#carousel").pdfSlider({
-            itemWidth: 900
+            itemWidth: 800
             //,itemHeight: 1000
         });
         $(".pdfSlider_hideControls").hide();

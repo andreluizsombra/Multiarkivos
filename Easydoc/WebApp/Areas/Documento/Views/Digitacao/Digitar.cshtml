@@ -30,7 +30,7 @@
     #container {
         overflow: auto;
         /*-webkit-overflow-scrolling: touch;*/
-        height: 800px;
+        height: 900px;
     }
 
     .digitarcampos{
@@ -129,71 +129,73 @@
                     </div>
                 </div>
 
-                <div id="boxcampos" class="col-md-4">
-                    @*<header class="ls-info-header">*@
+                <div id="boxcampos" class="col-lg-4">
+                      <div class="container-fluid">
+                        <div class="panel panel-default" style="margin-left:5px; margin-right:5px;">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                    @foreach (MK.Easydoc.Core.Entities.CampoModelo _campo in Model.Modelo.Campos)
+                               {
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <b class="ls-label-text">@_campo.Rotulo</b>
+                                                @if (Model.StatusDocumento == 1010)
+                                           {
+                                                    <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" readonly="true" />
+                                           }
+                                           else
+                                           {
+                                               if (_campo.Requerido)
+                                               {
+                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
+                                               }
+                                               else
+                                               {
+                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
+                                               }
+                                           }
 
-                    @*<h2 class="ls-title-3 ls-ico-images"><strong>@Html.DisplayFor(model => model.Modelo.Rotulo)</strong> ID: @Model.ID</h2>
-                <h5 class="lls-label-text"> @Html.Raw(ViewData["Det"].ToString())</h5>*@
-                    <div class="col-lg-10">
-                        @foreach (MK.Easydoc.Core.Entities.CampoModelo _campo in Model.Modelo.Campos)
-                        {
-                        <div class="row">
-                            <div class="col-lg-10">
-                                <b class="ls-label-text">@_campo.Rotulo</b>
-                                @if (Model.StatusDocumento == 1010)
-                                {
-                                    <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" readonly="true" />
-                                }
-                                else
-                                {
-                                    if (_campo.Requerido)
-                                    {
-                                        <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
-                                    }
-                                    else
-                                    {
-                                        <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
-                                    }
-                                }
+                                            </div>
+                                        </div>
+                               }
+                                    
+                                    <!--onkeyup="RetMascara(this, 'AAA-9999');"-->
+                                    <div class="row">&nbsp;</div>
+                                    <p class="">
+                                        <div class="row">
+                                            <div class="col-lg-12">
 
-                            </div>
-                       </div>
-                        }
-                    </div>
+                                                <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
+                                                @if (Model.StatusDocumento == 1000)
+                                           {
+                                                    <input type="hidden" id="txtstatus" value="1000" />
+                                                    <a id="btn_salvar" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Aprovar</a>
+                                                    <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
+                                           }
+                                           else if (Model.StatusDocumento == 1020)
+                                           {
+                                            <input type="hidden" id="txtstatus" value="1020" />
+                                                    <a id="btn_Aprovar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Aprovar</a>
+                                                    <a id="btn_excluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;Excluir</a>
+                                           }
+                                           else if (Model.StatusDocumento == 1010)
+                                           {
+                                            <input type="hidden" id="txtstatus" value="1010" />
 
-                    <!--onkeyup="RetMascara(this, 'AAA-9999');"-->
+                                                    <a id="btn_enviaSupervisaoLiderado" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
+                                           }
+                                                <a id="btn_voltapesquisa" class="btn btn-warning" href="#"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar</a>
 
-                    <div class="row">&nbsp;</div>
-                    <p class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="col-lg-12">
-                                    <input id="some-id" name="some-id" type="hidden" value="@(ViewData["dupliciadade"]);" />
-                                    @if (Model.StatusDocumento == 1000)
-                                    {
-                                <input type="hidden" id="txtstatus" value="1000" />
-                                <a id="btn_salvar" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-floppy-saved"></i>&nbsp;Aprovar</a>
-                                <!--03/03/2016-->
-                                    <a id="btn_supervisor" class="btn btn-info" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
-                                    }
-                                    else if (Model.StatusDocumento == 1020)
-                                    {
-                                <input type="hidden" id="txtstatus" value="1020" />
-                                <a id="btn_Aprovar" class="btn btn-success" href="#"><i class="glyphicon glyphicon-ok"></i>&nbsp;Aprovar</a>
-                                <a id="btn_excluir" class="btn btn-danger" href="#"><i class="glyphicon glyphicon-trash"></i>&nbsp;Excluir</a>
-                                    }
-                                    else if (Model.StatusDocumento == 1010)
-                                    {
-                                <input type="hidden" id="txtstatus" value="1010" />
-                                
-                                <a id="btn_enviaSupervisaoLiderado" class="btn btn-primary" href="#"><i class="glyphicon glyphicon-check"></i>&nbsp;Enviar Supervisão</a>
-                                    }
-                                    <a id="btn_voltapesquisa" class="btn btn-warning" href="#"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar</a>
+                                            </div>
+                                        </div>
+                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </p>
-                </div>
+                      </div>  
+                    </div>
             </div>
             
         </div>

@@ -147,7 +147,7 @@ var init = function () {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _url);
         $("#carousel").pdfSlider({
-            itemWidth: 900
+            itemWidth: 800
             //,itemHeight: 1000
         });
         $(".pdfSlider_hideControls").hide();
