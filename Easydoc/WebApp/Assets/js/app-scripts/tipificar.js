@@ -20,7 +20,12 @@ var init = function () {
         if (e.which == 13) {
             //e.preventDefault();
             //alert('Tecla Enter');
-            $("#btn_salvar").click();
+            //$("#btn_salvar").click();
+
+            if (tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()) == false) {
+                e.preventDefault();
+                return false;
+            }
         }
     });
     
@@ -29,7 +34,7 @@ var init = function () {
 var trocar_imagem = function (_path) {
     //debugger;
     if (_path.search(".pdf") > 0) {
-        
+        $("#viewer").hide();
         $("#imgpdf").attr("data", _path);
         $("#carousel").show();
         $("#carousel").pdfSlider({
@@ -228,8 +233,8 @@ var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
     if ($("#li_" + _idDocumentoModelo).length == 0) {
         exibirmsgatencao('Código não existe na lista, tente novamente...');
         return false;
-    }
-    
+    } else {
+
         try {
             $.ajax({
                 url: '../Tipificacao/AjaxCallTipificarDocumento',
@@ -270,6 +275,7 @@ var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
             });
         }
         catch (e) { Exception.show(e.toString(), methodName); }
+    }
 }
 
 

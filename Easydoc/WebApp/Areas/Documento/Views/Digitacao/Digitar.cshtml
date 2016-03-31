@@ -36,6 +36,22 @@
     .digitarcampos{
         width:88%;
     }
+    /*.viewer {
+        width: 900px;
+        height: 900px;
+        /*width: 100%;
+        height: 100%;
+        border: 1px solid black;
+        position: relative;
+    }*/
+
+     .viewer {
+        width: 100%;
+        height: 100%; /*1024px;*/
+        border: 1px solid white;
+        /*position: relative;*/
+    }
+
     object {
         margin-top:5px;
         width: 800px;
@@ -59,12 +75,7 @@
        right: 0px;*/
     }
 
-     .viewer {
-        width: 100%;
-        height: 100%; /*1024px;*/
-        border: 1px solid black;
-        position: relative;
-    }
+     
 
     .wrapper {
         overflow: hidden;
@@ -96,13 +107,13 @@
                     <div class="container-fluid">
                         <div class="ls-box-group">
                             <div class="ls-box ls-board-box">
-                                <fieldset>
-                                    <div class="wrapper col-md-8">
+                                
+                                    <!--<div class="wrapper col-md-8">-->
                                         <div class="ls-box-group">
-                                            <div class="col-md-8">
+                                            <div class="col-md-10">
                                                 <div id="viewer" class="viewer"></div>
                                                 <!--Para PDF carrousel é padrão pelo componente-->
-                                                <div id="carousel">
+                                                <div id="carousel" class="col-lg-10">
                                                     <object data="" id="imgpdf" type="application/pdf"></object>
                                                     <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
                                                 </div>
@@ -117,8 +128,8 @@
 
                                            
                                        </div>
-                                    </div>
-                                </fieldset>
+                                    <!--</div>-->
+                                
                             </div>
 
                             @foreach (MK.Easydoc.Core.Entities.DocumentoImagem _arquivos in Model.Arquivos)
