@@ -1,4 +1,6 @@
-﻿jQuery(document).ready(function () { init(); });
+﻿jQuery(document).ready(function () {
+    init();
+});
 
 var init = function () {
     $('#pnlHeader').slideUp('slow');
@@ -6,10 +8,13 @@ var init = function () {
     listar_tipos_doc();
     listar_documento_tipificar($("#hdnIdLote").val());
     $('input:text[id^="txtcampo_"]').focus();
-    $("#viewer").iviewer('set_zoom', 10);
-    //$("#viewerPDF").pdfSlider();
+    $("#viewer").iviewer('set_zoom', 81);
+
+    $("#viewer img").removeAttr('style');
 
     $("#codtipodoc").focus();
+    
+    $("#viewer img").removeAttr('style');
 
     $('#codtipodoc').keypress(function (e) {
         if (e.which == 13) {
@@ -18,22 +23,29 @@ var init = function () {
             $("#btn_salvar").click();
         }
     });
+    
 }
 
 var trocar_imagem = function (_path) {
+    //debugger;
     if (_path.search(".pdf") > 0) {
-        $("#viewer").hide();
+        
         $("#imgpdf").attr("data", _path);
+        $("#carousel").show();
         $("#carousel").pdfSlider({
             itemWidth: 800
             //,itemHeight: 1000
         });
         $(".pdfSlider_hideControls").hide();
     } else {
-        $("#viewer").show();
+        $("#carousel").hide();
+        //$("#viewer").show();
+        
         $("#viewer").iviewer('loadImage', _path);
-        $("#viewer").iviewer('set_zoom', 10);
-        $("#viewer").iviewer('set_zoom', 10);
+        $("#viewer").iviewer('set_zoom', 90);
+
+        $("#viewer img").removeAttr('style');
+        
     }
 }
 
@@ -71,6 +83,8 @@ var bindControles = function () {
         iv1.iviewer('fill_container', fill);
         return false;
     });
+
+    $("#viewer img").removeAttr('style');
 }
 /////////////////////////////////////////////////////////////////////
 //AjaxCallExcuirDocumento
@@ -271,4 +285,6 @@ function listar_documento_tipificar_CallBack(json) {
     
     //console.log(_url);
     trocar_imagem(_url);
+
+    
 }

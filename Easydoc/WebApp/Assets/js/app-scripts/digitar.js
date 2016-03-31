@@ -132,10 +132,11 @@ var init = function () {
     var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //var _url = "http://
     //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
-
+    
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _url);
+        $("#carousel").show();
         $("#carousel").pdfSlider({
             itemWidth: 800
             //,itemHeight: 1000
@@ -147,6 +148,8 @@ var init = function () {
         //$('a.media').media({ width: 990, height: 600 });
         //$('#pnl-imagem').attr('display','none');
     } else {
+        $("#viewer").show();
+        $("#carousel").hide();
         $('#pnl-imagem').show();
         //CarregarImagem(_url);
         //$("#viewer").iviewer('loadImage', _url);

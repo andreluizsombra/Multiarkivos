@@ -974,8 +974,9 @@ $.widget( "ui.iviewer", $.ui.mouse, {
  */
 $.ui.iviewer.ImageObject = function(do_anim) {
     this._img = $("<img>")
-            //this is needed, because chromium sets them auto otherwise
-            .css({ position: "absolute", top :"0px", left: "0px"});
+    //this is needed, because chromium sets them auto otherwise
+    .css({ top: "0px", left: "0px" });
+            //.css({ position: "absolute", top :"0px", left: "0px"});
 
     this._loaded = false;
     this._swapDimensions = false;
@@ -1041,8 +1042,9 @@ $.ui.iviewer.ImageObject = function(do_anim) {
                 .removeAttr("width")
                 .removeAttr("height")
                 .removeAttr("style")
-                //max-width is reset, because plugin breaks in the twitter bootstrap otherwise
-                .css({ position: "absolute", top :"0px", left: "0px", maxWidth: "none"});
+            //max-width is reset, because plugin breaks in the twitter bootstrap otherwise
+            .css({ top: "0px", left: "0px", maxWidth: "none" });
+                //.css({ position: "absolute", top :"0px", left: "0px", maxWidth: "none"});
 
             if (!supportsNaturalWidth) {
                 self._img[0].src = src;
