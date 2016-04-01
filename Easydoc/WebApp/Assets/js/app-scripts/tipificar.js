@@ -16,12 +16,9 @@ var init = function () {
     
     $("#viewer img").removeAttr('style');
 
+    
     $('#codtipodoc').keypress(function (e) {
         if (e.which == 13) {
-            //e.preventDefault();
-            //alert('Tecla Enter');
-            //$("#btn_salvar").click();
-
             if (tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()) == false) {
                 e.preventDefault();
                 return false;
@@ -76,7 +73,7 @@ var bindControles = function () {
     $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()); });
 
     //listar_documento_tipificar(0); });
-    $("#btn_excluirlote").click(function () { /*locastyle.modal.open({ target: "#modal-Excluir" }); }); //listar_documento_tipificar(0);*/ });
+    $("#btn_excluirlote").click(function () { $("#modalExcluirLote").modal('show'); /*locastyle.modal.open({ target: "#modal-Excluir" }); }); //listar_documento_tipificar(0);*/ });
     $("#btn_supervisor").click(function () { ajax_enviar_supervisao($("#hdnIdLote").val(), $("#hdnIdLote").val()) });
     
     $("#btn_deletarLoteModal").click(function () { ajax_exluir($("#hdnIdLote").val()) });

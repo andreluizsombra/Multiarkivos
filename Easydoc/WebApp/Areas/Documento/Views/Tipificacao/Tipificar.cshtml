@@ -15,13 +15,9 @@
         /*-webkit-overflow-scrolling: touch;*/
         height: 800px;
     }
-  /*  .viewer {
-        width: 900px;
-        height: 900px;
-        margin-left:5px;
-        /*border: 1px solid black;
-        position: relative;
-    } */
+     .wrapper {
+       /* overflow: hidden;*/
+    }
     
      .viewer {
         width: 100%;
@@ -30,14 +26,15 @@
         /*position: relative;*/
     }
 
-    .iviewer_common {
+  /*  .iviewer_common {
     position:absolute;
-    bottom:-35px;
+    bottom: 10px;
     border: 1px  solid #000;
     height: 28px;
     z-index: 5000;
      margin-left:15px;
     }
+      */
 
      object {
         width: 800px;
@@ -57,24 +54,24 @@
     <input type="hidden" id="hdnIdLoteItem" value="@ViewBag.IdLoteItem" />
     <br />
     
-    <div class="ls-box ls-board-box">
+    <div class="col-lg-12">
         <div class="row">
                 <div class="col-md-8">
                     <div class="container-fluid">
-
-                        <div id="viewer" class="viewer"></div>
-                        <!--Para PDF, carrousel é padrão pelo componente-->
-                        <div id="carousel" class="col-lg-10">
-                            <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
-                            <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
+                        <div class="wrapper">
+                            <div id="viewer" class="viewer"></div>
+                            <!--Para PDF, carrousel é padrão pelo componente-->
+                            <div id="carousel" class="col-lg-10">
+                                <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
+                                <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
+                            </div>
+                            <div class="" style="margin-left:10px;">
+                                <a id="in" href="#" class="ls-ico-zoomin"></a><br>
+                                <a id="out" href="#" class="ls-ico-zoomout"></a><br>
+                                <a id="fit" href="#" class="ls-ico-screen"></a><br>
+                                <a id="orig" href="#" class="ls-ico-spinner"></a><br>
+                            </div>
                         </div>
-                        <div class="" style="margin-left:10px;">
-                            <a id="in" href="#" class="ls-ico-zoomin"></a><br>
-                            <a id="out" href="#" class="ls-ico-zoomout"></a><br>
-                            <a id="fit" href="#" class="ls-ico-screen"></a><br>
-                            <a id="orig" href="#" class="ls-ico-spinner"></a><br>
-                        </div>
-
                     </div>
                 <!--<div class="col-md-1 ls-no-margin ls-no-padding ls-float-right">-->
 
@@ -88,7 +85,7 @@
                                 <label>Código</label>
                                 <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
                                 <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
-                                <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm" href="edit.html">Excluir</a>
+                                <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm">Excluir</a>
                                 <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;"></ul>
                             </div>
                         </div>
@@ -97,12 +94,12 @@
             </div>
         </div>
         
-        </div>
-
-        <div class="ls-modal fade test" id="modal-resultado-tipificacao">
+ </div>
+}
+    
+        <div class="modal fade" id="modal-resultado-tipificacao">
             <div class="ls-modal-box">
                 <div class="ls-modal-header">
-                    @*<button data-dismiss="modal">&times;</button>*@
                     <h4 class="ls-modal-title">Atenção!</h4>
                 </div>
                 <div class="ls-modal-body" id="myModalBody">
@@ -114,28 +111,26 @@
                     <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao" })" aria-label="Tipificar Documentos" class="ls-btn-primary ls-float-right" title="Efetuar Tipificação de documentos">Continuar...</a>
                 </div>
             </div>
-        </div><!-- /.modal -->
-    
-    
-    
-        <!-- /.modal exclusao -->
-        <div class="ls-modal fade test" id="modal-Excluir">
-            <div class="ls-modal-box">
-                <div class="ls-modal-header">
-                    <button data-dismiss="modal">&times;</button>
-                    <h4 class="ls-modal-title">Atenção: Deseja realmente deletar o  Lote?</h4>
-                    <br />
-                </div>
-                <div class="ls-modal-body" id="myModalBody">
-
-                    <center>
-                        <a id="btn_deletarLoteModal" class="ls-btn-primary" href="#">Deletar</a>
-                        <button class="ls-btn ls-float-none" style="" data-dismiss="modal">Cancelar</button><br>
-                    </center>
-                </div>
+        </div>
+        
+<!-- /.modal exclusao -->        
+<div class="modal fade" id="modalExcluirLote" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Atenção: Deseja realmente deletar o  Lote?</h4>
             </div>
-        </div><!-- /.modal -->
-        }
+            <div class="modal-body">
+                <center>
+                    <a id="btn_deletarLoteModal" class="btn btn-danger" href="#"><i class="fa fa-trash"></i>&nbsp;Exluir</a>
+                    <button class="btn btn-warning" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Cancelar</button><br>
+                </center>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <script>
     $(document).ready(function () {
