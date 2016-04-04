@@ -137,11 +137,12 @@ namespace MK.Easydoc.Core.Repositories
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 
-                _cmd = _db.GetStoredProcCommand(String.Format("proc_DocumentoMotivo_get"));
-                _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["IdDocumento"].ToString()));
-                _db.AddInParameter(_cmd, "@Atalho", DbType.Int32, int.Parse(_queryParams["Atalho"].ToString()));
-                _db.AddInParameter(_cmd, "@UserID", DbType.Int32, int.Parse(_queryParams["UserID"].ToString()));
-                _db.AddInParameter(_cmd, "@tipo", DbType.Int32, int.Parse(_queryParams["tipo"].ToString()));    
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_Set_DocumentoOcorrencia"));
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["idServico"].ToString()));
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, int.Parse(_queryParams["idDocumento"].ToString()));
+                _db.AddInParameter(_cmd, "@idOcorrencia", DbType.Int32, int.Parse(_queryParams["idOcorrencia"].ToString()));
+                _db.AddInParameter(_cmd, "@tipo", DbType.Int32, int.Parse(_queryParams["tipo"].ToString()));
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int32, int.Parse(_queryParams["idUsuario"].ToString()));
 
                 int iret = _db.ExecuteNonQuery(_cmd);
 

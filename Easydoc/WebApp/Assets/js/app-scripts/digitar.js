@@ -125,7 +125,7 @@ var init = function () {
 
     bindControles();
     $("#viewer").show();
-    $("#viewer").iviewer('set_zoom', 10);
+    $("#viewer").iviewer('set_zoom', 36);
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
@@ -149,6 +149,7 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $("#viewer").show();
+        $("#viewer").iviewer({ zoom: 36 });
         $("#carousel").hide();
         $('#pnl-imagem').show();
         //CarregarImagem(_url);
@@ -363,7 +364,7 @@ var bindControles = function () {
         }
         else {
             
-            var Valor = txtValida.value.indexOf(txtValor.value)*-1;
+            var Valor = txtValor.value;//txtValida.value.indexOf(txtValor.value)*-1;
             
             if (Valor >= 0) {
                 ajax_enviar_supervisao($('#IdDocumento').val(), txtValor.value);
@@ -724,7 +725,7 @@ var OcorrenciaSelecionada = function (idocorr) {
     $("#txtValor").val(idocorr);
     $("#btn_salvarModal").click();
     $("#btn_salvarModalExcluir").click();
-    $("#aguarde").Empty();
+    $("#aguarde").html("");
 };
 
 var ListaOcorrencias = function() {

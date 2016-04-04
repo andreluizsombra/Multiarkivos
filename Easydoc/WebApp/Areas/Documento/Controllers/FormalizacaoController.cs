@@ -230,7 +230,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1020 });
                 _docService.AtualizarDocumento(_doc);
                 bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
-                _docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID, 1);
+                _docService.IncluirMotivo(IdServico_Atual, id_documento, id_motivo, 1, UsuarioAtual.ID);
 
                 RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
                 // LOG: Enviou documento a supervisão

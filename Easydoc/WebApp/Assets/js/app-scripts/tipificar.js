@@ -8,7 +8,7 @@ var init = function () {
     listar_tipos_doc();
     listar_documento_tipificar($("#hdnIdLote").val());
     $('input:text[id^="txtcampo_"]').focus();
-    $("#viewer").iviewer('set_zoom', 81);
+    $("#viewer").iviewer('set_zoom', 36);
 
     $("#viewer img").removeAttr('style');
 
@@ -44,7 +44,8 @@ var trocar_imagem = function (_path) {
         //$("#viewer").show();
         
         $("#viewer").iviewer('loadImage', _path);
-        $("#viewer").iviewer('set_zoom', 90);
+
+        $("#viewer").iviewer({ zoom: 36 });
 
         $("#viewer img").removeAttr('style');
         

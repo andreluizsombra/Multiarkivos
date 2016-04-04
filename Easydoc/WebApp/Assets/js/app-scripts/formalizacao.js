@@ -158,6 +158,7 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $('#pnl-imagem').show();
+        $("#viewer").iviewer({ zoom: 36 });
         //CarregarImagem(_url);
         //$("#viewer").iviewer('loadImage', _url);
 

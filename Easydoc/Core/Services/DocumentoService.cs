@@ -186,15 +186,18 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }        
         }
         //walmir
-        public void  IncluirMotivo(int IdDocumento,int Atalho,int UserID, int tipo)
+        //public void  IncluirMotivo(int IdDocumento,int Atalho,int UserID, int tipo)
+        public void IncluirMotivo(int idServico, int idDocumento, int idOcorrencia, int tipo, int UserID)
         {
             try
             {
                 this._queryParams.Clear();
-                this._queryParams["IdDocumento"] = IdDocumento;
-                this._queryParams["Atalho"] = Atalho;
-                this._queryParams["UserID"] = UserID;
+                this._queryParams["idServico"] = idServico;
+                this._queryParams["idDocumento"] = idDocumento;
+                this._queryParams["idOcorrencia"] = idOcorrencia;
                 this._queryParams["tipo"] = tipo;
+                this._queryParams["idUsuario"] = UserID;
+                
 
                 this._repository.IncluirMotivo(this._queryParams);
             }

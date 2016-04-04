@@ -6,7 +6,8 @@ namespace MK.Easydoc.Core.Services.Interfaces
     public interface IDocumentoService
     {
         void AtualizarDocumento(Documento Documento);
-        void IncluirMotivo(int IdDocumento, int Atalho, int UserID, int tipo);
+        //void IncluirMotivo(int IdDocumento, int Atalho, int UserID, int tipo);
+        void IncluirMotivo(int idServico, int idDocumento, int idOcorrencia, int tipo, int UserID);
         void AlteraDuplicidade(int IdDocumento, int ID);
         void AtualizarDocumentoCampo(CampoModelo campoModelo);
         void ExcluirDocumento(int idDocumento);
