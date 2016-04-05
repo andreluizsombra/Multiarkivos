@@ -1,7 +1,7 @@
 ﻿
 jQuery(document).ready(function () {
     
-    $('#pnlHeader').slideUp('slow');
+    $('#pnlHeader').slideUp();
     $('#tblMotivos').hide();
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
@@ -122,18 +122,16 @@ var init = function () {
     //var _path = $("#arq").val();
     //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //trocar_imagem(_url);
-    $("#viewer img").removeAttr('style');
-    bindControles();
-    //$("#viewer").show();
-    //$("#viewer").iviewer('set_zoom', 30);
-    //$("#viewer").iviewer({ zoom: 30 });
+    //$("#viewer img").removeAttr('style');
+    
     $('input:text[id^="txtcampo_"]').focus();
-    //debugger;
+    
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //var _url = "http://
     //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
-    
+    bindControles();
+
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _url);
@@ -150,22 +148,38 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $("#carousel").hide();
-        $('#pnl-imagem').show();
+        //$('#pnl-imagem').show();
 
-        $("#viewer").iviewer({ zoom: 36 });
-        //$("#viewer").iviewer('loadImage', _path);
-
-        //$("#viewer").iviewer({ zoom: 36 });
         //$("#viewer img").removeAttr('style');
+        
+        // $("#viewer").iviewer({ zoom: 36 });
         $("#viewer").show();
+        //$("#viewer").iviewer('loadImage', _url);
+        
+        var iv1 = $("#viewer").iviewer({
+            src: _url,
+            update_on_resize: true,
+            zoom_animation: true,
+            set_zoom: 36,
+            mousewheel: true,
+            onMouseMove: function (ev, coords) { },
+            onStartDrag: function (ev, coords) { }, //this image will not be dragged
+            onDrag: function (ev, coords) { }
+        });
+
+
+        $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
+        $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
+        $("#fit").click(function () { iv1.iviewer('fit'); });
+        $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
+        $("#fit").trigger("click");
+
         
         //CarregarImagem(_url);
         //$("#viewer").iviewer('loadImage', _url);
 
-       //$("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
-       // $("#viewer").iviewer('set_zoom', 50);
-       //$("#viewer").iviewer('set_zoom', 50);
-       // $('.guillotine-canvas').css('top', '0px');
+        //$("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
+        // $('.guillotine-canvas').css('top', '0px');
     }
 
     $('span#path-arquivo').html('<a href="' + _url + '" class="ls-ico-export" target="_blank" style="target-new: tab;target-new: tab;"></a>');
@@ -302,25 +316,24 @@ var bindControles = function () {
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
-    var iv1 = $("#viewer").iviewer({
-        src: _url,
+   /* var iv1 = $("#viewer").iviewer({
+        src: "/Images/sem_img.jpg",
         update_on_resize: true,
         zoom_animation: true,
-        set_zoom: 100,
-        mousewheel: false,
+        set_zoom: 36,
+        mousewheel: true,
         onMouseMove: function (ev, coords) { },
         onStartDrag: function (ev, coords) { }, //this image will not be dragged
         onDrag: function (ev, coords) { }
     });
-
-    $("#viewer").iviewer('set_zoom', 10);
-    $("#viewer").iviewer('set_zoom', 10);
+    
 
     $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
     $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
     $("#fit").click(function () { iv1.iviewer('fit'); });
     $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
     $("#fit").trigger("click");
+    */
     $("#btn_salvar").click(function () {
         // alert('teste aqui');
         ////locastyle.modal.open({ target: "#modal-duplicidade" });

@@ -3,7 +3,8 @@
 });
 
 var init = function () {
-    $('#pnlHeader').slideUp('slow');
+    //$('#pnlHeader').slideUp('slow');
+    $('#pnlHeader').hide();
     bindControles();
     listar_tipos_doc();
     listar_documento_tipificar($("#hdnIdLote").val());
@@ -11,11 +12,11 @@ var init = function () {
     //$("#viewer").iviewer('set_zoom', 36);
     //$("#viewer").iviewer({ zoom: 36 });
 
-    $("#viewer img").removeAttr('style');
+    //$("#viewer img").removeAttr('style');
 
     $("#codtipodoc").focus();
     
-    $("#viewer img").removeAttr('style');
+    //$("#viewer img").removeAttr('style');
 
     
     $('#codtipodoc').keypress(function (e) {
@@ -42,13 +43,12 @@ var trocar_imagem = function (_path) {
         $(".pdfSlider_hideControls").hide();
     } else {
         $("#carousel").hide();
-        //$("#viewer").show();
         
         $("#viewer").iviewer({ zoom: 36 });
         $("#viewer").iviewer('loadImage', _path);
+        $("#viewer").show();
 
         //$("#viewer img").removeAttr('style');
-        
     }
 }
 
