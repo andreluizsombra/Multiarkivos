@@ -122,11 +122,11 @@ var init = function () {
     //var _path = $("#arq").val();
     //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     //trocar_imagem(_url);
-
+    $("#viewer img").removeAttr('style');
     bindControles();
-    $("#viewer").show();
+    //$("#viewer").show();
     //$("#viewer").iviewer('set_zoom', 30);
-    $("#viewer").iviewer({ zoom: 30 });
+    //$("#viewer").iviewer({ zoom: 30 });
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
@@ -149,10 +149,16 @@ var init = function () {
         //$('a.media').media({ width: 990, height: 600 });
         //$('#pnl-imagem').attr('display','none');
     } else {
-        $("#viewer").show();
-        $("#viewer").iviewer({ zoom: 30 });
         $("#carousel").hide();
         $('#pnl-imagem').show();
+
+        $("#viewer").iviewer({ zoom: 36 });
+        //$("#viewer").iviewer('loadImage', _path);
+
+        //$("#viewer").iviewer({ zoom: 36 });
+        //$("#viewer img").removeAttr('style');
+        $("#viewer").show();
+        
         //CarregarImagem(_url);
         //$("#viewer").iviewer('loadImage', _url);
 
@@ -227,9 +233,10 @@ function Minusculo(campo) {
 }
 
 var trocar_imagem = function (_path) {
+//    $("#viewer").iviewer('loadImage', _path);
     $("#viewer").iviewer('loadImage', _path);
-    $("#viewer").iviewer('set_zoom', 10);
-    $("#viewer").iviewer('set_zoom', 10);
+    $("#viewer").iviewer({ zoom: 36 });
+    $("#viewer img").removeAttr('style');
 }
 
 function checkForEnter(e) {

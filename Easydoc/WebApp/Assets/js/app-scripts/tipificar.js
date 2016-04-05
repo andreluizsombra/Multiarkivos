@@ -9,7 +9,7 @@ var init = function () {
     listar_documento_tipificar($("#hdnIdLote").val());
     $('input:text[id^="txtcampo_"]').focus();
     //$("#viewer").iviewer('set_zoom', 36);
-    $("#viewer").iviewer({ zoom: 36 });
+    //$("#viewer").iviewer({ zoom: 36 });
 
     $("#viewer img").removeAttr('style');
 
@@ -44,11 +44,10 @@ var trocar_imagem = function (_path) {
         $("#carousel").hide();
         //$("#viewer").show();
         
+        $("#viewer").iviewer({ zoom: 36 });
         $("#viewer").iviewer('loadImage', _path);
 
-        $("#viewer").iviewer({ zoom: 36 });
-
-        $("#viewer img").removeAttr('style');
+        //$("#viewer img").removeAttr('style');
         
     }
 }

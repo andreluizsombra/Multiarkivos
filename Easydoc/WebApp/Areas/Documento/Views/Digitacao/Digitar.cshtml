@@ -87,19 +87,19 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="container-fluid">
-                        <div class="ls-box-group">
-                            <div class="ls-box ls-board-box">
+                        
+                            
                                 
                                     <div class="wrapper">
-                                        <div class="ls-box-group">
-                                            <div class="col-md-10">
+                                        
+                                            <!--<div class="col-md-10">-->
                                                 <div id="viewer" class="viewer"></div>
                                                 <!--Para PDF carrousel é padrão pelo componente-->
                                                 <div id="carousel" class="col-lg-10">
                                                     <object data="" id="imgpdf" type="application/pdf"></object>
                                                     <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
                                                 </div>
-                                            </div>
+                                            <!--</div>-->
 
                                             <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
                                                 <a id="in" href="#" class="ls-ico-zoomin"></a><br>
@@ -109,16 +109,16 @@
                                             </div>
 
                                            
-                                       </div>
+                                       
                                     </div>
                                 
-                            </div>
+                            
 
                             @foreach (MK.Easydoc.Core.Entities.DocumentoImagem _arquivos in Model.Arquivos)
                             {
                                 <input id="arq" type="hidden" value="@_arquivos.CaminhoArquivo" />
                             }
-                        </div>
+                        
                     </div>
                 </div>
 
