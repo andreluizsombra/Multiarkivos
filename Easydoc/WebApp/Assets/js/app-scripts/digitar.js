@@ -65,7 +65,7 @@ function MoverCampos(campo) {
 function BoxCampoPlaca(campo) {
     var _campo = $('#' + campo.id);
     if (_campo.val() != '') {
-        console.log(_campo.val());
+        //console.log(_campo.val());
         $('html, body').animate({ scrollTop: 400 }, 'slow');
         $('#boxcampos').css('margin-top', '500px');
     }
@@ -125,7 +125,8 @@ var init = function () {
 
     bindControles();
     $("#viewer").show();
-    $("#viewer").iviewer('set_zoom', 36);
+    //$("#viewer").iviewer('set_zoom', 30);
+    $("#viewer").iviewer({ zoom: 30 });
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
@@ -149,7 +150,7 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $("#viewer").show();
-        $("#viewer").iviewer({ zoom: 36 });
+        $("#viewer").iviewer({ zoom: 30 });
         $("#carousel").hide();
         $('#pnl-imagem').show();
         //CarregarImagem(_url);
