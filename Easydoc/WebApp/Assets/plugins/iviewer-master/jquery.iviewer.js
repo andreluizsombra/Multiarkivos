@@ -146,7 +146,7 @@ $.widget( "ui.iviewer", $.ui.mouse, {
         /**
         * base value to scale image
         **/
-        zoom_base: 100,
+        zoom_base: 25,
         /**
         * maximum zoom
         **/

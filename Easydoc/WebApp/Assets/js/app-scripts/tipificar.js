@@ -31,7 +31,7 @@ var init = function () {
 }
 
 var trocar_imagem = function (_path) {
-    //debugger;
+    
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
         $("#imgpdf").attr("data", _path);
@@ -44,21 +44,39 @@ var trocar_imagem = function (_path) {
     } else {
         $("#carousel").hide();
         
-        $("#viewer").iviewer({ zoom: 36 });
-        $("#viewer").iviewer('loadImage', _path);
-        $("#viewer").show();
+        //$("#viewer").iviewer({ zoom: 36 });
+        //$("#viewer").iviewer('loadImage', _path);
+        //$("#viewer").show();
 
-        //$("#viewer img").removeAttr('style');
+        // TODO: 07/04/2016
+        var iv1 = $("#viewer").iviewer({
+            src: _path,
+            update_on_resize: false,
+            zoom_animation: true,
+            //set_zoom: 100,
+            mousewheel: true,
+            onMouseMove: function (ev, coords) { },
+            onStartDrag: function (ev, coords) { }, //this image will not be dragged
+            onDrag: function (ev, coords) { },
+            onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
+        });
+
+        $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
+        $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
+        $("#fit").click(function () { iv1.iviewer('fit'); });
+        $("#orig").click(function () { iv1.iviewer('set_zoom', 36); });
+        $("#update").click(function () { iv1.iviewer('update_container_info'); });
+
     }
 }
 
 var bindControles = function () {
-    var iv1 = $("#viewer").iviewer({
+   /* var iv1 = $("#viewer").iviewer({
         src: "/Images/sem_img.jpg",
         update_on_resize: true,
         zoom_animation: true,
         set_zoom:100,
-        mousewheel: false,
+        mousewheel: true,
         onMouseMove: function (ev, coords) { },
         onStartDrag: function (ev, coords) { }, //this image will not be dragged
         onDrag: function (ev, coords) { }
@@ -70,6 +88,16 @@ var bindControles = function () {
     $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
     $("#update").click(function () { iv1.iviewer('update_container_info'); });
 
+        var fill = false;
+    $("#fill").click(function () {
+        fill = !fill;
+        iv1.iviewer('fill_container', fill);
+        return false;
+    });
+
+    $("#viewer img").removeAttr('style');
+    */
+
     //Antes $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLote").val(), $("#cboTiposDoc option:selected").val()); });
     $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()); });
 
@@ -79,15 +107,6 @@ var bindControles = function () {
     
     $("#btn_deletarLoteModal").click(function () { ajax_exluir($("#hdnIdLote").val()) });
 
-
-    var fill = false;
-    $("#fill").click(function () {
-        fill = !fill;
-        iv1.iviewer('fill_container', fill);
-        return false;
-    });
-
-    $("#viewer img").removeAttr('style');
 }
 /////////////////////////////////////////////////////////////////////
 //AjaxCallExcuirDocumento
@@ -103,11 +122,10 @@ var ajax_exluir = function (_idLote) {
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
             data: { id_lote: parseInt(_idLote) },
             success: function (data, textstatus, xmlhttprequest) {
-                if (data == null) { return; }
+            if (data == null) { return; }
 
-
-                window.location = window.location.toString().replace(/#/gi, '').replace('/Documento/Tipificacao/Tipificar?idlote=' + _idLote, '/Documento/Tipificacao/Tipificar');
-                    //Documento/Tipificacao/ListarPentendes
+             window.location = window.location.toString().replace(/#/gi, '').replace('/Documento/Tipificacao/Tipificar?idlote=' + _idLote, '/Documento/Tipificacao/Tipificar');
+                //Documento/Tipificacao/ListarPentendes
 
                 //if (data.success == true) {
                 //    //window.location = window.location.toString().replace(/#/gi, '').replace('/Digitacao/Digitar/' + _idDocumento, '/Supervisao/ListarPendentes/');

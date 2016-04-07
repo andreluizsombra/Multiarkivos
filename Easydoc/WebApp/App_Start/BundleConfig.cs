@@ -41,6 +41,7 @@ namespace MK.Easydoc.WebApp
 
 
             bundles.Add(new ScriptBundle("~/plugin/js/iviewer").Include(
+            "~/Assets/plugins/iviewer-master/jquery.mousewheel.js",
             "~/Assets/plugins/iviewer-master/jquery.iviewer.js"));
 
 
