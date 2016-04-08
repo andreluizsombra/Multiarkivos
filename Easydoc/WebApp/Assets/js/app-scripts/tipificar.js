@@ -8,6 +8,7 @@ var init = function () {
     bindControles();
     listar_tipos_doc();
     listar_documento_tipificar($("#hdnIdLote").val());
+   // $("#viewer img").css("top", "0px");
     $('input:text[id^="txtcampo_"]').focus();
     //$("#viewer").iviewer('set_zoom', 36);
     //$("#viewer").iviewer({ zoom: 36 });
@@ -48,24 +49,33 @@ var trocar_imagem = function (_path) {
         //$("#viewer").iviewer('loadImage', _path);
         //$("#viewer").show();
 
-        // TODO: 07/04/2016
+        // TODO: 08/04/2016
         var iv1 = $("#viewer").iviewer({
+            
             src: _path,
-            update_on_resize: false,
-            zoom_animation: true,
+            zoom: "fit",
+            onFinishLoad: function (ev, coords) { $("#viewer img").css("top", "0px"); }
+            //zoom: "fit",
+            //zoom_base: 50,
+            //zoom_max: 500,
+            //zoom_min: 50,
+            //zoom_delta: 1.4,
+            //update_on_resize: false,
+            //zoom_animation: false
             //set_zoom: 100,
-            mousewheel: true,
-            onMouseMove: function (ev, coords) { },
-            onStartDrag: function (ev, coords) { }, //this image will not be dragged
-            onDrag: function (ev, coords) { },
-            onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
+            //mousewheel: true,
+            //onMouseMove: function (ev, coords) { },
+            //onStartDrag: function (ev, coords) { }, //this image will not be dragged
+            //onDrag: function (ev, coords) { },
+            //onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
         });
-
-        $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
-        $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
-        $("#fit").click(function () { iv1.iviewer('fit'); });
-        $("#orig").click(function () { iv1.iviewer('set_zoom', 36); });
-        $("#update").click(function () { iv1.iviewer('update_container_info'); });
+        // $("#viewer img").css({ position: "absolute", top: "0px", left: "0px" });
+        $("#viewer img").css("top", "0px");
+      //  $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
+     //   $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
+      //  $("#fit").click(function () { iv1.iviewer('fit'); });
+     //   $("#orig").click(function () { iv1.iviewer('set_zoom', 36); });
+     //   $("#update").click(function () { iv1.iviewer('update_container_info'); });
 
     }
 }
@@ -99,6 +109,7 @@ var bindControles = function () {
     */
 
     //Antes $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLote").val(), $("#cboTiposDoc option:selected").val()); });
+    
     $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()); });
 
     //listar_documento_tipificar(0); });
@@ -307,6 +318,7 @@ function listar_documento_tipificar_CallBack(json) {
     
     //console.log(_url);
     trocar_imagem(_url);
+    $("#viewer img").css("top", "0px");
 
     
 }

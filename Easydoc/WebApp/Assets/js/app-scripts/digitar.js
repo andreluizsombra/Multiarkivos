@@ -1,7 +1,7 @@
 ﻿
 jQuery(document).ready(function () {
     
-    $('#pnlHeader').slideUp();
+    $('#pnlHeader').hide();
     $('#tblMotivos').hide();
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
@@ -148,32 +148,35 @@ var init = function () {
         //$('#pnl-imagem').attr('display','none');
     } else {
         $("#carousel").hide();
-        //$('#pnl-imagem').show();
-
-        //$("#viewer img").removeAttr('style');
-        
         // $("#viewer").iviewer({ zoom: 36 });
-        $("#viewer").show();
+        //$("#viewer").show();
         //$("#viewer").iviewer('loadImage', _url);
-        
+        // TODO: 08/04/2016
         var iv1 = $("#viewer").iviewer({
             src: _url,
-            update_on_resize: true,
-            zoom_animation: true,
-            set_zoom: 36,
-            mousewheel: true,
-            onMouseMove: function (ev, coords) { },
-            onStartDrag: function (ev, coords) { }, //this image will not be dragged
-            onDrag: function (ev, coords) { }
+            zoom: "fit",
+            onFinishLoad: function (ev, coords) { $("#viewer img").css("top", "0px"); }
+            //zoom: "fit",
+            //zoom_base: 50,
+            //zoom_max: 500,
+            //zoom_min: 50,
+            //zoom_delta: 1.4,
+            //update_on_resize: false,
+            //zoom_animation: false
+            //set_zoom: 100,
+            //mousewheel: true,
+            //onMouseMove: function (ev, coords) { },
+            //onStartDrag: function (ev, coords) { }, //this image will not be dragged
+            //onDrag: function (ev, coords) { },
+            //onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
         });
 
 
-        $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
+       /* $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
         $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
         $("#fit").click(function () { iv1.iviewer('fit'); });
         $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
-        $("#fit").trigger("click");
-
+        $("#fit").trigger("click");*/
         
         //CarregarImagem(_url);
         //$("#viewer").iviewer('loadImage', _url);
@@ -247,10 +250,10 @@ function Minusculo(campo) {
 }
 
 var trocar_imagem = function (_path) {
-//    $("#viewer").iviewer('loadImage', _path);
+
     $("#viewer").iviewer('loadImage', _path);
-    $("#viewer").iviewer({ zoom: 36 });
-    $("#viewer img").removeAttr('style');
+    //$("#viewer").iviewer({ zoom: 36 });
+    //$("#viewer img").removeAttr('style');
 }
 
 function checkForEnter(e) {
@@ -315,25 +318,7 @@ var bindControles = function () {
 
     var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
-
-   /* var iv1 = $("#viewer").iviewer({
-        src: "/Images/sem_img.jpg",
-        update_on_resize: true,
-        zoom_animation: true,
-        set_zoom: 36,
-        mousewheel: true,
-        onMouseMove: function (ev, coords) { },
-        onStartDrag: function (ev, coords) { }, //this image will not be dragged
-        onDrag: function (ev, coords) { }
-    });
-    
-
-    $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
-    $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
-    $("#fit").click(function () { iv1.iviewer('fit'); });
-    $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
-    $("#fit").trigger("click");
-    */
+   
     $("#btn_salvar").click(function () {
         // alert('teste aqui');
         ////locastyle.modal.open({ target: "#modal-duplicidade" });
