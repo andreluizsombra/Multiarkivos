@@ -23,15 +23,21 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             //var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID);
             //ViewBag.ListaCliente = lst;
             List<Servico> lst = null;
+            Session["Filtro"] = new Filtro() { Tipo = 0 };
             TempData["Msg"] = msg;
             return View(lst);
         }
 
-        public ActionResult Listar()
+        public ActionResult Listar(string msg="")
         {
             var f = (Filtro)Session["Filtro"];
             var lstServico = new ServicoRepository().PesquisaServicoCliente(f.Tipo, f.Condicao, UsuarioAtual.ID, f.Pesquisa, UsuarioAtual.ID);
             ViewBag.ListaClientes = lstServico;
+            if (msg != "")
+            {
+                TempData["Msg"] = msg;
+                ViewBag.Msg = msg;
+            }
             return View("index",lstServico);
         }
 
@@ -151,7 +157,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 //ViewBag.Msg = Retorno.Mensagem;
                 TempData["Msg"] = Retorno.Mensagem;
 
-                return RedirectToAction("Index", new { msg = Retorno.Mensagem });
+                return RedirectToAction("Listar", new { msg = Retorno.Mensagem });
             }
             catch
             {
@@ -179,14 +185,13 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 {
                     throw new Exception(Retorno.Mensagem);
                 }
-                //ViewBag.Msg = Retorno.Mensagem;
+                ViewBag.Msg = Retorno.Mensagem;
                 TempData["Msg"] = Retorno.Mensagem;
                 return Json(Retorno, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                //ViewBag.Error = ex.Message;
-                //throw new Exception(ex.Message);
+                ViewBag.Error = ex.Message;
                 TempData["Error"] = ex.Message;
                 return Json(ex.Message, JsonRequestBehavior.AllowGet);
             }

@@ -14,5 +14,7 @@ namespace MK.Easydoc.Core.Entities
         public int IdUsuarioAtual { get; set; }
         public int IdServico { get; set; }
         public int IdCliente { get; set; }
+        public int PesquisaPor { get; set; }
+        public string Localizador { get; set; }
     }
 }

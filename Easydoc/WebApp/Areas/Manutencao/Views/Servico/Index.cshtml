@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<MK.Easydoc.Core.Entities.Servico>
 @using MK.Easydoc.WebApp.Controllers
+@using MK.Easydoc.Core.Entities
 
 @{
     ViewBag.Title = "Manutenção de Serviços";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    var _Filtro = Session["Filtro"] != null ? (Filtro)Session["Filtro"] : null;
 }
 <style>
     .margin-top {
@@ -20,14 +22,19 @@
     }
 
     .margin-top-botaolimpar {
-        margin-top: 25px;
+        margin-top: 23px;
     }
 </style>
 
 <div class="panel-heading">
     <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
 </div>
-
+@if (_Filtro != null)
+{
+    <input type="hidden" id="hdn_pesquisapor" value="@_Filtro.Tipo" />
+    <input type="hidden" id="hdn_condicao" value="@_Filtro.Condicao" />
+    <input type="hidden" id="hdn_localizador" value="@_Filtro.Pesquisa" />
+}
 <div class="container-fluid">
 
     <div class="row margin-top">
@@ -64,10 +71,10 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <a href="/Manutencao/Servico" id="btnLimpar" class="btn btn-warning margin-top-botaolimpar" onmouseover="">Limpar</a></div>
-                    <div class="col-lg-2 margin-top-botaolimpar">
-                        <a href="/Manutencao/Servico/Create" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;Novo Serviço</a>
+                    <div class="col-xs-3">
+                        <a href="/Manutencao/Servico" id="btnLimpar" class="btn btn-default margin-top-botaolimpar" onmouseover="">Limpar</a>
+                        <a href="/Manutencao/Menu" id="btnVoltar" class="btn btn-warning margin-top-botaolimpar" onmouseover="">Voltar</a>
+                        <a href="/Manutencao/Servico/Create" class="btn btn-success margin-top-botaolimpar"><i class="fa fa-plus"></i>&nbsp;Novo Serviço</a>
                     </div>
                 </div>
                 <label>&nbsp;</label>
@@ -192,6 +199,10 @@
             else
                 $(this).css('color', 'red');
         });
+
+        $("#selTipo").val($("#hdn_pesquisapor").val());
+        $("#selCondicao").val($("#hdn_condicao").val());
+        $("#txtpesquisa").val($("#hdn_localizador").val());
 
         $("#tblUsuarios").DataTable({
             language: { "sEmptyTable": "Nenhum registro encontrado",
