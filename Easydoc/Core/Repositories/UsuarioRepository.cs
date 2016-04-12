@@ -402,7 +402,7 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
-        public void BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
+        public Retorno BloquearUsuario(int idServico, int idUsuarioBloqueado, int idUsuario)
         {
             try
             {
@@ -413,7 +413,18 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@idUsuarioBloqueio", DbType.Int16, idUsuarioBloqueado);
                 _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
 
-                _db.ExecuteNonQuery(_cmd);
+                //_db.ExecuteNonQuery(_cmd);
+                var _Ret = new Retorno();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _Ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+                return _Ret;
             }
             catch (Exception ex) { throw ex; }
         }

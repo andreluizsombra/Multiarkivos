@@ -336,7 +336,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, ser.IdCliente);
                 _db.AddInParameter(_cmd, "@Descricao", DbType.String, ser.Descricao);
                 _db.AddInParameter(_cmd, "@ServicoDefault", DbType.Boolean, ser.ServicoDefault);
-                _db.AddInParameter(_cmd, "@ArquivoDAdos", DbType.Boolean, ser.ArquivoDados);
+                _db.AddInParameter(_cmd, "@ArquivoDados", DbType.Boolean, ser.ArquivoDados);
                 _db.AddInParameter(_cmd, "@ControleAtencao", DbType.Boolean, ser.ControleAtencao);
                 _db.AddInParameter(_cmd, "@DataCriacao", DbType.Int16, 0);
                 _db.AddInParameter(_cmd, "@DataExclusao", DbType.Int16, 0);

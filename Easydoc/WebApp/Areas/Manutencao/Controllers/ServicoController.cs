@@ -73,8 +73,13 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                         );
             ViewBag.ListaCliente = lista;
         }
-        public ActionResult Create()
+        public ActionResult Create(string msg="")
         {
+            if (msg != "")
+            {
+                TempData["Error"] = msg;
+                ViewBag.Error = msg;
+            }
             CarregarComboCliente();
             return View();
         }
@@ -122,7 +127,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                                 "Descricao"
                             );
                 ViewBag.ListaCliente = lista;
-                return View("Create");
+                //return View("Create", new { msg = Retorno.Mensagem });
+                return RedirectToAction("Create", new { msg = Retorno.Mensagem });
             }
         }
 
@@ -161,11 +167,13 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             }
             catch
             {
-                TempData["Error"] = Retorno.Mensagem;
-                ViewBag.Servico = _Servico;
-                CarregarComboCliente();
-                var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s => s.ID == _idServico);
-                return View("Edit",lst);
+                //TempData["Error"] = Retorno.Mensagem;
+                //ViewBag.Servico = _Servico;
+                //CarregarComboCliente();
+                //var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s => s.ID == _idServico);
+                //return View("Edit",lst);
+                return RedirectToAction("Edit", new { id = _idServico, msg = Retorno.Mensagem });
+                
             }
         }
 
@@ -193,17 +201,19 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             {
                 ViewBag.Error = ex.Message;
                 TempData["Error"] = ex.Message;
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                var ret = new Retorno() { Mensagem = ex.Message };
+                return Json(ret, JsonRequestBehavior.AllowGet);
             }
         }
 
         //
         // GET: /Manutencao/Servico/Edit/5
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, string msg="")
         {
             var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID).SingleOrDefault(s => s.ID == id);
             CarregarComboCliente();
+            if (msg != "") ViewBag.Error = msg;
             return View(lst);
         }
 

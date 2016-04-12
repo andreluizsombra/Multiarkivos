@@ -28,8 +28,11 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             var f = (Filtro)Session["Filtro"];
             var Clientes = new ClienteRepository().PesquisaCliente(f.Tipo, f.Condicao, UsuarioAtual.ID, f.Pesquisa, UsuarioAtual.ID);
-            ViewBag.ListaClientes = Clientes.ToList();
-            TempData["Msg"] = msg;
+            if (msg != "")
+            {
+                ViewBag.ListaClientes = Clientes.ToList();
+                TempData["Msg"] = msg;
+            }
             ViewBag.Msg = msg;
             return View("Index");
         }

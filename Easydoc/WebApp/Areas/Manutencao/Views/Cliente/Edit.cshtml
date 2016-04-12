@@ -16,6 +16,7 @@
 
 <div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
 <input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
+<input type="hidden" id="tipocpfcnpj" name="tipocpfcnpj" value="@ViewBag.Cliente.TipoCPFCNPJ()"/>
 <div class="well">
     <h4 class="panel-title">
         <i class="fa fa-users"></i>&nbsp;@ViewBag.Title
@@ -119,13 +120,21 @@
     jQuery(document).ready(function () {
         $('#pnlHeader').slideUp('slow');
 
+        if ($("#tipocpfcnpj").val() == 'F') {
+            $("#cpfcnpj").mask("999.999.999-99");
+            $("#pes").val("F");
+        } else {
+            $("#cpfcnpj").mask("999.999.999/9999-99");
+            $("#pes").val("J");
+        }
+
         $("#pes").attr('disabled', 'true');
 
-        if ($("#pes").val() == 'F') {
+        /*if ($("#pes").val() == 'F') {
             $("#cpfcnpj").mask("999.999.999-99");
         } else {
             $("#cpfcnpj").mask("999.999.999/9999-99");
-        }
+        }*/
 
         /*$("#pes").change(function () {
             $("#cpfcnpj").val('');

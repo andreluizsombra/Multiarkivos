@@ -26,6 +26,7 @@
     <h4 class="panel-title">
         <i class="fa fa-users"></i>&nbsp;@ViewBag.Title - @_usu.NomeCompleto
         &nbsp;<a href="/Seguranca/Usuario/Novo" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Usuário</a>
+        <a href="/Seguranca/Usuario/VoltarListaUsuarios" class="btn btn-default btn-sm"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
     </h4>
 </div>
 <style>
@@ -112,6 +113,9 @@
                         </div>
                         <div class="col-lg-2">
                             <input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.
+                        </div>
+                        <div class="col-lg-1">
+                            
                         </div>
                         <div class="col-lg-2">
                             <a href="#" class="btn btn-success" id="btn_incluir_usuario" disabled="true"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>

@@ -334,9 +334,11 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             // LOG: Entrou no modulo Seguranca/Usuario
             return View();
         }
-        public void BloquearUsuario(int idUsuBloqueado)
+        [HttpPost]
+        public JsonResult BloquearUsuario(string idUsuBloqueado)
         {
-            new UsuarioRepository().BloquearUsuario(ServicoAtual.ID, idUsuBloqueado, UsuarioAtual.ID);
+           var retorno = new UsuarioRepository().BloquearUsuario(ServicoAtual.ID, int.Parse(idUsuBloqueado), UsuarioAtual.ID);
+           return Json(retorno, JsonRequestBehavior.AllowGet);
         }
         //
         // GET: /ControleAcesso/Usuario/

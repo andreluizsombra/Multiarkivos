@@ -1,8 +1,10 @@
 ﻿@using MK.Easydoc.WebApp.Controllers
+@using MK.Easydoc.Core.Entities
 @{
     ViewBag.Title = "Manutenção de Usuários";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    var _Filtro = Session["Filtro"] != null ? (Filtro)Session["Filtro"] : null;
 } 
 <style>
     .margin-top{
@@ -22,6 +24,12 @@
 <div class="panel-heading">
     <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
 </div>
+@if (_Filtro != null)
+{
+    <input type="hidden" id="hdn_pesquisapor" value="@_Filtro.Tipo" />
+    <input type="hidden" id="hdn_condicao" value="@_Filtro.Condicao" />
+    <input type="hidden" id="hdn_localizador" value="@_Filtro.Pesquisa" />
+}
 
 <div class="container-fluid">
 
@@ -109,7 +117,7 @@
                                     <td>@lst.NomeUsuario</td>
                                     <td>@lst.Perfil</td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
-                                    <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this)"></i></td>
+                                    <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this,'@lst.NomeCompleto','@lst.NomeServico')"></i></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario&&idServico=@lst.ServicoID&&idPerfil=@lst.PerfilID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?idUsuario=@lst.ID" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
                                     <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirUsuario(@lst.ID,@lst.ServicoID,@IdUsuarioAtual )"></i></a></td>
@@ -148,12 +156,36 @@
             <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<div class="modal fade" id="ModalBloquear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-danger" id="myModalLabel"><i class="warning"></i>&nbsp;<b>Bloquear</b></h4>
+            </div>
+            <div class="modal-body">
+                <h5>Deseja realmente bloquear o usuário:&nbsp;<b><label id="nomeusuario"></label></b>&nbsp;para o serviço&nbsp;<b><label id="nomeservico"></label></b></h5>  
+                <button type="button" id="btnBloquear" class="btn btn-success">Sim, bloquear</button>              
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>           
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="hdn_idusuario" />
+    <input type="hidden" id="hdn_tipo" />
+</div>
+
 @section Scripts {
 @Scripts.Render("~/bundles/jqueryval")
 <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
 <script>
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
+
+        $("#selTipo").val($("#hdn_pesquisapor").val());
+        $("#selCondicao").val($("#hdn_condicao").val());
+        $("#txtpesquisa").val($("#hdn_localizador").val());
+
         //$("#tblUsuarios").DataTable();
         $("#tblUsuarios").DataTable({
             language: { "sEmptyTable": "Nenhum registro encontrado",
@@ -224,14 +256,20 @@
 
    });
 
-   function Bloquear(idusuario, campo) {
+   function Bloquear(idusuario, campo, nmusu, nmserv) {
        var tipo = $("#" + campo.id).attr('bloqueado');
+       $("#hdn_tipo").val(tipo);
 
+       $("#hdn_idusuario").val(idusuario);
        //alert(idusuario);
        var msg = "";
        if (tipo == 0) { msg = "bloquear" } else { msg = "desbloquear"; }
 
-       if (confirm("Deseja realmente " + msg + " ?")) {
+       $("#ModalBloquear").modal('show');
+       $("#nomeusuario").html(nmusu);
+       $("#nomeservico").html(nmserv);
+
+       /*if (confirm("Deseja realmente " + msg + " ?")) {
            $.ajax({
                url: "/Seguranca/Usuario/BloquearUsuario",
                data: { idUsuBloqueado: idusuario },
@@ -249,9 +287,39 @@
                    exibirmsgatencao('Erro ao tentar bloquear usuário');
                }
            });
-       }
+       }*/
    }
 
+   $("#btnBloquear").click(function(){
+       var msg = "";
+       var tipo = $("#hdn_tipo").val();
+       if (tipo == 0) { msg = "bloquear" } else { msg = "desbloquear"; }
+       var idusuario = $("#hdn_idusuario").val();
+       $.ajax({
+           url: "/Seguranca/Usuario/BloquearUsuario",
+           type: "post", 
+           datatype:"json",
+           data: { idUsuBloqueado: $("#hdn_idusuario").val() },
+           success: function(data) {
+               if(data.CodigoRetorno==0){
+                   exibirmsg(data.Mensagem);
+                   if (tipo == 0) {
+                       //exibirmsg('Usuário bloqueado.');
+                       $('#bloq_' + idusuario).attr('bloqueado', '1').css('color','red');
+                   }
+                   else {
+                       //exibirmsg('Usuário desbloqueado.');
+                       $('#bloq_' + idusuario).attr('bloqueado', '0').css('color', 'black');
+                   }
+               }else{exibirmsgatencao(data.Mensagem);}
+           },
+           error: function () {
+               exibirmsgatencao('Erro ao tentar bloquear usuário');
+           }
+       });
+       $("#ModalBloquear").modal('hide');
+   });
+   
    function ConfirmaExcluirUsuario(idUsu, idServico, idUsuAtual) {
        $("#modalExcluir").modal('show');
        //Preencher campos ocultos
