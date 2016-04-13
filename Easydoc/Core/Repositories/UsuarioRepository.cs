@@ -593,6 +593,43 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+
+        public Retorno ReativarUsuarioExcluido(int idUsuario, decimal cpf)
+        {
+            var _retorno = new Retorno();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_ReativaUsuarioExcluido");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@CPF", DbType.Decimal, cpf);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+
+                        _retorno.CodigoRetorno = int.Parse(_dr[0].ToString());
+                        _retorno.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                if (_retorno == null) { throw new Erro("Retorno não localizado."); }
+
+                return _retorno;
+            }
+            catch (Exception ex) {
+                _retorno.Mensagem = ex.Message;
+                return _retorno;
+            }
+
+        }
+
+
+
         public Retorno VerificaCPFDisponivel(int idUsuario, decimal cpf)
         {
             try

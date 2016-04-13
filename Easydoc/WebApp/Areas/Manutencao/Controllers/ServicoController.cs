@@ -23,8 +23,11 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             //var lst = new ServicoRepository().ListaServicoCliente(UsuarioAtual.ID);
             //ViewBag.ListaCliente = lst;
             List<Servico> lst = null;
-            Session["Filtro"] = new Filtro() { Tipo = 0 };
-            TempData["Msg"] = msg;
+            //Session["Filtro"] = new Filtro() { Tipo = 0 };
+            if (msg != "") {
+                TempData["Msg"] = msg;
+                ViewBag.Msg = msg;
+            }
             return View(lst);
         }
 
@@ -77,7 +80,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             if (msg != "")
             {
-                TempData["Error"] = msg;
+                //TempData["Error"] = msg;
                 ViewBag.Error = msg;
             }
             CarregarComboCliente();

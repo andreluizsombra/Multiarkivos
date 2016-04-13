@@ -20,7 +20,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             //Não exbir lista
             //var Clientes = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID);
             //ViewBag.ListaClientes = Clientes.ToList();
-            Session["Filtro"] = new Filtro() { Tipo = 0 };
+            //Session["Filtro"] = new Filtro() { Tipo = 0 };
             return View();
         }
 
@@ -32,8 +32,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             {
                 ViewBag.ListaClientes = Clientes.ToList();
                 TempData["Msg"] = msg;
+                ViewBag.Msg = msg;
             }
-            ViewBag.Msg = msg;
             return View("Index");
         }
         public ActionResult Pesquisa(FormCollection frm)

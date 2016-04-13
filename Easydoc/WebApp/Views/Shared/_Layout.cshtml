@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="description" content="Insira aqui a descrição da página.">
-
+    <meta charset="utf-8" />
     <link rel="icon" href="../../iconMK.png">
 
     <script src="~/Assets/js/app-scripts/funcoes.js"></script>
@@ -132,11 +132,12 @@
     </div>
     <!--Até aqui é o Header-->
     <div class="col-md-12">
-        @if (ViewBag.Error != null) { 
-        <div class="alert alert-warning alert-dismissible" role="alert">
+        @if (ViewBag.Error != null && ViewBag.Error != "")
+        { 
+          <!--<div class="alert alert-warning alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <strong>Atenção!</strong>&nbsp;@ViewBag.Error
-        </div>
+          </div>-->
         }
         @if (ViewBag.Msg != null) { 
         <div class="alert alert-success alert-dismissible" role="alert">
@@ -144,6 +145,7 @@
             <strong>Confirmado, </strong>&nbsp;@ViewBag.Msg
         </div>
         }
+        
         @if (TempData["Error"] != null)
         {
             <!--<div class="alert alert-warning alert-dismissible" role="alert">
@@ -320,6 +322,10 @@
 
 <script>
     $().ready(function () {
+        if("@ViewBag.Error"!=""){
+            exibirmsgatencao("@ViewBag.Error");
+        }
+
         $("#btnPendencias").css('display','none');
         var id_servico = @Session["IdServico"];
 

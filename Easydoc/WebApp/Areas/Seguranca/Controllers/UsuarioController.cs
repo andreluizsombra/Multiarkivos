@@ -203,6 +203,13 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             var Ret = new UsuarioRepository().VerificaLoginDisponivel(UsuarioAtual.ID, login);
             return Json(Ret, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public JsonResult AjaxReativarUsuario(string cpf)
+        {
+            //Usuario que esta com status de excluido vai ser reativado
+            var Ret = new UsuarioRepository().ReativarUsuarioExcluido(UsuarioAtual.ID, decimal.Parse(cpf));
+            return Json(Ret, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)

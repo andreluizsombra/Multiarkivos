@@ -222,6 +222,28 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="modalVerificaNovo" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Atenção !!! Novo Usuário</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5><label id="msgusunovo"></label></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSimReativarUsuario" class="btn btn-success"><i class="fa fa-check fa-lg"></i>&nbsp;Sim</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Não</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
 <input type="hidden" id="selecionado" name="selecionado" />
 <input type="hidden" id="cliente" name="cliente" />
 <input type="hidden" id="servico" name="servico" />
@@ -342,7 +364,11 @@
                         $("#cpf").mask("999.999.999-99");
                         $("#cpf").focus();
                         return false;
-                    } else {
+                    }else if(data.CodigoRetorno == 2){
+                        $("#modalVerificaNovo").modal('show');
+                        $("#msgusunovo").html(data.Mensagem);
+                    }
+                    else {
                         $("#cpf").mask("999.999.999-99");
                         VerificarLOGIN();
                     }
@@ -352,6 +378,27 @@
             $("#st_botaonovo").val(1);
             $("#btn_novo").attr('disabled', false);
             console.log($("#st_botaonovo").val());
+        });
+
+        $("#btnSimReativarUsuario").click(function(){
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxReativarUsuario',
+                data: { cpf: $("#cpf").val() },
+                success: function (data) {
+                    if (data.CodigoRetorno == 0) {
+                        exibirmsg(data.Mensagem);
+                        $("#cpf").mask("999.999.999-99");
+                        $("#cpf").focus();
+                        $("#modalVerificaNovo").modal('hide');
+                        var url = "@Url.Content("~/Seguranca/Usuario/VoltarListaUsuarios")";
+                        window.location.href = url;
+                    }else {
+                        exibirmsgatencao(data.Mensagem);
+                        return false;
+                    }
+                }
+            });
         });
 
         function VerificarLOGIN() {
