@@ -1,4 +1,5 @@
-﻿using MK.Easydoc.WebApp.Controllers;
+﻿using MK.Easydoc.Core.Entities;
+using MK.Easydoc.WebApp.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             RegistrarLOGSimples(7, 19, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao
+            Session["Filtro"] = new Filtro() { Tipo = 0 };
             return View();
         }
         public ActionResult ListaCliente()

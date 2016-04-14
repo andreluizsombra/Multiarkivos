@@ -128,6 +128,32 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
+        public Retorno VerificaServicoPerfil(int idUsuario, string login)
+        {
+            var ret = new Retorno();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Proc_VerificaServicoPerfilUsuario");
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+                _db.AddInParameter(_cmd, "@Login", DbType.String, login);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                           ret.CodigoRetorno = int.Parse(_dr[0].ToString());
+                           ret.Mensagem = _dr[1].ToString();
+                    }
+                }
+
+
+                return ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         public Usuario GetUsuario(IDictionary<string, object> _queryParams)
         {
             try

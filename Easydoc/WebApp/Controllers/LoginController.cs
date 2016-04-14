@@ -38,8 +38,13 @@ namespace MK.Easydoc.WebApp.Controllers
 
         //
         // GET: /Login/
-        public ActionResult Index()
+        public ActionResult Index(string msg="")
         {
+            if (msg != "")
+            {
+                ViewBag.Error = msg;
+                TempData["Msg"] = msg;
+            }
             ViewBag.Atencao = "";
             return View();
         }
@@ -117,8 +122,17 @@ namespace MK.Easydoc.WebApp.Controllers
                             //Session["IdServico"] = cli.idServico;
                             // LOG: Login Autenticado
                             int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
+
                             log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, _idUsuario, 1, 1, 0, 0, model.NomeUsuario);
                             log.RegistrarLOGDetalhe(1, model.NomeUsuario);
+
+                            // TODO:14/04/2016 
+                            var ret = new UsuarioRepository().VerificaServicoPerfil(_idUsuario, model.NomeUsuario);
+                            if (ret.CodigoRetorno != 0)
+                            {
+                                //return RedirectToRoute("Logout", new { msg = ret.Mensagem });
+                                return RedirectToAction("Index", new { msg = ret.Mensagem });
+                            }
 
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
                             
@@ -158,7 +172,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 this.SingOut();
             }
             catch (Exception ex) { ModelState.AddModelError("error", ex); TempData["ViewData"] = ViewData; }
-
+          
             return RedirectToAction("Index");
         }
 

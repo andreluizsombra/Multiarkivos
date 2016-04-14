@@ -84,8 +84,9 @@
                             <div class="ls-box action">
                                 <label>Código</label>
                                 <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
-                                <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#">Salvar</a>
-                                <a id="btn_excluirlote" class="btn btn-warning ls-btn-sm">Excluir</a>
+                                <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#"><i class="fa fa-check"></i>&nbsp;Salvar</a>
+                                <a id="btn_excluirlote" class="btn btn-danger ls-btn-sm"><i class="fa fa-trash"></i>&nbsp;Excluir</a>
+                                <a href="@Url.Content("~/Documento/Menu")" class="btn btn-warning ls-btn-sm"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
                                 <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;"></ul>
                             </div>
                         </div>

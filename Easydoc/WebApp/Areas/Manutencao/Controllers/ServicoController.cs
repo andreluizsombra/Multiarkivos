@@ -30,6 +30,11 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             }
             return View(lst);
         }
+        public ActionResult Limpar()
+        {
+            Session["Filtro"] = new Filtro() { Tipo = 0 };
+            return View("Index");
+        }
 
         public ActionResult Listar(string msg="")
         {
@@ -47,8 +52,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 
         public ActionResult Pesquisa(FormCollection frm)
         {
-            int _tipo = int.Parse(frm["selTipo"].ToString());
-            int _condicao = int.Parse(frm["selCondicao"].ToString());
+            int _tipo = Convert.ToInt16(frm["selTipo"].ToString());
+            int _condicao = Convert.ToInt16(frm["selCondicao"].ToString());
             string _txtpesquisa = frm["txtpesquisa"].ToString();
             Session["Filtro"] = new Filtro() { Tipo = _tipo, Condicao = _condicao, Pesquisa = _txtpesquisa, IdUsuarioAtual = UsuarioAtual.ID };
             var lstServico = new ServicoRepository().PesquisaServicoCliente(_tipo, _condicao, UsuarioAtual.ID, _txtpesquisa, UsuarioAtual.ID);

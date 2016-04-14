@@ -16,21 +16,25 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             RegistrarLOGSimples(7, 20, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao/Cliente
-
             //Não exbir lista
             //var Clientes = new ClienteRepository().ListarClientesUsuario(UsuarioAtual.ID);
             //ViewBag.ListaClientes = Clientes.ToList();
             //Session["Filtro"] = new Filtro() { Tipo = 0 };
             return View();
         }
+        public ActionResult Limpar()
+        {
+            Session["Filtro"] = new Filtro() { Tipo = 0 };
+            return View("Index");
+        }
 
         public ActionResult Listar(string msg="")
         {
             var f = (Filtro)Session["Filtro"];
             var Clientes = new ClienteRepository().PesquisaCliente(f.Tipo, f.Condicao, UsuarioAtual.ID, f.Pesquisa, UsuarioAtual.ID);
+            ViewBag.ListaClientes = Clientes.ToList();
             if (msg != "")
             {
-                ViewBag.ListaClientes = Clientes.ToList();
                 TempData["Msg"] = msg;
                 ViewBag.Msg = msg;
             }

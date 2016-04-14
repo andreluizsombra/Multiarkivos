@@ -55,7 +55,8 @@
                     <div class="col-lg-2">
                         <label>Condição:</label>
                         <select class="form-control" id="selCondicao" name="selCondicao">
-                            <option value="1" selected="selected">=</option>
+                            <option value="0" selected="selected">Selecione</option>
+                            <option value="1" >=</option>
                             <option value="2">Contém</option>
                         </select>
                     </div>
@@ -65,15 +66,15 @@
                         <div class="input-group">
                             @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
                             <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
-                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" required />
+                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" />
                             <span class="input-group-btn">
                                 <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
                             </span>
                         </div>
                     </div>
                     <div class="col-xs-4">
-                        <a href="/Manutencao/Servico" id="btnLimpar" class="btn btn-default margin-top-botaolimpar" onmouseover="">Limpar</a>
-                        <a href="/Manutencao/Menu" id="btnVoltar" class="btn btn-warning margin-top-botaolimpar" onmouseover="">Voltar</a>
+                        <a href="/Manutencao/Servico/Limpar" id="btnLimpar" class="btn btn-default margin-top-botaolimpar" onmouseover="">Limpar</a>
+                        <a href="/Manutencao/Menu" id="btnVoltar" class="btn btn-warning margin-top-botaolimpar" onmouseover=""><i class="fa fa-undo"></i>&nbsp;Voltar</a>
                         <a href="/Manutencao/Servico/Create" class="btn btn-success margin-top-botaolimpar"><i class="fa fa-plus"></i>&nbsp;Novo Serviço</a>
                     </div>
                 </div>
@@ -112,7 +113,7 @@
                                 <td>@CustomHelper.SimNao(lst.ControleAtencao.ToString())</td>
                                 <!--<td><a href="@Url.Content("~/Manutencao/Servico/Detail/")?idCliente=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>--> 
                                 <td><a href="@Url.Content("~/Manutencao/Servico/Edit/")@lst.ID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar"></i></a></td>
-                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluir(@lst.ID,@IdUsuarioAtual,'@lst.Descricao')"></i></a></td>
+                                <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluir(@lst.ID,@IdUsuarioAtual,'@lst.Descricao','@lst.NomeCliente')"></i></a></td>
                             </tr>
                         }
                     
@@ -128,12 +129,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">Excluir Serviço</h4>
+                <h4 class="modal-title text-warning" id="gridSystemModalLabel"><i class="fa fa-info-circle"></i>&nbsp;Mensagem</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-lg-8">
-                        <h3>Deseja realmente excluir ?</h3>
+                    <div class="col-lg-12">
+                        <label id="msgexcluir"></label>
                         <div id="nomeServico"></div>
                     </div>
                 </div>
@@ -232,12 +233,13 @@
 
    });
 
-    function ConfirmaExcluir(idServico, idUsuAtual, nomeServico) {
+    function ConfirmaExcluir(idServico, idUsuAtual, nomeServico, nomeCliente) {
         if(nomeServico == $("#nomeServico").attr("placeholder")){
             exibirmsgatencao("Serviço "+ nomeServico +" em uso ! , Operação não pode ser executada.");
             return false;
         }else{
             $("#modalExcluir").modal('show');
+            $("#msgexcluir").html("Deseja excluir o serviço "+nomeServico+" do cliente "+nomeCliente);
             //Preencher campos ocultos
             $("#hdn_idserv").val(idServico);
             $("#hdn_idusuatual").val(idUsuAtual);
