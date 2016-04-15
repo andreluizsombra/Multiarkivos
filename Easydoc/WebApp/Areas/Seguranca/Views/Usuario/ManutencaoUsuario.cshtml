@@ -30,6 +30,11 @@
     <input type="hidden" id="hdn_condicao" value="@_Filtro.Condicao" />
     <input type="hidden" id="hdn_localizador" value="@_Filtro.Pesquisa" />
 }
+else
+{
+    <input type="hidden" id="hdn_pesquisapor" value="0" />
+    <input type="hidden" id="hdn_condicao" value="0" />
+}
 
 <div class="container-fluid">
 
@@ -76,7 +81,7 @@
                         <div class="margin-top-botaolimpar">
                             <input type="button" id="btnLimpar" value="Limpar" class="btn btn-default" onmouseover="" />
                             <a href="@Url.Content("~/Seguranca/Menu")" class="btn btn-warning"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
-                            <a href="@Url.Content("~")Seguranca/Usuario/Novo" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Cadastrar Novo Usuário</a>
+                            <a href="@Url.Content("~")Seguranca/Usuario/Novo" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Novo Usuário</a>
                         </div>
                     </div>
                 </div>
@@ -187,6 +192,9 @@
         $("#selTipo").val($("#hdn_pesquisapor").val());
         $("#selCondicao").val($("#hdn_condicao").val());
         $("#txtpesquisa").val($("#hdn_localizador").val());
+        console.log($("#hdn_pesquisapor").val());
+        console.log($("#hdn_condicao").val());
+        console.log($("#hdn_localizador").val());
 
         //$("#tblUsuarios").DataTable();
         $("#tblUsuarios").DataTable({
