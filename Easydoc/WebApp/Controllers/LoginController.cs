@@ -70,6 +70,15 @@ namespace MK.Easydoc.WebApp.Controllers
 
                     if (valido)
                     {
+                        // TODO:14/04/2016 
+                        var ret = new UsuarioRepository().VerificaServicoPerfil(model.NomeUsuario, _senha);
+                        if (ret.CodigoRetorno != 0)
+                        {
+                            //return RedirectToRoute("Logout", new { msg = ret.Mensagem });
+                            return RedirectToAction("Index", new { msg = ret.Mensagem });
+                        }
+
+
                         bool _autenticado = this._authenticatioService.AuthenticateUser(this.HttpContext, model.NomeUsuario, model.Senha, model.ManterConectado);
                         if (_autenticado)
                         {
@@ -126,14 +135,7 @@ namespace MK.Easydoc.WebApp.Controllers
                             log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, _idUsuario, 1, 1, 0, 0, model.NomeUsuario);
                             log.RegistrarLOGDetalhe(1, model.NomeUsuario);
 
-                            // TODO:14/04/2016 
-                            var ret = new UsuarioRepository().VerificaServicoPerfil(_idUsuario, model.NomeUsuario);
-                            if (ret.CodigoRetorno != 0)
-                            {
-                                //return RedirectToRoute("Logout", new { msg = ret.Mensagem });
-                                return RedirectToAction("Index", new { msg = ret.Mensagem });
-                            }
-
+                           
                             return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
                             
                         }

@@ -10,7 +10,7 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         #region Methods
 
         bool ValidarUsuario(Usuario usuario);
-        Retorno VerificaServicoPerfil(int idUsuario, string login);
+        Retorno VerificaServicoPerfil(string login, string senha);
         Usuario GetUsuario(IDictionary<string, object> _queryParams);
 
         #endregion

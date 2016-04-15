@@ -128,7 +128,7 @@ namespace MK.Easydoc.Core.Repositories
 
         }
 
-        public Retorno VerificaServicoPerfil(int idUsuario, string login)
+        public Retorno VerificaServicoPerfil(string login, string senha)
         {
             var ret = new Retorno();
             try
@@ -137,8 +137,8 @@ namespace MK.Easydoc.Core.Repositories
                 Database _db = DbConn.CreateDB();
 
                 _cmd = _db.GetStoredProcCommand("Proc_VerificaServicoPerfilUsuario");
-                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
-                _db.AddInParameter(_cmd, "@Login", DbType.String, login);
+                _db.AddInParameter(_cmd, "@login", DbType.String, login);
+                _db.AddInParameter(_cmd, "@senha", DbType.String, senha);
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
@@ -221,6 +221,7 @@ namespace MK.Easydoc.Core.Repositories
                             ,
                             NomeCompleto = _dr["Nome"].ToString()
                             ,
+
                             PerfilID = int.Parse(_dr["idPerfil"].ToString())
                             ,
                             Perfil = _dr["Perfil"].ToString()
