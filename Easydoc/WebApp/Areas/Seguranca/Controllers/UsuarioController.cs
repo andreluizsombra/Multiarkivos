@@ -41,7 +41,7 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             ViewBag.ListaPerfil = lista_perfil;
             ViewBag.IdServico = idServico;
             ViewBag.IdPerfil = idPerfil;
-            ViewBag.Usuario = new UsuarioRepository().GetUsuario(nomeUsuario);
+            ViewBag.Usuario = new UsuarioRepository().GetUsuario(nomeUsuario,idServico);
             return View("EditarUsuario");
         }
         [HttpPost]

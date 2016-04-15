@@ -164,6 +164,7 @@ namespace MK.Easydoc.Core.Repositories
                 _cmd = _db.GetStoredProcCommand("Get_Usuario");
                 _db.AddInParameter(_cmd, "@UserName", DbType.String, _queryParams["nomeUsuario"]);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, 0);
 
                 List<Usuario> _usuarios = new List<Usuario>();
                 
@@ -195,7 +196,7 @@ namespace MK.Easydoc.Core.Repositories
             
         }
 
-        public Usuario GetUsuario(string UserName)
+        public Usuario GetUsuario(string UserName, int idServico=0)
         {
             try
             {
@@ -205,6 +206,7 @@ namespace MK.Easydoc.Core.Repositories
                 _cmd = _db.GetStoredProcCommand("Get_Usuario");
                 _db.AddInParameter(_cmd, "@UserName", DbType.String, UserName);
                 _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, idServico);
 
                 List<Usuario> _usuarios = new List<Usuario>();
 
