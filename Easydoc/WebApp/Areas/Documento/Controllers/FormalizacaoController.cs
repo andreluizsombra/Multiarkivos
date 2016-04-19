@@ -87,7 +87,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         [HttpPost]
         public JsonResult AjaxListaOcorrencias(int idServico)
         {
-            var _ocor = new DocumentoRepository().ListaOcorrencia(idServico);
+            var _ocor = new DocumentoRepository().ListaOcorrencia(idServico,1);
             return Json(_ocor.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -185,7 +185,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     }
                     else
                     {
-                        det = _docService.PesquisarMotivo(detalhe.IdDocumento);
+                        det = _docService.PesquisarMotivo(detalhe.IdDocumento,IdServico_Atual);
                         if (UsaArquivoDados)
                         {
                             ViewData["Det"] = string.Format(status + "| Caixa: {0} | Lote: {1} | Motivo: {2}", detalhe.Caixa, detalhe.Lote, det);
@@ -218,7 +218,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     return RedirectToAction("ListarPendentes", new { area = "Documento", controller = "Supervisao" });
                 }
             }
-            ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual);
+            ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual,1);
             return View("Formalizar",_documento);
         }
 

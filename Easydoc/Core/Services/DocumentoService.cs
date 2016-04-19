@@ -140,12 +140,13 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-        public string PesquisarMotivo(int idDocumento)
+        public string PesquisarMotivo(int idDocumento, int idServico)
         {
             try
-            {
+            { 
                 this._queryParams.Clear();
                 this._queryParams["idDocumento"] = idDocumento;
+                this._queryParams["idServico"] = idServico;
                 return this._repository.PesquisarMotivo(this._queryParams);
             }
             catch (Exception ex) { throw ex; }
@@ -457,16 +458,16 @@ namespace MK.Easydoc.Core.Services
 
         public List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo)
         {
-            //try
-            //{
-            List<Ocorrencia> _Motivo = new List<Ocorrencia>();
-            this._queryParams.Clear();
-            this._queryParams["iddocumentomodelo"] = idServico;
-            this._queryParams["tipo"] = Tipo;
-            _Motivo.AddRange(_repository.ListaOcorrencia(idServico));
-            return _Motivo;
-            //}
-            //catch (Exception ex) { throw ex; }
+            try
+            {
+            //List<Ocorrencia> _Motivo = new List<Ocorrencia>();
+            //this._queryParams.Clear();
+            //this._queryParams["iddocumentomodelo"] = idServico;
+            //this._queryParams["tipo"] = Tipo;
+            // _Motivo.AddRange(_repository.ListaOcorrencia(idServico,Tipo));
+                return _repository.ListaOcorrencia(idServico, Tipo); //_Motivo;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
         }
         public string GetDuplicidade(int idDocumento)
         {

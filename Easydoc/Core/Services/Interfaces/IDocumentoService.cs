@@ -32,7 +32,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<CampoModelo> ListarCamposModelo(int idDocumentoModelo);
         string PesquisarDocumentosConsulta(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
         string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
-        string PesquisarMotivo(int idDocumentoModelo);
+        string PesquisarMotivo(int idDocumentoModelo, int idServico);
         //string PesquisarDet(int idDocumentoModelo);
         string ValidarDocumento(int idDocumento, int idDocumentoModelo, int idServico);
         string SalvarConsultaDocumentoModelo(int idUsuario, int idServico, int idDocumentoModelo, string nomeConsulta, string descricao, bool compartilhado, string stringJSON);

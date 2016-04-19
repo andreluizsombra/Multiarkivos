@@ -109,7 +109,7 @@
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <input type="submit" class="btn btn-success" id="btnAlterar" value="Alterar Usuário">
+                            <button type="submit" class="btn btn-success" id="btnAlterar">Alterar Usuário</button>
                             <a href="/Seguranca/Usuario/VoltarListaUsuarios" class="btn btn-default"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
                         </div>
                     </div>
@@ -133,6 +133,7 @@
 </form>
 <script>
     jQuery(document).ready(function () {
+        
         $("#cpf").attr('disabled', true);
 
         $("#SelPerfil").val($("#idperfil").val());
@@ -141,11 +142,18 @@
           $("#idperfil").val($("#SelPerfil").val()); //Altera valor do input idperfil para o id do perfil selecinado no combo
         });
 
-        $("#btnAlterar").click(function () {
+        $("#btnAlterar").click(function (event) {
             if ($('#senha').val() != $('#confsenha').val()) {
                 exibirmsgatencao('Senha diferente de Contrasenha, tente novamente...');
+                event.preventDefault();
                 return false;
             }
+            if ($("#SelPerfil").val() == -1 || $("#SelPerfil").val() == null) {
+                exibirmsgatencao('Perfil inválido, porfavor selecione e tente novamente...');
+                event.preventDefault();
+                return false;
+            }
+            
         });
         
     });

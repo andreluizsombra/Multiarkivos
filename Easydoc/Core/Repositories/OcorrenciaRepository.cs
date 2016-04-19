@@ -13,6 +13,15 @@ namespace MK.Easydoc.Core.Repositories
 {
     public class OcorrenciaRepository
     {
+        public Dictionary<int, string> ListaTipo()
+        {
+            Dictionary<int, string> mDic = new Dictionary<int, string>();
+            mDic.Add(-1, "Selecione");
+            mDic.Add(1, "Informativo");
+            mDic.Add(2, "Exclusão");
+            return mDic;
+        }
+
         public List<Ocorrencia> PesquisaServicoCliente(Filtro flt)
         {
             try
@@ -62,6 +71,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int16, _ocor.idServico);
                 _db.AddInParameter(_cmd, "@idOcorrencia", DbType.Int16, _ocor.IdOcorrencia);
                 _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, _ocor.idUsuario);
+                _db.AddInParameter(_cmd, "@Tipo", DbType.Int16, _ocor.Tipo);
 
                 var _Ret = new Retorno();
 

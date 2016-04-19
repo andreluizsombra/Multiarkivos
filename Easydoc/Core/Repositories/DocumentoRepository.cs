@@ -9,10 +9,6 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
-
-
-
-
 using TecFort.Framework.Generico;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Infrastructure;
@@ -754,10 +750,13 @@ namespace MK.Easydoc.Core.Repositories
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-
+                
                 int Documento_ID = int.Parse(_queryParams["idDocumento"].ToString());
-                _cmd = _db.GetStoredProcCommand("proc_DocumentoMotivo_view");
+                int Servico_ID = int.Parse(_queryParams["idServico"].ToString());
+                //_cmd = _db.GetStoredProcCommand("proc_DocumentoMotivo_view");
+                _cmd = _db.GetStoredProcCommand("Proc_VisualizaDocumentoOcorrencia");
                 _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, Documento_ID);
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, Servico_ID);
                 _mensagem = _db.ExecuteScalar(_cmd).ToString();
 
                 //using (IDataReader _dr = _db.ExecuteReader(_cmd))
@@ -898,14 +897,14 @@ namespace MK.Easydoc.Core.Repositories
             //}
         }
 
-        public List<Ocorrencia> ListaOcorrencia(int _idServico)
+        public List<Ocorrencia> ListaOcorrencia(int _idServico, int _tipo)
         {
             List<Ocorrencia> _Ocorrencia = new List<Ocorrencia>();
             DbCommand _cmd;
             Database _db = DbConn.CreateDB();
             _cmd = _db.GetStoredProcCommand(String.Format("proc_get_Ocorrencia"));
             _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
-            //_db.AddInParameter(_cmd, "@Tipo", DbType.Int32, int.Parse(_queryParams["tipo"].ToString()));
+            _db.AddInParameter(_cmd, "@Tipo", DbType.Int32, _tipo);
             using (IDataReader _dr = _db.ExecuteReader(_cmd))
             {
                 while (_dr.Read())
@@ -1126,12 +1125,12 @@ namespace MK.Easydoc.Core.Repositories
         }
         #endregion MetodosPrivados
 
-        public List<Ocorrencia> ListarOcorrencia(int idServico)
+        public List<Ocorrencia> ListarOcorrencia(int idServico, int _tipo)
         {
             try
             {
                 List<Ocorrencia> _lista = new List<Ocorrencia>();
-                var lista = ListaOcorrencia(idServico);
+                var lista = ListaOcorrencia(idServico, _tipo);
 
                 foreach (var lst in lista)
                 {

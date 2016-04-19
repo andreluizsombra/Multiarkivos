@@ -39,7 +39,7 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         string AtualiarDocumentoCB(IDictionary<string, object> dictionary);
         List<DocumentoConsulta> ListarConsultasModelo(IDictionary<string, object> dictionary);
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
-        List<Ocorrencia> ListaOcorrencia(int _idServico);
+        List<Ocorrencia> ListaOcorrencia(int _idServico, int _tipo);
         //List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo);
     }
 }

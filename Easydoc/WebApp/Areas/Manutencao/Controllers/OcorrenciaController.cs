@@ -64,11 +64,17 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                             "ID",
                             "Descricao"
                         );
+            
+            var lista_tipo = new OcorrenciaRepository().ListaTipo();
+            var listaTipo = new SelectList(lista_tipo, "Key", "Value");
+            ViewBag.ListaTipo = listaTipo;
+
             ViewBag.ListaServico = lista;
         }
         void CarregarComboCliente()
         {
             var listaCliente = new ClienteRepository().ListaClientePorUsuario(Session["NomeUsuario"].ToString());
+            
             var lista = new SelectList(
                             listaCliente.ToList(),
                             "ID",
@@ -100,6 +106,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     TipoAcao = 1,
                     descOcorrencia = frm["nomeocorrencia"].ToString(),
                     idServico = int.Parse(frm["idservico"].ToString()),
+                    Tipo = int.Parse(frm["SelTipo"].ToString()),
                     IdOcorrencia = 0,
                     idUsuario = UsuarioAtual.ID
                 };
@@ -118,7 +125,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             {
                 ViewBag.Error = ex.Message;
                 TempData["Error"] = ex.Message;
-                return RedirectToAction("Create");
+                return RedirectToAction("Create", new { msg = ex.Message });
             }
         }
 
@@ -188,8 +195,9 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         //
         // GET: /Manutencao/Ocorrencia/Create
 
-        public ActionResult Create()
+        public ActionResult Create(string msg="")
         {
+            ViewBag.Error = msg;
             CarregarComboCliente();
             ViewBag.idCliente = -1; //Selecione
             List<Ocorrencia> lst = null;
