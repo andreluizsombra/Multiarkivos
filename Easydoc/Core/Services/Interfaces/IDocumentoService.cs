@@ -18,6 +18,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<Documento> ListarDocumentosDigitar(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosTipificar(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosSupervisao(int idUsuario, int idOrigem, int idServico);
+        List<Documento> ListarDocumentosFormalizar(int idUsuario, int idOrigem, int idServico);
         List<DocumentoModelo> ListarTipos(int idServico);
         List<DocumentoModelo> ListarTiposConsulta(int idServico);
         Documento GetDocumentoDigitar(int idUsuatio, int idServico);
