@@ -451,6 +451,7 @@ namespace MK.Easydoc.Core.Repositories
                     {
                         _Ret.CodigoRetorno = int.Parse(_dr[0].ToString());
                         _Ret.Mensagem = _dr[1].ToString();
+                        _Ret.Bloqueado = int.Parse(_dr[2].ToString());
                     }
                 }
                 return _Ret;

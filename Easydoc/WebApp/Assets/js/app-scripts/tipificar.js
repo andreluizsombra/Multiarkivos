@@ -1,5 +1,20 @@
 ﻿jQuery(document).ready(function () {
-    init();
+    //init();
+    var AtualizarPagina = function () {
+        if ($('#qtdlote').val() == 0) {
+            window.location = window.location.toString().replace(/#/gi, '');
+        }
+        return false;
+    };
+
+    if ($('#qtdlote').val() == 0) {
+        setInterval(AtualizarPagina, 10000);
+
+    } else {
+        init();
+        $.unblockUI();
+        return true;
+    }
 });
 
 var init = function () {

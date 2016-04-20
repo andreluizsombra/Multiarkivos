@@ -54,6 +54,7 @@
     <input type="hidden" id="hdnIdLoteItem" value="@ViewBag.IdLoteItem" />
     <br />
     
+    if(ViewBag.QtdLote != 0){ 
     <div class="col-lg-12">
         <div class="row">
                 <div class="col-md-8">
@@ -97,6 +98,20 @@
         
  </div>
 }
+ else
+ {
+            <div class="col-md-12">
+             <header class="">
+                <div id="msgatencao" class="alert alert-warning" role="alert">
+                        <i class='glyphicon glyphicon-ok'></i><strong>Aguarde!,&nbsp;</strong><label>Procurando documento a tipificar...</label><span></span>
+                        <button type='button' id='btnfecharprocurando' class='close' aria-label='Close'><span>&times;</span></button>
+                        <img src="~/Images/carregando.gif" class="text-center" />
+                 </div>
+            </header>
+           </div>
+ }
+    
+}
     
         <div class="modal fade" id="modal-resultado-tipificacao">
             <div class="ls-modal-box">
@@ -137,8 +152,8 @@
     $(document).ready(function () {
         $('#pnlHeader').slideUp('slow');
         if ($("#qtdlote").val() == 0) {
-            $("form").hide();
-            exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
+            //$("form").hide();
+            //exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
         } else {
             $("form").show();
         }

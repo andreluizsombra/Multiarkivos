@@ -131,8 +131,9 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 }
                 else
                 {
-                    tipificar = new TipificarViewModel();
+                    
                     //return View("Menu");
+                    tipificar = new TipificarViewModel();
                     return Json(new RetornoViewModel(false, "Todos os documentos deste lote foram tipificados com sucesso!", tipificar));
                 }
                 RegistrarLOGSimples(3, 11, UsuarioAtual.NomeUsuario);

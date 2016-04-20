@@ -342,9 +342,9 @@ namespace MK.Easydoc.WebApp.Areas.Seguranca.Controllers
             return View();
         }
         [HttpPost]
-        public JsonResult BloquearUsuario(string idUsuBloqueado)
+        public JsonResult BloquearUsuario(string idUsuBloqueado,string idServico)
         {
-           var retorno = new UsuarioRepository().BloquearUsuario(ServicoAtual.ID, int.Parse(idUsuBloqueado), UsuarioAtual.ID);
+           var retorno = new UsuarioRepository().BloquearUsuario(int.Parse(idServico), int.Parse(idUsuBloqueado), UsuarioAtual.ID);
            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
         //

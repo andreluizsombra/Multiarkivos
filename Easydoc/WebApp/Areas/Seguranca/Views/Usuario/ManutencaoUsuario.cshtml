@@ -123,7 +123,7 @@ else
                                     <td>@lst.NomeUsuario</td>
                                     <td>@lst.Perfil</td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
-                                    <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this,'@lst.NomeCompleto','@lst.NomeServico')"></i></td>
+                                    <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID@lst.ServicoID@IdUsuarioAtual" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this,'@lst.NomeCompleto','@lst.NomeServico',@lst.ServicoID, @IdUsuarioAtual)"></i></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario&&idServico=@lst.ServicoID&&idPerfil=@lst.PerfilID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
                                     <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?idUsuario=@lst.ID" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
                                     <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirUsuario(@lst.ID,@lst.ServicoID,@IdUsuarioAtual )"></i></a></td>
@@ -172,14 +172,16 @@ else
                 <h4 class="modal-title text-danger" id="myModalLabel"><i class="warning"></i>&nbsp;<b>Bloquear</b></h4>
             </div>
             <div class="modal-body">
-                <h5>Deseja realmente bloquear o usuário:&nbsp;<b><label id="nomeusuario"></label></b>&nbsp;para o serviço&nbsp;<b><label id="nomeservico"></label></b></h5>  
-                <button type="button" id="btnBloquear" class="btn btn-success">Sim, bloquear</button>              
+                <h5>Deseja realmente <label id="msgbloq"></label> o usuário:&nbsp;<b><label id="nomeusuario"></label></b>&nbsp;para o serviço&nbsp;<b><label id="nomeservico"></label></b></h5>  
+                <button type="button" id="btnBloquear" class="btn btn-success">Sim</button>              
                 <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>           
             </div>
         </div>
     </div>
-    <input type="hidden" id="hdn_idusuario" />
+    <input type="hidden" id="hdn_id" />
+    <input type="hidden" id="hdn_idusuario_atual" />
     <input type="hidden" id="hdn_tipo" />
+    <input type="hidden" id="hdn_idserv" />
 </div>
 
 @section Scripts {
@@ -223,8 +225,6 @@ else
           }
         );
 
-            $('[data-toggle="tooltip"]').tooltip();
-
             $('#btnLimpar').click(function() {
                 $('table tr').empty();
                 $(".dataTables_info").html('');
@@ -234,11 +234,17 @@ else
             });
 
             $('i[id^=bloq_]').each(function(e){
-                if($(this).attr('bloqueado')=='0')
+                if($(this).attr('bloqueado')=='0'){
                     $(this).css('color', 'black');
-                else
+                    $(this).attr('title', 'Bloquear');
+                }
+                else{
                     $(this).css('color', 'red');
+                    $(this).attr('title', 'Desbloquear');
+                }
             });
+            
+            //$('[data-toggle="tooltip"]').tooltip();
 
             $("#btnExcluir").click(function () {
                 $.ajax({ type: "POST", dataType: "json",
@@ -270,38 +276,46 @@ else
 
    });
 
-   function Bloquear(idusuario, campo, nmusu, nmserv) {
+    function AtualizaCadeado(){
+        $('i[id^=bloq_]').each(function(e){
+            if($(this).attr('bloqueado')=='0'){
+                $(this).css('color', 'black');
+                $(this).removeAttr('title');
+                $(this).attr('title', 'Bloquear');
+            }
+            else{
+                $(this).css('color', 'red');
+                $(this).removeAttr('title');
+                $(this).attr('title', 'Desbloquear');
+            }
+        });
+    } 
+
+   function Bloquear(idusuario, campo, nmusu, nmserv, idservico_sel, idusuario_atual) {
        var tipo = $("#" + campo.id).attr('bloqueado');
        $("#hdn_tipo").val(tipo);
 
-       $("#hdn_idusuario").val(idusuario);
+       $("#hdn_id").val(idusuario);
+       $("#hdn_idusuario_atual").val(idusuario_atual);
+       $("#hdn_idserv").val(idservico_sel);
+
+       var codigo_cadeado = $("#hdn_id").val() + $("#hdn_idserv").val() + $("#hdn_idusuario_atual").val();
        //alert(idusuario);
+
        var msg = "";
-       if (tipo == 0) { msg = "bloquear" } else { msg = "desbloquear"; }
+       $('#bloq_' + codigo_cadeado).removeAttr('title');
+
+       if (tipo == 0) { msg = "bloquear"
+           $('#bloq_' + codigo_cadeado).attr('title', 'Bloquear');
+           $('#msgbloq').html('Bloquear'); 
+       } else { msg = "desbloquear";
+           $('#bloq_' + codigo_cadeado).attr('title', 'Desbloquear');
+           $('#msgbloq').html('Desbloquear');
+       }
 
        $("#ModalBloquear").modal('show');
        $("#nomeusuario").html(nmusu);
        $("#nomeservico").html(nmserv);
-
-       /*if (confirm("Deseja realmente " + msg + " ?")) {
-           $.ajax({
-               url: "/Seguranca/Usuario/BloquearUsuario",
-               data: { idUsuBloqueado: idusuario },
-               success: function () {
-                   if (tipo == 0) {
-                       exibirmsg('Usuário bloqueado.');
-                       $('#bloq_' + idusuario).attr('bloqueado', '1').css('color','red');
-                   }
-                   else {
-                       exibirmsg('Usuário desbloqueado.');
-                       $('#bloq_' + idusuario).attr('bloqueado', '0').css('color', 'black');
-                   }
-               },
-               error: function () {
-                   exibirmsgatencao('Erro ao tentar bloquear usuário');
-               }
-           });
-       }*/
    }
 
    $("#btnBloquear").click(function(){
@@ -313,18 +327,25 @@ else
            url: "/Seguranca/Usuario/BloquearUsuario",
            type: "post", 
            datatype:"json",
-           data: { idUsuBloqueado: $("#hdn_idusuario").val() },
+           data: { idUsuBloqueado: $("#hdn_id").val(), idServico:$("#hdn_idserv").val() },
            success: function(data) {
                if(data.CodigoRetorno==0){
                    exibirmsg(data.Mensagem);
-                   if (tipo == 0) {
-                       //exibirmsg('Usuário bloqueado.');
-                       $('#bloq_' + idusuario).attr('bloqueado', '1').css('color','red');
+                   var codigo_cadeado = $("#hdn_id").val() + $("#hdn_idserv").val() + $("#hdn_idusuario_atual").val();
+                   console.log(codigo_cadeado);
+                   $('#bloq_' + codigo_cadeado).removeAttr('title');
+                   if (data.Bloqueado == 1) {
+                       $('#bloq_' + codigo_cadeado).attr('bloqueado', '1').css('color','red');
+                       $('#bloq_' + codigo_cadeado).attr('title', 'Desbloquear');
                    }
                    else {
                        //exibirmsg('Usuário desbloqueado.');
-                       $('#bloq_' + idusuario).attr('bloqueado', '0').css('color', 'black');
+                       $('#bloq_' + codigo_cadeado).attr('bloqueado', '0').css('color', 'black');
+                       $('#bloq_' + codigo_cadeado).attr('title', 'Bloquear');
                    }
+                   
+                   //AtualizaCadeado();
+
                }else{exibirmsgatencao(data.Mensagem);}
            },
            error: function () {
