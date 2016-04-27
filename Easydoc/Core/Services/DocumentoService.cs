@@ -15,7 +15,9 @@ namespace MK.Easydoc.Core.Services
         //private readonly ILog _logger;
         private IDocumentoRepository _repository;
         private IDictionary<string, object> _queryParams;
-
+        
+        
+        
         #endregion
 
         #region Public Constructors
@@ -103,8 +105,6 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-
-
         public List<Documento> ListarDocumentosFormalizar(int idUsuario, int idOrigem, int idServico)
         {
             try
@@ -118,7 +118,6 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-
         public string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere)
         {
 
@@ -559,7 +558,6 @@ namespace MK.Easydoc.Core.Services
 
                 this._queryParams.Clear();
                 this._queryParams["Usuario_ID"] = idUsuario;
-                //this._queryParams["Origem_ID"] = idOrigem;
                 this._queryParams["Servico_ID"] = idServico;
 
                 //TODO: Atualizar a data de atualização do doc e pegar apenas os que estiverem com data de atualização maior que 10 minutos
@@ -572,6 +570,8 @@ namespace MK.Easydoc.Core.Services
                     this._queryParams["Documento_ID"] = _documento.ID;
                     this._queryParams["Servico_ID"] = idServico;
 
+                    _documento.Perguntas = this._repository.ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID); 
+                    
                     _documento.Modelo.Campos.AddRange(_repository.SelecionarDocumentoCampos(_queryParams).Where(c => c.Digita).ToList<CampoModelo>());
                     _documento.Arquivos.AddRange(_repository.SelecionarDocumentoImagens(_queryParams).ToList<DocumentoImagem>());
 

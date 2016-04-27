@@ -14,6 +14,7 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         List<DocumentoModelo> ListarTipos(IDictionary<string, object> _queryParams);
         List<DocumentoModelo> ListarTiposConsulta(int idServico);
         List<CampoModelo> ListarCamposModelo(IDictionary<string, object> _queryParams);
+        List<Perguntas> ListarPerguntas(int _idServico, int _idDocumentoModelo);
         
         //Walmir
         //List<Motivo> SelecionarMotivo(IDictionary<string, object> _queryParams);

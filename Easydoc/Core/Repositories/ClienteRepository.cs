@@ -10,6 +10,7 @@ using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Infrastructure;
 using MK.Easydoc.Core.Repositories.Interfaces;
 using MK.Easydoc.Core.Repositories;
+using MK.Easydoc.Core.Infrastructure.Framework;
 
 namespace MK.Easydoc.Core.Repositories
 {
@@ -191,9 +192,14 @@ namespace MK.Easydoc.Core.Repositories
         /// <Autor>AndreSombra</Autor>
         /// <DataInicio>16/11/2015</DataInicio>
         /// <param name="nomeUsuario"></param>
-        public void PrimeiroClienteServicoPadrao(string nomeUsuario)
+        public void PrimeiroClienteServicoPadrao(string nomeUsuario, string senha)
         {
-            string cmd = string.Format("exec Proc_GET_ServicoDefault '{0}'", nomeUsuario);
+            var _cripto = new Criptografia();
+            var _utils = new Util();
+
+            string _senha = _cripto.Executar(senha, _utils.ChaveCripto, Criptografia.TipoNivel.Baixo, Criptografia.TipoAcao.Encriptar, Criptografia.TipoCripto.Números);
+
+            string cmd = string.Format("exec Proc_GET_ServicoDefault '{0}','{1}'", nomeUsuario, _senha);
             var lista = new DbConn().RetornaDados(cmd);
             foreach (DataRow item in lista.Rows)
             {

@@ -57,6 +57,9 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 _docService.MudaStatusDocumento(int.Parse(idDocumento), UsuarioAtual.ID, 2010);
                 bool EmUso = _docService.EmUso(int.Parse(idDocumento), UsuarioAtual.ID, 2);
+                                
+
+
             }
             catch (Exception erx)
             {

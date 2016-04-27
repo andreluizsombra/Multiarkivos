@@ -115,24 +115,20 @@ namespace MK.Easydoc.WebApp.Controllers
                             }
 
                             var cli = new ClienteRepository();
-                            cli.PrimeiroClienteServicoPadrao(model.NomeUsuario);
+                            cli.PrimeiroClienteServicoPadrao(model.NomeUsuario, model.Senha);
 
                             if (cli == null) TempData["Error"] = "Nenhum Cliente e Serviço Padrão selecionado...";
 
                             Session["IdCliente"] = cli.TCliente.ID;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
-                            Session["IdServico"] = cli.idServico;
+                            Session["IdServico"] = cli.idServico;//aqui
                                     
-                            //var cli = new ClienteRepository();
-                            //cli.PrimeiroCliente(model.NomeUsuario);
-                            //Session["NomeCliente"] = cli.TCliente.Descricao;
-                            //Session["NomeServico"] = cli.Servico;
-                            //Session["IdServico"] = cli.idServico;
-                            // LOG: Login Autenticado
+                            
+                            // LOG: Login Autenticado -- Cesar
                             int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
 
-                            log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, _idUsuario, 1, 1, 0, 0, model.NomeUsuario);
+                            log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, 0, 1, 1, 0, 0, model.NomeUsuario);
                             log.RegistrarLOGDetalhe(1, model.NomeUsuario);
 
                            

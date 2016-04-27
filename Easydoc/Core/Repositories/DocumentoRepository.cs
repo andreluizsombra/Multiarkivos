@@ -245,7 +245,7 @@ namespace MK.Easydoc.Core.Repositories
             DocumentoModelo _modelo = new DocumentoModelo();
             Documento _documento = new Documento();
             List<Documento> _documentos = new List<Documento>();
-
+            
             try
             {
                 DbCommand _cmd;
@@ -266,7 +266,12 @@ namespace MK.Easydoc.Core.Repositories
                         _documento.StatusDocumento = int.Parse(_dr["idStatus"].ToString());
 
                         _documento.Modelo.Campos = new List<CampoModelo>();
-                        _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID); //TODO: 21/03/2016 ListarDocumentosStatus , agora incluindo lista de perguntas
+
+                      //  if (_documento.StatusDocumento==2000)
+                      //  {
+                      //  _documento.Perguntas = ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID); //TODO: 21/03/2016 ListarDocumentosStatus , agora incluindo lista de perguntas
+                      //  }
+                        
                         _documentos.Add(_documento);
                         //TODO: Criar Proc para retornar os campos e metodo para carregar esta propriedade (Ja retornar o doctocampos e o modelocapo)
                     }
