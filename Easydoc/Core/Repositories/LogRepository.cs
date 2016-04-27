@@ -20,7 +20,8 @@ namespace MK.Easydoc.Core.Repositories
             idLOG = 0;
             idServico = 0;
         }
-        
+
+
         public void RegistrarLOG(int idCliente, int _idServico, int idMovimento=0, int idUsuario=0, int idModulo=0, int idAcao=0,
                                     int idEstacao=0, int idAutorizante=0,string Localizador="")
         {

@@ -239,7 +239,7 @@
             return false;
         }else{
             $("#modalExcluir").modal('show');
-            $("#msgexcluir").html("Deseja excluir o serviço "+nomeServico+" do cliente "+nomeCliente);
+            $("#msgexcluir").html("Deseja excluir o serviço "+nomeServico.toUpperCase()+" do cliente "+nomeCliente.toUpperCase()+' ?' );
             //Preencher campos ocultos
             $("#hdn_idserv").val(idServico);
             $("#hdn_idusuatual").val(idUsuAtual);
