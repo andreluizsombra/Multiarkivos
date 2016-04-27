@@ -17,7 +17,10 @@ namespace MK.Easydoc.WebApp.Controllers
         {
             //AjaxCallTrocarServicoAtual(0);
             //TODO: 10/03/2016
-            if (new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).TrocarSenha == 1)
+            //if (new UsuarioRepository().GetUsuario(Session["NomeUsuario"].ToString()).TrocarSenha == 1)
+
+            //TODO: Andre 27/04/2016
+            if (new UsuarioRepository().GetUsuarioSessao(Session["NomeUsuario"].ToString()).TrocarSenha == 1)
             {
                 return RedirectToAction("TrocarSenha");
             }

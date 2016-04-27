@@ -12,6 +12,8 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         bool ValidarUsuario(Usuario usuario);
         Retorno VerificaServicoPerfil(string login, string senha);
         Usuario GetUsuario(IDictionary<string, object> _queryParams);
+        Usuario GetUsuarioSessao(string UserName, int idServico = 0); //TODO: Andre 27/04/2016
+        Usuario RetornaUsuarioSessao(); //TODO: Andre 27/04/2016
 
         #endregion
     }

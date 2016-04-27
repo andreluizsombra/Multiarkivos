@@ -70,20 +70,27 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams.Clear();
                 this._queryParams["nomeUsuario"] = nomeUsuario;
 
-                _usuario = this._repository.GetUsuario(this._queryParams);
+                //TODO: Andre 27/04/2016
+                Usuario clsusu = new Usuario();
+                if (System.Web.HttpContext.Current.Session==null || (Usuario)System.Web.HttpContext.Current.Session["ClsUsuario"] == null)
+                    clsusu = this._repository.GetUsuarioSessao(nomeUsuario);
+                else clsusu = (Usuario)System.Web.HttpContext.Current.Session["ClsUsuario"];
+
+                _usuario = clsusu; //_usuario = this._repository.GetUsuario(this._queryParams);
                 _usuario.Clientes = new List<Cliente>();
                 _usuario.Clientes.AddRange(_cliente.ListarClientesUsuario(_usuario.ID));
 
+
                 //List<Servico> _sevs = new List<Servico>();
 
-                var _servs = _servico.ListarServicosUsuario(_usuario.ID);
+               /* var _servs = _servico.ListarServicosUsuario(_usuario.ID);
                 
                 foreach (Cliente _cli in _usuario.Clientes)
                 {
                     var _servcli = (from s in _servs where s.IdCliente == _cli.ID select s).ToList<Servico>();
                     _cli.Servicos.AddRange(_servcli);
                 }
-
+                */
 
                 //_usuario.Servicos = new List<Servico>();
                 //_usuario.Servicos.AddRange(_servico.ListarServicosUsuario(_usuario.ID));

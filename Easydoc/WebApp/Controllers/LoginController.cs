@@ -78,6 +78,8 @@ namespace MK.Easydoc.WebApp.Controllers
                             return RedirectToAction("Index", new { msg = ret.Mensagem });
                         }
 
+                        //TODO: Andre 27/04/2016 int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
+                        Session["ClsUsuario"] = (Usuario)new UsuarioRepository().GetUsuarioSessao(model.NomeUsuario);
 
                         bool _autenticado = this._authenticatioService.AuthenticateUser(this.HttpContext, model.NomeUsuario, model.Senha, model.ManterConectado);
                         if (_autenticado)
@@ -126,7 +128,6 @@ namespace MK.Easydoc.WebApp.Controllers
                                     
                             
                             // LOG: Login Autenticado -- Cesar
-                            int _idUsuario = new UsuarioRepository().GetUsuario(model.NomeUsuario).ID;
 
                             log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, 0, 1, 1, 0, 0, model.NomeUsuario);
                             log.RegistrarLOGDetalhe(1, model.NomeUsuario);

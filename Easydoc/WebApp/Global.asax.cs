@@ -74,7 +74,10 @@ namespace MK.Easydoc.WebApp
             RegisterDependencyResolver();
             
         }
-
+        protected void Session_Start()
+        {
+           
+        }
 
         protected void RegisterDependencyResolver()
         {

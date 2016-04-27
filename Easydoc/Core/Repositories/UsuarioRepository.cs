@@ -12,6 +12,7 @@ using TecFort.Framework.Generico;
 using MK.Easydoc.Core.Infrastructure.Framework;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.Core.Services;
+using System.Web;
 
 namespace MK.Easydoc.Core.Repositories
 {
@@ -158,7 +159,10 @@ namespace MK.Easydoc.Core.Repositories
         {
             try
             {
-                DbCommand _cmd;
+                //TODO: Andre 27/04/2016
+                return new UsuarioRepository().RetornaUsuarioSessao();
+
+               /* DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 //_cmd = _db.GetSqlStringCommand(String.Format("SELECT * FROM Usuario where UserName = @UserName;"));
                 _cmd = _db.GetStoredProcCommand("Get_Usuario");
@@ -179,18 +183,14 @@ namespace MK.Easydoc.Core.Repositories
                             , Perfil = _dr["Perfil"].ToString()
                             , Senha = _dr["Senha"].ToString()
                             , Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
-
-                            //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
                         });
                     }
                 }
 
-                //Criptografia _cripto = new Criptografia();
-                //Util _utils = new Util();
-
                 if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
 
                 return _usuarios[0];
+                */
             }
             catch (Exception ex) { throw ex; }
             
@@ -200,7 +200,10 @@ namespace MK.Easydoc.Core.Repositories
         {
             try
             {
-                DbCommand _cmd;
+                //TODO: Andre 27/04/2016
+                return new UsuarioRepository().RetornaUsuarioSessao();
+
+                /*DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 
                 _cmd = _db.GetStoredProcCommand("Get_Usuario");
@@ -214,7 +217,6 @@ namespace MK.Easydoc.Core.Repositories
                 {
                     while (_dr.Read())
                     {
-                        //_usuarios.Add(new Usuario { ID = Guid.Empty, NomeUsuario = _dr["UserName"].ToString(), NomeCompleto = _dr["UserName"].ToString(), Perfil = _dr["UserName"].ToString(), Senha = _dr["Senha"].ToString() });
                         _usuarios.Add(new Usuario
                         {
                             ID = int.Parse(_dr["UserId"].ToString())
@@ -242,15 +244,20 @@ namespace MK.Easydoc.Core.Repositories
                     }
                 }
 
-                //Criptografia _cripto = new Criptografia();
-                //Util _utils = new Util();
-
                 if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
 
-                return _usuarios[0];
+                return _usuarios[0];*/
+                
             }
             catch (Exception ex) { throw ex; }
 
+        }
+
+        public Usuario RetornaUsuarioSessao()
+        {
+            var usu = (Usuario)HttpContext.Current.Session["ClsUsuario"];
+            if (usu == null) throw new Exception("Sessao Usuario esta NULL");
+            return usu;
         }
         public Usuario GetUsuarioID(int idUsuario)
         {
@@ -295,6 +302,66 @@ namespace MK.Easydoc.Core.Repositories
                 //Util _utils = new Util();
 
                 if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                return _usuarios[0];
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+        //TODO: Andre Sombra em 27/04/2016 - Carregar usuário em sessao
+        public Usuario GetUsuarioSessao(string UserName, int idServico = 0)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                
+                _cmd = _db.GetStoredProcCommand("Get_Usuario");
+                _db.AddInParameter(_cmd, "@UserName", DbType.String, UserName);
+                _db.AddInParameter(_cmd, "@Senha", DbType.String, "");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, idServico);
+
+                List<Usuario> _usuarios = new List<Usuario>();
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _usuarios.Add(new Usuario
+                        {
+                            ID = int.Parse(_dr["UserId"].ToString())
+                            ,
+                            NomeUsuario = _dr["UserName"].ToString()
+                            ,
+                            NomeCompleto = _dr["Nome"].ToString()
+                            ,
+
+                            PerfilID = int.Parse(_dr["idPerfil"].ToString())
+                            ,
+                            Perfil = _dr["Perfil"].ToString()
+                            ,
+                            Senha = _dr["Senha"].ToString()
+                            ,
+                            Bloqueado = int.Parse(_dr["Bloqueado"].ToString())
+                            ,
+                            CPF = _dr["Cpf"].ToString()
+                            ,
+                            Email = _dr["Email"].ToString()
+                            ,
+                            TrocarSenha = int.Parse(_dr["Temporario"].ToString())
+                            //, Servicos = _servico.ListarServicosUsuario(int.Parse(_dr["UserId"].ToString())) 
+                        });
+                    }
+                }
+
+                if (_usuarios == null) { throw new Erro("Usuário não localizado."); }
+
+                //TODO: Andre 27/04/2016 - Somente essa linha abaixo
+                if (HttpContext.Current.Session != null)
+                {
+                    if (HttpContext.Current.Session["ClsUsuario"] == null) HttpContext.Current.Session["ClsUsuario"] = (Usuario)_usuarios[0];
+                }
 
                 return _usuarios[0];
             }
