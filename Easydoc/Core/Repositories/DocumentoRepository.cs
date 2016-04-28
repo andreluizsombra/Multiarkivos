@@ -111,6 +111,7 @@ namespace MK.Easydoc.Core.Repositories
                 
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_documento_alt"));
 
+                _db.AddInParameter(_cmd, "@Servico_ID", DbType.Int32, _queryParams["Servico_ID"]);
                 _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, _documento.ID);
 
                 if (_documento.StatusDocumento != 0)

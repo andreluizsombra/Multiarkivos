@@ -207,7 +207,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             try
             {
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento {ID=id_documento,StatusDocumento=1020});
-                _docService.AtualizarDocumento(_doc);
+                _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
                 bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
                 _docService.IncluirMotivo(IdServico_Atual,id_documento, id_motivo, 1, UsuarioAtual.ID);
 
@@ -242,7 +242,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 
 
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1010 });
-                _docService.AtualizarDocumento(_doc);
+                _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
                 bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
                 //_docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID, 1);
 
@@ -292,7 +292,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     return Json(new RetornoViewModel(false, _msg));
 
                 bool EmUso = _docService.EmUso(_campoModelo.IdDocumento, UsuarioAtual.ID, 2);
-                _docService.FinalizarDigitacao(_campoModelo.IdDocumento);
+                _docService.FinalizarDigitacao(_campoModelo.IdDocumento, ServicoAtual.ID);
  
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
@@ -387,7 +387,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     {
                         _docService.Executar("update valida_doc10_serv02 set iddocumento="+id_documento+", DtVinculo=Getdate() where idvalida_doc10_serv02="+id_);
                     }
-                    _docService.FinalizarDigitacao(id_documento);                    
+                    _docService.FinalizarDigitacao(id_documento, ServicoAtual.ID);                    
                 }
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }

@@ -5,7 +5,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
 {
     public interface IDocumentoService
     {
-        void AtualizarDocumento(Documento Documento);
+        void AtualizarDocumento(Documento Documento, int idServico);
         //void IncluirMotivo(int IdDocumento, int Atalho, int UserID, int tipo);
         void IncluirMotivo(int idServico, int idDocumento, int idOcorrencia, int tipo, int UserID);
         void AlteraDuplicidade(int IdDocumento, int ID);
@@ -13,7 +13,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         void ExcluirDocumento(int idDocumento);
         void MudaStatusDocumento(int idDocumento, int idUsuario,int idStatus);
         string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo);
-        void FinalizarDigitacao(int idDocumento);
+        void FinalizarDigitacao(int idDocumento, int id_Servico);
         DocumentoModelo CriarDocumento(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosDigitar(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosTipificar(int idUsuario, int idOrigem, int idServico);

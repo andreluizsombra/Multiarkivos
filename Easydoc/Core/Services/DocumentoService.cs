@@ -190,11 +190,13 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-        public void AtualizarDocumento(Documento documento)
+        public void AtualizarDocumento(Documento documento, int idServico)
         {
             try
             {
                 this._queryParams.Clear();
+
+                this._queryParams["Servico_ID"] = idServico;
                 this._queryParams["Documento"] = documento;
 
                 this._repository.AtualizarDocumento(this._queryParams);
@@ -262,7 +264,7 @@ namespace MK.Easydoc.Core.Services
 
 
 
-        public void FinalizarDigitacao(int idDocumento)
+        public void FinalizarDigitacao(int idDocumento, int id_Servico)
         {
             try
             {
@@ -270,6 +272,7 @@ namespace MK.Easydoc.Core.Services
                 Documento _documento = (new Documento { ID = idDocumento, StatusDocumento = 1010 });
 
                 this._queryParams.Clear();
+                this._queryParams["Servico_ID"] = id_Servico;
                 this._queryParams["Documento"] = _documento;
 
                 this._repository.AtualizarDocumento(this._queryParams);
@@ -536,6 +539,7 @@ namespace MK.Easydoc.Core.Services
 
                     this._queryParams.Clear();
                     this._queryParams["Documento"] = _documento;
+                    this._queryParams["Servico_ID"] = idServico;
                     _repository.AtualizarDocumento(_queryParams);
                 }
                 else
