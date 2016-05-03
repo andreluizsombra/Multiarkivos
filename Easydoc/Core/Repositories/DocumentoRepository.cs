@@ -106,7 +106,6 @@ namespace MK.Easydoc.Core.Repositories
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
 
-
                 Documento _documento = (Documento)_queryParams["Documento"];
                 
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_documento_alt"));
@@ -206,7 +205,38 @@ namespace MK.Easydoc.Core.Repositories
         }
 
 
+        //TODO: Andre 29/04/2016
+        public DataTable ListarDocsVinculoPai(int _idServico, int _idDocumentoModelo, int _tipo)
+        {
+            //DocumentoModelo _modelo = new DocumentoModelo();
+            //Documento _documento = new Documento();
+            DataTable _lista = new DataTable();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_listar_docto_pais"));
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _idServico);
+                _db.AddInParameter(_cmd, "@idDocumentoModelo", DbType.Int32, _idDocumentoModelo);
+                _db.AddInParameter(_cmd, "@tipo", DbType.Int32, _tipo);
 
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    _lista.Load(_dr);
+                    /*while (_dr.Read())
+                    {
+                        
+                    }*/
+                }
+
+                if (_lista == null) { throw new Erro("Documento não localizado."); }
+                return _lista;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
 
 
 

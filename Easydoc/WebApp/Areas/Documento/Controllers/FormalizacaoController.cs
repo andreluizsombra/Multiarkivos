@@ -113,8 +113,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     _documento.ID = 0;
                     //return View(_documento); 
                 }
-
-
             }
             else
             {

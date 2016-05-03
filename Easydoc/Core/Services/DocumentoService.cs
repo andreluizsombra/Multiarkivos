@@ -5,6 +5,7 @@ using System.Text;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Repositories.Interfaces;
 using MK.Easydoc.Core.Services.Interfaces;
+using System.Data;
 
 namespace MK.Easydoc.Core.Services
 {
@@ -15,7 +16,6 @@ namespace MK.Easydoc.Core.Services
         //private readonly ILog _logger;
         private IDocumentoRepository _repository;
         private IDictionary<string, object> _queryParams;
-        
         
         
         #endregion
@@ -102,6 +102,15 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams["Servico_ID"] = idServico;
 
                 return this._repository.ListarDocumentosStatus(this._queryParams).Where(d => d.StatusDocumento == 1020).ToList<Documento>();
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public DataTable ListarDocumentosVinculoPai(int idServico, int idDocModelo, int tipo)
+        {
+            try
+            {
+                return this._repository.ListarDocsVinculoPai(idServico, idDocModelo, tipo);  
             }
             catch (Exception ex) { throw ex; }
         }
@@ -429,6 +438,7 @@ namespace MK.Easydoc.Core.Services
                     _documento.Arquivos.AddRange(_repository.SelecionarDocumentoImagens(_queryParams).ToList<DocumentoImagem>());
 
                     this._queryParams.Clear();
+                    this._queryParams["Servico_ID"] = idServico;
                     this._queryParams["Documento"] = _documento;
                     _repository.AtualizarDocumento(_queryParams);
                 }
@@ -581,6 +591,49 @@ namespace MK.Easydoc.Core.Services
 
                     this._queryParams.Clear();
                     this._queryParams["Documento"] = _documento;
+                    this._queryParams["Servico_ID"] = idServico;
+                    _repository.AtualizarDocumento(_queryParams);
+                }
+                else
+                {
+                    _documento = new Documento();
+                }
+
+                return _documento;
+
+            }
+            catch (Exception ex) { throw ex; }
+
+        }
+
+        public Documento GetDocumentoVincular(int idUsuario, int idServico)
+        {
+            try
+            {
+                Documento _documento = new Documento();
+
+                this._queryParams.Clear();
+                this._queryParams["Usuario_ID"] = idUsuario;
+                this._queryParams["Servico_ID"] = idServico;
+
+                //TODO: Atualizar a data de atualização do doc e pegar apenas os que estiverem com data de atualização maior que 10 minutos
+                _documento = this._repository.ListarDocumentosStatus(this._queryParams).Where(d => d.StatusDocumento == 3000).FirstOrDefault();
+
+                if (_documento != null)
+                {
+                    this._queryParams.Clear();
+                    this._queryParams["Usuario_ID"] = idUsuario;
+                    this._queryParams["Documento_ID"] = _documento.ID;
+                    this._queryParams["Servico_ID"] = idServico;
+
+                    //_documento.Perguntas = this._repository.ListarPerguntas(int.Parse(_queryParams["Servico_ID"].ToString()), _documento.Modelo.ID);
+
+                    _documento.Modelo.Campos.AddRange(_repository.SelecionarDocumentoCampos(_queryParams).Where(c => c.Digita).ToList<CampoModelo>());
+                    _documento.Arquivos.AddRange(_repository.SelecionarDocumentoImagens(_queryParams).ToList<DocumentoImagem>());
+
+                    this._queryParams.Clear();
+                    this._queryParams["Documento"] = _documento;
+                    this._queryParams["Servico_ID"] = idServico;
                     _repository.AtualizarDocumento(_queryParams);
                 }
                 else

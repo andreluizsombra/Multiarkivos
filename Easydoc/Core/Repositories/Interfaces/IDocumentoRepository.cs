@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using MK.Easydoc.Core.Entities;
+using System.Data;
 namespace MK.Easydoc.Core.Repositories.Interfaces
 {
     public interface IDocumentoRepository
     {
+        DataTable ListarDocsVinculoPai(int _idServico, int _idDocumentoModelo, int _tipo);
         //DocumentoModelo AtualizarDocumento(IDictionary<string, object> _queryParams);
         DocumentoModelo CriarDocumento(IDictionary<string, object> _queryParams);
         List<Documento> ListarDocumentosStatus(IDictionary<string, object> _queryParams);

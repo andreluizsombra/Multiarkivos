@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using MK.Easydoc.Core.Entities;
+using System.Data;
 namespace MK.Easydoc.Core.Services.Interfaces
 {
     public interface IDocumentoService
     {
+        DataTable ListarDocumentosVinculoPai(int idServico, int idDocModelo, int tipo);
         void AtualizarDocumento(Documento Documento, int idServico);
         //void IncluirMotivo(int IdDocumento, int Atalho, int UserID, int tipo);
         void IncluirMotivo(int idServico, int idDocumento, int idOcorrencia, int tipo, int UserID);
@@ -42,6 +44,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
 
         Documento GetDocumentoFormalizar(int idUsuatio, int idServico);
+        Documento GetDocumentoVincular(int idUsuario, int idServico);
         List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo);
     }
 }
