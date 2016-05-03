@@ -23,7 +23,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         private readonly ILoteService _loteService;
         private readonly IDocumentoService _docService;
-
+        
         #endregion
         public VinculoController() //Método construtor da classe FormalizacaoController
         {
@@ -164,7 +164,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
             ViewBag.ListaDocsPai = new DocumentoRepository().ListarDocsVinculoPai(1, 1, 1);
             ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual, 1);
-
+            
             return View("Vincular", _documento);
         }
     }

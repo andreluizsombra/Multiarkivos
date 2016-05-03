@@ -219,7 +219,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         }
 
         [HttpPost]
-        public ActionResult ajax_Aprovar(int id_documento)
+        public JsonResult ajax_Aprovar(int id_documento)
         {
             try
             {
@@ -413,10 +413,15 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             IList<JToken> _camposJSON = _docto["Documento"]["Campos"].Children().ToList();
             //IList<CampoModelo> _campos = new List<CampoModelo>();
 
-            foreach (JToken result in _camposJSON)
+            //TODO: Andre 03/05/2015 - So coloquei somente para verificar se Campos igual null
+            CampoModelo campo = new CampoModelo();
+            if (_documentoDigitacao.Campos == null)
             {
-                CampoModelo campo = JsonConvert.DeserializeObject<CampoModelo>(result.ToString());
-                _documentoDigitacao.Campos.Add(campo);
+                foreach (JToken result in _camposJSON)
+                {
+                    campo = JsonConvert.DeserializeObject<CampoModelo>(result.ToString());
+                    _documentoDigitacao.Campos.Add(campo);
+                }
             }
 
             return _documentoDigitacao;
