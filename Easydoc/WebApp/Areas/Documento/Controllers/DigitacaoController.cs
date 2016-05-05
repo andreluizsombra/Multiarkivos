@@ -265,7 +265,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 RegistrarLOGSimples(4, 15, UsuarioAtual.NomeUsuario);
                 // LOG: Digitou documento
 
-
                 DocumentoDigitacaoViewModel _campoModelo = new DocumentoDigitacaoViewModel();
                 _campoModelo = ConverteJSONCampoModelo(documento_digitado);
 

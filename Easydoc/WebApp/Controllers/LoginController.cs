@@ -49,6 +49,18 @@ namespace MK.Easydoc.WebApp.Controllers
             return View();
         }
 
+        public ActionResult TesteMAC(){
+            ViewBag.Atencao = MK.Easydoc.Core.Infrastructure.Retorno.GetMacAdress();
+            TempData["Msg"] = MK.Easydoc.Core.Infrastructure.Retorno.GetMacAdress();
+            return View("Index");
+        }
+        public ActionResult TesteIP()
+        {
+            ViewBag.Atencao = MK.Easydoc.Core.Infrastructure.Retorno.GetUserIPAddress();
+            TempData["Msg"] = MK.Easydoc.Core.Infrastructure.Retorno.GetUserIPAddress();
+            return View("Index");
+        }
+        
         //
         // POST: /Login/
         [AcceptVerbs(HttpVerbs.Post)]
@@ -142,7 +154,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 }
                 catch (Exception ex) {
                     //ModelState.AddModelError("Error", ex.Message);
-                    // LOG: Login Não Autenticado
+                    //LOG: Login Não Autenticado
                     log.RegistrarLOG(0, 0, 0, 0, 1, 2, 0, 0, model.NomeUsuario);
                     log.RegistrarLOGDetalhe(2, model.NomeUsuario);
                     ViewBag.Atencao = ex.Message;

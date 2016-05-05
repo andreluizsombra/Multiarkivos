@@ -99,10 +99,9 @@
             <div class="col-md-3">&nbsp;</div>
         </div>
 
-        
-
         <div class="row">
-            
+            @Html.ActionLink("TesteMAC", "TesteMAC", "Login")
+            @Html.ActionLink("TesteIP", "TesteIP", "Login")
 
             @using (Html.BeginForm("Autenticar", "Login", FormMethod.Post, new { ReturnUrl = ViewBag.ReturnUrl, @class = "form-signin" }))
             {
@@ -136,6 +135,7 @@
                     </div>
                 </div>
 
+                
                 @*<div class="container">
                     <div class="row">
                         <div class="col-xs-12">
