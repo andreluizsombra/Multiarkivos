@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace MK.Easydoc.Core.Infrastructure
 {
@@ -46,6 +47,7 @@ namespace MK.Easydoc.Core.Infrastructure
                     return id;
                 }
             }
+
             return id;
 
         }
@@ -63,7 +65,31 @@ namespace MK.Easydoc.Core.Infrastructure
                     return addresses[0];
                 }
             }
+           
             string ip = context.Request.ServerVariables["REMOTE_ADDR"];
+            string ip_for = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            string ret = String.Format("IPv4 interface HostName: {0} Dominio: {1}",
+               properties.HostName, properties.DomainName);
+
+            string UserHost = System.Web.HttpContext.Current.Request.UserHostAddress.ToString();
+            string hostname = System.Web.HttpContext.Current.Request.UserHostName.ToString();
+
+            string strEnderecoIP;
+            strEnderecoIP = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (strEnderecoIP == null)
+                strEnderecoIP = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"]; 
+
+
+            string HostName2 = System.Net.Dns.GetHostName();
+
+            string nome = System.Net.Dns.GetHostName();
+            System.Net.IPAddress[] ipnet = System.Net.Dns.GetHostAddresses(nome);
+            string ip4 = ipnet[4].ToString();
+
+            ip += ret + " UserHost: " + UserHost + " HostName: " + hostname + " Hostname2: " + HostName2 + " IP_3:" + strEnderecoIP + " IP_FOR: " + ip_for + " IP4: " + ip4;
             return ip == "::1" ? "127.0.0.1" : ip;
         }
     }
