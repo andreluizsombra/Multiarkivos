@@ -65,6 +65,7 @@ namespace MK.Easydoc.Core.Infrastructure
             return addr[addr.Length - 2].ToString();
 
         }
+
         public static string GetUserIPAddress()
         {
             System.Web.HttpContext context = System.Web.HttpContext.Current;
@@ -83,10 +84,7 @@ namespace MK.Easydoc.Core.Infrastructure
             string ip_for = context.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
             string local_ip = context.Request.ServerVariables["LOCAL_ADDR"];
 
-            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
-            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
-            string ret = String.Format("IPv4 interface HostName: {0} Dominio: {1}",
-               properties.HostName, properties.DomainName);
+            
 
             string UserHost = System.Web.HttpContext.Current.Request.UserHostAddress.ToString();
             string hostname = System.Web.HttpContext.Current.Request.UserHostName.ToString();
@@ -101,14 +99,20 @@ namespace MK.Easydoc.Core.Infrastructure
 
             string nome = System.Net.Dns.GetHostName();
             System.Net.IPAddress[] ipnet = System.Net.Dns.GetHostAddresses(nome);
-            string ip4 = ipnet[4].ToString();
+            string ip4 = ipnet[ipnet.Length-2].ToString();
 
             for (int i = 0; i < ipnet.Length; i++)
             {
-                ip += "[ Ip_TESTE_" + i.ToString() + "_" + ipnet[i].ToString()+" ] \n ";
+               ip += "[ Ip_TESTE_" + i.ToString() + "_" + ipnet[i].ToString()+" ] \n ";
             }
 
-            ip += ret + " GetIP: " + GetIP() + " UserHost: " + UserHost + " HostName: " + hostname + "\n Hostname2: " + HostName2 + "\n IP_3:" + strEnderecoIP + " IP_FOR: " + ip_for + " IP4: " + ip4 + " LOCAL_ADDR: " + local_ip;
+            NetworkInterface[] nics = NetworkInterface.GetAllNetworkInterfaces();
+            IPGlobalProperties properties = IPGlobalProperties.GetIPGlobalProperties();
+            string ret = String.Format("IPv4 interface HostName: {0} Dominio: {1}",
+               properties.HostName, properties.DomainName);
+
+            ip += "Ret: "+ret + " GetIP: " + GetIP() + " UserHost: " + UserHost + " HostName: " + hostname + "\n Hostname2: " + HostName2 + "\n IP_3:" + strEnderecoIP + " IP_FOR: " + ip_for + " IP4: " + ip4 + " LOCAL_ADDR: " + local_ip;
+
             return ip == "::1" ? "127.0.0.1" : ip;
         }
         

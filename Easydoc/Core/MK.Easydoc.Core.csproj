@@ -187,11 +187,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Acao.cs" />
+    <Compile Include="Entities\Acesso.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\DetalheUsuario.cs" />
     <Compile Include="Entities\Documento.cs" />
     <Compile Include="Entities\Filtro.cs" />
     <Compile Include="Entities\Graficos.cs" />
+    <Compile Include="Entities\Licensa.cs" />
     <Compile Include="Entities\Log.cs" />
     <Compile Include="Entities\LogDetalhe.cs" />
     <Compile Include="Entities\Lote.cs" />
@@ -214,6 +216,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AcaoRepository.cs" />
+    <Compile Include="Repositories\AcessoRepository.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\Dictionary.cs" />
     <Compile Include="Repositories\DocumentoRepository.cs" />
@@ -223,6 +226,7 @@
     <Compile Include="Repositories\Interfaces\IPerfilRepository.cs" />
     <Compile Include="Repositories\Interfaces\IServicoRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUsuarioRepository.cs" />
+    <Compile Include="Repositories\LicensaRepository.cs" />
     <Compile Include="Repositories\LogRepository.cs" />
     <Compile Include="Repositories\LoteRepository.cs" />
     <Compile Include="Repositories\OcorrenciaRepository.cs" />

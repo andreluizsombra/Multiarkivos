@@ -416,6 +416,7 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex) { throw ex; }
         }
+
         public Retorno AlterarUsuario(int _idusualt, int _idusu, string _nome, string _login, string _email, string _senha,int? _primacesso, int _idperfil, int _idservico)
         {
             try
