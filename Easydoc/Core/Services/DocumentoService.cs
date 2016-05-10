@@ -127,6 +127,22 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
+
+        public List<Documento> ListarDocumentosVincular(int idUsuario, int idOrigem, int idServico)
+        {
+            try
+            {
+                this._queryParams.Clear();
+                this._queryParams["Usuario_ID"] = idUsuario;
+                this._queryParams["Origem_ID"] = idOrigem;
+                this._queryParams["Servico_ID"] = idServico;
+
+                return this._repository.ListarDocumentosStatus(this._queryParams).Where(d => d.StatusDocumento == 3000).ToList<Documento>();
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        
         public string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere)
         {
 

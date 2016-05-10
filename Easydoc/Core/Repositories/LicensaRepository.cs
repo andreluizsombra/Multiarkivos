@@ -22,11 +22,12 @@ namespace MK.Easydoc.Core.Repositories
     {
         public Retorno Incluir(Licensa acs)
         {
+            var _Ret = new Retorno();
             try
             {
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
-                _cmd = _db.GetStoredProcCommand("proc_Manutencao_Licensa");
+                _cmd = _db.GetStoredProcCommand("Proc_Manutencao_Licenca");
                 _db.AddInParameter(_cmd, "@TipoAcao", DbType.Int16, acs.TipoAcao); //(1)Criar, (2)Alterar, (3)Excluir
                 _db.AddInParameter(_cmd, "@idCliente", DbType.Int16, acs.idCliente);
                 _db.AddInParameter(_cmd, "@idServico", DbType.Int16, acs.idServico);
@@ -38,7 +39,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@IPPrivateClient", DbType.String, acs.IPPrivateClient);
                 _db.AddInParameter(_cmd, "@HostnameClient", DbType.String, acs.HostnameClient);
 
-                var _Ret = new Retorno();
+                
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))
                 {
@@ -52,13 +53,39 @@ namespace MK.Easydoc.Core.Repositories
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _Ret.CodigoRetorno = -2;
+                _Ret.Mensagem = ex.Message;
+                return _Ret;
+                //throw new Exception(ex.Message);
             }
         }
 
-        public void CarregaLicensa()
+        public Retorno CarregaLicensa(Usuario usu, int tipoAcao=1)
         {
+            try
+            {
+                System.Web.HttpContext context = System.Web.HttpContext.Current;
+                string ip = context.Request.ServerVariables["REMOTE_ADDR"];
+                string HostName = System.Net.Dns.GetHostName();
+                string local_ip = context.Request.ServerVariables["LOCAL_ADDR"];
 
+                var lic = new Licensa()
+                {
+                    TipoAcao = tipoAcao,
+                    idUsuario = usu.ID,
+                    idServico = usu.ServicoID,
+                    idCliente = usu.ClienteID,
+                    IPPublicClient = ip,
+                    IPServerHost = local_ip,
+                    HostnameServer = HostName
+                };
+                var ret = Incluir(lic);
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro CarregaLicensa, " + ex.Message);
+            }
         }
     }
 }

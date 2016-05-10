@@ -105,29 +105,32 @@ namespace MK.Easydoc.Core.Services
 
                 if (authTicket == null) { return; }
 
-                if (application.Context.Cache.Get(authTicket.UserData) == null)
+                if (authTicket.UserData != "")
                 {
-                    user = this._usuarioService.GetUsuario(authTicket.UserData);
+                    if (application.Context.Cache.Get(authTicket.UserData) == null)
+                    {
+                        user = this._usuarioService.GetUsuario(authTicket.UserData);
 
-                    identity = new easydocIdentity(AUTHENTICATION_NAME
-                        , true
-                        , user.NomeUsuario
-                        , user.ID
-                        , user.NomeCompleto
-                        , user.Email
-                        , user.Perfil);
+                        identity = new easydocIdentity(AUTHENTICATION_NAME
+                            , true
+                            , user.NomeUsuario
+                            , user.ID
+                            , user.NomeCompleto
+                            , user.Email
+                            , user.Perfil);
 
-                    principal = new easydocPrincipal(identity);
+                        principal = new easydocPrincipal(identity);
 
-                    application.Context.Cache.Insert(authTicket.UserData
-                        , principal
-                        , null
-                        , Cache.NoAbsoluteExpiration
-                        , TimeSpan.FromMinutes(15));
+                        application.Context.Cache.Insert(authTicket.UserData
+                            , principal
+                            , null
+                            , Cache.NoAbsoluteExpiration
+                            , TimeSpan.FromMinutes(15));
+                    }
+                    else { principal = (application.Context.Cache.Get(authTicket.UserData) as easydocPrincipal); }
+
+                    application.Context.User = principal;
                 }
-                else { principal = (application.Context.Cache.Get(authTicket.UserData) as easydocPrincipal); }
-
-                application.Context.User = principal;
             }
             catch (Exception ex) { throw ex; }
             //catch (Exception ex) { this._logger.Error(ex.Message, ex); throw ex; }

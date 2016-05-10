@@ -77,10 +77,7 @@
                         <a href="/Manutencao/Menu" id="btnVoltar" class="btn btn-warning margin-top-botaolimpar" onmouseover=""><i class="fa fa-undo"></i>&nbsp;Voltar</a>
                         <a href="/Manutencao/Cliente/Create" class="btn btn-success margin-top-botaolimpar"><i class="fa fa-user"></i>&nbsp;Novo</a>
                     </div>
-                    
                 </div>
-
-
             }
         </div>
     </div>
@@ -96,7 +93,6 @@
                         <tr>
                             <th>CPF/CNPJ</th>
                             <th>Cliente</th>
-                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                         </tr>
@@ -153,6 +149,30 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script>
+        $("#tblUsuarios").DataTable({
+            language: { "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
         
     $().ready(function () {
         $('#pnlHeader').slideUp('slow');
@@ -163,18 +183,17 @@
                 url: "/Manutencao/Cliente/AjaxExcluir",
                 data: { cpf_cnpj: $("#hdn_cpfcnpj").val() },
                 success: function (data) {
-                    $(data).each(function(){
-                        if(this.CodigoRetorno==1){
+                        if(data.CodigoRetorno==1){
                             //$("#lin_" + $("#hdn_idcliente").val()).attr('class','selected');
                             //var table = $('#tblUsuarios').DataTable();
                             //table.row('.selected').remove().draw( false );
-                            exibirmsg(this.Mensagem);
+                            exibirmsg(data.Mensagem);
                             var surl = "http://" + window.location.host + '/Manutencao/Cliente/Listar';
                             window.location = surl;
-
                         }
-                        else{exibirmsgatencao(this.Mensagem);}
-                    });
+                        else{                            
+                            exibirmsgatencao(data.Mensagem);
+                        }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     var erro = JSON.parse(xhr.responseText);
@@ -209,30 +228,7 @@
             console.log($("#hdn_localizador").val());
 
         //$("#tblUsuarios").DataTable();
-            $("#tblUsuarios").DataTable({
-                language: { "sEmptyTable": "Nenhum registro encontrado",
-                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sInfoThousands": ".",
-                    "sLengthMenu": "_MENU_ resultados por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado",
-                    "sSearch": "Pesquisar",
-                    "oPaginate": {
-                        "sNext": "Próximo",
-                        "sPrevious": "Anterior",
-                        "sFirst": "Primeiro",
-                        "sLast": "Último"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": Ordenar colunas de forma ascendente",
-                        "sSortDescending": ": Ordenar colunas de forma descendente"
-                    }
-                }
-            });
+         
            
 
    });

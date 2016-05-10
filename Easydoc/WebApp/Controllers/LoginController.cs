@@ -131,21 +131,34 @@ namespace MK.Easydoc.WebApp.Controllers
                             var cli = new ClienteRepository();
                             cli.PrimeiroClienteServicoPadrao(model.NomeUsuario, model.Senha);
 
-                            if (cli == null) TempData["Error"] = "Nenhum Cliente e Serviço Padrão selecionado...";
+                            if (cli.Servico == null)
+                            {
+                                return RedirectToAction("Index", new { msg = "Nenhum Cliente e Serviço Padrão selecionado. Por favor,  entre em contato com o administrador do sistema." });
+                                //TempData["Error"] = "Nenhum Cliente e Serviço Padrão selecionado...";
+                            }
 
                             Session["IdCliente"] = cli.TCliente.ID;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;//aqui
-                                    
                             
-                            // LOG: Login Autenticado -- Cesar
+                            //TODO: Andre 10/05/2016 
+                            var usu = new Usuario(){ ID=UsuarioAtual.ID, ServicoID=cli.idServico, ClienteID=cli.TCliente.ID};
+                            var retorno = new LicensaRepository().CarregaLicensa(usu, 1);
+                            if (retorno.CodigoRetorno < 0)
+                            {
+                                ViewBag.Atencao = retorno.Mensagem;
+                                TempData["Msg"] = retorno.Mensagem;
+                            }
+                            else
+                            {
+                                // LOG: Login Autenticado -- Cesar
+                                log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, 0, 1, 1, 0, 0, model.NomeUsuario);
+                                log.RegistrarLOGDetalhe(1, model.NomeUsuario);
 
-                            log.RegistrarLOG(cli.TCliente.ID, cli.idServico, 0, 0, 1, 1, 0, 0, model.NomeUsuario);
-                            log.RegistrarLOGDetalhe(1, model.NomeUsuario);
-
-                           
-                            return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
+                                return RedirectToRoute(new { action = "../Home", controller = "", area = "" });// Redirect (returnUrl ?? FormsAuthentication.DefaultUrl);
+                                
+                            }
                             
                         }
 

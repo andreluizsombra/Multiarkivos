@@ -12,8 +12,9 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 {
     public class ClienteController : BaseController
     {
-        public ActionResult Index()
+        public ActionResult Index(string msg="")
         {
+            if(msg!="") TempData["Msg"] = msg;
             RegistrarLOGSimples(7, 20, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Manutencao/Cliente
             //Não exbir lista
@@ -128,7 +129,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     throw new Exception(Retorno.Mensagem);
                 }
                 TempData["Msg"] = Retorno.Mensagem;
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { msg = Retorno.Mensagem });
             }
             catch(Exception ex)
             { 
@@ -142,6 +143,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         [HttpPost]
         public JsonResult AjaxExcluir(string cpf_cnpj)
         {
+            var Retorno = new Retorno();
             try
             {
                 var cli = new Cliente()
@@ -151,7 +153,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     idUsuarioAtual = UsuarioAtual.ID
                 };
                 var cliRet = new ClienteRepository();
-                var Retorno = cliRet.Incluir(cli);
+                Retorno = cliRet.Incluir(cli);
                 if (Retorno.CodigoRetorno < 0)
                 {
                     throw new Exception(Retorno.Mensagem);
@@ -164,7 +166,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             {
                 //ViewBag.Error = ex.Message;
                 //throw new Exception(ex.Message);
-                return Json(ex.Message, JsonRequestBehavior.AllowGet);
+                return Json(Retorno, JsonRequestBehavior.AllowGet);
             }
         }
     }
