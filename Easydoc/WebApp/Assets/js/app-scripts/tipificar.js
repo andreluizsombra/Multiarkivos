@@ -1,4 +1,5 @@
-﻿jQuery(document).ready(function () {
+﻿$('#pnlHeader').hide();
+jQuery(document).ready(function () {
     //init();
     var AtualizarPagina = function () {
         if ($('#qtdlote').val() == 0) {

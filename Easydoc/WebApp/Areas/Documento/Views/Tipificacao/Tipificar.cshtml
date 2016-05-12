@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Tipificacao";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSemHeader.cshtml"; //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <script src="~/Assets/plugins/iviewer-master/jquery.iviewer.js"></script>
@@ -149,8 +149,9 @@
 
 
 <script>
+    $('#pnlHeader').hide();
     $(document).ready(function () {
-        $('#pnlHeader').slideUp('slow');
+        $('#pnlHeader').hide();
         if ($("#qtdlote").val() == 0) {
             //$("form").hide();
             //exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');

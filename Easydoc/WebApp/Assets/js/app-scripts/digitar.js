@@ -1,7 +1,7 @@
-﻿
+﻿$('#pnlHeader').hide();
+
 jQuery(document).ready(function () {
     
-    $('#pnlHeader').hide();
     $('#tblMotivos').hide();
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);

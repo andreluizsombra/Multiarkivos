@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Vincular de Documentos";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSemHeader.cshtml"; //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!--Andre 28/04/2016-->
@@ -317,7 +317,7 @@
 @section Scripts {
 @Scripts.Render("~/bundles/jqueryval")    
     <script>
-        
+        $('#pnlHeader').hide();
         $().ready(function () {
         
                                     /* $("[type='checkbox']").bootstrapToggle({

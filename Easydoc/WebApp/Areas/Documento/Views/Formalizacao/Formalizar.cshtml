@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Formalização de Documentos";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSemHeader.cshtml"; //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!--Andre 21/03/2016-->
@@ -300,6 +300,7 @@
                         @section Scripts {
                             @Scripts.Render("~/bundles/jqueryval")
                             <script>
+                                $('#pnlHeader').hide();
                                 $().ready(function () {
                                     /* $("[type='checkbox']").bootstrapToggle({
                                          on: 'Sim',
