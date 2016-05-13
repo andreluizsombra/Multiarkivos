@@ -114,7 +114,7 @@
 
         <div class="panel panel-default">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <a href="@Url.Content("~/Home/Inicio")" alt="Menu Principal" id="btn_mnu_principal" class="btn btn-success btn-default">
                         <i class="glyphicon glyphicon-menu-hamburger text-black"></i>&nbsp;&nbsp;&nbsp;Menu Principal
                     </a>
@@ -125,6 +125,25 @@
                     <a href="@Url.Content("~/Home/Pendencias")" id="btnPendencias" style="display:none"  alt="Pendencias" class="btn btn-warning">
                         <i class="glyphicon glyphicon-flag"></i>&nbsp;Pendências
                     </a>
+                    @if (ViewBag.Atalhos != null)
+                    {
+                    <div class="dropdown">
+                        <button id="dLabel" class="btn btn-primary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Atalhos
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            @foreach (var btn in ViewBag.Atalhos)
+                            {
+                            <li>
+                                <a href="@Url.Content("~/")@btn.Atalho" alt="Pendencias">
+                                    <i class="glyphicon glyphicon-flag"></i>&nbsp;@btn.Descricao
+                                </a>
+                            </li>
+                            }
+                        </ul>
+                    </div>
+                    }
                 </div>
             </div>
         </div>

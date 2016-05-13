@@ -820,6 +820,30 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex) { throw ex; }
 
         }
+
+        public List<Atalhos> RetornaAtalhos(int idServico, int idUsuario)
+        {
+            var ret = new List<Atalhos>();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand("Get_TopModulo");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, idServico);
+                _db.AddInParameter(_cmd, "@idUsuario", DbType.Int16, idUsuario);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        ret.Add(new Atalhos() { Descricao = _dr[0].ToString(), Atalho = _dr[1].ToString() });
+                    }
+                }
+                return ret;
+            }
+            catch (Exception ex) { throw ex; }
+        }
         #endregion
 
     }

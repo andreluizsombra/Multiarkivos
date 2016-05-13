@@ -188,6 +188,7 @@
   <ItemGroup>
     <Compile Include="Entities\Acao.cs" />
     <Compile Include="Entities\Acesso.cs" />
+    <Compile Include="Entities\Atalhos.cs" />
     <Compile Include="Entities\Cliente.cs" />
     <Compile Include="Entities\DetalheUsuario.cs" />
     <Compile Include="Entities\Documento.cs" />

@@ -214,6 +214,7 @@ namespace MK.Easydoc.WebApp.Controllers
             ViewBag.Message = "";
             Session["UsuarioAtual_ID"] = UsuarioAtual.ID;
             //ViewBag.UsuarioAtual = UsuarioAtual;
+            ViewBag.Atalhos = new UsuarioRepository().RetornaAtalhos(IdServico_Atual, UsuarioAtual.ID);
             return View();
         }
 
