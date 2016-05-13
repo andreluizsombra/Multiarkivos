@@ -132,9 +132,28 @@
 </div>
 
 <script>
+
     $().ready(function () {
         $("#btn_mnu_principal").show();
         $("#btn_lista_cliente").show();
        VerificarAcessoModuloPrincipal();
+    });
+
+    var id_servico = @Session["IdServico"];
+    $.ajax({
+        url: '@Url.Content("~")Home/RetornaPendencias',
+        type: 'POST',
+        data: { idServico: id_servico },
+        success: function (data) {
+            //alert(data.rest);
+            if (data.rest == "True") {
+                $("#btnPendencias").css('display', '');
+            } else {
+                $("#btnPendencias").css('display', 'none');
+            }
+            // get the result and do some magic with it
+            //var message = data.Message;
+            //$("#resultMessage").html(message);
+        }
     });
 </script>

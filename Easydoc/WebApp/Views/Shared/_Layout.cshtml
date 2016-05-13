@@ -122,7 +122,7 @@
                     <a href="@Url.Content("~/Login/EncerrarAcesso")" alt="Logout" id="btn_logout" class="btn btn-default "> 
                          <i class="glyphicon glyphicon-off"></i>&nbsp;Logout
                     </a>
-                    <a href="@Url.Content("~/Home/Pendencias")" id="btnPendencias" alt="Pendencias" class="btn btn-warning ">
+                    <a href="@Url.Content("~/Home/Pendencias")" id="btnPendencias" style="display:none"  alt="Pendencias" class="btn btn-warning">
                         <i class="glyphicon glyphicon-flag"></i>&nbsp;Pendências
                     </a>
                 </div>
@@ -321,32 +321,18 @@
 @{MK.Easydoc.Core.Helpers.UserDataCookieHelper.RenderStylesheetCSSClienteAtual();}
 
 <script>
+    //$("#btnPendencias").css('display','none');
     $().ready(function () {
         if("@ViewBag.Error"!=""){
             exibirmsgatencao("@ViewBag.Error");
         }
 
-        $("#btnPendencias").css('display','none');
+        
         var id_servico = @Session["IdServico"];
 
         $("#modalMSG").modal('show');
         //alert(id_servico);
-        $.ajax({
-            url: '@Url.Content("~")Home/RetornaPendencias',
-            type: 'POST',
-            data: {idServico: id_servico},
-            success: function (data) {
-                //alert(data.rest);
-                if(data.rest=="True"){
-                    $("#btnPendencias").css('display','');
-                }else{
-                    $("#btnPendencias").css('display','none');
-                }
-                // get the result and do some magic with it
-                //var message = data.Message;
-                //$("#resultMessage").html(message);
-            }
-        });
+       
 
         var _idusuario = @Session["UsuarioAtual_ID"];
         $.ajax({

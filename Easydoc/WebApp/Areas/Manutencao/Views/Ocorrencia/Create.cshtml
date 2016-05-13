@@ -41,7 +41,7 @@
                     <label>Tipo</label> @Html.DropDownList("SelTipo", new SelectList(ViewBag.ListaTipo, "Value", "Text", -1), new { @class = "form-control" })
                 </div>
             }
-               
+            <a id="btn_voltapesquisa" class="btn btn-warning margin-top-botaolimpar" style="margin-top:25px" href="@Url.Content("~/Manutencao/Ocorrencia/ListaOcorrencias")"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;Voltar</a>   
         </div>
         <div class="row>">
                 @if (ViewBag.ListaServico != null)
