@@ -1,4 +1,6 @@
-﻿jQuery(document).ready(function () {
+﻿
+
+jQuery(document).ready(function () {
 
     init();
 });
@@ -179,6 +181,21 @@ var init = function () {
         $("#pnl_resultado_detalhe").hide();
     });
 
+
+    /*$("#tblConsulta_next").click(function () {
+        alert('ok');
+        $("#tblConsulta th:contains('idLote')").hide();
+    });
+    $(".paginate_button").click(function () {
+        alert('button');
+        $("#tblConsulta th:contains('idLote')").hide();
+
+    });
+    $(".paginate_button current").click(function () {
+        alert('current');
+        $("#tblConsulta th:contains('idLote')").hide();
+    });
+    */
 }
 
 var RemoveCamposFiltro = function ($_obj) {
@@ -481,23 +498,23 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             },
             colNames: jsonDataName,
             colModel: eval(jsonDataModel),
-            autowidth: true,
-            altRows: true,
-            shrinkToFit: true,
-            sortable: true,
-            cmTemplate: { sortable: true },
-            rowNum: 10,
-            rowList: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-            pager: '#tblGridpager',
+            //autowidth: true,
+            //altRows: true,
+            //shrinkToFit: true,
+            //sortable: true,
+            //cmTemplate: { sortable: true },
+            //rowNum: 5,
+            //rowList: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+            //pager: '#tblGridpager',
             hoverrows: true,
             viewrecords: true,
             multiselect: false,
-            width: 500,
-            height: 300,
-            hidegrid: false,
-            loadui: '',
-            altclass: 'alt-row-class',
-            caption: ''
+            //width: 500,
+            //height: 300,
+            //hidegrid: false,
+            //loadui: '',
+            //altclass: 'alt-row-class',
+            //caption: ''
         });
 
         //AndreSombra 05/11/2015
@@ -572,8 +589,14 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                     }
                 }
             });
-        }
 
+            $('td[aria-describedby=tblGrid_IdDocumento]').hide();
+            $('td[aria-describedby=tblGrid_idLote]').hide();
+        }
+        $("#tblConsulta_paginate").click(function () {
+            $('td[aria-describedby=tblGrid_IdDocumento]').hide();
+            $('td[aria-describedby=tblGrid_idLote]').hide();
+        });
       //Esconder a coluna IdDocumento e idLote ====================================================           
         var totLinha = $('#tblConsulta tr').length;
         for (var i = 1; i < totLinha; i++) {
@@ -586,6 +609,9 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //$(".sorting_1").hide()
         $("#tblConsulta th:contains('idLote')").hide();
         //============================================================================================
+        $('td[aria-describedby=tblGrid_IdDocumento]').hide();
+        $('td[aria-describedby=tblGrid_idLote]').hide();
+
 
         $("#tblConsulta_info").hide();
 }
