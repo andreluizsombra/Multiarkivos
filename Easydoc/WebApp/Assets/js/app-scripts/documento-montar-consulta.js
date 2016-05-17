@@ -1,5 +1,4 @@
 ﻿
-
 jQuery(document).ready(function () {
 
     init();
@@ -181,7 +180,38 @@ var init = function () {
         $("#pnl_resultado_detalhe").hide();
     });
 
+    $("#btn_enviarEmail").click(function () {
+        $("#lbl_modalmsg").html("");
 
+        var dest = $("#txt_destinatario").val();
+        if (dest == "") { $("#lbl_modalmsg").html("Por favor, preencher campo destinatário..."); return false; }
+        var assunto = $("#txt_assunto").val();
+        if (assunto == "") { $("#lbl_modalmsg").html("Por favor, preencher campo assunto..."); return false; }
+        var msg = $("#txt_mensagem").val();
+        if (msg == "") { $("#lbl_modalmsg").html("Por favor, preencher campo mensagem..."); return false; }
+
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallEnviarEmail",
+            type: 'POST',
+            datatype: 'json',
+            data: { dest: dest, assunto: assunto, msg: msg, arq: $("#arqimg").val(), remetente: $("#txt_remetente").val() },
+            beforeSend: function () {
+                $("#imgenviar").css('display','normal');
+            },
+            success: function (data) {
+                //debugger;
+                $("#modal-email").modal('hide');
+                exibirmsg(data);
+                $("#imgenviar").css('display', 'none');
+                if (data == null) {
+                    exibirmsgatencao("Sem retorno.");
+                    return;
+                }
+            },
+        });
+        
+        
+    });
     /*$("#tblConsulta_next").click(function () {
         alert('ok');
         $("#tblConsulta th:contains('idLote')").hide();
@@ -713,14 +743,25 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //_ret += '</td></tr><table></center>'
 
         var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
+        var _patharq = '/StoragePrivate/' + cellvalue;
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         // 03/03/2016 
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
-        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ','+ rowObject.idLote +')"><i class="fa fa-plus"></i></a> ';
+        _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ',' + rowObject.idLote + ')"><i class="fa fa-plus"></i></a> ';
+        _ret += '<a id="btn_enviar_email" href="#" class="ls-btn-primary" pathimg=' + _patharq + ' onclick="EnviarEmail(this)"><i class="fa fa-envelope-o"></i></a>';
 
         return _ret;
 
+    }
+
+    function EnviarEmail(obj) {
+        var arqimg = $("#" + obj.id).attr('pathimg');
+        //alert(arqimg);
+
+        $("#modal-email").modal('show');
+        $("#arqimg").val(arqimg);
+        $("#lblanexo").html("Arquivo em anexo: " + $("#arqimg").val());
     }
 
     function AbreSubDocumentos(v_idDoc, v_idLote) {

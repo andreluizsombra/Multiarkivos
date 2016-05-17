@@ -186,6 +186,7 @@ namespace MK.Easydoc.WebApp.Controllers
             log.RegistrarLOG(IdCliente_Atual, IdServico_Atual, 0, UsuarioAtual.ID,idModulo, idAcao, 0, 0, Localizador);
             log.RegistrarLOGDetalhe(idAcao, Localizador);
         }
+
         #endregion
 
         #region Protected Methods

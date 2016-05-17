@@ -40,22 +40,23 @@
         z-index: 5000 !important;
     }
 
-  #lst-campos, #lst-campos-sel {
-    border: 1px solid #eee;
-    width: 142px;
-    min-height: 20px;
-    list-style-type: none;
-    margin: 0;
-    padding: 5px 0 0 0;
-    float: left;
-    margin-right: 10px;
-  }
-  #lst-campos li, #lst-campos-sel li {
-    margin: 0 5px 5px 5px;
-    padding: 5px;
-    font-size: 1.2em;
-    width: 120px;
-  }
+    #lst-campos, #lst-campos-sel {
+        border: 1px solid #eee;
+        width: 142px;
+        min-height: 20px;
+        list-style-type: none;
+        margin: 0;
+        padding: 5px 0 0 0;
+        float: left;
+        margin-right: 10px;
+    }
+
+        #lst-campos li, #lst-campos-sel li {
+            margin: 0 5px 5px 5px;
+            padding: 5px;
+            font-size: 1.2em;
+            width: 120px;
+        }
 </style>
 
 <div class="panel-heading">
@@ -63,7 +64,7 @@
 </div>
 
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
     <div class="row">
         <div class="col-md-12">
@@ -119,7 +120,7 @@
                                 </div>
 
                                 <div class="col-md-2">
-                                    <!-- 03/03/2016--> 
+                                    <!-- 03/03/2016-->
                                     <label>Operador</label>
                                     <select id="sel-operador-99000" class="form-control">
                                         <option value="="> Igual </option>
@@ -129,7 +130,7 @@
                                         @*<option value=">="> Maior Igual </option>*@
                                         <option value="<"> Menor </option>
                                         @*<option value="<="> Menor Igual </option>*@
-                                    </select>    
+                                    </select>
                                 </div>
 
                                 <div class="col-md-3">
@@ -202,7 +203,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">Resultado Detalhe</h4>
                 </div>
-                <p><div id="btn_fechar_detalhe"class="btn btn-success"><i class="fa fa-arrow-left"></i>&nbsp;Voltar</div></p>
+                <p><div id="btn_fechar_detalhe" class="btn btn-success"><i class="fa fa-arrow-left"></i>&nbsp;Voltar</div></p>
                 <p></p>
                 <div class="row">
                     <div class="col-md-12">
@@ -224,112 +225,156 @@
         </div>
     </div>
 </div>
-            <!--<div class="row">
-            <div id="tblTemp" class="col-lg-12"></div>
-        </div>-->
+<!--<div class="row">
+    <div id="tblTemp" class="col-lg-12"></div>
+</div>-->
 
-
-            <div class="ls-modal fade test" id="modal-order-consulta">
-                <div class="ls-modal-box">
-                    <div class="ls-modal-header">
-                        <button data-dismiss="modal">&times;</button>
-                        <h4 class="ls-modal-title">Informe a ordem em que os campos serão exibidos no resultado da pesquisa.</h4>
-                        <br />
-                        <small>Para ordenar os indexadores, clique, segure e arraste o indexador para cima ou para baixo, deixando-o na posição a ser apresentada no resultado da pesquisa.</small>
+<div class="modal fade" id="modal-email" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><i class="fa fa-envelope-o"></i>&nbsp;Enviar email para:</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="arqimg" />
+                <label id="lbl_modalmsg" style="color:red" class="text-red text-center"></label>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Remetente</label>
+                        <input type="text" id="txt_remetente" class="form-control" value="@ViewBag.NomeUsuario" disabled/>
                     </div>
-                    <div class="ls-modal-body" id="myModalBody">
-                        <fieldset id="pnl-select">
-                            <ul id="lst-campos-sel" class="ls-box ls-success ls-text-xs ls-text-capitalize connectedSortable"></ul>
-                        </fieldset>
-                    </div>
-                    <div class="ls-modal-footer">
-                        <button class="ls-btn ls-float-right" data-dismiss="modal">Ok</button>
-                        <br />
-                    </div>
-                    <hr />
                 </div>
-            </div><!-- /.modal -->
-
-            <div class="ls-modal fade test" id="modal-consultas-salvas">
-                <div class="ls-modal-box">
-                    <div class="ls-modal-header">
-                        <button data-dismiss="modal">&times;</button>
-                        <h4 class="ls-modal-title">Escolha a consulta para exibir o resultado.</h4>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Destinatário</label>
+                        <input type="text" id="txt_destinatario" class="form-control" required />
                     </div>
-                    @*<div class="ls-modal-body" id="modal-consultas-salvas-body">*@
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Título</th>
-                                    <th class="hidden-xs">Rotulo</th>
-                                    <th>Descrição</th>
-                                    <th class="hidden-xs"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in ViewBag.Consultas)
-                                {
-                                    <tr>
-                                        <td class="hidden-xs">@item.Rotulo</td>
-                                        <td>Enviada</td>
-                                        <td class="hidden-xs">@item.Descricao</td>
-                                        <td><a id="btn-cons-@item.ID" idcon="@item.ID" class="ls-btn-primary" href="#">Executar</a></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-
-                    @*</div>*@
-                    <div class="ls-modal-footer">
-                        <button class="ls-btn ls-float-right" data-dismiss="modal">Fechar</button>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Assunto</label>
+                        <input type="text" id="txt_assunto" class="form-control" required />
                     </div>
-                    <hr />
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label id="lblanexo"></label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label>Mensagem</label>
+                        <textarea rows="4" cols="50" id="txt_mensagem" class="form-control"></textarea>
+                    </div>
                 </div>
             </div>
-    <!-- /.modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                <button type="button" id="btn_enviarEmail" class="btn btn-primary"><i class="fa fa-spinner fa-pulse fa-3x fa-fw" id="imgenviar" style="display:none"></i>&nbsp;Enviar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-         <!--   <div class="ls-modal fade test" id="modal-resultado-consulta">
-                <div class="ls-modal-box">
-                    <div class="ls-modal-header">
-                        <button data-dismiss="modal">&times;</button>
-                        <h4 class="ls-modal-title">Atenção!</h4>
-                    </div>
-                    <div class="ls-modal-body" id="myModalBody">
-                        <p style='text-align:center;font-weight:bold;font-size:22px;word-wrap:break-word;'>
-                            <span id="texto-resultado"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>-->
+<div class="ls-modal fade test" id="modal-order-consulta">
+    <div class="ls-modal-box">
+        <div class="ls-modal-header">
+            <button data-dismiss="modal">&times;</button>
+            <h4 class="ls-modal-title">Informe a ordem em que os campos serão exibidos no resultado da pesquisa.</h4>
+            <br />
+            <small>Para ordenar os indexadores, clique, segure e arraste o indexador para cima ou para baixo, deixando-o na posição a ser apresentada no resultado da pesquisa.</small>
+        </div>
+        <div class="ls-modal-body" id="myModalBody">
+            <fieldset id="pnl-select">
+                <ul id="lst-campos-sel" class="ls-box ls-success ls-text-xs ls-text-capitalize connectedSortable"></ul>
+            </fieldset>
+        </div>
+        <div class="ls-modal-footer">
+            <button class="ls-btn ls-float-right" data-dismiss="modal">Ok</button>
+            <br />
+        </div>
+        <hr />
+    </div>
+</div><!-- /.modal -->
 
-           <!-- <div class="ls-modal fade test" id="saveModal">
-                <div class="ls-modal-box">
-                    <div class="ls-modal-header">
-                        <button data-dismiss="modal">&times;</button>
-                        <h4 class="ls-modal-title">Salvar consulta como...</h4>
-                    </div>
-                    <div class="ls-modal-body" id="myModalBody">
-                        <p></p>
-                        <div id="errSalvaConsulta" class="ls-alert-danger"><strong>Aviso!</strong> Digite um nome para o arquivo.</div>
-                        <fieldset>
+<div class="ls-modal fade test" id="modal-consultas-salvas">
+    <div class="ls-modal-box">
+        <div class="ls-modal-header">
+            <button data-dismiss="modal">&times;</button>
+            <h4 class="ls-modal-title">Escolha a consulta para exibir o resultado.</h4>
+        </div>
+        @*<div class="ls-modal-body" id="modal-consultas-salvas-body">*@
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th class="hidden-xs">Rotulo</th>
+                    <th>Descrição</th>
+                    <th class="hidden-xs"></th>
+                </tr>
+            </thead>
+            <tbody>
 
-                            <label class="ls-label col-md-9">
-                                <b class="ls-label-text">Nome da Consulta</b>
-                                <p>Digite o nome da consulta</p>
-                                <input type="text" id="txtNomeConsulta" name="nome" placeholder="Nome da Consulta" required>
-                            </label>
+                @foreach (var item in ViewBag.Consultas)
+                {
+                    <tr>
+                        <td class="hidden-xs">@item.Rotulo</td>
+                        <td>Enviada</td>
+                        <td class="hidden-xs">@item.Descricao</td>
+                        <td><a id="btn-cons-@item.ID" idcon="@item.ID" class="ls-btn-primary" href="#">Executar</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
 
-                        </fieldset>
-                        <hr />
-                    </div>
-                    <div class="ls-modal-footer">
-                        <button class="ls-btn ls-float-right" data-dismiss="modal">Fechar</button>
-                        <button id="btn-salvar-consulta" class="ls-btn-primary">Salvar</button>
-                    </div>
-                </div>
-            </div>-->
+        @*</div>*@
+        <div class="ls-modal-footer">
+            <button class="ls-btn ls-float-right" data-dismiss="modal">Fechar</button>
+        </div>
+        <hr />
+    </div>
+</div>
+<!-- /.modal -->
+<!--   <div class="ls-modal fade test" id="modal-resultado-consulta">
+       <div class="ls-modal-box">
+           <div class="ls-modal-header">
+               <button data-dismiss="modal">&times;</button>
+               <h4 class="ls-modal-title">Atenção!</h4>
+           </div>
+           <div class="ls-modal-body" id="myModalBody">
+               <p style='text-align:center;font-weight:bold;font-size:22px;word-wrap:break-word;'>
+                   <span id="texto-resultado"></span>
+               </p>
+           </div>
+       </div>
+   </div>-->
+<!-- <div class="ls-modal fade test" id="saveModal">
+     <div class="ls-modal-box">
+         <div class="ls-modal-header">
+             <button data-dismiss="modal">&times;</button>
+             <h4 class="ls-modal-title">Salvar consulta como...</h4>
+         </div>
+         <div class="ls-modal-body" id="myModalBody">
+             <p></p>
+             <div id="errSalvaConsulta" class="ls-alert-danger"><strong>Aviso!</strong> Digite um nome para o arquivo.</div>
+             <fieldset>
 
+                 <label class="ls-label col-md-9">
+                     <b class="ls-label-text">Nome da Consulta</b>
+                     <p>Digite o nome da consulta</p>
+                     <input type="text" id="txtNomeConsulta" name="nome" placeholder="Nome da Consulta" required>
+                 </label>
+
+             </fieldset>
+             <hr />
+         </div>
+         <div class="ls-modal-footer">
+             <button class="ls-btn ls-float-right" data-dismiss="modal">Fechar</button>
+             <button id="btn-salvar-consulta" class="ls-btn-primary">Salvar</button>
+         </div>
+     </div>
+ </div>-->
 @*@Scripts.Render("~/bundles/loca")
-@Styles.Render("~/Content/loca")*@
+    @Styles.Render("~/Content/loca")*@
 

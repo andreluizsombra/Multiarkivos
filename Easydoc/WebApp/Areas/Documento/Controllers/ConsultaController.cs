@@ -30,14 +30,14 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         // GET: /Documento/Consulta/
         public ActionResult Index()
         {
-            return View();
+            return View(); 
         }
 
         public ActionResult MontarConsulta()
         {
             RegistrarLOGSimples(6, 18, UsuarioAtual.NomeUsuario);
             // LOG: Entrou no modulo Consulta
-
+            ViewBag.NomeUsuario = UsuarioAtual.NomeUsuario;
             List<DocumentoConsulta> _cons = new List<DocumentoConsulta>();
             _cons.AddRange(_docService.ListarConsultasModelo(UsuarioAtual.ID, ServicoAtual.ID));
             ViewBag.Consultas = _cons;
@@ -251,6 +251,18 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(_lista, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxCallEnviarEmail(string dest, string assunto, string msg, string arq, string remetente)
+        {
+            string retorno = "";
+            try
+            {
+                retorno = new Email().EnviarEmailPara(assunto, msg, dest, remetente, arq);
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+            return Json(retorno, JsonRequestBehavior.AllowGet);
         }
     }
 }
