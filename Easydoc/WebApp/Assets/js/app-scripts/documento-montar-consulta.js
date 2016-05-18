@@ -620,13 +620,16 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                 }
             });
 
-            $('td[aria-describedby=tblGrid_IdDocumento]').hide();
-            $('td[aria-describedby=tblGrid_idLote]').hide();
+            EsconderColunas();
         }
+
         $("#tblConsulta_paginate").click(function () {
-            $('td[aria-describedby=tblGrid_IdDocumento]').hide();
-            $('td[aria-describedby=tblGrid_idLote]').hide();
+            EsconderColunas();
         });
+        $("#tblConsulta_length").change(function () {
+            EsconderColunas();
+        });
+
       //Esconder a coluna IdDocumento e idLote ====================================================           
         var totLinha = $('#tblConsulta tr').length;
         for (var i = 1; i < totLinha; i++) {
@@ -639,12 +642,16 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //$(".sorting_1").hide()
         $("#tblConsulta th:contains('idLote')").hide();
         //============================================================================================
+        $("#tblConsulta_info").hide();
+
+        EsconderColunas();
+}
+
+    //TODO: 18/05/2016
+    function EsconderColunas() {
         $('td[aria-describedby=tblGrid_IdDocumento]').hide();
         $('td[aria-describedby=tblGrid_idLote]').hide();
-
-
-        $("#tblConsulta_info").hide();
-}
+    }
 
     //TODO: AndreSombra 10/11/2015
     function ColunaAuto() {

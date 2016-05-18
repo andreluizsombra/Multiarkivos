@@ -259,7 +259,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             string retorno = "";
             try
             {
-                retorno = new Email().EnviarEmailPara(assunto, msg, dest, remetente, arq);
+                //retorno = new Email().EnviarEmailPara(assunto, msg, dest, remetente, arq);
+                retorno = new Email(IdServico_Atual).EnviarEmail(assunto, msg, dest, arq);
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(retorno, JsonRequestBehavior.AllowGet);

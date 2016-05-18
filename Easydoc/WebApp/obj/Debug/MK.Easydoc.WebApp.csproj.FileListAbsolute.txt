@@ -706,3 +706,5 @@ C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\bin\Mono.Math.xml
 C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.csprojResolveAssemblyReference.cache
 C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.dll
 C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.pdb
+C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\bin\Ionic.Zip.dll
+C:\Projetos\multiarkivos_servsombra\Easydoc\WebApp\bin\Ionic.Zip.xml
