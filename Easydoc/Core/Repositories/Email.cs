@@ -16,9 +16,9 @@ using MK.Easydoc.Core.Repositories.Interfaces;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
-using ICSharpCode.SharpZipLib.Zip;
-using System.IO;
 using System.IO.Compression;
+using ICSharpCode.SharpZipLib.Zip;
+
 
 namespace MK.Easydoc.Core.Repositories
 {
@@ -29,6 +29,8 @@ namespace MK.Easydoc.Core.Repositories
         public string Senha { get; set; }
         public string Servidor_Email { get; set; }
         public int Porta { get; set; }
+        public string DiretorioTemp { get; set; }
+        public string ArquivoZip { get; set; }
 
         public Email() { }
         public Email(int idServico)
@@ -36,14 +38,72 @@ namespace MK.Easydoc.Core.Repositories
             ConfirgurarEmail(idServico);
         }
 
-        public void CriarArquivoZip(string ArquivoOrigem, string ArquivoDestino, string diretorio)
+        public string CriarArquivoZip(string ArquivoOrigem, string ArquivoDestino="", int qtdArqOrigem=0)
         {
-            var x = new FastZip();
-            x.CreateZip(ArquivoDestino, diretorio,true, "");
-            using (ZipFile zip = new ZipFile(@"c:\Teste"))
+            
+            string _diretorio = Path.GetDirectoryName(ArquivoOrigem);
+            string _nome_arq_origem = System.IO.Path.GetFileName(ArquivoOrigem);
+            FastZip fastZip = new FastZip();
+            bool recurse = true;  // Include all files by recursing through the directory structure
+            string filter = null; // Dont filter any files at all
+
+            string fileName = "";
+            string destFile = "";
+            string _diretorio_temp = _diretorio + "/temp";
+            this.DiretorioTemp = _diretorio_temp;
+
+            if (System.IO.Directory.Exists(_diretorio_temp))
             {
-                zip.Add(ArquivoOrigem);
+                string[] files = System.IO.Directory.GetFiles(_diretorio_temp);
+
+                // Copy the files and overwrite destination files if they already exist.
+                foreach (string s in files)
+                {
+                    // Use static Path methods to extract only the file name from the path.
+                    fileName = System.IO.Path.GetFileName(s);
+                    destFile = System.IO.Path.Combine(_diretorio_temp, fileName);
+                    System.IO.File.Delete(destFile);
+                }
+               // System.IO.Directory.Delete(_diretorio_temp);
             }
+            else
+            {
+                Directory.CreateDirectory(_diretorio_temp);
+            }
+            
+            if (System.IO.Directory.Exists(_diretorio_temp))
+            {
+                string[] files = System.IO.Directory.GetFiles(_diretorio);
+
+                if (qtdArqOrigem == 1)
+                {
+                    fileName = _nome_arq_origem;
+                    destFile = System.IO.Path.Combine(_diretorio_temp, fileName);
+                    System.IO.File.Copy(ArquivoOrigem, destFile, true);
+                }
+                else
+                {
+                    foreach (string s in files)
+                    {
+                        // Use static Path methods to extract only the file name from the path.
+                        fileName = System.IO.Path.GetFileName(s);
+                        destFile = System.IO.Path.Combine(_diretorio_temp, fileName);
+                        System.IO.File.Copy(s, destFile, true);
+                    }
+                }
+            }
+
+            //System.IO.Directory.Delete(_diretorio_temp);
+            
+            //fastZip.CreateZip("fileName.zip", @"C:\SourceDirectory", recurse, filter);
+            string arqzip = HttpContext.Current.Server.MapPath("~/ImageStorage/Documentos.zip");
+            //string arqzip = HttpContext.Current.Server.MapPath(_diretorio_temp+@"\Documentos.zip");
+            this.ArquivoZip = arqzip;
+            fastZip.CreateZip(arqzip, _diretorio, recurse, filter);
+            
+            //var zip = new FastZip();
+            //zip.CreateZip()
+            return arqzip;
         }
 
         public string EnviarEmailPara(string _Subject, string _Conteudo, string _EmailDestinatario, string remetente, string arqanexo = "")
@@ -157,10 +217,12 @@ namespace MK.Easydoc.Core.Repositories
                 //Anexar arquivo
                 string anexo = HttpContext.Current.Server.MapPath("~" + arqanexo);
                 //string arqzip = HttpContext.Current.Server.MapPath("~/ImageStorage/Documento_" + this.Remetente.ToString().Trim() + ".zip");
+                //CriarArquivoZip(anexo, HttpContext.Current.Server.MapPath("~/ImageStorage"));
+                
+                //19/05/2016
+                anexo = CriarArquivoZip(anexo,"",1);
 
-                //CriarArquivoZip(anexo, arqzip,HttpContext.Current.Server.MapPath("~/ImageStorage"));
-
-                if (arqanexo != "") objEmail.Attachments.Add(new Attachment(anexo));
+                if (anexo != "") objEmail.Attachments.Add(new Attachment(anexo));
                 //if (arqanexo != "") objEmail.Attachments.Add(new Attachment(arqzip));
 
                 //cria o objeto responsável pelo envio do email
