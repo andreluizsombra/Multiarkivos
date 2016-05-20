@@ -115,18 +115,26 @@
         <div class="panel panel-default">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="pull-left">
+                   <div class="btn-group">
+                    <div class="btn">
                         <a href="@Url.Content("~/Home/Inicio")" alt="Menu Principal" id="btn_mnu_principal" style="margin-right:1px; display:normal" class="btn btn-success btn-default">
                             <i class="glyphicon glyphicon-menu-hamburger text-black"></i>&nbsp;&nbsp;&nbsp;Menu Principal
                         </a>
                     </div>
                     <!--AndreSombra 06/11/2015-->
-                    <div class="pull-left">
+                    <div class="btn">
                         <a href="@Url.Content("~/Login/EncerrarAcesso")" alt="Logout" id="btn_logout" class="btn btn-default ">
                             <i class="glyphicon glyphicon-off"></i>&nbsp;Logout
                         </a>
                     </div>
-                    <div class="col-lg-4">
+                    
+                    <div class="btn">
+                        <a href="@Url.Content("~/Home/Pendencias")" id="btnPendencias" style="display:none" alt="Pendencias" class="btn btn-warning">
+                            <i class="glyphicon glyphicon-flag"></i>&nbsp;Pendências
+                        </a>
+                    </div>
+                    
+                    <div class="btn">
                         @if (ViewBag.Atalhos != null)
                         {
                             <div class="dropdown">
@@ -137,24 +145,23 @@
                                 <ul class="dropdown-menu" aria-labelledby="dLabel">
                                     @foreach (var btn in ViewBag.Atalhos)
                                     {
-                                        if(btn.Atalho != ""){ 
-                                        <li>
-                                            <a href="@Url.Content("~/")@btn.Atalho" alt="Pendencias">
-                                                <i class="fa fa-flash"></i>&nbsp;@btn.Descricao
-                                            </a>
-                                        </li>
+                                        if (btn.Atalho != "")
+                                        {
+                                            <li>
+                                                <a href="@Url.Content("~/")@btn.Atalho" alt="Pendencias">
+                                                    <i class="fa fa-flash"></i>&nbsp;@btn.Descricao
+                                                </a>
+                                            </li>
                                         }
                                     }
                                 </ul>
                             </div>
                         }
-                    </div>
-                    <div class="pull-left">
-                        <a href="@Url.Content("~/Home/Pendencias")" id="btnPendencias" style="display:none" alt="Pendencias" class="btn btn-warning">
-                            <i class="glyphicon glyphicon-flag"></i>&nbsp;Pendências
-                        </a>
-                    </div>
+          </div>
                 </div>
+
+                </div>
+
             </div>
         </div>
 
