@@ -218,6 +218,8 @@
     <Compile Include="Areas\Manutencao\Controllers\PerfilController.cs" />
     <Compile Include="Areas\Manutencao\Controllers\ServicoController.cs" />
     <Compile Include="Areas\Manutencao\ManutencaoAreaRegistration.cs" />
+    <Compile Include="Areas\Relatorio\Controllers\ListaController.cs" />
+    <Compile Include="Areas\Relatorio\RelatorioAreaRegistration.cs" />
     <Compile Include="Areas\Seguranca\Controllers\AuditoriaController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\MenuController.cs" />
     <Compile Include="Areas\Seguranca\Controllers\UsuarioController.cs" />
@@ -1563,6 +1565,8 @@
     <Content Include="Assets\plugins\bootstrap-toggle-master\js\bootstrap2-toggle.min.js.map" />
     <Content Include="Areas\Documento\Views\Formalizacao\Formalizar.cshtml" />
     <Content Include="Areas\Documento\Views\Vinculo\Vincular.cshtml" />
+    <Content Include="Areas\Relatorio\Views\Web.config" />
+    <Content Include="Areas\Relatorio\Views\Lista\Index.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />
@@ -2437,6 +2441,8 @@
     <Folder Include="Areas\GED\Views\Shared\" />
     <Folder Include="Areas\Manutencao\Models\" />
     <Folder Include="Areas\Manutencao\Views\Shared\" />
+    <Folder Include="Areas\Relatorio\Models\" />
+    <Folder Include="Areas\Relatorio\Views\Shared\" />
     <Folder Include="Areas\Seguranca\Models\" />
     <Folder Include="Areas\Seguranca\Views\Shared\" />
     <Folder Include="Infrastructure\Extensions\" />

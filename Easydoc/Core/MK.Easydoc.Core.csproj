@@ -201,6 +201,8 @@
     <Compile Include="Entities\Modulo.cs" />
     <Compile Include="Entities\Perfil.cs" />
     <Compile Include="Entities\Pessoa.cs" />
+    <Compile Include="Entities\Relatorio.cs" />
+    <Compile Include="Entities\RelatorioParametros.cs" />
     <Compile Include="Entities\Servico.cs" />
     <Compile Include="Entities\UserDataEntity.cs" />
     <Compile Include="Entities\Usuario.cs" />
@@ -233,6 +235,7 @@
     <Compile Include="Repositories\LoteRepository.cs" />
     <Compile Include="Repositories\OcorrenciaRepository.cs" />
     <Compile Include="Repositories\PerfilRepository.cs" />
+    <Compile Include="Repositories\RelatorioRepository.cs" />
     <Compile Include="Repositories\ServicoRepository.cs" />
     <Compile Include="Repositories\UsuarioRepository.cs" />
     <Compile Include="Security\PriorittyIdentity.cs" />
