@@ -265,5 +265,12 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(retorno, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult AjaxCallNomeArquivo(string patharq)
+        {
+            string nomearq = Email.RetornoNomeArquivo(patharq);
+            return Json(nomearq, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-jQuery(document).ready(function () {
+﻿jQuery(document).ready(function () {
 
     init();
 });
@@ -15,7 +14,7 @@ var blockUISettings = { title: '', centerY: 15, theme: true, showOverlay: true, 
 var init = function () {
 
     $('#pnlHeader').slideUp('slow');
-
+    $('#msgenviaremail').hide();
     //$("#tblDetalhe").hide();
     $("#pnl_resultado_detalhe").hide();
     $('#pnl-busca').hide();
@@ -196,18 +195,22 @@ var init = function () {
             datatype: 'json',
             data: { dest: dest, assunto: assunto, msg: msg, arq: $("#arqimg").val(), remetente: $("#txt_remetente").val() },
             beforeSend: function () {
-                $("#imgenviar").css('display','normal');
+                
+                $('#msgenviaremail').show();
             },
             success: function (data) {
-                //debugger;
+                $('#msgenviaremail').hide();
                 $("#modal-email").modal('hide');
                 exibirmsg(data);
-                $("#imgenviar").css('display', 'none');
                 if (data == null) {
                     exibirmsgatencao("Sem retorno.");
                     return;
                 }
             },
+            error: function (error) {
+                $('#msgenviaremail').hide();
+                $("#modal-email").modal('show');
+            }
         });
         
         
@@ -756,19 +759,41 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         // 03/03/2016 
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
         _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ',' + rowObject.idLote + ')"><i class="fa fa-plus"></i></a> ';
-        _ret += '<a id="btn_enviar_email" href="#" class="ls-btn-primary" pathimg=' + _patharq + ' onclick="EnviarEmail(this)"><i class="fa fa-envelope-o"></i></a>';
+        _ret += '<a id="btn_enviar_email" href="#" class="ls-btn-primary" pathimg=' + _patharq + ' onclick="EnviarEmailPrincipal(this)"><i class="fa fa-envelope-o"></i></a>';
 
         return _ret;
 
     }
 
+    function EnviarEmailPrincipal(obj) {
+        var arqimg = $("#" + obj.id).attr('pathimg');
+        $("#arqimg").val(arqimg);
+
+        //RetornaNomeArquivo(arqimg);
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallNomeArquivo",
+            type: 'POST',
+            datatype: 'json',
+            data: { patharq: arqimg },
+            success: function (data) {
+                nome_arquivo = data;
+                //$("#hdn_nomearquivo").val(data);
+                $("#lblanexo").html("");
+                $("#lblanexo").html("Arquivo em anexo: " + data);
+                $("#modal-email").modal('show');
+            },
+        });
+
+    }
+
     function EnviarEmail(obj) {
         var arqimg = $("#" + obj.id).attr('pathimg');
-        //alert(arqimg);
+        
+        $("#arqimg").val(arqimg);
+        $("#lblanexo").html("");
+        $("#lblanexo").html("Arquivo em anexo: " + $("#arqimg").val());
 
         $("#modal-email").modal('show');
-        $("#arqimg").val(arqimg);
-        $("#lblanexo").html("Arquivo em anexo: " + $("#arqimg").val());
     }
 
     function AbreSubDocumentos(v_idDoc, v_idLote) {
@@ -804,7 +829,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                   //$("#tblDetalhe, tbody").append(item.Descricao);
                   $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo + "' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
                 });
-
+                
                 AplicarDataTable();
                 $("#tblDetalhe_info").hide();
             },
@@ -825,6 +850,20 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
        //$("#tblDetalhe_length").hide(); //Ocultar Quantidade de paginas ,25,50...
     }
 
+
+    function RetornaNomeArquivo(patharquivo) {
+        var nome_arquivo = "";
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallNomeArquivo",
+            type: 'POST',
+            datatype: 'json',
+            data: { patharq: patharquivo },
+            success: function (data) {
+                nome_arquivo = data;
+                $("#hdn_nomearquivo").val(data);
+            },
+        });
+    }
     function AplicarDataTable()
     {
         if ($("#tblStatus_detalhe").val() == 0) {
@@ -856,10 +895,11 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             //});
         }
 
-        var table_detalhe = $('#tblDetalhe').DataTable();
+       /* var table_detalhe = $('#tblDetalhe').DataTable();
         setInterval(function () {
            // table_detalhe.ajax.reload();
         }, 1000);
+        */
     }
 
     function objedit(id, cellname, value) {
