@@ -209,6 +209,7 @@
     <Compile Include="Helpers\AuthenticationHeaderHelper.cs" />
     <Compile Include="Helpers\StringFormatHelper.cs" />
     <Compile Include="Helpers\UserDataCookieHelper.cs" />
+    <Compile Include="Infrastructure\Conexao.cs" />
     <Compile Include="Infrastructure\ConfigManager.cs" />
     <Compile Include="Infrastructure\DbConn.cs" />
     <Compile Include="Infrastructure\Erro.cs" />

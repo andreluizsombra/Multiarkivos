@@ -108,10 +108,16 @@ namespace MK.Easydoc.Core.Infrastructure.Framework
                 return GetConnectionStringsSQL(itemConexao, Criptografia.TipoAcao.Decriptar);
             }
 
+            public string RetornaConexao(string itemConexao, Criptografia.TipoAcao tipoAcao)
+            {
+                return GetConnectionStringsSQL(itemConexao, tipoAcao);
+            }    
+
             public string GetConnectionStringsSQL(string itemConexao, Criptografia.TipoAcao tipoAcao)
             {
                 string conexaoTratada = string.Empty;
                 string[] conexao = ConfigurationManager.ConnectionStrings[itemConexao.Trim()].ToString().Split(';');
+                
                 foreach (string item in conexao)
                 {
                     if (!string.IsNullOrEmpty(item.Trim()))
@@ -121,6 +127,7 @@ namespace MK.Easydoc.Core.Infrastructure.Framework
                             parametro[0].Trim().ToUpper() == "USER ID" || parametro[0].Trim().ToUpper() == "PASSWORD")
                         {
                             //parametro[1] = _cripto.Executar(parametro[1].Trim(), _chaveCripto, Criptografia.TipoNivel.Baixo, tipoAcao, Criptografia.TipoCripto.Números);
+                            parametro[1] = _cripto.Executar(parametro[1].Trim(), _chaveCripto, Criptografia.TipoNivel.Baixo, tipoAcao, Criptografia.TipoCripto.Números);
                         }
                         conexaoTratada = string.Concat(conexaoTratada.Trim(), parametro[0].Trim(), "=", parametro[1].Trim(), ";");
                     }

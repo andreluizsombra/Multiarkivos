@@ -1,0 +1,9 @@
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\bin\Debug\EasydocKey.exe
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\bin\Debug\EasydocKey.pdb
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.csprojResolveAssemblyReference.cache
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.Properties.Resources.resources
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.csproj.GenerateResource.Cache
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.exe
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.pdb
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.frmPrincipal.resources
+C:\Projetos\multiarkivos_servsombra\EasydocKey\EasydocKey\obj\Debug\EasydocKey.frmChave.resources

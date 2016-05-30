@@ -7,18 +7,24 @@ using System.Data.Common;
 using System.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Configuration;
+using MK.Easydoc.Core.Infrastructure.Framework;
+using TecFort.Framework.Generico;
+using System.Data.SqlClient;
 
 namespace MK.Easydoc.Core.Infrastructure
 {
     public class DbConn
     {
+        
         public static DbConnection CreateDBConnection()
         {
             try
             {
-                //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
+                
                 Database dataBase = new DatabaseProviderFactory().Create(ConfigurationManager.AppSettings.Get("DefaultConnection"));
+                
                 DbConnection conn = dataBase.CreateConnection();
+                conn.ConnectionString = Easydoc.Core.Infrastructure.Conexao.DescriptografarConexaoString("DefaultConnection");
                 conn.Open();
                 return conn;
             }
@@ -28,15 +34,15 @@ namespace MK.Easydoc.Core.Infrastructure
                 
             }
         }
+
+    
         public static Database CreateDB()
         {
             try
             {
-                //DatabaseFactory.SetDatabaseProviderFactory(new DatabaseProviderFactory());
-
-                //Database dataBase = DatabaseFactory.CreateDatabase(ConfigurationManager.AppSettings.Get("Banco"));
-                Database dataBase = new DatabaseProviderFactory().Create(ConfigurationManager.AppSettings.Get("Banco"));
-                
+                //Database dataBase = new DatabaseProviderFactory().Create(ConfigurationManager.AppSettings.Get("Banco"));
+                string conexaoString = Easydoc.Core.Infrastructure.Conexao.DescriptografarConexaoString("DefaultConnection");
+                Database dataBase = new Microsoft.Practices.EnterpriseLibrary.Data.Sql.SqlDatabase(conexaoString);
                 return dataBase;
             }
             catch (Exception ex)
@@ -58,5 +64,7 @@ namespace MK.Easydoc.Core.Infrastructure
             }
         }
 
+        
     }
+    
 }

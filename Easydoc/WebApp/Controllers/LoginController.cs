@@ -40,6 +40,9 @@ namespace MK.Easydoc.WebApp.Controllers
         // GET: /Login/
         public ActionResult Index(string msg="")
         {
+            Easydoc.Core.Infrastructure.Conexao.VerificarConexaoString("DefaultConnection");
+            //string conexao = Easydoc.Core.Infrastructure.Conexao.DescriptografarConexaoString("ConexaoTeste");
+
             if (msg != "")
             {
                 ViewBag.Error = msg;
