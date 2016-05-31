@@ -110,6 +110,12 @@ namespace MK.Easydoc.Core.Entities
         }
     }
 
+    public class CamposDocumento
+    {
+        public int idCampoModelo { get; set; }
+        public string Rotulo { get; set; }
+        public string RotuloAbreviado { get; set; }
+    }
 
     public class DocumentoImagem
     {

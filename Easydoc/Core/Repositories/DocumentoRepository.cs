@@ -527,6 +527,66 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+        public List<CampoModelo> SelecionarDocumentoCampos(int idUsuario, int idServico, int idDocumento=0)
+        {
+            List<CampoModelo> _campos = new List<CampoModelo>();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("proc_documento_campos_servico_sel"));
+
+                _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, idUsuario);
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, idServico);
+                _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, idDocumento);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _campos.Add(ConverteBaseCampo(_dr));
+
+                    }
+                }
+
+                //if (_campos == null) { throw new Erro("Documento não localizado."); }
+
+                return _campos;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<CamposDocumento> ListarCamposDocumento(int idServico)
+        {
+            List<CamposDocumento> _campos = new List<CamposDocumento>();
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_CampoModelo_Servico"));
+                _db.AddInParameter(_cmd, "@idservico", DbType.Int32, idServico);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        _campos.Add(new CamposDocumento() { idCampoModelo = int.Parse(_dr["idCampoModelo"].ToString()), Rotulo = _dr["Rotulo"].ToString(), RotuloAbreviado = _dr["RotuloAbreviado"].ToString() });
+
+                    }
+                }
+
+                //if (_campos == null) { throw new Erro("Documento não localizado."); }
+
+                return _campos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public List<DocumentoImagem> SelecionarDocumentoImagens(IDictionary<string, object> _queryParams)
         {
             List<DocumentoImagem> _imagens = new List<DocumentoImagem>();
