@@ -68,8 +68,10 @@
                     </div>
                 </div>
             </div>
-
-            if (ViewBag.ListaCampos!=null)
+    @*<p>
+        <div class="btn btn-success" id="btnSelecionados">Teste</div>
+    </p>*@
+            if (ViewBag.ListaCampos != null)
             {
                 <div class="container-fluid">
                     <hr />
@@ -80,15 +82,36 @@
                                     <thead>
                                         <tr linha=titulo>
                                             <th><i class="fa fa-list"></i>&nbsp;Campos</th>
+                                            <th>&nbsp;</th>
+                                            <th>Enviar</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tbcampos">
                                         @foreach (var cmp in ViewBag.ListaCampos)
                                         {
-                                            <tr id="cmp_@cmp.idCampoModelo">
-                                                <td>@cmp.Rotulo</td><td>@cmp.RotuloAbreviado</td>
+                                            <tr id="cmp_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo">
+                                                <td>@cmp.Rotulo</td>
+                                                <td>@cmp.RotuloAbreviado</td>
+                                                <td><a href="#" onclick="Enviar('@cmp.idCampoModelo')"><i class="fa fa-arrow-right"></i></a></td>
                                             </tr>
                                         }
+                                    </tbody>
+                                </table>
+                                <div id="tabela"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="table-responsive">
+                                <table id="tblCamposSelecionados" class="table table-striped table-hover">
+                                    <thead>
+                                        <tr linha=titulo>
+                                            <th><i class="fa fa-list"></i>&nbsp;Campos Selecionados</th>
+                                            <th>&nbsp;</th>
+                                            <th>Retornar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbselecionado">
+                                       
                                     </tbody>
                                 </table>
                                 <div id="tabela"></div>
@@ -110,6 +133,7 @@
 </div>
 <script>
     $().ready(function () {
+
         $('#pnlHeader').hide();
         $("#SelCliente").change(function () {
             $("#selecionado").val($("#SelCliente").val());
@@ -141,9 +165,23 @@
             }
         });
 
-        $("input").sortable({
-            revert: true
+        $("#btnSelecionados").click(function () {
+            $("#tbselecionado>tr").each(function () {
+                console.log($("#"+this.id).attr('codigo'));
+            });
         });
+
     });
+
+    function Enviar(sel) {
+        $("#cmp_" + sel).appendTo("#tbselecionado");
+        $("#cmp_" + sel + ">td>a").attr('onclick', "Retorna('" + sel + "')");
+        $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-left');
+    }
+    function Retorna(sel) {
+        $("#cmp_" + sel).appendTo("#tbcampos");
+        $("#cmp_" + sel + ">td>a").attr('onclick', "Enviar('" + sel + "')");
+        $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-right');
+    }
 </script>
 
