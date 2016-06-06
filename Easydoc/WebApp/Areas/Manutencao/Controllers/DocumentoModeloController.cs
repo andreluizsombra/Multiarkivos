@@ -15,15 +15,37 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
     {
         //
         // GET: /Manutencao/DocumentoModelo/
-        public ActionResult Index()
+        public ActionResult Index(int idServico=0)
         {
-            return View();
+            int _idservico = idServico==0 ? IdServico_Atual : idServico;
+            
+            ListaClienteServico(IdCliente_Atual.ToString(), _idservico);
+            ViewBag.idCliente = IdCliente_Atual;
+            ViewBag.idServico = IdServico_Atual;
+            //var lista = new DocumentoModeloRepository().Listar(_idservico);
+            return View("Index",null);
         }
-        public ActionResult Novo()
+
+        public ActionResult Lista(int idServico = 0, int idCliente=0)
         {
+            int _idservico = idServico == 0 ? IdServico_Atual : idServico;
+            int _idcliente = idCliente == 0 ? IdCliente_Atual : idCliente;
+
+            ListaClienteServico(_idcliente.ToString(), _idservico);
+            ViewBag.idCliente = _idcliente;
+            ViewBag.idServico = _idservico;
+            var lista = new DocumentoModeloRepository().Listar(_idservico);
+            return View("Index",lista);
+        }
+        public ActionResult Novo(string msg="")
+        {
+            
             ListaClienteServico(IdCliente_Atual.ToString(), IdServico_Atual);
             ViewBag.idCliente = IdCliente_Atual;
             ViewBag.idServico = IdServico_Atual;
+
+            if (msg != "")
+                TempData["Error"] = msg;
 
             return View();
         }
@@ -34,21 +56,21 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             var Retorno = new Retorno();
             try
             {
-                var p = new DocumentoModelo()
-                {
-                    TipoAcao = 1,
-                    Descricao = frm["txtnomedoc"].ToString(),
-                    Rotulo = frm["txtrotulo"].ToString(), 
-                    idServico = int.Parse(frm["SelServico"].ToString()),
-                    Tipificalote = int.Parse(frm["retTipificar"].ToString()),
-                    Multi_Pagina = int.Parse(frm["retMultipagina"].ToString()),
-                    ScriptSQLTipificar = frm["txtscriptsqltipificar"].ToString(),
-                    ScriptSQLValidar = frm["txtscriptsqlvalidar"].ToString(),
-                    ScriptSQLConsulta = frm["txtscriptsqlconsulta"].ToString(),
-                    ScriptSQLModulo = frm["txtscriptsqlmodulo"].ToString(),
-                    DocumentoModeloPai = int.Parse(frm["txtdocmodelopai"].ToString()),
-                    ArquivoDados = int.Parse(frm["retArqDados"].ToString()),
-                };
+                var p = new DocumentoModelo();
+                
+                    p.TipoAcao = 1;
+                    p.Descricao = frm["txtnomedoc"].ToString();
+                    p.Rotulo = frm["txtrotulo"].ToString();
+                    p.idServico = int.Parse(frm["SelServico"].ToString());
+                    p.Tipificalote = int.Parse(frm["retTipificar"].ToString());
+                    p.Multi_Pagina = int.Parse(frm["retMultipagina"].ToString());
+                    p.ScriptSQLTipificar = frm["txtscriptsqltipificar"].ToString();
+                    p.ScriptSQLValidar = frm["txtscriptsqlvalidar"].ToString();
+                    p.ScriptSQLConsulta = frm["txtscriptsqlconsulta"].ToString();
+                    p.ScriptSQLModulo = frm["txtscriptsqlmodulo"].ToString();
+                    p.DocumentoModeloPai = frm["txtdocmodelopai"].ToString()==""? 0:int.Parse(frm["txtdocmodelopai"].ToString());
+                    p.ArquivoDados = int.Parse(frm["retArqDados"].ToString());
+                
 
                 var docModelo = new DocumentoModeloRepository();
                 Retorno = docModelo.Incluir(p);
@@ -63,7 +85,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             catch (Exception ex)
             {
                 TempData["Error"] = ex.Message;
-                return View();
+                return RedirectToAction("Novo", new {msg=ex.Message});
             }
         }
 
@@ -90,6 +112,14 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             ListaClienteServico(idCliente);
             ViewBag.idCliente = idCliente;
             return View("Novo");
+        }
+        public ActionResult ListaServicoIndex(string idCliente)
+        {
+            ListaClienteServico(idCliente);
+            ViewBag.idCliente = idCliente;
+            ViewBag.idServico = IdServico_Atual;
+            //var lista = new DocumentoModeloRepository().Listar(IdServico_Atual);
+            return View("Index",null);
         }
         void ListaClienteServico(string idCliente, int idServico = 0)
         {

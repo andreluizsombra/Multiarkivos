@@ -790,3 +790,4 @@ C:\Projetos\multiarkivos03062016\Easydoc\WebApp\bin\Mono.Math.xml
 C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.csprojResolveAssemblyReference.cache
 C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.dll
 C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.pdb
+C:\Projetos\multiarkivos\Easydoc\WebApp\bin\Ionic.Zip.Reduced.dll
