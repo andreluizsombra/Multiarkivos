@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("Create", "Perfil", FormMethod.Post, new { @class = "" }))
+    @using (Html.BeginForm("Incluir", "DocumentoModelo", FormMethod.Post, new { @class = "" }))
     {
 
         if (ViewBag.ListaCliente != null)
@@ -28,31 +28,72 @@
             <input type="hidden" id="selecionado" />
             <input type="hidden" id="cliente" name="cliente" />
             <input type="hidden" id="servico" name="servico" />
-            <input type="hidden" id="nomeperfil" name="nomeperfil" />
 
             <input type="hidden" id="idcliente" name="idcliente" value="@ViewBag.idCliente" />
             <input type="hidden" id="idservico" name="idservico" />
+            <input type="hidden" id="retTipificar" name="retTipificar" />
+            <input type="hidden" id="retMultipagina" name="retMultipagina" />
+            <input type="hidden" id="retArqDados" name="retArqDados" />
 
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-lg-3">
+                    <div class="col-md-3">
                         <label>Cliente : </label>@Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.idCliente), new { @class = "form-control" })
                     </div>
                     @if (ViewBag.ListaServico != null)
                     {
-                        <div class="col-lg-3">
+                        <div class="col-md-3">
                             <label>Serviço : </label>@Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", ViewBag.idServico), new { @class = "form-control" })
                         </div>
                     }
-
-                    <div class="col-lg-3">
-                        <label>Nome Documento : </label>
-                        <input type="text" id="txtnomedoc" name="txtnomedoc" class="form-control">
+                    <div class="col-md-6">
+                        <label>Nome Documento :</label>
+                        <input type="text" id="txtnomedoc" name="txtnomedoc" class="form-control" maxlength="100">
                     </div>
-
-                    <div class="col-lg-3">
-
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Rotulo: </label>
+                        <input type="text" id="txtrotulo" name="txtrotulo" class="form-control" maxlength="100">
+                    </div>
+                    <div class="col-md-2">
+                        <label>ScriptSQLConsulta</label>
+                        <input type="text" id="txtscriptsqlconsulta" name="txtscriptsqlconsulta" class="form-control" maxlength="50">
+                    </div>
+                    <div class="col-md-2">
+                        <label>ScriptSQLModulo</label>
+                        <input type="text" id="txtscriptsqlmodulo" name="txtscriptsqlmodulo" class="form-control" maxlength="11">
+                    </div>
+                    <div class="col-md-2">
+                        <label>ScriptSQLTipificar</label>
+                        <input type="text" id="txtscriptsqltipificar" name="txtscriptsqltipificar" class="form-control" maxlength="50">
+                    </div>
+                    <div class="col-md-2">
+                        <label>ScriptSQLValidar</label>
+                        <input type="text" id="txtscriptsqlvalidar" name="txtscriptsqlvalidar" class="form-control" maxlength="50">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>DocumentoModeloPai</label>
+                        <input type="text" id="txtdocmodelopai" name="txtdocmodelopai" class="form-control" maxlength="11">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Tipificação ?</label>  <br />
+                        <input class="form-control" type="checkbox" id="chkTipificar">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Multipagina ?</label>  <br />
+                        <input type="checkbox" id="chkMultipagina">
+                    </div>
+                    <div class="col-md-3">
+                        <label>ArquivoDados ?</label>  <br />
+                        <input class="form-control" type="checkbox" id="chkArqDados">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
                         <button type="submit" id="btnGravar" class="btn btn-success margin-top25">
                             <span class="fa fa-save" aria-hidden="true"></span>&nbsp;Gravar
                         </button>
@@ -64,13 +105,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        &nbsp
+                        &nbsp;
                     </div>
                 </div>
             </div>
-    @*<p>
-        <div class="btn btn-success" id="btnSelecionados">Teste</div>
-    </p>*@
+            @*<p>
+                    <div class="btn btn-success" id="btnSelecionados">Teste</div>
+                </p>*@
             if (ViewBag.ListaCampos != null)
             {
                 <div class="container-fluid">
@@ -89,11 +130,11 @@
                                     <tbody id="tbcampos">
                                         @foreach (var cmp in ViewBag.ListaCampos)
                                         {
-                                            <tr id="cmp_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo">
-                                                <td>@cmp.Rotulo</td>
-                                                <td>@cmp.RotuloAbreviado</td>
-                                                <td><a href="#" onclick="Enviar('@cmp.idCampoModelo')"><i class="fa fa-arrow-right"></i></a></td>
-                                            </tr>
+                                        <tr id="cmp_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo">
+                                            <td>@cmp.Rotulo</td>
+                                            <td>@cmp.RotuloAbreviado</td>
+                                            <td><a href="#" onclick="Enviar('@cmp.idCampoModelo')"><i class="fa fa-arrow-right"></i></a></td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -110,9 +151,7 @@
                                             <th>Retornar</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbselecionado">
-                                       
-                                    </tbody>
+                                    <tbody id="tbselecionado"></tbody>
                                 </table>
                                 <div id="tabela"></div>
                             </div>
@@ -128,60 +167,110 @@
 
         }
     }
-
-
 </div>
-<script>
-    $().ready(function () {
 
-        $('#pnlHeader').hide();
-        $("#SelCliente").change(function () {
-            $("#selecionado").val($("#SelCliente").val());
-            $("#cliente").val($("#SelCliente option:selected").text());
-            var url = "/Manutencao/DocumentoModelo/ListaServico?idCliente=" + $("#selecionado").val();
-            window.location.href = url;
-        });
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $().ready(function () {
 
-        $("#SelServico").change(function () {
-            $("#cliente").val($("#SelCliente option:selected").text());
-            $("#servico").val($("#SelServico option:selected").text());
+            $('#pnlHeader').hide();
 
-            var url = "/Manutencao/DocumentoModelo/ListarCampos?idCliente=" + $("#SelCliente").val() + "&idServico=" + $("#SelServico").val();
-            window.location.href = url;
-        });
-
-        console.log($("#idcliente").val());
-        //$("#SelCliente").val($("#idcliente").val());
-        // var id_servico = $("#SelServico").val();
-        // $("#SelServico").val(id_servico);
-        $("#btnGravar").click(function () {
-            if ($("#SelServico option:selected").text() == 'Selecione') {
-                exibirmsgatencao('Por favor selecione um serviço...');
-                return false;
-            }
-            if ($("#txtnomedoc").val() == "") {
-                exibirmsgatencao('Por favor preencher campo nome documento...');
-                return false;
-            }
-        });
-
-        $("#btnSelecionados").click(function () {
-            $("#tbselecionado>tr").each(function () {
-                console.log($("#"+this.id).attr('codigo'));
+            //Tipificar Sim/Nao
+            $('#chkTipificar').bootstrapToggle({
+                on: 'Sim',
+                off: 'Não',
+                onstyle: 'success'
             });
+            function SelTipificar() {
+                var ret = $("#chkTipificar").prop('checked') == true ? 0 : 1;
+                $("#retTipificar").val(ret);
+            }
+            $('#chkTipo').change(function () {
+                SelTipificar();
+            });
+            SelTipificar();
+            //Fim Tipificar
+
+            //Multipagina Sim/Nao
+            $('#chkMultipagina').bootstrapToggle({
+                on: 'Sim',
+                off: 'Não',
+                onstyle: 'success'
+            });
+            function SelMultipagina() {
+                var ret = $("#chkMultipagina").prop('checked') == true ? 0 : 1;
+                $("#retMultipagina").val(ret);
+            }
+            $('#chkMultipagina').change(function () {
+                SelMultipagina();
+            });
+            SelMultipagina();
+            //Fim Multipagina
+
+            //ArquivoDados Sim/Nao
+            $('#chkArqDados').bootstrapToggle({
+                on: 'Sim',
+                off: 'Não',
+                onstyle: 'success'
+            });
+            function SelArqDados() {
+                var ret = $("#chkArqDados").prop('checked') == true ? 0 : 1;
+                $("#retArqDados").val(ret);
+            }
+            $('#chkArqDados').change(function () {
+                SelArqDados();
+            });
+            SelArqDados();
+            //Fim ArquivoDados
+
+            $("#SelCliente").change(function () {
+                $("#selecionado").val($("#SelCliente").val());
+                $("#cliente").val($("#SelCliente option:selected").text());
+                var url = "/Manutencao/DocumentoModelo/ListaServico?idCliente=" + $("#selecionado").val();
+                window.location.href = url;
+            });
+
+            $("#SelServico").change(function () {
+                $("#cliente").val($("#SelCliente option:selected").text());
+                $("#servico").val($("#SelServico option:selected").text());
+
+                var url = "/Manutencao/DocumentoModelo/ListarCampos?idCliente=" + $("#SelCliente").val() + "&idServico=" + $("#SelServico").val();
+                window.location.href = url;
+            });
+
+            console.log($("#idcliente").val());
+            //$("#SelCliente").val($("#idcliente").val());
+            // var id_servico = $("#SelServico").val();
+            // $("#SelServico").val(id_servico);
+            $("#btnGravar").click(function () {
+                if ($("#SelServico option:selected").text() == 'Selecione') {
+                    exibirmsgatencao('Por favor selecione um serviço...');
+                    return false;
+                }
+                if ($("#txtnomedoc").val() == "") {
+                    exibirmsgatencao('Por favor preencher campo nome documento...');
+                    return false;
+                }
+            });
+
+            $("#btnSelecionados").click(function () {
+                $("#tbselecionado>tr").each(function () {
+                    console.log($("#" + this.id).attr('codigo'));
+                });
+            });
+
         });
 
-    });
-
-    function Enviar(sel) {
-        $("#cmp_" + sel).appendTo("#tbselecionado");
-        $("#cmp_" + sel + ">td>a").attr('onclick', "Retorna('" + sel + "')");
-        $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-left');
-    }
-    function Retorna(sel) {
-        $("#cmp_" + sel).appendTo("#tbcampos");
-        $("#cmp_" + sel + ">td>a").attr('onclick', "Enviar('" + sel + "')");
-        $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-right');
-    }
-</script>
-
+        function Enviar(sel) {
+            $("#cmp_" + sel).appendTo("#tbselecionado");
+            $("#cmp_" + sel + ">td>a").attr('onclick', "Retorna('" + sel + "')");
+            $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-left');
+        }
+        function Retorna(sel) {
+            $("#cmp_" + sel).appendTo("#tbcampos");
+            $("#cmp_" + sel + ">td>a").attr('onclick', "Enviar('" + sel + "')");
+            $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-right');
+        }
+    </script>
+}

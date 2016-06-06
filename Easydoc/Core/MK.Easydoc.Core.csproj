@@ -223,6 +223,7 @@
     <Compile Include="Repositories\AcessoRepository.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\Dictionary.cs" />
+    <Compile Include="Repositories\DocumentoModeloRepository.cs" />
     <Compile Include="Repositories\DocumentoRepository.cs" />
     <Compile Include="Repositories\Email.cs" />
     <Compile Include="Repositories\Interfaces\IClienteRepository.cs" />

@@ -15,6 +15,7 @@ namespace MK.Easydoc.Core.Entities
         public string Descricao { get; set; }
         public string Rotulo { get; set; }
         public bool MultiPagina { get; set; }
+        public int Multi_Pagina { get; set; }
         public bool Duplex { get; set; }
         public int NumeroPagina { get; set; }
         public string ScriptSQLTipificar { get; set; }
@@ -27,6 +28,11 @@ namespace MK.Easydoc.Core.Entities
         public Servico Servico { get; set; }
         public List<CampoModelo> Campos { get; set; }
         public int Tipificalote { get; set; }
+        public int DocumentoModeloPai { get; set; }
+        public int ArquivoDados { get; set; }
+        public int TipoAcao { get; set; }
+        public int idServico { get; set; }
+
 
         public DocumentoModelo (){ 
             ID = 0;

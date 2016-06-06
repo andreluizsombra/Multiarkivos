@@ -1,4 +1,5 @@
-﻿using MK.Easydoc.Core.Repositories;
+﻿using MK.Easydoc.Core.Infrastructure;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.Core.Services;
 using MK.Easydoc.WebApp.Controllers;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MK.Easydoc.Core.Entities;
 
 namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 {
@@ -25,6 +27,46 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Incluir(FormCollection frm)
+        {
+            var Retorno = new Retorno();
+            try
+            {
+                var p = new DocumentoModelo()
+                {
+                    TipoAcao = 1,
+                    Descricao = frm["txtnomedoc"].ToString(),
+                    Rotulo = frm["txtrotulo"].ToString(), 
+                    idServico = int.Parse(frm["SelServico"].ToString()),
+                    Tipificalote = int.Parse(frm["retTipificar"].ToString()),
+                    Multi_Pagina = int.Parse(frm["retMultipagina"].ToString()),
+                    ScriptSQLTipificar = frm["txtscriptsqltipificar"].ToString(),
+                    ScriptSQLValidar = frm["txtscriptsqlvalidar"].ToString(),
+                    ScriptSQLConsulta = frm["txtscriptsqlconsulta"].ToString(),
+                    ScriptSQLModulo = frm["txtscriptsqlmodulo"].ToString(),
+                    DocumentoModeloPai = int.Parse(frm["txtdocmodelopai"].ToString()),
+                    ArquivoDados = int.Parse(frm["retArqDados"].ToString()),
+                };
+
+                var docModelo = new DocumentoModeloRepository();
+                Retorno = docModelo.Incluir(p);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                TempData["Msg"] = Retorno.Mensagem;
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return View();
+            }
+        }
+
 
         public ActionResult ListarCampos(int idCliente, int idServico)
         {
