@@ -1,10 +1,14 @@
-﻿@{
+﻿@using MK.Easydoc.Core.Repositories;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Cadastro de Documento";
 }
 <style>
     .margin-top25 {
         margin-top: 25px;
+    }
+    label {
+        margin-top:15px;
     }
 </style>
 <div class="panel-heading">
@@ -15,7 +19,7 @@
         <div class="col-md-12">
             &nbsp
         </div>
-    </div>
+    </div>       
 
     @using (Html.BeginForm("Incluir", "DocumentoModelo", FormMethod.Post, new { @class = "" }))
     {
@@ -34,6 +38,8 @@
             <input type="hidden" id="retTipificar" name="retTipificar" />
             <input type="hidden" id="retMultipagina" name="retMultipagina" />
             <input type="hidden" id="retArqDados" name="retArqDados" />
+            <input type="hidden" id="idCampoModelo" name="idCampoModelo" />
+            <input type="hidden" id="listaCampos" name="listaCampos" />
 
             <div class="container-fluid">
 
@@ -124,17 +130,24 @@
                                         <tr linha=titulo>
                                             <th><i class="fa fa-list"></i>&nbsp;Campos</th>
                                             <th>&nbsp;</th>
+                                            <th>&nbsp;</th>
                                             <th>Enviar</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbcampos">
                                         @foreach (var cmp in ViewBag.ListaCampos)
                                         {
-                                        <tr id="cmp_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo">
-                                            <td>@cmp.Rotulo</td>
-                                            <td>@cmp.RotuloAbreviado</td>
-                                            <td><a href="#" onclick="Enviar('@cmp.idCampoModelo')"><i class="fa fa-arrow-right"></i></a></td>
-                                        </tr>
+                                            <tr id="cmp_@cmp.idCampoModelo" nomecampo="@cmp.Rotulo" codigo="@cmp.idCampoModelo" obrigatorio="0" digita="0" filtroconsulta="0" reconhece="0" validacao="">
+                                                <td>@cmp.Rotulo</td>
+                                                <td>@cmp.RotuloAbreviado</td>
+                                                <td>
+                                                    <div style="cursor:pointer" type="button" id="cmpDetalhe_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo" onclick="ExibirDetalhes('@cmp.idCampoModelo')">
+                                                        <i id="i_det_@cmp.idCampoModelo" class="fa fa-keyboard-o"></i>
+                                                        &nbsp;Detalhes
+                                                    </div>
+                                                </td>
+                                                <td><a href="#" onclick="Enviar('@cmp.idCampoModelo')"><i class="fa fa-arrow-right"></i></a></td>
+                                            </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -147,6 +160,7 @@
                                     <thead>
                                         <tr linha=titulo>
                                             <th><i class="fa fa-list"></i>&nbsp;Campos Selecionados</th>
+                                            <th>&nbsp;</th>
                                             <th>&nbsp;</th>
                                             <th>Retornar</th>
                                         </tr>
@@ -168,7 +182,55 @@
         }
     }
 </div>
-
+<div class="modal fade" id="modalDetalhe" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel"><b>Detalhe campo:</b>&nbsp;<label id="lbl_nomecampo"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Obrigatório ?</label>  <br />
+                        <input class="form-control" type="checkbox" id="chkObrigatorio">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Digita ?</label>  <br />
+                        <input type="checkbox" id="chkDigita">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Filtro de Consulta ?</label>  <br />
+                        <input class="form-control" type="checkbox" id="chkFiltroConsulta">
+                    </div>
+                    <div class="col-md-3">
+                        <label>Reconhece ?</label>  <br />
+                        <input class="form-control" type="checkbox" id="chkReconhece">
+                    </div>
+                </div>
+                <div class="row">
+                    
+                    <div class="col-md-12">
+                        <label>Validação</label>  <br />
+                        <input class="form-control" type="text" id="txtvalidacao" name="txtvalidacao">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnGravarDetalhe" class="btn btn-success"><i class="fa fa-check"></i>&nbsp;Gravar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <input type="hidden" id="hdn_linha" name="hdn_linha" />
+        <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_idcampo" name="hdn_idcampo" />
+        <input type="hidden" id="ret_chkObrigatorio" name="ret_ChkObrigatorio" value="0" />
+        <input type="hidden" id="ret_chkDigita" name="ret_ChkDigita" value="0" />
+        <input type="hidden" id="ret_chkFiltroConsulta" name="ret_ChkFiltroConsulta" value="0" />
+        <input type="hidden" id="ret_chkReconhece" name="ret_ChkReconhece" value="0" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
@@ -176,12 +238,19 @@
 
             $('#pnlHeader').hide();
 
+            //Obrigatorio Sim/Nao
+            ChkSimNao("chkObrigatorio");
+            ChkSimNao("chkDigita");
+            ChkSimNao("chkFiltroConsulta");
+            ChkSimNao("chkReconhece");
+
             //Tipificar Sim/Nao
             $('#chkTipificar').bootstrapToggle({
                 on: 'Sim',
                 off: 'Não',
                 onstyle: 'success'
             });
+
             function SelTipificar() {
                 var ret = $("#chkTipificar").prop('checked') == true ? 0 : 1;
                 $("#retTipificar").val(ret);
@@ -252,15 +321,100 @@
                     exibirmsgatencao('Por favor preencher campo nome documento...');
                     return false;
                 }
+
+                $("#idCampoModelo").val(RetornaCamposSelecionados);
+                $("#listaCampos").val(RetornaCampos);
+                console.log(RetornaCampos);
             });
 
             $("#btnSelecionados").click(function () {
-                $("#tbselecionado>tr").each(function () {
-                    console.log($("#" + this.id).attr('codigo'));
-                });
+                //console.log('codigos: '+codsel);
+            });
+
+            $("#btnGravarDetalhe").click(function () {
+                var idcampo = $("#hdn_idcampo").val();
+
+                $("#cmp_" + idcampo).attr("obrigatorio", $("#ret_chkObrigatorio").val());
+                $("#cmp_" + idcampo).attr("digita", $("#ret_chkDigita").val());
+                $("#cmp_" + idcampo).attr("filtroconsulta", $("#ret_chkFiltroConsulta").val());
+                $("#cmp_" + idcampo).attr("reconhece", $("#ret_chkReconhece").val());
+                $("#cmp_" + idcampo).attr("validacao", $("#txtvalidacao").val());
+
+                console.log($("#cmp_" + idcampo).attr("obrigatorio"));
+                console.log($("#cmp_" + idcampo).attr("digita"));
+                console.log($("#cmp_" + idcampo).attr("filtroconsulta"));
+                console.log($("#cmp_" + idcampo).attr("reconhece"));
+                console.log($("#cmp_" + idcampo).attr("validacao"));
+                
+                $("#modalDetalhe").modal('hide');
             });
 
         });
+
+        function ChkSimNao(titulo) {
+            $('#'+titulo).bootstrapToggle({
+                on: 'Sim',
+                off: 'Não',
+                onstyle: 'success'
+            });
+            $('#'+titulo).change(function () {
+                var ret = $("#"+titulo).prop('checked') == true ? 1 : 0;
+                $("#ret_"+titulo).val(ret);
+            });
+            var ret = $("#" + titulo).prop('checked') == true ? 1 : 0;
+            $("#ret_" + titulo).val(ret);
+            console.log($("#ret_" + titulo).val(ret));
+        }
+
+        function RetornaCampos() {
+            var codigo = "";
+            var codsel = "";
+            var dig = "";
+            var cons = "";
+            var totsel = $("#tbselecionado>tr").length;
+            var num = 0;
+            var obrig = "";
+            var reconhece = "";
+            var validacao = "";
+            var resultado_json = "[";
+
+            $("#tbselecionado>tr").each(function () {
+                codigo = $("#" + this.id).attr('codigo');
+                codsel = $("#" + this.id).attr('codigo');
+                dig = $("#" + this.id).attr('digita');
+                cons = $("#" + this.id).attr('filtroconsulta');
+                obrig = $("#" + this.id).attr('obrigatorio');
+                reconhece = $("#" + this.id).attr('reconhece');
+                validacao = $("#" + this.id).attr('validacao');
+
+                num++;
+                //debugger;
+                if (totsel > 1 && num < totsel) {
+                    resultado_json = resultado_json + "{ 'idcampo':" + codsel + " , 'Digita':" + dig + ", 'FiltroConsulta':" + cons + ", 'Obrigatorio':" + obrig + ", 'Reconhece':" + reconhece + ", 'Validacao':'" + validacao + "' },";
+                }
+                else{
+                    //resultado_json = resultado_json + "{ 'idcampo':" + codsel + " , 'Digita':" + dig + ", 'FiltroConsulta':" + cons + " }";
+                    resultado_json = resultado_json + "{ 'idcampo':" + codsel + " , 'Digita':" + dig + ", 'FiltroConsulta':" + cons + ", 'Obrigatorio':" + obrig + ", 'Reconhece':" + reconhece + ", 'Validacao':'" + validacao + "' }";
+                }
+            });
+            resultado_json = resultado_json + "]";
+            return resultado_json;
+        }
+
+
+        function RetornaCamposSelecionados() {
+            var codsel = "";
+            var totsel = $("#tbselecionado>tr").length;
+            var num = 0;
+            $("#tbselecionado>tr").each(function () {
+                num++;
+                if (totsel > 1 && num < totsel)
+                    codsel = codsel + $("#" + this.id).attr('codigo') + ",";
+                else
+                    codsel = codsel + $("#" + this.id).attr('codigo');
+            });
+            return codsel;
+        }
 
         function Enviar(sel) {
             $("#cmp_" + sel).appendTo("#tbselecionado");
@@ -271,6 +425,46 @@
             $("#cmp_" + sel).appendTo("#tbcampos");
             $("#cmp_" + sel + ">td>a").attr('onclick', "Enviar('" + sel + "')");
             $("#cmp_" + sel + ">td>a>i").attr('class', 'fa fa-arrow-right');
+        }
+
+        function digitar(cmp) {
+            //debugger;
+            var campo = $("#"+cmp);
+            if (campo.attr('valor') == '0') {
+                campo.attr('valor', '1').removeClass("text-danger")
+            }
+            else {
+                campo.attr('valor', '0').addClass("text-danger");
+            }
+        }
+        function consultar(cmp){
+            var campo = $("#"+cmp);
+            if (campo.attr('valor') == '0') {
+                campo.attr('valor', '1').removeClass("text-danger");
+            }
+            else {
+                campo.attr('valor', '0').addClass("text-danger");
+            }
+        }
+
+        function ExibirDetalhes(cmp) {
+            $("#modalDetalhe").modal('show');
+            $("#hdn_idcampo").val(cmp);
+
+            $("#chkObrigatorio").bootstrapToggle('off');
+            $("#chkDigita").bootstrapToggle('off');
+            $("#chkFiltroConsulta").bootstrapToggle('off');
+            $("#chkReconhece").bootstrapToggle('off');
+
+            $("#chkObrigatorio").prop('checked', false);
+            $("#chkDigita").prop('checked', false);
+            $("#chkFiltroConsulta").prop('checked', false);
+            $("#chkReconhece").prop('checked', false);
+            $("#txtvalidacao").val('');
+
+            //var nomedoc = $("#txtnomedoc").val();
+            var nomecampo = $("#cmp_"+cmp).attr('nomecampo')
+            $("#lbl_nomecampo").html(nomecampo);
         }
     </script>
 }

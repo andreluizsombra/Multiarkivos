@@ -6,6 +6,9 @@
     .btn {
         margin-top: 25px;
     }
+    a{
+        color:black;
+    }
 </style>
 <input type="hidden" id="selecionado" />
 <input type="hidden" id="cliente" name="cliente" />
@@ -42,11 +45,16 @@
              <thead>
                  <tr>
                      <th>Nome</th>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
                  </tr>
              </thead>
             <tbody>
                 @foreach (var itm in Model) { 
-                <tr><td>@itm.Descricao</td></tr>
+                <tr><td>@itm.Descricao</td>
+                    <td><a href="#" onclick="Editar('@itm.ID')"><i class="fa fa-edit fa-lg"></i></a></td>
+                    <td><a href="#"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -101,4 +109,9 @@
         });
 
     });
+
+    function Editar(id) {
+        var url = "@Url.Content("~/Manutencao/DocumentoModelo/Edit/")" + id + "?idservico=" + $("#SelServico").val();
+        window.location.href = url;
+    }
 </script>

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MK.Easydoc.Core.Entities;
+using Newtonsoft.Json.Linq;
 
 namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
 {
@@ -20,8 +21,8 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             int _idservico = idServico==0 ? IdServico_Atual : idServico;
             
             ListaClienteServico(IdCliente_Atual.ToString(), _idservico);
-            ViewBag.idCliente = IdCliente_Atual;
-            ViewBag.idServico = IdServico_Atual;
+            ViewBag.idCliente = -1; //IdCliente_Atual;
+            ViewBag.idServico = -1; //IdServico_Atual;
             //var lista = new DocumentoModeloRepository().Listar(_idservico);
             return View("Index",null);
         }
@@ -50,9 +51,23 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             return View();
         }
 
+        public ActionResult Edit(int id, int idservico)
+        {
+
+            ListaClienteServico(IdCliente_Atual.ToString(), IdServico_Atual);
+            ViewBag.idCliente = IdCliente_Atual;
+            ViewBag.idServico = IdServico_Atual;
+
+            //if (msg != "")
+              //  TempData["Error"] = msg;
+
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Incluir(FormCollection frm)
         {
+            
             var Retorno = new Retorno();
             try
             {
@@ -70,6 +85,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                     p.ScriptSQLModulo = frm["txtscriptsqlmodulo"].ToString();
                     p.DocumentoModeloPai = frm["txtdocmodelopai"].ToString()==""? 0:int.Parse(frm["txtdocmodelopai"].ToString());
                     p.ArquivoDados = int.Parse(frm["retArqDados"].ToString());
+                    p.idCampoModelo = frm["idCampoModelo"].ToString();
                 
 
                 var docModelo = new DocumentoModeloRepository();
@@ -77,6 +93,50 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 if (Retorno.CodigoRetorno < 0)
                 {
                     throw new Exception(Retorno.Mensagem);
+                }
+                else
+                {
+                    if (frm["listaCampos"].ToString() != "")
+                    {
+                        //var campos_selecionados = p.idCampoModelo.Split(',');
+                        var items = frm["listaCampos"].ToString(); // Get the JSON string
+                        JArray o = JArray.Parse(items); // It is an array so parse into a JArray
+                        int n = 1;
+                        foreach (var itm in o)
+                        {
+                            int _IdCampo = int.Parse(itm.SelectToken("idcampo").ToString());   //o.SelectToken("[0].cod").ToString(); // Get the name value of the 1st object in the array
+                            int _Digita = int.Parse(itm.SelectToken("Digita").ToString()); //o.SelectToken("[0].valor").ToString();
+                            int _FiltroConsulta = int.Parse(itm.SelectToken("FiltroConsulta").ToString());
+
+                            int _Obrigatorio = int.Parse(itm.SelectToken("Obrigatorio").ToString());
+                            int _Reconhece = int.Parse(itm.SelectToken("Reconhece").ToString());
+                            string _Validacao = itm.SelectToken("Validacao").ToString();
+
+                            var cpm = new DocumentoCampoModelo();
+                            cpm.idDocumentoModelo = Retorno.idDocumentoModelo;
+                            cpm.idCampoModelo = _IdCampo;
+                            cpm.Digita = _Digita;
+                            cpm.FiltroConsulta = _FiltroConsulta;
+                            cpm.Requerido = _Obrigatorio;
+                            cpm.Reconhece = _Reconhece;
+                            cpm.ProcSqlValidacao = _Validacao;
+                            cpm.IdDocumentoModeloPai = p.DocumentoModeloPai;
+                            cpm.Tabulacao = n;
+                            new DocumentoModeloRepository().IncluirCampos(cpm);
+                            n++;
+                        }
+
+                        //foreach (var campo in campos_selecionados)
+                        //{
+                        //    var cpm = new DocumentoCampoModelo();
+                        //    cpm.idDocumentoModelo = Retorno.idDocumentoModelo;
+                        //    cpm.idCampoModelo = int.Parse(campo.ToString());
+                        //    cpm.IdDocumentoModeloPai = p.DocumentoModeloPai;
+                        //    cpm.Tabulacao = n;
+                        //    new DocumentoModeloRepository().IncluirCampos(cpm);
+                        //    n++;
+                        //}
+                    }
                 }
                 TempData["Msg"] = Retorno.Mensagem;
                 return RedirectToAction("Index");
@@ -99,6 +159,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 ViewBag.idCliente = idCliente;
                 ViewBag.idServico = idServico;
                 ViewBag.ListaCampos = ListaCampos;
+                if (ListaCampos.Count == 0) TempData["Error"] = "Não existem campos cadastrados para esse serviço. Por favor, cadastre os campos antes de cadastrar os documentos.";
             }
             catch (Exception ex)
             {
@@ -111,6 +172,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
         {
             ListaClienteServico(idCliente);
             ViewBag.idCliente = idCliente;
+            ViewBag.idServico = -1;
             return View("Novo");
         }
         public ActionResult ListaServicoIndex(string idCliente)

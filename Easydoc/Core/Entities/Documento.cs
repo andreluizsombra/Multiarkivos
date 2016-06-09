@@ -32,6 +32,7 @@ namespace MK.Easydoc.Core.Entities
         public int ArquivoDados { get; set; }
         public int TipoAcao { get; set; }
         public int idServico { get; set; }
+        public string idCampoModelo { get; set; }
 
 
         public DocumentoModelo (){ 
@@ -48,6 +49,7 @@ namespace MK.Easydoc.Core.Entities
             Campos = new List<CampoModelo>();
             Servico = new Servico();
             Tipificalote = 0;
+            idCampoModelo = string.Empty;
         }
 
     }
@@ -224,5 +226,18 @@ namespace MK.Easydoc.Core.Entities
         public int IdDocumento { get; set; }
         public int IdFormalizacao { get; set; }
         public int Valor { get; set; }
+    }
+
+    public class DocumentoCampoModelo{
+        public int idDocumentoModelo { get; set; }
+        public int idCampoModelo { get; set; }
+        public int Requerido { get; set; }
+        public string ProcSqlValidacao { get; set; }
+        public int Tabulacao { get; set; }
+        public int ClasseCSS { get; set; }
+        public int Digita { get; set; }
+        public int Reconhece { get; set; }
+        public int FiltroConsulta { get; set; }
+        public int IdDocumentoModeloPai { get; set; }
     }
 }

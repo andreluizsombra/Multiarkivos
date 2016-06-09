@@ -15,6 +15,7 @@ namespace MK.Easydoc.Core.Infrastructure
         public object Dados { get; set; }
         public Exception Erro { get; set; }
         public int Bloqueado { get; set; }
+        public int idDocumentoModelo { get; set; }
         public Retorno()
         {
             this.Erro = null;
@@ -22,6 +23,7 @@ namespace MK.Easydoc.Core.Infrastructure
             this.Mensagem = "";
             this.Dados = null;
             this.Bloqueado = -1;
+            this.idDocumentoModelo = 0;
         }
 
         public Retorno(long codigoRetorno, string mensagem, object dados, Exception erro)
