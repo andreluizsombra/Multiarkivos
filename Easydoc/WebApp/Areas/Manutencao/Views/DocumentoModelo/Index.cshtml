@@ -111,7 +111,7 @@
     });
 
     function Editar(id) {
-        var url = "@Url.Content("~/Manutencao/DocumentoModelo/Edit/")" + id + "?idservico=" + $("#SelServico").val();
-        window.location.href = url;
+        var url_editar = "/Manutencao/DocumentoModelo/Edit?id=" + id + "&idcliente=" + $("#SelCliente").val() + "&idservico=" + $("#SelServico").val();
+        window.location.href = url_editar;
     }
 </script>

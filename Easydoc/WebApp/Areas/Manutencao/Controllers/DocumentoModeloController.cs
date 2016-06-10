@@ -51,17 +51,17 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             return View();
         }
 
-        public ActionResult Edit(int id, int idservico)
+        public ActionResult Edit(int id, int idcliente, int idservico)
         {
 
-            ListaClienteServico(IdCliente_Atual.ToString(), IdServico_Atual);
-            ViewBag.idCliente = IdCliente_Atual;
-            ViewBag.idServico = IdServico_Atual;
-
+            ListaClienteServico(idcliente.ToString(), idservico);
+            ViewBag.idCliente = idcliente;
+            ViewBag.idServico = idservico;
             //if (msg != "")
               //  TempData["Error"] = msg;
+            var lst = new DocumentoModeloRepository().ListarDocumentoCampoModelo(idservico, id);
 
-            return View();
+            return View(lst);
         }
 
         [HttpPost]

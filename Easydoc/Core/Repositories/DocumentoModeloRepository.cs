@@ -119,5 +119,69 @@ namespace MK.Easydoc.Core.Repositories
                 throw new Exception("Erro ao executar o script Proc_Get_DocumentoModelo, detalhes: " + ex.Message);
             }
         }
+
+        public List<DocumentoCampoModelo> ListarDocumentoCampoModelo(int idServico, int idDocumentoModelo)
+        {
+            try
+            {
+                List<DocumentoCampoModelo> _itens = new List<DocumentoCampoModelo>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Get_DocumentoCampoModelo"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico);
+                _db.AddInParameter(_cmd, "@idDocumentoModelo", DbType.Int32, idDocumentoModelo);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        var d = new DocumentoCampoModelo();
+                        d.idDocumentoModelo = idDocumentoModelo;
+                        d.Descricao = _dr["Descricao"].ToString();
+                        d.Rotulo = _dr["Rotulo"].ToString();
+                        d.ScriptSQLConsulta = _dr["ScriptSQLConsulta"].ToString();
+                        d.ScriptSQLModulo = _dr["ScriptSQLModulo"].ToString();
+                        d.ScriptSQLTipificar = _dr["ScriptSQLTipificar"].ToString();
+                        d.ScriptSQLValidar = _dr["ScriptSQLValidar"].ToString();
+                        d.IdDocumentoModeloPai = int.Parse(_dr["DocumentoModeloPai"].ToString());
+                        d.Tipificalote = (bool)_dr["Tipificalote"]==false?0:int.Parse(_dr["Tipificalote"].ToString());
+                        d.Multi_Pagina = (bool)_dr["Multipagina"]==false?0:int.Parse(_dr["Multipagina"].ToString());
+                        d.ArquivoDados = int.Parse(_dr["ArquivoDados"].ToString());
+                        d.Requerido = int.Parse(_dr["Requerido"].ToString());
+                        d.Digita = int.Parse(_dr["Digita"].ToString());
+                        d.Reconhece = int.Parse(_dr["Reconhece"].ToString());
+                        d.FiltroConsulta = int.Parse(_dr["FiltroConsulta"].ToString());
+                        d.ProcSqlValidacao = _dr["ProcSqlValidacao"].ToString();
+
+                        //_itens.Add(new DocumentoCampoModelo()
+                        //{
+                        //    idDocumentoModelo = idDocumentoModelo,
+                        //    Descricao = _dr["Descricao"].ToString(),
+                        //    Rotulo = _dr["Rotulo"].ToString(),
+                        //    ScriptSQLConsulta = _dr["ScriptSQLConsulta"].ToString(),
+                        //    ScriptSQLModulo = _dr["ScriptSQLModulo"].ToString(),
+                        //    ScriptSQLTipificar = _dr["ScriptSQLTipificar"].ToString(),
+                        //    ScriptSQLValidar = _dr["ScriptSQLValidar"].ToString(),
+                        //    IdDocumentoModeloPai = int.Parse(_dr["DocumentoModeloPai"].ToString()),
+                        //    Tipificalote = int.Parse(_dr["Tipificalote"].ToString()),
+                        //    Multi_Pagina = int.Parse(_dr["Multipagina"].ToString()),
+                        //    ArquivoDados = int.Parse(_dr["ArquivoDados"].ToString()),
+                        //    Requerido = int.Parse(_dr["Requerido"].ToString()),
+                        //    Digita = int.Parse(_dr["Digita"].ToString()),
+                        //    Reconhece = int.Parse(_dr["Reconhece"].ToString()),
+                        //    FiltroConsulta = int.Parse(_dr["FiltroConsulta"].ToString()),
+                        //    ProcSqlValidacao = _dr["ProcSqlValidacao"].ToString()
+                        //});
+                    }
+                }
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o script Get_DocumentoCampoModelo, detalhes: " + ex.Message);
+            }
+        }
     }
 }

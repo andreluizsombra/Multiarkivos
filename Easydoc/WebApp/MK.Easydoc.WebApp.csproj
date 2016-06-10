@@ -1570,6 +1570,7 @@
     <Content Include="Areas\Relatorio\Views\Lista\Index.cshtml" />
     <Content Include="Areas\Manutencao\Views\DocumentoModelo\Index.cshtml" />
     <Content Include="Areas\Manutencao\Views\DocumentoModelo\Novo.cshtml" />
+    <Content Include="Areas\Manutencao\Views\DocumentoModelo\Edit.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />

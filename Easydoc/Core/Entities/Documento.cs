@@ -50,6 +50,9 @@ namespace MK.Easydoc.Core.Entities
             Servico = new Servico();
             Tipificalote = 0;
             idCampoModelo = string.Empty;
+            DocumentoModeloPai = 0;
+            Multi_Pagina = 0;
+            ArquivoDados = 0;
         }
 
     }
@@ -239,5 +242,36 @@ namespace MK.Easydoc.Core.Entities
         public int Reconhece { get; set; }
         public int FiltroConsulta { get; set; }
         public int IdDocumentoModeloPai { get; set; }
+        public int Tipificalote { get; set; }
+        public string Descricao { get; set; }
+        public string Rotulo { get; set; }
+        public int Multi_Pagina { get; set; }
+        public string ScriptSQLTipificar { get; set; }
+        public string ScriptSQLValidar { get; set; }
+        public string ScriptSQLModulo { get; set; }
+        public string ScriptSQLConsulta { get; set; }
+        public int ArquivoDados { get; set; }
+        public int TipoAcao { get; set; }
+        public int idServico { get; set; }
+
+        public DocumentoCampoModelo()
+        {
+            idDocumentoModelo = 0;
+            Descricao = "";
+            Rotulo = "";
+            ScriptSQLConsulta = "";
+            ScriptSQLModulo = "";
+            ScriptSQLTipificar = "";
+            ScriptSQLValidar = "";
+            IdDocumentoModeloPai = 0;
+            Tipificalote = 0;
+            Multi_Pagina = 0;
+            ArquivoDados = 0;
+            Requerido = 0;
+            Digita = 0;
+            Reconhece = 0;
+            FiltroConsulta = 0;
+            ProcSqlValidacao = "";
+        }
     }
 }
