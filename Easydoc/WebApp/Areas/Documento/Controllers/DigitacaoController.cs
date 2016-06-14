@@ -279,7 +279,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 
                 foreach (CampoModelo _campo in _campoModelo.Campos)
                 {
-                    _msg = _docService.ValidarCamposDocumento(id_documento_modelo, _campo);
+                    _msg = _docService.ValidarCamposDocumento(id_documento_modelo, _campo, ServicoAtual.ID);
                     if (!string.IsNullOrEmpty(_msg))
                            return Json(new RetornoViewModel(false, _msg));                    
                 }

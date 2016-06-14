@@ -439,6 +439,9 @@ namespace MK.Easydoc.Core.Repositories
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_campo_documento_sel"));
 
                 _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["idServico"].ToString()));
+
+                //_db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
                 //_db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["Documento_ID"].ToString()));
                 
                 

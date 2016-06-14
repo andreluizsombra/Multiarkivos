@@ -65,6 +65,7 @@ namespace MK.Easydoc.Core.Repositories
                 DbCommand _cmd;
                 Database _db = DbConn.CreateDB();
                 _cmd = _db.GetStoredProcCommand("Proc_Insert_DocumentoCampoModelo");
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int16, p.idServico);
                 _db.AddInParameter(_cmd, "@idDocumentoModelo", DbType.Int16, p.idDocumentoModelo);
                 _db.AddInParameter(_cmd, "@idCampoModelo", DbType.Int16, p.idCampoModelo);
                 _db.AddInParameter(_cmd, "@Requerido", DbType.Int16, p.Requerido);
@@ -139,40 +140,24 @@ namespace MK.Easydoc.Core.Repositories
                         var d = new DocumentoCampoModelo();
                         d.idDocumentoModelo = idDocumentoModelo;
                         d.Descricao = _dr["Descricao"].ToString();
+                        d.Descricao_Campo = _dr["Descricao_Campo"].ToString();
                         d.Rotulo = _dr["Rotulo"].ToString();
+                        d.RotuloAbreviado = _dr["RotuloAbreviado"].ToString();
                         d.ScriptSQLConsulta = _dr["ScriptSQLConsulta"].ToString();
                         d.ScriptSQLModulo = _dr["ScriptSQLModulo"].ToString();
                         d.ScriptSQLTipificar = _dr["ScriptSQLTipificar"].ToString();
                         d.ScriptSQLValidar = _dr["ScriptSQLValidar"].ToString();
                         d.IdDocumentoModeloPai = int.Parse(_dr["DocumentoModeloPai"].ToString());
-                        d.Tipificalote = (bool)_dr["Tipificalote"]==false?0:int.Parse(_dr["Tipificalote"].ToString());
-                        d.Multi_Pagina = (bool)_dr["Multipagina"]==false?0:int.Parse(_dr["Multipagina"].ToString());
+                        d.Tipificalote = (bool)_dr["Tipificalote"]==false?0:1;
+                        d.Multi_Pagina = (bool)_dr["Multipagina"]==false?0:1;
                         d.ArquivoDados = int.Parse(_dr["ArquivoDados"].ToString());
-                        d.Requerido = int.Parse(_dr["Requerido"].ToString());
-                        d.Digita = int.Parse(_dr["Digita"].ToString());
-                        d.Reconhece = int.Parse(_dr["Reconhece"].ToString());
-                        d.FiltroConsulta = int.Parse(_dr["FiltroConsulta"].ToString());
+                        d.Requerido = (bool)_dr["Requerido"]==false?0:1;
+                        d.Digita = (bool)_dr["Digita"]==false?0:1;
+                        d.Reconhece = (bool)_dr["Reconhece"]==false?0:1;
+                        d.FiltroConsulta = (bool)_dr["FiltroConsulta"] == false ? 0 : 1;
                         d.ProcSqlValidacao = _dr["ProcSqlValidacao"].ToString();
-
-                        //_itens.Add(new DocumentoCampoModelo()
-                        //{
-                        //    idDocumentoModelo = idDocumentoModelo,
-                        //    Descricao = _dr["Descricao"].ToString(),
-                        //    Rotulo = _dr["Rotulo"].ToString(),
-                        //    ScriptSQLConsulta = _dr["ScriptSQLConsulta"].ToString(),
-                        //    ScriptSQLModulo = _dr["ScriptSQLModulo"].ToString(),
-                        //    ScriptSQLTipificar = _dr["ScriptSQLTipificar"].ToString(),
-                        //    ScriptSQLValidar = _dr["ScriptSQLValidar"].ToString(),
-                        //    IdDocumentoModeloPai = int.Parse(_dr["DocumentoModeloPai"].ToString()),
-                        //    Tipificalote = int.Parse(_dr["Tipificalote"].ToString()),
-                        //    Multi_Pagina = int.Parse(_dr["Multipagina"].ToString()),
-                        //    ArquivoDados = int.Parse(_dr["ArquivoDados"].ToString()),
-                        //    Requerido = int.Parse(_dr["Requerido"].ToString()),
-                        //    Digita = int.Parse(_dr["Digita"].ToString()),
-                        //    Reconhece = int.Parse(_dr["Reconhece"].ToString()),
-                        //    FiltroConsulta = int.Parse(_dr["FiltroConsulta"].ToString()),
-                        //    ProcSqlValidacao = _dr["ProcSqlValidacao"].ToString()
-                        //});
+                        
+                        _itens.Add(d);
                     }
                 }
 
@@ -181,6 +166,38 @@ namespace MK.Easydoc.Core.Repositories
             catch (Exception ex)
             {
                 throw new Exception("Erro ao executar o script Get_DocumentoCampoModelo, detalhes: " + ex.Message);
+            }
+        }
+
+        public List<CamposNaoSelecionados> ListarCamposNaoSelecionados(int idServico)
+        {
+            try
+            {
+                List<CamposNaoSelecionados> _itens = new List<CamposNaoSelecionados>();
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+                _cmd = _db.GetStoredProcCommand(String.Format("Lista_Campos_Nao_Selecionado"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, idServico);
+
+                using (IDataReader _dr = _db.ExecuteReader(_cmd))
+                {
+                    while (_dr.Read())
+                    {
+                        var d = new CamposNaoSelecionados();
+                        d.idCampoModelo = int.Parse(_dr["idCampoModelo"].ToString());
+                        d.RotuloAbreviado = _dr["RotuloAbreviado"].ToString();
+                        d.Rotulo = _dr["Rotulo"].ToString();
+                        d.Descricao_Campo = _dr["Rotulo"].ToString();
+                        _itens.Add(d);
+                    }
+                }
+
+                return _itens;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao executar o script Lista_Campos_Nao_Selecionado, detalhes: " + ex.Message);
             }
         }
     }

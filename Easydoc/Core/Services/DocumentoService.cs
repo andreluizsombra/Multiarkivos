@@ -357,7 +357,7 @@ namespace MK.Easydoc.Core.Services
 
 
 
-        public string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo)
+        public string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo, int idServico)
         {
             try
             {
@@ -366,7 +366,7 @@ namespace MK.Easydoc.Core.Services
 
                 this._queryParams.Clear();
 
-                _cms.AddRange(ListarCamposModelo(idDocumentoModelo));
+                _cms.AddRange(ListarCamposModelo(idDocumentoModelo,idServico));
                 _cm = _cms.Where(c => c.ID == campoModelo.ID).FirstOrDefault();
 
                 if (_cm == null) return string.Empty;
@@ -665,7 +665,7 @@ namespace MK.Easydoc.Core.Services
         }
 
         //proc_campo_documento_sel
-        public List<CampoModelo> ListarCamposModelo(int idDocumentoModelo)
+        public List<CampoModelo> ListarCamposModelo(int idDocumentoModelo, int idServico)
         {
             try
             {
@@ -673,6 +673,7 @@ namespace MK.Easydoc.Core.Services
                 List<CampoModelo> _campos = new List<CampoModelo>();
                 this._queryParams.Clear();
                 this._queryParams["DocumentoModelo_ID"] = idDocumentoModelo;
+                this._queryParams["idServico"] = idServico;
                 _campos.AddRange(_repository.ListarCamposModelo(_queryParams).ToList<CampoModelo>());
                 
                 return _campos;

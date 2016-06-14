@@ -230,7 +230,20 @@ namespace MK.Easydoc.Core.Entities
         public int IdFormalizacao { get; set; }
         public int Valor { get; set; }
     }
-
+    public class CamposNaoSelecionados
+    {
+        public int idCampoModelo { get; set; }
+        public string Rotulo { get; set; }
+        public string Descricao_Campo { get; set; }
+        public string RotuloAbreviado { get; set; }
+        
+        public CamposNaoSelecionados()
+        {
+            Rotulo = "";
+            Descricao_Campo = "";
+            RotuloAbreviado = "";
+        }
+    }
     public class DocumentoCampoModelo{
         public int idDocumentoModelo { get; set; }
         public int idCampoModelo { get; set; }
@@ -245,6 +258,8 @@ namespace MK.Easydoc.Core.Entities
         public int Tipificalote { get; set; }
         public string Descricao { get; set; }
         public string Rotulo { get; set; }
+        public string RotuloAbreviado { get; set; }
+        public string Descricao_Campo { get; set; }
         public int Multi_Pagina { get; set; }
         public string ScriptSQLTipificar { get; set; }
         public string ScriptSQLValidar { get; set; }
@@ -258,7 +273,9 @@ namespace MK.Easydoc.Core.Entities
         {
             idDocumentoModelo = 0;
             Descricao = "";
+            Descricao_Campo = "";
             Rotulo = "";
+            RotuloAbreviado = "";
             ScriptSQLConsulta = "";
             ScriptSQLModulo = "";
             ScriptSQLTipificar = "";

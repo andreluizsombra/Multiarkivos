@@ -1,4 +1,5 @@
-﻿@using MK.Easydoc.Core.Repositories;
+﻿@model List<MK.Easydoc.Core.Entities.DocumentoCampoModelo>
+@using MK.Easydoc.Core.Repositories;
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Editar Documento Modelo";
@@ -22,7 +23,7 @@
         </div>
     </div>
 
-    @using (Html.BeginForm("Incluir", "DocumentoModelo", FormMethod.Post, new { @class = "" }))
+    @using (Html.BeginForm("Edit", "DocumentoModelo", FormMethod.Post, new { @class = "" }))
     {
 
         if (ViewBag.ListaCliente != null)
@@ -35,7 +36,7 @@
             <input type="hidden" id="servico" name="servico" />
 
             <input type="hidden" id="idcliente" name="idcliente" value="@ViewBag.idCliente" />
-            <input type="hidden" id="idservico" name="idservico" />
+            <input type="hidden" id="idservico" name="idservico" value="@ViewBag.idServico" />
             <input type="hidden" id="retTipificar" name="retTipificar" />
             <input type="hidden" id="retMultipagina" name="retMultipagina" />
             <input type="hidden" id="retArqDados" name="retArqDados" />
@@ -56,35 +57,35 @@
                     }
                     <div class="col-md-6">
                         <label>Nome Documento :</label>
-                        <input type="text" id="txtnomedoc" name="txtnomedoc" class="form-control" maxlength="100" value="@Model.Descricao">
+                        <input type="text" id="txtnomedoc" name="txtnomedoc" class="form-control" maxlength="100" value="@ViewBag.DocumentoCampoModelo.Descricao">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <label>Rotulo: </label>
-                        <input type="text" id="txtrotulo" name="txtrotulo" class="form-control" maxlength="100" value="@Model.Rotulo">
+                        <input type="text" id="txtrotulo" name="txtrotulo" class="form-control" maxlength="100" value="@ViewBag.DocumentoCampoModelo.Rotulo">
                     </div>
                     <div class="col-md-2">
                         <label>ScriptSQLConsulta</label>
-                        <input type="text" id="txtscriptsqlconsulta" name="txtscriptsqlconsulta" class="form-control" maxlength="50">
+                        <input type="text" id="txtscriptsqlconsulta" name="txtscriptsqlconsulta" class="form-control" maxlength="50" value="@ViewBag.DocumentoCampoModelo.ScriptSQLConsulta">
                     </div>
                     <div class="col-md-2">
                         <label>ScriptSQLModulo</label>
-                        <input type="text" id="txtscriptsqlmodulo" name="txtscriptsqlmodulo" class="form-control" maxlength="11">
+                        <input type="text" id="txtscriptsqlmodulo" name="txtscriptsqlmodulo" class="form-control" maxlength="11" value="@ViewBag.DocumentoCampoModelo.ScriptSQLModulo" />
                     </div>
                     <div class="col-md-2">
                         <label>ScriptSQLTipificar</label>
-                        <input type="text" id="txtscriptsqltipificar" name="txtscriptsqltipificar" class="form-control" maxlength="50">
+                        <input type="text" id="txtscriptsqltipificar" name="txtscriptsqltipificar" class="form-control" maxlength="50" value="@ViewBag.DocumentoCampoModelo.ScriptSQLTipificar" />
                     </div>
                     <div class="col-md-2">
                         <label>ScriptSQLValidar</label>
-                        <input type="text" id="txtscriptsqlvalidar" name="txtscriptsqlvalidar" class="form-control" maxlength="50">
+                        <input type="text" id="txtscriptsqlvalidar" name="txtscriptsqlvalidar" class="form-control" maxlength="50" value="@ViewBag.DocumentoCampoModelo.ScriptSQLValidar" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
                         <label>DocumentoModeloPai</label>
-                        <input type="text" id="txtdocmodelopai" name="txtdocmodelopai" class="form-control" maxlength="11">
+                        <input type="text" id="txtdocmodelopai" name="txtdocmodelopai" class="form-control" maxlength="11" value="@ViewBag.IdDocumentoModeloPai">
                     </div>
                     <div class="col-md-3">
                         <label>Tipificação ?</label>  <br />
@@ -119,7 +120,7 @@
             @*<p>
                     <div class="btn btn-success" id="btnSelecionados">Teste</div>
                 </p>*@
-            if (ViewBag.ListaCampos != null)
+            if (Model != null)
             {
                 <div class="container-fluid">
                     <hr />
@@ -128,18 +129,19 @@
                             <div class="table-responsive">
                                 <table id="tblCampos" class="table table-striped table-hover">
                                     <thead>
+
                                         <tr linha=titulo>
-                                            <th><i class="fa fa-list"></i>&nbsp;Campos</th>
+                                            <th><i class="fa fa-list"></i>&nbsp;Campos Selecionados</th>
                                             <th>&nbsp;</th>
                                             <th>&nbsp;</th>
-                                            <th>Enviar</th>
+                                            <th>Retornar</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tbcampos">
-                                        @foreach (var cmp in ViewBag.ListaCampos)
+                                        @foreach (var cmp in ViewBag.LstCamposNaoSelecionados)
                                         {
-                                            <tr id="cmp_@cmp.idCampoModelo" nomecampo="@cmp.Rotulo" codigo="@cmp.idCampoModelo" obrigatorio="0" digita="0" filtroconsulta="0" reconhece="0" validacao="">
-                                                <td>@cmp.Rotulo</td>
+                                            <tr id="cmp_@cmp.idCampoModelo" nomecampo="@cmp.Descricao_Campo" codigo="@cmp.idCampoModelo" obrigatorio="0" digita="0" filtroconsulta="0" reconhece="0" validacao="">
+                                                <td>@cmp.Descricao_Campo</td>
                                                 <td>@cmp.RotuloAbreviado</td>
                                                 <td>
                                                     <div style="cursor:pointer" type="button" id="cmpDetalhe_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo" onclick="ExibirDetalhes('@cmp.idCampoModelo')">
@@ -160,13 +162,28 @@
                                 <table id="tblCamposSelecionados" class="table table-striped table-hover">
                                     <thead>
                                         <tr linha=titulo>
-                                            <th><i class="fa fa-list"></i>&nbsp;Campos Selecionados</th>
+                                            <th><i class="fa fa-list"></i>&nbsp;Campos</th>
                                             <th>&nbsp;</th>
                                             <th>&nbsp;</th>
-                                            <th>Retornar</th>
+                                            <th>Enviar</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbselecionado"></tbody>
+                                    <tbody id="tbselecionado">
+                                        @foreach (var cmp in Model)
+                                        {
+                                            <tr id="cmp_@cmp.idCampoModelo" nomecampo="@cmp.Descricao_Campo" codigo="@cmp.idCampoModelo" obrigatorio="0" digita="0" filtroconsulta="0" reconhece="0" validacao="">
+                                                <td>@cmp.Descricao_Campo</td>
+                                                <td>@cmp.RotuloAbreviado</td>
+                                                <td>
+                                                    <div style="cursor:pointer" type="button" id="cmpDetalhe_@cmp.idCampoModelo" codigo="@cmp.idCampoModelo" onclick="ExibirDetalhes('@cmp.idCampoModelo')">
+                                                        <i id="i_det_@cmp.idCampoModelo" class="fa fa-keyboard-o"></i>
+                                                        &nbsp;Detalhes
+                                                    </div>
+                                                </td>
+                                                <td><a href="#" onclick="Retorna('@cmp.idCampoModelo')"><i class="fa fa-arrow-left"></i></a></td>
+                                            </tr>
+                                        }
+                                    </tbody>
                                 </table>
                                 <div id="tabela"></div>
                             </div>
@@ -239,6 +256,9 @@
 
             $('#pnlHeader').hide();
 
+            $("#SelCliente").attr('disabled','');
+            $("#SelServico").attr('disabled','');
+
             //Obrigatorio Sim/Nao
             ChkSimNao("chkObrigatorio");
             ChkSimNao("chkDigita");
@@ -251,6 +271,18 @@
                 off: 'Não',
                 onstyle: 'success'
             });
+
+            SelCheked("#chkTipificar",@ViewBag.DocumentoCampoModelo.Tipificalote);
+            SelCheked("#Multi_Pagina",@ViewBag.DocumentoCampoModelo.Multi_Pagina);
+            SelCheked("#ArquivoDados",@ViewBag.DocumentoCampoModelo.ArquivoDados);
+
+            function SelCheked(seletor, valor) {
+                console.log(valor);
+                if (valor == 1)
+                    $(seletor).bootstrapToggle('on');
+                else
+                    $(seletor).bootstrapToggle('off');
+            }
 
             function SelTipificar() {
                 var ret = $("#chkTipificar").prop('checked') == true ? 0 : 1;

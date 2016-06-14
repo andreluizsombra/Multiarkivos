@@ -229,7 +229,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
             try
             {
-                var lista = _docService.ListarCamposModelo(id_documento_modelo).Where(c=>c.FiltroConsulta).ToList<CampoModelo>();
+                var lista = _docService.ListarCamposModelo(id_documento_modelo, IdServico_Atual).Where(c=>c.FiltroConsulta).ToList<CampoModelo>();
 
                 _campos = (from campo in lista
                         select campo

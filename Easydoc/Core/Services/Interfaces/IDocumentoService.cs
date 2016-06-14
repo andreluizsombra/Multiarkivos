@@ -14,7 +14,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         void AtualizarDocumentoCampo(CampoModelo campoModelo);
         void ExcluirDocumento(int idDocumento);
         void MudaStatusDocumento(int idDocumento, int idUsuario,int idStatus);
-        string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo);
+        string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo, int idServico);
         void FinalizarDigitacao(int idDocumento, int id_Servico);
         DocumentoModelo CriarDocumento(int idUsuario, int idOrigem, int idServico);
         List<Documento> ListarDocumentosDigitar(int idUsuario, int idOrigem, int idServico);
@@ -33,7 +33,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         string GetStatusDocumento(int idDocumento);
         string GetDocumentoModelo(int idDocumento);
         string Executar(string cmd);
-        List<CampoModelo> ListarCamposModelo(int idDocumentoModelo);
+        List<CampoModelo> ListarCamposModelo(int idDocumentoModelo, int idServico);
         string PesquisarDocumentosConsulta(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
         string PesquisarDocumentosModulo(int idServico, int idDocumentoModelo, string campos, string scriptWhere);
         string PesquisarMotivo(int idDocumentoModelo, int idServico);

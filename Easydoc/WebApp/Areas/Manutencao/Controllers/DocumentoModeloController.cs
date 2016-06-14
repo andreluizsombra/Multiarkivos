@@ -58,10 +58,89 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
             ViewBag.idCliente = idcliente;
             ViewBag.idServico = idservico;
             //if (msg != "")
-              //  TempData["Error"] = msg;
-            var lst = new DocumentoModeloRepository().ListarDocumentoCampoModelo(idservico, id);
-
+            //  TempData["Error"] = msg;
+            var _docmodrep = new DocumentoModeloRepository();
+            var lst = _docmodrep.ListarDocumentoCampoModelo(idservico, id);
+            ViewBag.LstCamposNaoSelecionados = _docmodrep.ListarCamposNaoSelecionados(idservico);
+            if (lst.Count == 0)
+                ViewBag.DocumentoCampoModelo = null;
+            else
+                ViewBag.DocumentoCampoModelo = (DocumentoCampoModelo)lst[0];
             return View(lst);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(FormCollection frm)
+        {
+
+            var Retorno = new Retorno();
+            try
+            {
+                var p = new DocumentoModelo();
+
+                p.TipoAcao = 2;
+                p.Descricao = frm["txtnomedoc"].ToString();
+                p.Rotulo = frm["txtrotulo"].ToString();
+                p.idServico = int.Parse(frm["idservico"].ToString()); //int.Parse(frm["SelServico"].ToString());
+                p.Tipificalote = int.Parse(frm["retTipificar"].ToString());
+                p.Multi_Pagina = int.Parse(frm["retMultipagina"].ToString());
+                p.ScriptSQLTipificar = frm["txtscriptsqltipificar"].ToString();
+                p.ScriptSQLValidar = frm["txtscriptsqlvalidar"].ToString();
+                p.ScriptSQLConsulta = frm["txtscriptsqlconsulta"].ToString();
+                p.ScriptSQLModulo = frm["txtscriptsqlmodulo"].ToString();
+                p.DocumentoModeloPai = frm["txtdocmodelopai"].ToString() == "" ? 0 : int.Parse(frm["txtdocmodelopai"].ToString());
+                p.ArquivoDados = int.Parse(frm["retArqDados"].ToString());
+                p.idCampoModelo = frm["idCampoModelo"].ToString();
+
+
+                var docModelo = new DocumentoModeloRepository();
+                Retorno = docModelo.Incluir(p);
+                if (Retorno.CodigoRetorno < 0)
+                {
+                    throw new Exception(Retorno.Mensagem);
+                }
+                else
+                {
+                    if (frm["listaCampos"].ToString() != "")
+                    {
+                        //var campos_selecionados = p.idCampoModelo.Split(',');
+                        var items = frm["listaCampos"].ToString(); // Get the JSON string
+                        JArray o = JArray.Parse(items); // It is an array so parse into a JArray
+                        int n = 1;
+                        foreach (var itm in o)
+                        {
+                            int _IdCampo = int.Parse(itm.SelectToken("idcampo").ToString());   //o.SelectToken("[0].cod").ToString(); // Get the name value of the 1st object in the array
+                            int _Digita = int.Parse(itm.SelectToken("Digita").ToString()); //o.SelectToken("[0].valor").ToString();
+                            int _FiltroConsulta = int.Parse(itm.SelectToken("FiltroConsulta").ToString());
+
+                            int _Obrigatorio = int.Parse(itm.SelectToken("Obrigatorio").ToString());
+                            int _Reconhece = int.Parse(itm.SelectToken("Reconhece").ToString());
+                            string _Validacao = itm.SelectToken("Validacao").ToString();
+
+                            var cpm = new DocumentoCampoModelo();
+                            cpm.idDocumentoModelo = Retorno.idDocumentoModelo;
+                            cpm.idCampoModelo = _IdCampo;
+                            cpm.Digita = _Digita;
+                            cpm.FiltroConsulta = _FiltroConsulta;
+                            cpm.Requerido = _Obrigatorio;
+                            cpm.Reconhece = _Reconhece;
+                            cpm.ProcSqlValidacao = _Validacao;
+                            cpm.IdDocumentoModeloPai = p.DocumentoModeloPai;
+                            cpm.Tabulacao = n;
+                            new DocumentoModeloRepository().IncluirCampos(cpm);
+                            n++;
+                        }
+                    }
+                }
+                TempData["Msg"] = Retorno.Mensagem;
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = ex.Message;
+                return RedirectToAction("Novo", new { msg = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -147,7 +226,7 @@ namespace MK.Easydoc.WebApp.Areas.Manutencao.Controllers
                 TempData["Error"] = ex.Message;
                 return RedirectToAction("Novo", new {msg=ex.Message});
             }
-        }
+        }//
 
 
         public ActionResult ListarCampos(int idCliente, int idServico)
