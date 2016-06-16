@@ -174,6 +174,7 @@ var init = function () {
     });
 
     $("#btn_fechar_detalhe").click(function () {
+        $("#pnl_buscar").show();
         $("#pnl_parametros").show();
         $("#pnl_resultado").show();
         $("#pnl_resultado_detalhe").hide();
@@ -798,6 +799,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
     function AbreSubDocumentos(v_idDoc, v_idLote) {
         //alert('Documento: ' + v_idDoc);
+        $("#pnl_buscar").hide();
         $("#pnl_parametros").hide();
         $("#pnl_resultado").hide();
         $("#pnl_resultado_detalhe").show();
