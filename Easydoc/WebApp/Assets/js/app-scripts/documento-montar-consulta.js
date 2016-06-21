@@ -158,9 +158,23 @@ var init = function () {
         //alert(_mascara);
         //console.log(_mascara);
         //TODO: AndreSombra 11/11/2015
+        $("#txtValor-99000").maskMoney('unmasked');
+        $("#txtValor-99000").maskMoney('destroy');
+        $("#txtValor-99000").unmask();
+
         if (_mascara != '') {
-            $("#txtValor-99000").mask(_mascara);
-            $("#txtValor-99000").focus();
+
+            if (_mascara != '0,00') {
+                
+                $("#txtValor-99000").mask(_mascara);
+                $("#txtValor-99000").focus();
+            }
+            else {
+                
+                $("#txtValor-99000").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
+                $("#txtValor-99000").focus();
+            }
+
         }
         else {
             $("#txtValor-99000").unmask();
