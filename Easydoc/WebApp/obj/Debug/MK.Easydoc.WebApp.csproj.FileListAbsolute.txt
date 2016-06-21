@@ -791,3 +791,4 @@ C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.cspr
 C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.dll
 C:\Projetos\multiarkivos03062016\Easydoc\WebApp\obj\Debug\MK.Easydoc.WebApp.pdb
 C:\Projetos\multiarkivos\Easydoc\WebApp\bin\Ionic.Zip.Reduced.dll
+E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\WebApp\bin\Ionic.Zip.Reduced.dll

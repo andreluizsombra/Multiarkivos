@@ -63,7 +63,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             if (id==0)
             {
                 _documento = _docService.GetDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID);
-                EmUso = _docService.EmUso(_documento.ID, UsuarioAtual.ID, 1);
+                EmUso = _docService.EmUso(_documento.ID, UsuarioAtual.ID, 1, ServicoAtual.ID);
 
                 if (EmUso) 
                 { 
@@ -88,8 +88,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 _motivo = _docService.GetMotivoDigitar(IdServico_Atual, 2);
                 ViewData["dupliciadade"] = "";
                 if (_documento.Modelo.ID == 10)
-                {                    
-                    ViewData["dupliciadade"] = _docService.GetDuplicidade(id);
+                {
+                    ViewData["dupliciadade"] = _docService.GetDuplicidade(id, IdServico_Atual);
                 }
             }
                         
@@ -208,7 +208,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento {ID=id_documento,StatusDocumento=1020});
                 _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
-                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2, ServicoAtual.ID);
                 _docService.IncluirMotivo(IdServico_Atual,id_documento, id_motivo, 1, UsuarioAtual.ID);
 
                 RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
@@ -243,7 +243,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1010 });
                 _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
-                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2, ServicoAtual.ID);
                 //_docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID, 1);
 
                 return Json(new RetornoViewModel(true));
@@ -268,7 +268,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 DocumentoDigitacaoViewModel _campoModelo = new DocumentoDigitacaoViewModel();
                 _campoModelo = ConverteJSONCampoModelo(documento_digitado);
 
-                string idstatus = _docService.GetStatusDocumento(_campoModelo.Campos[0].IndexDoc);
+                string idstatus = _docService.GetStatusDocumento(_campoModelo.Campos[0].IndexDoc, ServicoAtual.ID);
                 string _msg = string.Empty;
                 
                 foreach (CampoModelo _campo in _campoModelo.Campos)
@@ -290,7 +290,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 if (!string.IsNullOrEmpty(_msg))
                     return Json(new RetornoViewModel(false, _msg));
 
-                bool EmUso = _docService.EmUso(_campoModelo.IdDocumento, UsuarioAtual.ID, 2);
+                bool EmUso = _docService.EmUso(_campoModelo.IdDocumento, UsuarioAtual.ID, 2, ServicoAtual.ID);
                 _docService.FinalizarDigitacao(_campoModelo.IdDocumento, ServicoAtual.ID);
  
             }
@@ -376,7 +376,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 //_docService.IncluirMotivo(id_documento, id_, ServicoAtual.ID, 1);
                 if (id_ == 8)
                 {
-                    _docService.MudaStatusDocumento(id_documento, ServicoAtual.ID,1020);                                        
+                    _docService.MudaStatusDocumento(id_documento, ServicoAtual.ID,1020, ServicoAtual.ID );                                        
                 }
                 else                
                 {

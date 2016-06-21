@@ -1,12 +1,15 @@
 ﻿jQuery(document).ready(function () { init(); });
 
 var init = function () {
+
     $('a#btnGerarLote')
         .bind('click', function (event) { event.preventDefault(); GerarLote(); });
     $('a#btnCancelarLote')
         .unbind('click');
     $('a#btnEncerrarLote')
         .unbind('click');
+    $('#btnSim')
+        .bind('click', function (event) { event.preventDefault(); BotaoSim() });
 }
 
 var bindControles = function () {
@@ -20,9 +23,24 @@ var bindControles = function () {
 
 }
 
+function HabilitarEncerrarLote() {
+    $('a#btnEncerrarLote')
+        .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
+}
+function DeshabilitarEncerrarLote() {
+    $('a#btnEncerrarLote')
+        .unbind('click');
+}
+
 function limpamsg() {
     $('#msg').hide();
     $('#msgatencao').hide();
+}
+
+var BotaoSim = function () {
+    
+    $("#modalEncerra").modal('hide');
+    EncerrarLote();
 }
 
 var EncerrarLote = function () {
@@ -40,7 +58,7 @@ var EncerrarLote = function () {
 
             if (data.success == true) {
                 
-                exibirmsg('Documento capturado com sucesso.');
+                //exibirmsg('Documento capturado com sucesso.');
 
                 $('a#btnGerarLote')
                     .bind('click', function (event) { event.preventDefault(); GerarLote(); });
@@ -74,6 +92,7 @@ var CancelarLote = function () {
 
             if (data.success == true) {
 
+                $(".progress-bar").css('width', '0%');
                 exibirmsgatencao('Lote cancelado.');
 
                 $('a#btnGerarLote')
@@ -122,7 +141,10 @@ var GerarLote = function () {
 var createUploader = function () {
     $('a#btnEncerrarLote')
                 .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
-
+    $(".progress-bar").css('width', '0%');
+    var i = 0;
+    var TotalArquivos = 0;
+    
     var uploader = new qq.FileUploader({
         element: document.getElementById('file-uploader'),//jQuery("#file_uploader")[0],
         action: '../Upload/SaveFiles', //@Url.Action("SaveFiles", new { area = "", controller = "Upload" }),
@@ -133,7 +155,7 @@ var createUploader = function () {
         // validation
         // ex. ['jpg', 'jpeg', 'png', 'gif'] or []
         allowedExtensions: ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'pdf','tif','tiff', 'json'],
-        uploadButtonText: "Selecionar arquivos",
+        uploadButtonText: "Clique para selecionar os arquivos ou arraste para essa area",
         // each file size limit in bytes
         // this option isn't supported in all browsers     
         sizeLimit: 2147483647, // max size
@@ -143,15 +165,48 @@ var createUploader = function () {
         // set to true to output server response to console
         debug: true,
         failUploadText: 'Arquivo ja existe.',
-        extraDropzones: [$(".qq-upload-extra-drop-area")[0]],
+        extraDropzones: [$("#solteaqui")[0]],
+        //extraDropzones: [$(".qq-upload-extra-drop-area")[0]],
         // events
         // you can return false to abort submit
-        onSubmit: function (id, fileName) { },
-        onProgress: function (id, fileName, loaded, total) { },
+        onSubmit: function (id, fileName) {
+            limpamsg();
+            $(".progress-bar").css('width', 0 + '%');
+            DeshabilitarEncerrarLote();
+            TotalArquivos++;
+            //var xx = document.getElementsByName('file').value;
+            //alert(xx);
+            document.querySelector('#file-uploader').onchange = function (e) {
+                var files = this.files;
+            };
+
+        },
+        onUpload: function (id, fileName, xhr) {
+            
+        },
+        onProgress: function (id, fileName, loaded, total) {
+            var percentLoaded = (loaded / total) * 100;
+            $(".progress-bar").css('width', percentLoaded + '%').text('Aguarde, enviando o arquivo '+fileName);
+        },
         onComplete: function (id, fileName, responseJSON) {
-         /*   $('a#btnEncerrarLote')
-                        .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });*/
+            //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
+            TotalArquivos--;
+            if (TotalArquivos == 0) {
+                
+               // var x = document.getElementByName("file").value;
+               // alert(x);
+
+                $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
+                //exibirmsg('Operação efetuada com sucesso.');
+                HabilitarEncerrarLote();
+
+                //Caixa modal Ecerrar Lote confirmando Sim ou Nao
+                $("#modalEncerra").modal('show');
+            }
             return;
+        },
+        success: function () {
+            
         },
         onCancel: function (id, fileName) { },
         onError: function (id, fileName, xhr) {
@@ -164,7 +219,7 @@ var createUploader = function () {
         },
         showMessage: function (message) { alert(message); }
     });
-
+    
     $('#startUpload').click(function (event) {
         event.preventDefault();
         /*
@@ -176,7 +231,6 @@ var createUploader = function () {
             .bind('click', function (event) { event.preventDefault(); EncerrarLote(); });
             */
         uploader.uploadStoredFiles();
-
     });
 
 }

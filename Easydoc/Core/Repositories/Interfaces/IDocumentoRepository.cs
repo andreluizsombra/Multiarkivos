@@ -26,7 +26,8 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         string GetDuplicidade(IDictionary<string, object> _queryParams);
         bool EmUso(IDictionary<string, object> _queryParams);
         string GetMotivo(IDictionary<string, object> _queryParams);
-        string GetStatusDocumento(IDictionary<string, object> _queryParams);
+        //string GetStatusDocumento(IDictionary<string, object> _queryParams);
+        string GetStatusDocumento(int idDocumento, int idServico);
         string GetDocumentoModelo(IDictionary<string, object> _queryParams);
         string Executar(IDictionary<string, object> _queryParams);
         //void AtualizarDocumento(Documento Documento);

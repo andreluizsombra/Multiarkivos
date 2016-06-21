@@ -135,7 +135,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     {
                         if (LoteImagens.Log.NumeroPaginas == 0 || LoteImagens.QtdeImagem == LoteImagens.Log.NumeroPaginas)
                         {
-                            _ret = _loteService.InserirItensLote(LoteImagens);
+                            _ret = _loteService.InserirItensLote(LoteImagens, ServicoAtual.ID);
                             LoteImagens.StatusLote = 1010;
                             _loteService.AtualizarLote(LoteImagens);
                         }
@@ -194,8 +194,8 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 {
                     //logica Sem json
                     if (LoteImagens.Log.NumeroPaginas == 0 || LoteImagens.QtdeImagem == LoteImagens.Log.NumeroPaginas)
-                    {                        
-                        _ret = _loteService.InserirItensLote(LoteImagens);
+                    {
+                        _ret = _loteService.InserirItensLote(LoteImagens, ServicoAtual.ID);
                         LoteImagens.StatusLote = 1010;
                         _loteService.AtualizarLote(LoteImagens);
                         _loteService.TipificarItemDescricao(UsuarioAtual.ID, ServicoAtual.ID, LoteImagens.ID, LoteImagens.ID, "");

@@ -1,91 +1,121 @@
 ﻿@{
     ViewBag.Title = "Tipificacao";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutSemHeader.cshtml"; //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Assets/plugins/iviewer-master/jquery.iviewer.min.js"></script>
+<script src="~/Assets/plugins/iviewer-master/jquery.iviewer.js"></script>
 <link href="~/Assets/plugins/iviewer-master/jquery.iviewer.css" rel="stylesheet" />
 <script src="~/Assets/js/app-scripts/tipificar.js"></script>
 <script src="~/Assets/plugins/pdfSlider/pdfSlider.js"></script>
 <link href="~/Assets/plugins/pdfSlider/pdfSlider.css" rel="stylesheet" />
 
 <style>
-    .viewer {
-        width: 100%;
-        height: 100%;
-        border: 1px solid black;
-        position: relative;
+     .container {
+        /*overflow: auto;*/
+        /*-webkit-overflow-scrolling: touch;*/
+        height: 800px;
     }
-
     .wrapper {
         overflow: hidden;
+        margin-right:15px;
+    }
+     
+     .viewer{
+        width: 100%;
+        height: 700px;
+        border: 1px solid silver;
+        position: relative;
+     }
+  /*  .iviewer_common {
+    position:absolute;
+    bottom: 10px;
+    border: 1px  solid #000;
+    height: 28px;
+    z-index: 5000;
+     margin-left:15px;
+    }
+      */
+
+     object {
+        width: 800px;
+        height: 800px;
+        /*height: 800px;*/
     }
 </style>
 
 <div class="panel-heading">
     <h4 class="panel-title">Tipificação de documentos</h4>
-
 </div>
+<input type="hidden" id="qtdlote" value="@ViewBag.QtdLote" />
 
 @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "ls-form ls-form-inline row" }))
 {
     <input type="hidden" id="hdnIdLote" value="@ViewBag.IdLote" />
     <input type="hidden" id="hdnIdLoteItem" value="@ViewBag.IdLoteItem" />
     <br />
-
-
-    <div class="container-fluid">
-        <div id="list" class="row">
-
-            <div class="table-responsive col-md-12">
-                <table class="table table-striped" cellspacing="0" cellpadding="0">
-           
-                    <tbody>
-
-                        <tr>
-                            <td style="width : 10%;font-size:16px;padding:8px">Tipo : </td>
-                            <td style="width : 50%;font-size:14px;padding:8px">
-                                <select id="cboTiposDoc" class="ls-custom-select" name="cboTiposDoc" style="width : 65%;font-size:14px;padding:8px"></select>
-                            </td>
-                            <td style="width : 20%;font-size:14px;padding:8px"></td>
-                            <td class="actions">
-                                <a id="btn_salvar" class="btn btn-success btn-xs" href="#">Salvar</a>
-                                <a id="btn_excluirlote" class="btn btn-warning btn-xs" href="edit.html">Excluir</a>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+    
+    if(ViewBag.QtdLote != 0){ 
+    <div class="col-lg-12">
+        <div class="row">
+                <div class="col-md-8">
+                    <div class="container-fluid">
+                        <div class="wrapper">
+                            <div id="viewer" class="viewer iviewer_cursor" style="overflow:hidden;"></div>
+                            <!--Para PDF, carrousel é padrão pelo componente-->
+                            <div id="carousel" class="col-lg-10">
+                                <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
+                                <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
+                            </div>
+                            <div class="" style="margin-left:10px;">
+                                <a id="in" href="#" class="ls-ico-zoomin"></a><br>
+                                <a id="out" href="#" class="ls-ico-zoomout"></a><br>
+                                <a id="fit" href="#" class="ls-ico-screen"></a><br>
+                                <a id="orig" href="#" class="ls-ico-spinner"></a><br>
+                            </div>
+                        </div>
+                    </div>
+                <!--<div class="col-md-1 ls-no-margin ls-no-padding ls-float-right">-->
 
             </div>
-        </div> <!-- /#list -->
-    </div>
-       
-        <div class="ls-box ls-board-box">
-            <div class="container-fluid">
-                <fieldset>
-                    <div class="wrapper col-md-12">
-                        <div class="ls-box-group">
-                                <div class="col-md-12">
-                                    <div id="viewer" class="viewer"></div>
-                                </div>
-
-                                <div class="col-md-1 ls-no-margin ls-no-padding ls-float-right ">
-                                    <a id="in" href="#" class="ls-ico-zoomin"></a><br>
-                                    <a id="out" href="#" class="ls-ico-zoomout"></a><br>
-                                    <a id="fit" href="#" class="ls-ico-screen"></a><br>
-                                    <a id="orig" href="#" class="ls-ico-spinner"></a><br>
-                                </div>
+            
+            <div class="col-lg-4">
+                <div class="container-fluid">
+                    <div class="panel panel-default" style="margin-left:5px; margin-right:5px;">
+                        <div class="panel-body">
+                            <div class="ls-box action">
+                                <label>Código</label>
+                                <input type="text" id="codtipodoc" name="codtipodoc" class="form-control" width="20" style="margin-bottom:10px;" />
+                                <a id="btn_salvar" class="btn btn-success ls-btn-sm" href="#"><i class="fa fa-check"></i>&nbsp;Salvar</a>
+                                <a id="btn_excluirlote" class="btn btn-danger ls-btn-sm"><i class="fa fa-trash"></i>&nbsp;Excluir</a>
+                                <a href="@Url.Content("~/Documento/Menu")" class="btn btn-warning ls-btn-sm"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
+                                <ul id="listaTipoDoc" class="list-group" style="margin-top:10px;"></ul>
                             </div>
+                        </div>
                     </div>
-                </fieldset>
+                </div>
             </div>
         </div>
-
-        <div class="ls-modal fade test" id="modal-resultado-tipificacao">
+        
+ </div>
+}
+ else
+ {
+            <div class="col-md-12">
+             <header class="">
+                <div id="msgatencao" class="alert alert-warning" role="alert">
+                        <i class='glyphicon glyphicon-ok'></i><strong>Aguarde!,&nbsp;</strong><label>Procurando documento a tipificar...</label><span></span>
+                        <button type='button' id='btnfecharprocurando' class='close' aria-label='Close'><span>&times;</span></button>
+                        <img src="~/Images/carregando.gif" class="text-center" />
+                 </div>
+            </header>
+           </div>
+ }
+    
+}
+    
+        <div class="modal fade" id="modal-resultado-tipificacao">
             <div class="ls-modal-box">
                 <div class="ls-modal-header">
-                    @*<button data-dismiss="modal">&times;</button>*@
                     <h4 class="ls-modal-title">Atenção!</h4>
                 </div>
                 <div class="ls-modal-body" id="myModalBody">
@@ -94,28 +124,45 @@
                     </p>
                 </div>
                 <div class="ls-modal-footer">
-                    <a href="@Url.Action("ListarPentendes", new { area = "Documento", controller = "Tipificacao" })" aria-label="Tipificar Documentos" class="ls-btn-primary ls-float-right" title="Efetuar Tipificação de documentos">Continuar...</a>
+                    <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao" })" aria-label="Tipificar Documentos" class="ls-btn-primary ls-float-right" title="Efetuar Tipificação de documentos">Continuar...</a>
                 </div>
             </div>
-        </div><!-- /.modal -->
-    
-    
-    
-        <!-- /.modal exclusao -->
-        <div class="ls-modal fade test" id="modal-Excluir">
-            <div class="ls-modal-box">
-                <div class="ls-modal-header">
-                    <button data-dismiss="modal">&times;</button>
-                    <h4 class="ls-modal-title">Atenção: Deseja realmente deletar o  Lote?</h4>
-                    <br />
-                </div>
-                <div class="ls-modal-body" id="myModalBody">
+        </div>
+        
+<!-- /.modal exclusao -->        
+<div class="modal fade" id="modalExcluirLote" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Atenção: Deseja realmente deletar o  Lote?</h4>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <a id="btn_deletarLoteModal" class="btn btn-danger" href="#"><i class="fa fa-trash"></i>&nbsp;Exluir</a>
+                    <button class="btn btn-warning" data-dismiss="modal"><i class="fa fa-close"></i>&nbsp;Cancelar</button><br>
+                </center>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-                    <center>
-                        <a id="btn_deletarLoteModal" class="ls-btn-primary" href="#">Deletar</a>
-                        <button class="ls-btn ls-float-none" style="" data-dismiss="modal">Cancelar</button><br>
-                    </center>
-                </div>
-            </div>
-        </div><!-- /.modal -->
+
+<script>
+    $('#pnlHeader').hide();
+    $(document).ready(function () {
+        $('#pnlHeader').hide();
+        if ($("#qtdlote").val() == 0) {
+            //$("form").hide();
+            //exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
+        } else {
+            $("form").show();
         }
+
+        // todo: è removido o style
+        //$("#viewer img").removeAttr('style');
+        $("#viewer img").css("top", "0px");
+
+    });
+    
+</script>

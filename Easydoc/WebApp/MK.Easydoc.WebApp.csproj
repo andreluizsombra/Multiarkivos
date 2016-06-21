@@ -1207,6 +1207,7 @@
     <Content Include="Assets\plugins\jqgrid\src\jquery.fmatter.js" />
     <Content Include="Assets\plugins\jqgrid\src\jquery.jqGrid.js" />
     <Content Include="Assets\plugins\jqgrid\src\JsonXml.js" />
+    <Content Include="Assets\plugins\jquerymaskMoney\jquery.maskMoney.js" />
     <Content Include="Assets\plugins\jQueryUI\jquery-ui.js" />
     <Content Include="Assets\plugins\jQueryUI\jquery-ui.min.js" />
     <Content Include="Assets\plugins\jquery\jquery-2.1.4.js" />
@@ -1878,6 +1879,7 @@
     <Content Include="sbadmin2\less\variables.less" />
     <Content Include="sbadmin2\LICENSE" />
     <Content Include="sbadmin2\README.md" />
+    <None Include="Properties\PublishProfiles\MKEasydoc.pubxml" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js_" />
     <None Include="Scripts\jquery-2.1.4.js_" />
     <None Include="Scripts\jquery-2.1.4.min.js_" />

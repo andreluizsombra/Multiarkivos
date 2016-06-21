@@ -1,11 +1,11 @@
-﻿jQuery(document).ready(function () {
+﻿$('#pnlHeader').hide();
 
-    // if (!$.ui.ie) {
-    //     $('input:text[id^="txtcampo_"]').eypress(checkForEnter);
-    //  }
-    //   else {
+jQuery(document).ready(function () {
+    
+    $('#tblMotivos').hide();
+
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
-    //  }
+
 
     var AtualizarPagina = function () {
         if ($('#IdDocumento').val() == 0) {
@@ -16,13 +16,60 @@
 
     if ($('#IdDocumento').val() == 0) {
         setInterval(AtualizarPagina, 10000);
+        
     } else {
         init();
         $.unblockUI();
         return true;
     }
     $("#orig").trigger("click");
+
+    //$('input[required=true]').each(function () {
+     //   alert(this.id);
+    //})
+    
+        
 });
+
+function BoxPosicaoInicial() {
+    //console.log('aqui');
+    $('#boxcampos').css('margin-top', '0px');
+    $('html, body').animate({ scrollTop: 0 });
+ 
+}
+
+function MoverCampos(campo) {
+    //$('input[rotulo=Placa]').focusin(function () {
+    var cmp = $("#" + campo.id);
+    var tam = cmp.attr('movecampo');
+    console.log(tam);
+    //$('html, body').animate({ scrollTop: tam }, 'slow');
+    $('#boxcampos').css('margin-top', tam + 'px');
+    if(tam>0){
+        $('html, body').animate({ scrollTop: tam }, 'slow');
+    } else {
+        $('html, body').animate({ scrollTop: 0}, 'slow');
+    }
+
+    /*cmp.focusin(function () {
+        //var tam = $('input[rotulo=Placa]').attr('movecampo');
+        var tam = cmp.attr('movecampo');
+        console.log(tam);
+        
+        $('#boxcampos').css('margin-top', tam+'px');
+        // }
+    });
+    */
+}
+
+function BoxCampoPlaca(campo) {
+    var _campo = $('#' + campo.id);
+    if (_campo.val() != '') {
+        //console.log(_campo.val());
+        $('html, body').animate({ scrollTop: 400 }, 'slow');
+        $('#boxcampos').css('margin-top', '500px');
+    }
+}
 
 function validarCampos() {
     var $_txtCampo = $('input:text[required]');
@@ -46,18 +93,24 @@ function validarCamposAprovar() {
     var $_txtCampo = $('input:text[required]');
     var $_ret = true;
     $_txtCampo.each(function (_index) {
-        if (this.value == '') {
-            if (this.name != 'sup') {
-                if (this.name != 'some-id') {
-                    $('div#modal-resultado-digitacao span#texto-resultado').text("O campo [" + this.name + "] é obrigatório.");
-                    ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });
-                    $_ret = false;
-                }
-            }
+        if (this.value == '' && this.name != 'txtValor') {
+            exibirmsgatencao("O campo [" + this.name + "] é obrigatório.");
+            $_ret = false;
         }
+        // TODO: AndreSombra 03/11/2015
+        //if (this.value == '') {
+        //    if (this.name != 'sup') {
+        //        if (this.name != 'some-id') {
+        //            $('div#modal-resultado-digitacao span#texto-resultado').text("O campo [" + this.name + "] é obrigatório.");
+        //            ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });
+        //            $_ret = false;
+                    
+        //        }
+        //    }
+        //}
     });
     if ($_ret) {
-
+        
         digitar_documento();
         //var surl = window.location.toString().replace(/#/gi, '').replace('/Documento/Digitacao/Digitar/' + $('#IdDocumento').toString, '/Home/Inicio/');
         //var surl = 'http://' + window.location.host + '/Home/Inicio';
@@ -66,32 +119,141 @@ function validarCamposAprovar() {
 }
 
 var init = function () {
+    //var _path = $("#arq").val();
+    //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    //trocar_imagem(_url);
+    //$("#viewer img").removeAttr('style');
+    
+    $('input:text[id^="txtcampo_"]').focus();
+    
+    var _path = $("#arq").val();
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    //var _url = "http://
+    //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     bindControles();
 
-    var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
-
-    console.log(_path);
-    console.log(_url);
-
-    //var _url = "http://
-    //ImageStorage/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/ImageStorage/' + _path;
-
     if (_path.search(".pdf") > 0) {
+        $("#viewer").hide();
+        $("#imgpdf").attr("data", _url);
+        $("#carousel").show();
+        $("#carousel").pdfSlider({
+            itemWidth: 800
+            //,itemHeight: 1000
+        });
+        $(".pdfSlider_hideControls").hide();
         //$("#viewerPDF").html('<a class="media" href="' + _url + '"></a>');
         //$('#viewerPDF').show();
         //CarregarImagemPdf(_url);
         //$('a.media').media({ width: 990, height: 600 });
         //$('#pnl-imagem').attr('display','none');
     } else {
-        $('#pnl-imagem').show();
-        CarregarImagem(_url);
+        $("#carousel").hide();
+        // $("#viewer").iviewer({ zoom: 36 });
+        //$("#viewer").show();
+        //$("#viewer").iviewer('loadImage', _url);
+        // TODO: 08/04/2016
+        var iv1 = $("#viewer").iviewer({
+            src: _url,
+            zoom: "fit",
+            onFinishLoad: function (ev, coords) { $("#viewer img").css("top", "0px"); }
+            //zoom: "fit",
+            //zoom_base: 50,
+            //zoom_max: 500,
+            //zoom_min: 50,
+            //zoom_delta: 1.4,
+            //update_on_resize: false,
+            //zoom_animation: false
+            //set_zoom: 100,
+            //mousewheel: true,
+            //onMouseMove: function (ev, coords) { },
+            //onStartDrag: function (ev, coords) { }, //this image will not be dragged
+            //onDrag: function (ev, coords) { },
+            //onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
+        });
+
+
+       /* $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
+        $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
+        $("#fit").click(function () { iv1.iviewer('fit'); });
+        $("#orig").click(function () { iv1.iviewer('set_zoom', 100); });
+        $("#fit").trigger("click");*/
+        
+        //CarregarImagem(_url);
+        //$("#viewer").iviewer('loadImage', _url);
+
+        //$("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
+        // $('.guillotine-canvas').css('top', '0px');
     }
 
     $('span#path-arquivo').html('<a href="' + _url + '" class="ls-ico-export" target="_blank" style="target-new: tab;target-new: tab;"></a>');
     //$('input:text[id^="txtcampo_"]').focus();
     $('[tabindex=1]').focus();
     $("#orig").trigger("click");
+
+    //$('input[rotulo=Placa]').mask('AAA-9999');
+    //$('input[rotulo=Placa]').css('placeholder', 'AAA-9999');
+
+    // TODO: AndreSombra 06/11/2015 =========================================
+    $('input').each(function () {
+        var campo = $("#" + this.id);
+        var _mascara = campo.attr('mascara'); //Retorna o valor do atributo mascara
+        //console.log(campo);
+        //console.log(this.id);
+        //console.log(campo.mascara);
+        //console.log(_mascara);
+        if ( _mascara!= '') {
+            campo.mask(_mascara);
+        } else {
+
+            //Verificar campo caso seja retornado valor 0 do atributo 'maiuscula', entao executa função Minusculo AndreSombra 07/12/2015
+            if (campo.attr('maiuscula') == 0)
+                Minusculo(campo);
+            else
+                Maiusculo(campo);
+        }
+        
+
+    });
+
+    // TODO: AndreSombra 24/11/2015 =========================================
+    $('input').each(function () {
+        var campo = $("#" + this.id);
+        campo.attr('onfocus', 'MoverCampos(this)');
+    });
+
+    $('#txtValor').keypress(function (e) {
+        if (e.which == 13) {
+            if ($('#txtValor').val() != "") {
+                $("#aguarde").html("Aguarde, registrando ocorrência.");
+                $("#btn_salvarModal").click();
+                $("#aguarde").Empty();
+            }
+        }
+    });
+
+    //$(".odd").remove();
+    
+}
+
+//Colocar texto em Maiusculo
+//Exemplo: Maiusculo("#nome");
+function Maiusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toUpperCase());
+    });
+}
+//Colocar texto em Minusculo
+function Minusculo(campo) {
+    $(campo).keyup(function () {
+        $(this).val($(this).val().toLowerCase());
+    });
+}
+
+var trocar_imagem = function (_path) {
+
+    $("#viewer").iviewer('loadImage', _path);
+    //$("#viewer").iviewer({ zoom: 36 });
+    //$("#viewer img").removeAttr('style');
 }
 
 function checkForEnter(e) {
@@ -113,66 +275,52 @@ $(function () {
 })
 
 var CarregarImagem = function (_url) {
-
+    //AndreSombra
     $("#viewer").html('<img id="doc_imagem"  class="top_aligned_image" src="' + _url + '"  >');
-    var picture = $('#doc_imagem');
-    picture.guillotine({
-        init: { w: 0, x: 0, y: 0, angle: 0 }
-    });
+    //var picture = $('#doc_imagem');
+    
+    //picture.guillotine({
+    //    init: { w: 0, x: 0, y: 0, angle: 0 }
+    //});
+    ////$('.guillotine-canvas').css('top', '0px');
+    //picture.on('load', function () {
+    //    // Initialize plugin (with custom event)
+    //    picture.guillotine({
+    //        eventOnChange: 'guillotinechange', width: 0,
+    //        height: 0
+    //        //, nit: { x: 10, y: 60, angle: 90 }
+    //    }
+    //    );
+    //    // Bind button actions
+    //    $('#rotate_right').click(function () { picture.guillotine('rotateRight'); });
+    //    $("#fit").on("click", function () { picture.guillotine('fit'); });
+    //    $('#zoom_in').click(function () { picture.guillotine('zoomIn'); });
+    //    $('#zoom_out').click(function () { picture.guillotine('zoomOut'); });
+    //    $("#fit").trigger("click");
+    //    // Display inital data
+    //    var data = picture.guillotine('getData');
+    //    for (var key in data) { $('#' + key).html(data[key]); }
+    //    // Update data on change
+    //    /*picture.on('guillotinechange', function (ev, data, action) {
 
+    //        data.scale = parseFloat(data.scale.toFixed(4));
+    //        for (var k in data) { $('#' + k).html(data[k]); }
+    //    });*/
+    //    $("#fit").trigger("click");
+    //});
 
-    picture.on('load', function () {
-        // Initialize plugin (with custom event)
-        picture.guillotine({
-            eventOnChange: 'guillotinechange', width: 0,
-            height: 0
-            //, nit: { x: 10, y: 60, angle: 90 }
-        }
-        );
-        // Bind button actions
-        $('#rotate_right').click(function () { picture.guillotine('rotateRight'); });
-        $("#fit").on("click", function () { picture.guillotine('fit'); });
-        $('#zoom_in').click(function () { picture.guillotine('zoomIn'); });
-        $('#zoom_out').click(function () { picture.guillotine('zoomOut'); });
-        $("#fit").trigger("click");
-        // Display inital data
-        var data = picture.guillotine('getData');
-        for (var key in data) { $('#' + key).html(data[key]); }
-        // Update data on change
-        /*picture.on('guillotinechange', function (ev, data, action) {
-
-            data.scale = parseFloat(data.scale.toFixed(4));
-            for (var k in data) { $('#' + k).html(data[k]); }
-        });*/
-        $("#fit").trigger("click");
-    });
+   
 }
 
 var bindControles = function () {
-    /*
-    var iv1 = $("#viewer").iviewer({
-        src: "/Images/sem_img.jpg",
-        update_on_resize: true,
-        zoom_animation: true,
-        mousewheel: true,
-        onMouseMove: function (ev, coords) { },
-        onStartDrag: function (ev, coords) { }, //this image will not be dragged
-        onDrag: function (ev, coords) { }
-    });
-    
-    $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
-    $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
-    $("#fit").click(function () { iv1.iviewer('fit'); });
-    //$("#orig").click(function () { iv1.iviewer('set_zoom', 71); });
-    $("#orig").on("click", function () {
-        $("#viewer").iviewer('set_zoom', 71);
-    });
 
-    $("#update").click(function () { iv1.iviewer('update_container_info'); });
-    */
-    $("#fit").trigger("click");
+    $('img').css('top', '0px');
+
+    var _path = $("#arq").val();
+    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+   
     $("#btn_salvar").click(function () {
-        //// alert('teste aqui');
+        // alert('teste aqui');
         ////locastyle.modal.open({ target: "#modal-duplicidade" });
         return validarCampos();
     });
@@ -221,7 +369,9 @@ var bindControles = function () {
             return false;
         }
         else {
-            var Valor = txtValida.value.indexOf(txtValor.value);
+            
+            var Valor = txtValor.value;//txtValida.value.indexOf(txtValor.value)*-1;
+            
             if (Valor >= 0) {
                 ajax_enviar_supervisao($('#IdDocumento').val(), txtValor.value);
                 //return validarCampos();
@@ -285,20 +435,18 @@ var bindControles = function () {
     $("#btn_supervisor").click(function () {
 
         ////locastyle.modal.open({ target: "#modal-supervisao" });
-        //if (document.getElementById('txtValor') != null) {
-        // txtValor.focus();
-        validarCampos();
-            $("#txtValor").focus();
-       // }
+        $('#modal-supervisao').modal();
+        txtValor.focus();
 
     });
     $("#btn_excluir").click(function () {
         ////locastyle.modal.open({ target: "#modal-supervisao" });
-        //txtValor.focus();
-        $("#txtValor").focus();
+        // TODO: AndreSombra 03/11/2015
+        $('#modal-supervisao').modal();
+        txtValor.focus();
     });
     $("#btn_voltapesquisa").click(function () {
-        history.go(-1);
+        ajax_voltar_documento_emuso($('#IdDocumento').val());
     });
 
 }
@@ -321,25 +469,26 @@ var ajax_digitar_documento = function ($_campos_json) {
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
             data: { id_documento_modelo: $_idDocumentoModelo, documento_digitado: $_campos_json },
             success: function (data, textstatus, xmlhttprequest) {
-                if (data == null) { return; }
+                if (data == null) {
+                    alert('Nenhum documento.')
+                    return;
+                }
                 if (data.success == true) {
 
                     //var status = $('input[name=txtstatus]').value;
                     var status1 = $('#txtstatus').attr('value');
                     if (status1 == 1020) {
-                        exibirmsg('aqui status 1020');
+                        //exibirmsg('aqui status 1020');
                         var surl = "http://" + window.location.host + '/Documento/Supervisao/ListarPendentes';
                         window.location = surl;
                         //window.location = window.location.toString().replace(/#/gi, '').replace('/Digitacao/Digitar/' + _idDocumento, '/Supervisao/ListarPendentes/');
                     }
                     else {
-
+                        
                         window.location = window.location.toString().replace(/#/gi, '');
 
-                        exibirmsg('aqui teste 1');
+                       // exibirmsg('aqui teste 1');
                     }
-
-
                 }
                 else {
                     exibirmsgatencao('Erro, ' + data.message);
@@ -365,6 +514,41 @@ var ajax_digitar_documento = function ($_campos_json) {
     catch (e) { Exception.show(e.toString(), methodName); }
 
 }
+
+var ajax_voltar_documento_emuso = function (_idDocumento) {
+
+    var methodName = GetMethodName(arguments.callee);
+    try {
+        $.ajax({
+            url: '../../Formalizacao/AjaxVoltarDocumentoEmUso',
+            cache: false,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) { $.blockUI(blockUISettings); },
+            data: { idDocumento: _idDocumento },
+            success: function (data, textstatus, xmlhttprequest) {
+                debugger;
+                if (data == null) {
+                    return;
+                }
+                if (data.CodigoRetorno == 1) {
+                    $.unblockUI();
+
+                    exibirmsgatencao('Erro, ' + this.Mensagem);
+                    return false;
+                } else {
+                    $.unblockUI();
+                    $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
+                    var surl = "http://" + window.location.host + '/Documento/Menu';
+                    window.location = surl;
+                }
+                //window.location = window.location.toString().replace(/#/gi, '');
+            }
+        });
+    }
+    catch (e) { Exception.show(e.toString(), methodName); }
+}
+
 
 //AjaxCallExcuirDocumento
 var ajax_exluir = function (_idDocumento, _idMotivo) {
@@ -523,7 +707,14 @@ var gerar_json_documento = function () {
         var $_idCampoModelo = $(this).attr('campo');
         $_idDocCampo = $_idDocCampo.replace('txtcampo_', '');
 
+        var _mascaraSaida = '';
+        _mascaraSaida = $(this).attr('mascaraSaida');        //alert($(this).attr('mascaraSaida')); //*************************
+        if (_mascaraSaida != '') {
+            $(this).mask(_mascaraSaida);
+        }
+
         var $_valorCampo = $(this).val();
+                                   // alert('Valor Campo= ' + $_valorCampo.text); //**************************
         $_retorno += JSON.stringify({
             ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo
         });
@@ -535,7 +726,36 @@ var gerar_json_documento = function () {
     return $_retorno;
 }
 
-var trocar_imagem = function (_path) {
-    $("#viewer").iviewer('set_zoom', 71).iviewer('loadImage', _path);
-    $("#orig").trigger("click");
+var OcorrenciaSelecionada = function (idocorr) {
+    $("#aguarde").html("Aguarde, registrando ocorrência.");
+    $("#txtValor").val(idocorr);
+    $("#btn_salvarModal").click();
+    $("#btn_salvarModalExcluir").click();
+    $("#aguarde").html("");
+};
+
+var ListaOcorrencias = function() {
+    $.ajax({
+        type: 'POST', dataType: 'json',
+        url:  '../../Digitacao/AjaxListaOcorrencias',
+        data: { idServico: $("#idservico").val() },
+        success: function (data) {
+            debugger;
+            if (data == null) {
+                $.unblockUI();
+                return;
+            }
+            if (data.success == true) {
+                $.unblockUI();
+                $(data).each(function () {
+                    $('#tblOcorrencia tbody').append("<tr><td>" + this.IdOcorrencia + "</td><td>" + this.descOcorrencia + "</td></tr>");
+                });
+                //$("#tabela").append($("#tblModulos").html());
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //alert(xhr.status);
+            //alert(thrownError);
+        }
+    });
 }

@@ -36,15 +36,19 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         public ActionResult Index()
         {
 
-            ViewBag.QtdeTip = RetorarQtdLotesPendenteTipificar();
-            ViewBag.QtdeDig = RetorarQtdDocumentosDigitar();
-            ViewBag.QtdeSup = RetorarQtdDocumentosSupervisao();
+            //|PC| - 19042016
+
+            ViewBag.QtdeTip = RetornarQtdLotesPendenteTipificar();
+            ViewBag.QtdeDig = RetornarQtdDocumentosDigitar();
+            ViewBag.QtdeSup = RetornarQtdDocumentosSupervisao();
+            ViewBag.QtdeFor = RetornarQtdDocumentosFormalizar();
+            ViewBag.QtdeVin = RetornarQtdDocumentosVincular();
 
             return View();
         }
 
 
-        private int RetorarQtdLotesPendenteTipificar()
+        private int RetornarQtdLotesPendenteTipificar()
         {
             int _qtde = 0;
 
@@ -61,7 +65,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         
         }
 
-        private int RetorarQtdDocumentosDigitar()
+        private int RetornarQtdDocumentosDigitar()
         {
             int _qtde = 0;
 
@@ -69,7 +73,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 // Verifica se o id passado esta pendente ou retona o primeiro caso o parametro venha com 0
                 //this.Initialize();
-                _qtde = (from l in this._docService.ListarDocumentosDigitar(UsuarioAtual.ID, 1, ServicoAtual.ID)
+                _qtde = (from l in this._docService.ListarDocumentosTipificar(UsuarioAtual.ID, 1, ServicoAtual.ID)
                          select l).Count();
 
                 return _qtde;
@@ -78,7 +82,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         }
 
-        private int RetorarQtdDocumentosSupervisao()
+        private int RetornarQtdDocumentosSupervisao()
         {
             int _qtde = 0;
 
@@ -87,6 +91,40 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 // Verifica se o id passado esta pendente ou retona o primeiro caso o parametro venha com 0
                 //this.Initialize();
                 _qtde = (from l in this._docService.ListarDocumentosSupervisao(UsuarioAtual.ID, 1, ServicoAtual.ID)
+                         select l).Count();
+
+                return _qtde;
+            }
+            catch { return 0; }
+
+        }
+
+        private int RetornarQtdDocumentosFormalizar()
+        {
+            int _qtde = 0;
+
+            try
+            {
+                // Verifica se o id passado esta pendente ou retona o primeiro caso o parametro venha com 0
+                //this.Initialize();
+                _qtde = (from l in this._docService.ListarDocumentosFormalizar(UsuarioAtual.ID, 1, ServicoAtual.ID)
+                         select l).Count();
+
+                return _qtde;
+            }
+            catch { return 0; }
+
+        }
+
+        private int RetornarQtdDocumentosVincular()
+        {
+            int _qtde = 0;
+
+            try
+            {
+                // Verifica se o id passado esta pendente ou retona o primeiro caso o parametro venha com 0
+                //this.Initialize();
+                _qtde = (from l in this._docService.ListarDocumentosVincular(UsuarioAtual.ID, 1, ServicoAtual.ID)
                          select l).Count();
 
                 return _qtde;

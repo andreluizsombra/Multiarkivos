@@ -78,6 +78,8 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@SequenciaCaptura", DbType.Int32, int.Parse(_queryParams["SequenciaCaptura"].ToString()));
                 _db.AddInParameter(_cmd, "@Verso", DbType.Boolean, Boolean.Parse(_queryParams["Verso"].ToString()));
                 _db.AddInParameter(_cmd, "@StatusImagem", DbType.Int32, int.Parse(_queryParams["StatusImagem"].ToString()));
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["idservico"].ToString()));
+
 
                 int _ID = _db.ExecuteNonQuery(_cmd); 
                 return _ID;

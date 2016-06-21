@@ -19,7 +19,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         List<LoteItem> ListarItensLote(int idLote, int idUsuario, int idServico, bool SemTipo, int StatusImagem);
         Lote GetLote(int idLote, int idUsuario, int idServico, int numItem);
         Lote AtualizarLote(Lote lote);
-        int InserirItensLote(Lote lote);
+        int InserirItensLote(Lote lote, int idServico);
         bool TipificarItem(int idUsuario, int idServico, int idLote, int idLoteItem, int idDocumentoModelo);
         bool TipificarItemDescricao(int idUsuario, int idServico, int idLote, int idLoteItem, string descricaoDocumentoModelo);
         

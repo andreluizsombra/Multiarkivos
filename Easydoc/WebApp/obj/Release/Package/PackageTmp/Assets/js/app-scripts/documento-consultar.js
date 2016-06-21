@@ -22,7 +22,9 @@ var bindControles = function () {
 
 
 
-    $("#btn-limpar").click(function () { $('#pnl-result').hide(); $("input:text").val('') });
+    $("#btn-limpar").click(function () {
+        $('#pnl-result').hide(); $("input:text").val('')
+    });
 
     $("#btn-pesquisar").click(function () {
         if ($("input[name='Matricula']").val() == '') {
@@ -107,7 +109,7 @@ var ajax_pesquisar_documentos = function (_idDocumentoModelo, _where) {
                             _html += '<td class="hidden-xs">' + this.Período + ' </td>';
                             _html += '<td class="hidden-xs">' + this.Lote + ' </td>';
 
-                            var _url = window.location.protocol + '//' + window.location.host + '/ImageStorage/' + this.PathArquivo;
+                            var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + this.PathArquivo;
                             _html += '<td><a href="' + _url + '" title="Arquivo do docuemnto" target="_blank" style="target-new: tab;target-new: tab;">Vizualizar</a></td>';
                             _html += '</tr>';
 

@@ -196,6 +196,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["Documento_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@Idusuario", DbType.Int32, int.Parse(_queryParams["Usuario_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@Idstatus", DbType.Int32, int.Parse(_queryParams["Status_ID"].ToString()));
+                _db.AddInParameter(_cmd, "@Idservico", DbType.Int32, int.Parse(_queryParams["Idservico"].ToString()));
                 int iret = _db.ExecuteNonQuery(_cmd);
             }
             catch (Exception ex)
@@ -256,7 +257,7 @@ namespace MK.Easydoc.Core.Repositories
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_documento_campo_alt"));
 
                 _db.AddInParameter(_cmd, "@IdDocumentoCampo", DbType.Int32, _campo.IndexUI);
-
+                
                 if (!string.IsNullOrEmpty(_campo.Valor))
                     _db.AddInParameter(_cmd, "@Valor", DbType.String, _campo.Valor);
 
@@ -785,6 +786,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@Select", DbType.String, _queryParams["CamposSQL"].ToString().Trim());
                 _db.AddInParameter(_cmd, "@Where", DbType.String, _queryParams["Script_WHERE"].ToString().Trim());
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
                 
                 string _json = string.Empty;
 
@@ -821,6 +823,7 @@ namespace MK.Easydoc.Core.Repositories
                 _db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
                 _db.AddInParameter(_cmd, "@Select", DbType.String, _queryParams["CamposSQL"].ToString().Trim());
                 _db.AddInParameter(_cmd, "@Where", DbType.String, _queryParams["Script_WHERE"].ToString().Trim());
+                _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, int.Parse(_queryParams["Servico_ID"].ToString()));
 
                 string _json = string.Empty;
 
@@ -1027,7 +1030,8 @@ namespace MK.Easydoc.Core.Repositories
             DbCommand _cmd;
             Database _db = DbConn.CreateDB();
             _cmd = _db.GetStoredProcCommand(String.Format("proc_GetDuplicidade"));
-            _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["iddocumento"].ToString()));            
+            _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["iddocumento"].ToString()));
+            _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, int.Parse(_queryParams["IdServico"].ToString()));        
             using (IDataReader _dr = _db.ExecuteReader(_cmd))
             {
                 while (_dr.Read())
@@ -1054,6 +1058,7 @@ namespace MK.Easydoc.Core.Repositories
             _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["idDocumento"].ToString()));
             _db.AddInParameter(_cmd, "@IdUsuario", DbType.Int32, int.Parse(_queryParams["idUsuario"].ToString()));
             _db.AddInParameter(_cmd, "@Tipo", DbType.Int32, int.Parse(_queryParams["Tipo"].ToString()));
+            _db.AddInParameter(_cmd, "@idServico", DbType.Int32, int.Parse(_queryParams["idServico"].ToString()));
             using (IDataReader _dr = _db.ExecuteReader(_cmd))
             {
                 while (_dr.Read())
@@ -1101,15 +1106,21 @@ namespace MK.Easydoc.Core.Repositories
             //    throw;
             //}
         }
-        public string GetStatusDocumento(IDictionary<string, object> _queryParams)
+        
+        //public string GetStatusDocumento(IDictionary<string, object> _queryParams)
+        public string GetStatusDocumento(int idDocumento, int idServico)
         {
             string _Ret = "";
             //try
+
             //{
             DbCommand _cmd;
             Database _db = DbConn.CreateDB();
             _cmd = _db.GetStoredProcCommand(String.Format("proc_GetStatusDocumento"));
-            _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["iddocumento"].ToString()));
+            _db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, idDocumento);
+            _db.AddInParameter(_cmd, "@IdServico", DbType.Int32, idServico);
+            //_db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["iddocumento"].ToString()));
+            //_db.AddInParameter(_cmd, "@IdServico", DbType.Int32, int.Parse(_queryParams["idservico"].ToString()));
             using (IDataReader _dr = _db.ExecuteReader(_cmd))
             {
                 while (_dr.Read())

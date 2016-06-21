@@ -1,0 +1,619 @@
+﻿@using MK.Easydoc.Core.Entities;
+@{
+   
+    var _usu = new Usuario();
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    ViewBag.Title = "Cadastrar Novo Usuário";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (ViewBag.Usuario != null)
+    {
+        
+        var usu = ViewBag.Usuario;
+        {
+            _usu.ID = usu.ID;
+            _usu.NomeCompleto = usu.NomeCompleto;
+            _usu.NomeUsuario = usu.NomeUsuario;
+            _usu.CPF = usu.CPF;
+            _usu.Email = usu.Email;
+            _usu.Senha = usu.Senha;
+        }
+    }
+}
+    <div id="msglogin" class="alert alert-warning" role="alert" style="display:none;"></div>
+    <input type="hidden" id="stgravado" name="stgravado" value="@ViewBag.StGravado" />
+<div class="well">
+        <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title 
+            &nbsp;<a href="/Seguranca/Usuario/Novo" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Usuário</a>
+        </h4>
+</div>
+<style>
+    .margin-top{
+        margin-top:10px;
+    }
+    hr{
+        margin-top: 15px;
+        margin-bottom: -5px;
+        border: 0;
+        border-top: 1px solid #eeeeee;
+    }
+    .well {
+    min-height: 20px;
+    padding: 15px;
+    margin-bottom: 0px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    }
+    input#btn_novo {
+        margin-top: 24px;
+        margin-left: 15px;    
+    }
+</style>
+
+<form action="/Seguranca/Usuario/Incluir" method="post">
+
+  <div id="pnlUsuario" class="panel-body">
+
+      <div class="row">
+          <div class="col-lg-3">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-check"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite aqui seu cpf" id="cpf" name="cpf" class="form-control" placeholder="CPF" value="@_usu.CPF" maxlength="14" required />
+              </div>
+          </div>
+         <div class="col-lg-3">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-user"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="nome" name="nome" class="form-control" placeholder="Nome" value="@_usu.NomeCompleto" maxlength="100" required />
+              </div>
+         </div>
+          <div class="col-lg-3">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct"><i class="fa fa-sign-in"></i></span>
+                  <input type="text" data-toggle="tooltip" title="Digite seu Login aqui" id="login" name="login" class="form-control" placeholder="Login" value="@_usu.NomeUsuario" maxlength="50" required />
+              </div>
+          </div>
+          <div class="col-lg-3">
+              <div class="input-group">
+                  @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                  <span class="input-group-addon" id="basic-vlct">@@</span>
+                  <input type="text" data-toggle="tooltip" title="Digite seu email aqui" id="email" name="email" class="form-control" placeholder="Email" value="@_usu.Email"  maxlength="100" required />
+              </div>
+          </div>
+      </div>
+
+      <div class="container-fluid margin-top">
+          <div class="panel panel-default">
+              <div class="panel-body">
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <div class="input-group">
+                              @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                              <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                              <input type="password" data-toggle="tooltip" title="Digite senha aqui" id="senha" name="senha" class="form-control" placeholder="Senha" value="@_usu.Senha" maxlength="15" required />
+                          </div>
+                      </div>
+                      <div class="col-lg-2">
+                          <div class="input-group">
+                              @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                              <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                              <input type="password" data-toggle="tooltip" title="Digite confirma senha aqui" id="confsenha" name="confsenha" class="form-control" value="@_usu.Senha" placeholder="Confirma Senha" maxlength="15" required />
+                          </div>
+                      </div>
+                      <div class="col-lg-2">
+                          <a href="#" class="btn btn-success" id="btn_incluir_usuario" disabled="true"><i class="fa fa-user"></i>&nbsp;Incluir Usuário</a>
+                      </div>
+                      <div class="col-lg-2">
+                         &nbsp;
+                          <!--<input type="checkbox" id="trocar" name="trocar" class="" value="1" placeholder="Trocar primeiro acesso." />&nbsp;Trocar primeiro acesso.-->
+                      </div>
+                  </div>
+          </div>
+      </div>
+      </div>
+  </div>
+
+@if (ViewBag.ListaCliente != null)
+{
+ 
+ <!--<div class="panel-heading"><i class="fa fa-users"></i>&nbsp;Dados</div>-->
+    <div class="well">
+        <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;Dados</h4>
+    </div>
+    
+ <div id="pnlDados" class="panel-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-3">
+                <label>Cliente</label>
+                @Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.CodCliente ?? ViewBag.CodCliente), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-3">
+                <label>Serviço</label>
+                @Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", "Selecione"), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                <label>Perfil</label>
+                @Html.DropDownList("SelPerfil", new SelectList(ViewBag.ListaPerfil, "Value", "Text", "Selecione"), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                <label>Situação</label>
+                @Html.DropDownList("SelSituacao", new SelectList(ViewBag.ListaSituacao, "Key", "Value", -1), new { @class = "form-control" })
+            </div>
+            <div class="col-lg-2">
+                <input type="submit" class="btn btn-success pull-right" id="btn_novo" name="btn_novo" value="+ Incluir Serviço" />
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+         <hr />
+         <div class="col-lg-12">
+             @if (ViewBag.Lista != null)
+             {
+                <table id="tblServicos" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th><th>Servico</th><th>Perfil</th><th>Bloqueado</th><th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    @foreach (var lst in ViewBag.Lista)
+                    {
+                        <tr id="lin_@_usu.ID@lst.ClienteID@lst.ServicoID">
+                            <td>@lst.NomeCliente</td>
+                            <td>@lst.NomeServico</td>
+                            <td>@lst.PerfilID</td>
+                            <td>@lst.Bloqueado</td>
+                            <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExclusao(@_usu.ID,@IdUsuarioAtual,@lst.ClienteID,@lst.ServicoID,@lst.NomeCliente,@lst.NomeServico)"></i></a></td>
+                        </tr>
+                    }
+                </table>
+             }
+         </div>
+     </div>
+
+     <div class="row">
+         <div class="col-lg-12">
+             <hr/>
+                <table id="tblModulos" class="table table-striped table-hover">
+                    <thead>
+                        <tr linha=titulo>
+                            <th><i class="fa fa-list"></i>&nbsp;Modulos</th>
+                        </tr>
+                    </thead>
+                </table>
+         </div>
+     </div>
+</div>
+ }
+
+</form>
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Exclusão de Usuário</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Deseja realmente excluir ?</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+        <input type="hidden" id="hdn_linha" name="hdn_linha" />
+        <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+        <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+        <input type="hidden" id="hdn_idcli" name="hdn_idcli" />
+        <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modalVerificaNovo" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Atenção !!! Novo Usuário</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h5><label id="msgusunovo"></label></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSimReativarUsuario" class="btn btn-success"><i class="fa fa-check fa-lg"></i>&nbsp;Sim</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Não</button>
+            </div>
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+<input type="hidden" id="selecionado" name="selecionado" />
+<input type="hidden" id="cliente" name="cliente" />
+<input type="hidden" id="servico" name="servico" />
+
+<input type="hidden" id="idcliente" name="idcliente" />
+<input type="hidden" id="idservico" name="idservico" />
+<input type="hidden" id="verificar" name="verificar" />
+<input type="hidden" id="st_botaonovo" name="st_botaonovo" value="0" />
+
+<script>
+    jQuery(document).ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        $("#pnlDados").hide();
+        //PaginarTable("tblServicos");
+        BotaoIncluir();//$("#btn_novo").attr('disabled', true); //Deshabilitar logo o botao incluir
+        $("#cpf").mask("999.999.999-99");
+        if ($("#stgravado").val() == 4) {
+            $("#pnlDados").show();
+            $("#cpf").attr('disabled', true)
+            $("#nome").attr('disabled', true)
+            $("#login").attr('disabled', true)
+            $("#email").attr('disabled', true)
+            $("#senha").attr('disabled', true)
+            $("#confsenha").attr('disabled', true)
+            $("#trocar").attr('disabled', true)
+            $("#btn_incluir_usuario").hide();
+        } else {
+            $("#cpf").attr('disabled', false)
+            $("#nome").attr('disabled', false)
+            $("#login").attr('disabled', false)
+            $("#email").attr('disabled', false)
+            $("#senha").attr('disabled', false)
+            $("#confsenha").attr('disabled', false)
+            $("#trocar").attr('disabled', false)
+        }
+
+        function BotaoIncluir() {
+            if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
+            $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != "")
+            {
+               // $("#btn_novo").attr('disabled', false);
+                $("#btn_incluir_usuario").attr('disabled', false);
+            } else {
+               // $("#btn_novo").attr('disabled', true);
+                $("#btn_incluir_usuario").attr('disabled', true);
+            }
+        }
+
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keypress(function () {
+            BotaoIncluir();
+        });
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keyup(function () {
+            BotaoIncluir();
+        });
+        $("#cpf, #nome, #login, #email, #senha, #confsenha, #trocar").keydown(function () {
+            BotaoIncluir();
+        });
+
+        if ($("#st_botaonovo").val() == 0) {
+            $("#btn_novo").attr('disabled', true);
+        }
+        
+        $("#btn_novo").click(function () {
+            
+            $("#cpf").unmask();
+            //Deshabilitar campo para permitir enviar os dados para o conttroler
+            $("#cpf").attr('disabled', false)
+            $("#nome").attr('disabled', false)
+            $("#login").attr('disabled', false)
+            $("#email").attr('disabled', false)
+            $("#senha").attr('disabled', false)
+            $("#confsenha").attr('disabled', false)
+            $("#trocar").attr('disabled', false)
+
+            validar('cpf', 'Preencher campo CPF...!!!');
+
+            if ($("#SelServico option:selected").text() == "Selecione") {
+                exibirmsgatencao('Porfavor selecione Serviço');
+                //alert('Porfavor selecione Servico');
+                return false;
+            }
+            if ($("#SelPerfil option:selected").text() == "Selecione") {
+                exibirmsgatencao('Porfavor selecione Perfil');
+                return false;
+            }
+            if ($("#SelSituacao option:selected").text() == "Selecione") {
+                exibirmsgatencao('Porfavor selecione Situação');
+                return false;
+            }
+
+            //Apos confirmar todos os campos preenchidos
+            $("#btn_incluir_usuario").hide();
+            $("#btn_novo").attr('disabled', false);
+        });
+
+        //BOTAO INCLUIR USUARIO
+        $("#btn_incluir_usuario").click(function () {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
+            if ($("#cpf").val() != "" && $("#nome").val() != "" && $("#login").val() != "" &&
+                $("#email").val() != "" && $("#senha").val() != "" && $("#confsenha").val() != "" && $("#trocar").val() != ""
+                && $("#senha").val() == $("#confsenha").val()) {
+            } else { return false; }
+
+            //VerificarCPF();********************************************
+            $("#cpf").unmask();
+            //debugger;
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarCPF',
+                data: { cpf: $("#cpf").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#cpf").mask("999.999.999-99");
+                        $("#cpf").focus();
+                        return false;
+                    }else if(data.CodigoRetorno == 2){
+                        $("#modalVerificaNovo").modal('show');
+                        $("#msgusunovo").html(data.Mensagem);
+                    }
+                    else {
+                        $("#cpf").mask("999.999.999-99");
+                        VerificarLOGIN();
+                    }
+                }
+            });
+            //*******************************************************
+            $("#st_botaonovo").val(1);
+            $("#btn_novo").attr('disabled', false);
+            console.log($("#st_botaonovo").val());
+        });
+
+        $("#btnSimReativarUsuario").click(function(){
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxReativarUsuario',
+                data: { cpf: $("#cpf").val() },
+                success: function (data) {
+                    if (data.CodigoRetorno == 0) {
+                        exibirmsg(data.Mensagem);
+                        $("#cpf").mask("999.999.999-99");
+                        $("#cpf").focus();
+                        $("#modalVerificaNovo").modal('hide');
+                        var url = "@Url.Content("~/Seguranca/Usuario/VoltarListaUsuarios")";
+                        window.location.href = url;
+                    }else {
+                        exibirmsgatencao(data.Mensagem);
+                        return false;
+                    }
+                }
+            });
+        });
+
+        function VerificarLOGIN() {
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxVerificarLOGIN',
+                data: { login: $("#login").val() },
+                success: function (data) {
+                    //console.log(data);
+                    if (data.CodigoRetorno == 1) {
+                        exibirmsgatencao(data.Mensagem);
+                        $("#login").focus();
+                        return false;
+                    } else {
+                        ExibirDados();
+                    }
+                }
+            });
+        }
+
+        function ExibirDados() {
+            if ($('#senha').val() != $('#confsenha').val()) {
+                exibirmsgatencao('senha diferente de contrasenha, tente novamente...');
+                return false;
+            }
+            $("#btn_novo").attr('disabled', false);
+            $("#cpf").attr('disabled', true);
+            $("#nome").attr('disabled', true);
+            $("#login").attr('disabled', true);
+            $("#email").attr('disabled', true);
+            $("#senha").attr('disabled', true);
+            $("#confsenha").attr('disabled', true);
+            $("#trocar").attr('disabled', true);
+
+            $("#pnlDados").slideDown('slow');
+            $("#btn_incluir_usuario").hide();
+        }
+
+        $("#SelCliente").change(function () {
+            $("#selecionado").val($("#SelCliente").val());
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $.ajax({
+                type:'POST', dataType:'json',
+                 url:'/Seguranca/Usuario/AjaxCallBuscarServicos', 
+                data: { idCliente: $("#selecionado").val() },
+                success: function (data) {
+                    $('#SelServico option').remove();
+                    $(data).each(function () {
+                        $('#SelServico').append('<option value='+this.ID+'>'+this.Descricao+'</option>');
+                    });
+                }
+            });
+
+            //var url = "/Cliente/ListaServico?idCliente=" + $("#selecionado").val();
+            //window.location.href = url;
+        });
+        $("#SelServico").change(function () {
+            $("#btn_novo").attr('disabled', false);
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $("#servico").val($("#SelServico option:selected").text());
+
+            AdicionarModulos();
+        });
+
+        function AdicionarModulos()
+        {
+            //Adicionar modulos conforme servico selecionado
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxListaModulos',
+                data: { idServico: $("#SelServico").val() },
+                success: function (data) {
+                    retorno = false;
+                    $('table tr[linha=modulo]').remove();
+                    $(data).each(function () {
+                        $('#tblModulos').append("<tr style='font-size:11px;' linha=modulo><td><i id='icon_" + this.ID + "' class='fa fa-square-o'></i>&nbsp;" + this.Descricao + "</td></tr>");
+                    });
+                    return retorno;
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                }
+            });
+        }
+
+        //Selecionar PERFIL
+        $("#SelPerfil").change(function () {
+            
+            //Habilitar modulos conforme PERFIL selecionado
+            $.ajax({
+                type: 'POST', dataType: 'json',
+                url: '/Seguranca/Usuario/AjaxCheckModulos',
+                data: { idServico: $("#SelServico").val(), idPerfil: $("#SelPerfil").val()},
+                success: function (data) {
+                    $("i[id^='icon_']").attr('class', 'fa fa-square-o')
+                    $(data).each(function () {
+                        $('#icon_' + this.CodRetorno).attr('class', 'fa fa-check-square-o');
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    //alert(xhr.status);
+                    //alert(thrownError);
+                }
+            });
+
+        });
+
+
+        $("#btnConf").click(function () {
+            if ($("#SelServico option:selected").text() == 'Selecione') {
+                exibirmsgatencao('Porfavor selecione um serviço...');
+                return false;
+            } else {
+                $("#idcliente").val($("#SelCliente").val());
+                $("#idservico").val($("#SelServico").val());
+            }
+        });
+
+    });
+
+    function ConfirmaExclusao(idUsu, idUsuAtual, idCliente, idServico, nomeCliente, nomeServico) {
+        if((nomeCliente == $("#nomeCliente").attr("placeholder"))&&(nomeServico == $("#nomeServico").attr("placeholder"))){
+            exibirmsgatencao("Cliente e Serviço em uso ! , Operação não pode ser executada.");
+            return false;
+        }else{
+            $("#modalExcluir").modal('show');
+            //Preencher campos ocultos
+            $("#hdn_idusu").val(idUsu);
+            $("#hdn_idusuatual").val(idUsuAtual);
+            $("#hdn_idcli").val(idCliente);
+            $("#hdn_idserv").val(idServico);
+        }
+        
+    }
+
+    $("#btnExcluir").click(function () {
+        $.ajax({
+            type: "POST", dataType: "json",
+            url: "/Seguranca/Usuario/AjaxExcluirServicoUsuario",
+            data: { idUsuario: $("#hdn_idusu").val(), idUsuarioAtual: $("#hdn_idusuatual").val(), idCliente: $("#hdn_idcli").val(), idServico: $("#hdn_idserv").val() },
+            success: function (data) {
+
+                $(data).each(function () {
+                    if (this.CodigoRetorno == 0) {
+                        //debugger;
+                        $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idcli").val() + $("#hdn_idserv").val()).attr('class', 'selected');
+                        //var table = $('#tblServicos'); //$('#tblServicos').DataTable();
+                        var table = $("#tblServicos").DataTable({
+                            language: { "sEmptyTable": "Nenhum registro encontrado",
+                                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                                "sInfoPostFix": "",
+                                "sInfoThousands": ".",
+                                "sLengthMenu": "_MENU_ resultados por página",
+                                "sLoadingRecords": "Carregando...",
+                                "sProcessing": "Processando...",
+                                "sZeroRecords": "Nenhum registro encontrado",
+                                "sSearch": "Pesquisar",
+                                "oPaginate": {
+                                    "sNext": "Próximo",
+                                    "sPrevious": "Anterior",
+                                    "sFirst": "Primeiro",
+                                    "sLast": "Último"
+                                },
+                                "oAria": {
+                                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                                }
+                            }
+                        }
+                    );
+                        table.row('.selected').remove().draw(false);
+
+                        //$("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove().draw( false );
+                        exibirmsg(this.Mensagem);
+                    }
+                    else { exibirmsgatencao(this.Mensagem); }
+                });
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                var erro = JSON.parse(xhr.responseText);
+                console.log(erro.Message);
+            }
+        });
+
+        $("#modalExcluir").modal('hide');
+    });
+
+    //$.ajax({
+    //    type: 'POST', dataType: 'json',
+    //    url: '/Seguranca/Usuario/AjaxVerificaLoginDisponivel',
+    //    data: { nomeUsuario: $("#login").val() },
+    //    success: function (data) {
+    //        retorno = false;
+    //        $(data).each(function () {
+    //            // $("#cod").val(this.CodigoRetorno);
+    //            if (this.CodigoRetorno == 1) {
+    //                $("#msglogin").html(this.Mensagem).show();
+    //                retorno = false;
+    //            } else {
+    //                retorno = true;
+    //                $("form").submit();
+    //                //$("#msglogin").html("Login disponível.").show();
+    //            }
+    //        });
+    //        return retorno;
+    //    },
+    //    error: function (xhr, ajaxOptions, thrownError) {
+    //        alert(xhr.status);
+    //        alert(thrownError);
+    //    }
+    //});
+</script>
+
+
+    

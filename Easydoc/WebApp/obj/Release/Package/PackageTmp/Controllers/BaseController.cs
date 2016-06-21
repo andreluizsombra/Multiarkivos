@@ -8,6 +8,7 @@ using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Helpers;
 using MK.Easydoc.WebApp.ViewModels;
 using MK.Easydoc.WebApp.Infrastructure.Filters;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.WebApp.Controllers
 {
@@ -20,6 +21,7 @@ namespace MK.Easydoc.WebApp.Controllers
         private readonly IServicoService _servicoService;
 
         private readonly IClienteService _clienteService;
+        public IDictionary<string, object> _prm;
 
         #endregion
 
@@ -36,15 +38,94 @@ namespace MK.Easydoc.WebApp.Controllers
         #endregion
 
         #region Public Properties
+        protected virtual int IdCliente_Atual
+        {
+            get {
+                try
+                {
+                    if (Session["IdCliente"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return int.Parse(Session["IdCliente"].ToString());
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return -1;
+                    //throw new Exception("Sessão expirou, porfavor efetuar login...");
+                }
+            }
+        }
+        protected virtual int IdServico_Atual
+        {
+            get {
+                try{
+                    if (Session["IdServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return int.Parse(Session["IdServico"].ToString()); 
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return -1;
+                    //throw new Exception("Sessão expirou, porfavor efetuar login...");
+                }
+            }
+        }
 
+        protected virtual string NomeCliente
+        {
+            get{
+                try{
+                    if (Session["NomeCliente"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return Session["NomeCliente"].ToString();
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return "-1";
+                }
+            }
+        }
+
+        protected virtual string NomeServico
+        {
+            get
+            {
+                try
+                {
+                    if (Session["NomeNomeServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return Session["NomeServico"].ToString();
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return "-1";
+                }
+            }
+        }
+        
         protected virtual Cliente ClienteAtual
         {
-            get { return UserDataCookieHelper.GetUserDataCookie().ClienteAtual; }
+            //TODO: 09/03/2016
+            get
+            {
+                var cli = new ClienteRepository().GetCliente(UsuarioAtual.ID,IdCliente_Atual);
+                return cli;
+                //return UserDataCookieHelper.GetUserDataCookie().ClienteAtual;
+            }
+                
         }
 
         protected virtual Servico ServicoAtual
         {
-            get { return UserDataCookieHelper.GetUserDataCookie().ServicoAtual; }
+            //TODO: 08/03/2016
+            get {
+                var srv = new ServicoRepository().GetServico(UsuarioAtual.ID, IdServico_Atual);
+                return srv;
+                //return UserDataCookieHelper.GetUserDataCookie().ServicoAtual; 
+            }
         }
 
         protected virtual int IdClienteAtual
@@ -99,6 +180,12 @@ namespace MK.Easydoc.WebApp.Controllers
             }
         }
 
+        protected void RegistrarLOGSimples(int idModulo, int idAcao, string Localizador)
+        {
+            var log = new LogRepository();
+            log.RegistrarLOG(IdCliente_Atual, IdServico_Atual, 0, UsuarioAtual.ID,idModulo, idAcao, 0, 0, Localizador);
+            log.RegistrarLOGDetalhe(idAcao, Localizador);
+        }
 
         #endregion
 

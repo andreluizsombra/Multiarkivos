@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\WebApp\obj\Release\Package\PackageTmp" managedRuntimeVersion="v4.0" />
+  <setAcl path="E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\WebApp\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\WebApp\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>

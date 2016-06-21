@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Lista Documentos";
+}
+<style type="text/css">
+    .btn {
+        margin-top: 25px;
+    }
+    a{
+        color:black;
+    }
+</style>
+<input type="hidden" id="selecionado" />
+<input type="hidden" id="cliente" name="cliente" />
+<input type="hidden" id="servico" name="servico" />
+<input type="hidden" id="idcliente" name="idcliente" value="@ViewBag.idCliente" />
+<input type="hidden" id="idservico" name="idservico" value="" />
+
+<div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-file-archive-o"></i>&nbsp;@ViewBag.Title</h3>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <label>Cliente : </label>@Html.DropDownList("SelCliente", new SelectList(ViewBag.ListaCliente, "Value", "Text", ViewBag.idCliente), new { @class = "form-control" })
+        </div>
+        @if (ViewBag.ListaServico != null)
+        {
+            <div class="col-md-3">
+                <label>Serviço : </label>@Html.DropDownList("SelServico", new SelectList(ViewBag.ListaServico, "Value", "Text", ViewBag.idServico), new { @class = "form-control" })
+            </div>
+        }
+        <div class="col-md-6 pull-left">
+            <a href="@Url.Content("~/Manutencao/DocumentoModelo/Novo")" class="btn btn-success btn-sm margin-top25"><i class="fa fa-plus"></i>&nbsp;Novo Documento</a>
+        </div>
+
+    </div>
+              <hr />
+    @if (Model != null) { 
+    <div class="table-responsive">
+        <table id="tblDocModelo" class="table table-striped">
+             <thead>
+                 <tr>
+                     <th>Nome</th>
+                     <td>&nbsp;</td>
+                     <td>&nbsp;</td>
+                 </tr>
+             </thead>
+            <tbody>
+                @foreach (var itm in Model) { 
+                <tr><td>@itm.Descricao</td>
+                    <td><a href="#" onclick="Editar('@itm.ID')"><i class="fa fa-edit fa-lg"></i></a></td>
+                    <td><a href="#"><i class="fa fa-trash-o fa-lg"></i></a></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
+<script>
+    $('#pnlHeader').hide();
+
+    $("#tblDocModelo").DataTable({
+        language: {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "_MENU_ resultados por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            },
+            "oAria": {
+                "sSortAscending": ": Ordenar colunas de forma ascendente",
+                "sSortDescending": ": Ordenar colunas de forma descendente"
+            }
+        }
+    });
+
+    $().ready(function () {
+
+        $("#SelCliente").change(function () {
+            $("#selecionado").val($("#SelCliente").val());
+            $("#cliente").val($("#SelCliente option:selected").text());
+            var url = "/Manutencao/DocumentoModelo/ListaServicoIndex?idCliente=" + $("#selecionado").val();
+            window.location.href = url;
+        });
+
+        $("#SelServico").change(function () {
+            $("#cliente").val($("#SelCliente option:selected").text());
+            $("#servico").val($("#SelServico option:selected").text());
+
+            var url = "/Manutencao/DocumentoModelo/Lista?idServico=" + $("#SelServico").val() + "&idCliente=" + $("#SelCliente").val();
+            window.location.href = url;
+
+        });
+
+    });
+
+    function Editar(id) {
+        var url_editar = "/Manutencao/DocumentoModelo/Edit?id=" + id + "&idcliente=" + $("#SelCliente").val() + "&idservico=" + $("#SelServico").val();
+        window.location.href = url_editar;
+    }
+</script>

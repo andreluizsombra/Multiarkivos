@@ -6,7 +6,7 @@
 .qq-upload-button {
 	display: block;
 	/*or inline-block*/
-	width: 105px;
+	width: 100%;
 	padding: 7px 0;
 	text-align: center;
 	background: #880000;
@@ -19,7 +19,19 @@
 .qq-upload-button-focus {
 	outline: 1px dotted #000000;
 }
-.qq-upload-drop-area, .qq-upload-extra-drop-area {
+.qq-upload-extra-drop-area {
+    position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	min-height: 30px;
+	z-index: 2;
+	background: #FF9797;
+	text-align: center;
+}
+.qq-upload-drop-area{ 
+    display:none; /*Andre*/
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -31,7 +43,8 @@
 	text-align: center;
 }
 .qq-upload-drop-area span {
-	display: block;
+	/*display: block;*/
+    display:none;
 	position: absolute;
 	top: 50%;
 	width: 100%;
@@ -48,8 +61,11 @@
 }
 .qq-upload-drop-area-active {
 	background: #FF7171;
+    /*Andre*/display:none;
 }
 .qq-upload-list {
+    /*Andre*/
+    display:none;
 	margin: 0;
 	padding: 0;
 	list-style: none;

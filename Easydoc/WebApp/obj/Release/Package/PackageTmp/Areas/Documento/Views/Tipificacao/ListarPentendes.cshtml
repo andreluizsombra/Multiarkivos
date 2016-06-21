@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "ListarPentendes";
+    ViewBag.Title = "Tipificar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -7,7 +7,7 @@
     <h4 class="panel-title">Tipificação de documentos - Lotes Pendentes</h4>
     
 </div>
-
+<input type="hidden" id="qtdlote" value="@ViewBag.QtdLote" />
 <div class="container-fluid">
     <div id="list" class="row">
         <div class="table-responsive col-md-12">
@@ -31,7 +31,7 @@
                             <tr>
                                 <td><a href="#">Lote @_lote.ID</a></td>
                                 <td>Lote criado em @_lote.DataCriacao.ToShortDateString() com @_lote.Itens.Count() imagens</td>
-                                <td><button type="button" value="Tipificação" title="Efetuar Tipificação de documentos" class="btn btn-primary btn-sm" onclick="location.href='@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao", idlote=_lote.ID })' ">Tipificação</button></td>
+                                <td><button type="button" value="Tipificação" title="Efetuar Tipificação de documentos" class="btn btn-primary ls-btn-sm" onclick="location.href='@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao", idlote=_lote.ID })' ">Tipificação</button></td>
                             </tr>
                          }
                     </tr>
@@ -41,3 +41,11 @@
         </div>
     </div> 
 </div>
+<script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        if($("#qtdlote").val()==0){
+            exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
+        }
+    });
+</script>

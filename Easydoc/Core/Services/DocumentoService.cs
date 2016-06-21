@@ -157,6 +157,7 @@ namespace MK.Easydoc.Core.Services
                 _queryParams["ScriptSQLModulo"] = string.Format(_scriptSQLModulo);
                 _queryParams["DocumentoModelo_ID"] = idDocumentoModelo;
                 _queryParams["Script_WHERE"] = scriptWhere;
+                _queryParams["Servico_ID"] = idServico;
 
                 return this._repository.PesquisarDocumentosModulo(this._queryParams);
             }
@@ -171,10 +172,12 @@ namespace MK.Easydoc.Core.Services
                 string _scriptSQLConsulta = _repository.ListarTipos(_queryParams).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLConsulta.Trim();        //ListarTipos(this._queryParams["Servico_ID"]).Where(d => d.ID == idDocumentoModelo).FirstOrDefault().ScriptSQLTipificar.Trim();
                 
                 this._queryParams.Clear();
+                _queryParams["Servico_ID"] = idServico;
                 _queryParams["CamposSQL"] = campos;
                 _queryParams["ScriptSQLConsulta"] = string.Format(_scriptSQLConsulta);
                 _queryParams["DocumentoModelo_ID"] = idDocumentoModelo;
                 _queryParams["Script_WHERE"] = scriptWhere;
+                
 
                 return this._repository.PesquisarDocumentosConsulta(this._queryParams);
             }
@@ -273,7 +276,7 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-        public void MudaStatusDocumento(int idDocumento,int idUsuario, int idStatus)
+        public void MudaStatusDocumento(int idDocumento,int idUsuario, int idStatus, int idservico)
         {
             try
             {
@@ -281,6 +284,7 @@ namespace MK.Easydoc.Core.Services
                 this._queryParams["Documento_ID"] = idDocumento;
                 this._queryParams["Usuario_ID"] = idUsuario;
                 this._queryParams["Status_ID"] = idStatus;
+                this._queryParams["Idservico"] = idservico;
                 this._repository.MudaStatusDocumento(this._queryParams);
             }
             catch (Exception ex) { throw ex; }
@@ -316,14 +320,15 @@ namespace MK.Easydoc.Core.Services
             catch (Exception ex) { throw ex; }
         }
 
-        public string GetStatusDocumento(int idDocumento)
+        public string GetStatusDocumento(int idDocumento, int idServico)
         {
             //try
             //{
                 string _ret;
-                this._queryParams.Clear();
-                this._queryParams["iddocumento"] = idDocumento;
-                _ret = this._repository.GetStatusDocumento(_queryParams);
+                //this._queryParams.Clear();
+               // this._queryParams["iddocumento"] = idDocumento;
+                //this._queryParams["idServico"] = idServico;
+                _ret = this._repository.GetStatusDocumento(idDocumento,idServico);
                 return _ret;;
             //}
             //catch (Exception ex) { throw ex; }
@@ -470,7 +475,7 @@ namespace MK.Easydoc.Core.Services
 
         }
         //walmir
-        public bool EmUso(int idDocumento,int idUsuario ,int Tipo)
+        public bool EmUso(int idDocumento,int idUsuario ,int Tipo, int idServico)
         {
             //try
             //{
@@ -480,6 +485,7 @@ namespace MK.Easydoc.Core.Services
             this._queryParams["idDocumento"] = idDocumento;
             this._queryParams["idUsuario"] = idUsuario;
             this._queryParams["Tipo"] = Tipo;
+            this._queryParams["idServico"] = idServico;
             _ret = _repository.EmUso(_queryParams);            
             return _ret;
             //}
@@ -513,13 +519,14 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
-        public string GetDuplicidade(int idDocumento)
+        public string GetDuplicidade(int idDocumento, int idServico)
         {
             //try
             //{
             string _ret ;
             this._queryParams.Clear();
             this._queryParams["iddocumento"] = idDocumento;
+            this._queryParams["idservico"] = idServico;
             _ret = _repository.GetDuplicidade(_queryParams);
             return _ret;
             //}

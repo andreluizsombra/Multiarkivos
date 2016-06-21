@@ -2,7 +2,7 @@
     -ms-touch-action: none;
 }
 .viewer img {
-    image-orientation: from-image;
+   /* image-orientation: from-image;*/
 }
 .iviewer_common {
     position:absolute;
@@ -10,6 +10,7 @@
     border: 1px  solid #000;
     height: 28px;
     z-index: 5000;
+    margin-left:20px;
 }
 
 .iviewer_cursor {
@@ -28,7 +29,7 @@
 }
 
 .iviewer_zoom_in {
-    left: 20px;
+    left: 30px;
     background: url(img/iviewer.zoom_in.gif) center center no-repeat;
 }
 

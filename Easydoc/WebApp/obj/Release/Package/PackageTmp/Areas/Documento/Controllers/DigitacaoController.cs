@@ -7,6 +7,7 @@ using System.Web.Script.Serialization;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Controllers;
 using MK.Easydoc.Core.Entities;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.WebApp.ViewModels;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
@@ -52,18 +53,17 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
         public ActionResult Digitar(int id)
         {
+            RegistrarLOGSimples(4, 14, UsuarioAtual.NomeUsuario);
+            // LOG: Entrou no modulo de digitacao
 
             bool UsaArquivoDados = _loteService.UsaArquivoDados(ServicoAtual.ID);
             bool EmUso;
-
-
-            
             
             MK.Easydoc.Core.Entities.Documento _documento = new Core.Entities.Documento();
             if (id==0)
             {
                 _documento = _docService.GetDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID);
-                EmUso = _docService.EmUso(_documento.ID, UsuarioAtual.ID, 1);
+                EmUso = _docService.EmUso(_documento.ID, UsuarioAtual.ID, 1, ServicoAtual.ID);
 
                 if (EmUso) 
                 { 
@@ -77,19 +77,19 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 _documento = _docService.SelecionaDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID,id);
             }
 
-            List<Motivo> _motivo;
+            List<Ocorrencia> _motivo;
             ViewData["dupliciadade"] = "";
             if (_documento.StatusDocumento == 1000)
             {
-                _motivo = _docService.GetMotivoDigitar(_documento.Modelo.ID, 1);
+                _motivo = _docService.GetMotivoDigitar(IdServico_Atual, 1);
             }
             else
             {
-                _motivo = _docService.GetMotivoDigitar(_documento.Modelo.ID, 2);
+                _motivo = _docService.GetMotivoDigitar(IdServico_Atual, 2);
                 ViewData["dupliciadade"] = "";
                 if (_documento.Modelo.ID == 10)
-                {                    
-                    ViewData["dupliciadade"] = _docService.GetDuplicidade(id);
+                {
+                    ViewData["dupliciadade"] = _docService.GetDuplicidade(id, IdServico_Atual);
                 }
             }
                         
@@ -99,7 +99,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             { 
                 DocumentoLoteViewModel _documentoView = new DocumentoLoteViewModel();
                 _documentoView.Documento = _documento;
-                _documentoView.CamposDocumentoJSON = _docService.PesquisarDocumentos(ServicoAtual.ID, _documento.Modelo.ID, "Caixa, Lote", string.Format("IdDocumento={0}", _documento.ID));
+                _documentoView.CamposDocumentoJSON = _docService.PesquisarDocumentosModulo(ServicoAtual.ID, _documento.Modelo.ID, "Caixa, Lote", string.Format("IdDocumento={0}", _documento.ID));
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 List<DocumentoDetalhe> _docs = jss.Deserialize<List<DocumentoDetalhe>>(_documentoView.CamposDocumentoJSON).ToList<DocumentoDetalhe>();
@@ -133,7 +133,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                         status = "";
                         break;
                 }
-                
 
                 string det;
                 ViewData["Det"] = "";
@@ -145,7 +144,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     }
                     else
                     {
-                        det = _docService.PesquisarMotivo(detalhe.IdDocumento);
+                        det = _docService.PesquisarMotivo(detalhe.IdDocumento,IdServico_Atual);
                         if (UsaArquivoDados)
                         {
                             ViewData["Det"] = string.Format(status + "| Caixa: {0} | Lote: {1} | Motivo: {2}", detalhe.Caixa, detalhe.Lote, det);
@@ -159,13 +158,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             }
             ViewData["Just"] = "";
             ViewData["Valida"] = "";
-            ViewData["Just"] = "<table>";
+            ViewData["Just"] = "<table id='tblMotivos'>";
             ViewData["Just"] = ViewData["Just"] + "<tr><td>Cod.<td>Descrição</td></tr> ";
-            foreach (Motivo motivo in _motivo)
+            foreach (Ocorrencia motivo in _motivo)
             {
 
-                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.atalho + "<td> " + motivo.descricao +"</td></tr>";
-                ViewData["Valida"] = ViewData["Valida"] + motivo.atalho.ToString();          
+                ViewData["Just"] = ViewData["Just"] + "<tr><td><li>" + motivo.IdOcorrencia + "<td> " + motivo.descOcorrencia +"</td></tr>";
+                ViewData["Valida"] = ViewData["Valida"] + motivo.IdOcorrencia.ToString();          
             }
             ViewData["Just"] = ViewData["Just"] + "</table>";
 
@@ -178,6 +177,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     return RedirectToAction("ListarPendentes", new { area = "Documento", controller = "Supervisao" });
                 }
             }
+
+            if (_documento.StatusDocumento == 1020){
+                ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual, 2);
+            }else {
+                ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual, 1);
+            }
+            
             return View(_documento);
         }
 
@@ -201,17 +207,19 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             try
             {
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento {ID=id_documento,StatusDocumento=1020});
-                _docService.AtualizarDocumento(_doc);
-                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
-                _docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID,1);
+                _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2, ServicoAtual.ID);
+                _docService.IncluirMotivo(IdServico_Atual,id_documento, id_motivo, 1, UsuarioAtual.ID);
 
+                RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
+                // LOG: Enviou documento a supervisão
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(new RetornoViewModel(true, "Documento enviado para a supervisão!", null));
         }
 
         [HttpPost]
-        public ActionResult ajax_Aprovar(int id_documento)
+        public JsonResult ajax_Aprovar(int id_documento)
         {
             try
             {
@@ -234,8 +242,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 
 
                 MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1010 });
-                _docService.AtualizarDocumento(_doc);
-                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2);
+                _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2, ServicoAtual.ID);
                 //_docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID, 1);
 
                 return Json(new RetornoViewModel(true));
@@ -254,10 +262,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             //var lote = default(Lote);
             try
             {
+                RegistrarLOGSimples(4, 15, UsuarioAtual.NomeUsuario);
+                // LOG: Digitou documento
+
                 DocumentoDigitacaoViewModel _campoModelo = new DocumentoDigitacaoViewModel();
                 _campoModelo = ConverteJSONCampoModelo(documento_digitado);
 
-                string idstatus = _docService.GetStatusDocumento(_campoModelo.Campos[0].IndexDoc);
+                string idstatus = _docService.GetStatusDocumento(_campoModelo.Campos[0].IndexDoc, ServicoAtual.ID);
                 string _msg = string.Empty;
                 
                 foreach (CampoModelo _campo in _campoModelo.Campos)
@@ -268,7 +279,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 
                 foreach (CampoModelo _campo in _campoModelo.Campos)
                 {
-                    _msg = _docService.ValidarCamposDocumento(id_documento_modelo, _campo);
+                    _msg = _docService.ValidarCamposDocumento(id_documento_modelo, _campo, ServicoAtual.ID);
                     if (!string.IsNullOrEmpty(_msg))
                            return Json(new RetornoViewModel(false, _msg));                    
                 }
@@ -279,8 +290,8 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 if (!string.IsNullOrEmpty(_msg))
                     return Json(new RetornoViewModel(false, _msg));
 
-                bool EmUso = _docService.EmUso(_campoModelo.IdDocumento, UsuarioAtual.ID, 2);
-                _docService.FinalizarDigitacao(_campoModelo.IdDocumento);
+                bool EmUso = _docService.EmUso(_campoModelo.IdDocumento, UsuarioAtual.ID, 2, ServicoAtual.ID);
+                _docService.FinalizarDigitacao(_campoModelo.IdDocumento, ServicoAtual.ID);
  
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
@@ -348,7 +359,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             {
                 //MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1020 });
                 _docService.ExcluirDocumento(id_documento);
-                _docService.IncluirMotivo(id_documento, id_motivo, ServicoAtual.ID,2);
+                _docService.IncluirMotivo(IdServico_Atual, id_documento, id_motivo, 2, UsuarioAtual.ID);
 
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
@@ -362,10 +373,10 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             try
             {
 
-                _docService.IncluirMotivo(id_documento, id_, ServicoAtual.ID, 1);
+                //_docService.IncluirMotivo(id_documento, id_, ServicoAtual.ID, 1);
                 if (id_ == 8)
                 {
-                    _docService.MudaStatusDocumento(id_documento, ServicoAtual.ID,1020);                                        
+                    _docService.MudaStatusDocumento(id_documento, ServicoAtual.ID,1020, ServicoAtual.ID );                                        
                 }
                 else                
                 {
@@ -375,7 +386,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                     {
                         _docService.Executar("update valida_doc10_serv02 set iddocumento="+id_documento+", DtVinculo=Getdate() where idvalida_doc10_serv02="+id_);
                     }
-                    _docService.FinalizarDigitacao(id_documento);                    
+                    _docService.FinalizarDigitacao(id_documento, ServicoAtual.ID);                    
                 }
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
@@ -401,16 +412,26 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             IList<JToken> _camposJSON = _docto["Documento"]["Campos"].Children().ToList();
             //IList<CampoModelo> _campos = new List<CampoModelo>();
 
-            foreach (JToken result in _camposJSON)
+            //TODO: Andre 03/05/2015 - So coloquei somente para verificar se Campos igual null
+            CampoModelo campo = new CampoModelo();
+            if (_documentoDigitacao.Campos == null)
             {
-                CampoModelo campo = JsonConvert.DeserializeObject<CampoModelo>(result.ToString());
-                _documentoDigitacao.Campos.Add(campo);
+                foreach (JToken result in _camposJSON)
+                {
+                    campo = JsonConvert.DeserializeObject<CampoModelo>(result.ToString());
+                    _documentoDigitacao.Campos.Add(campo);
+                }
             }
 
             return _documentoDigitacao;
         }
 
-       
+        [HttpPost]
+        public JsonResult AjaxListaOcorrencias(int idServico)
+        {
+            var _ocor = new DocumentoRepository().ListaOcorrencia(idServico,1);
+            return Json(_ocor.ToList(), JsonRequestBehavior.AllowGet);
+        }
 
 
     }

@@ -65,3 +65,4 @@ C:\Projetos\multiarkivos03062016\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.cspr
 C:\Projetos\multiarkivos03062016\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csprojResolveAssemblyReference.cache
 C:\Projetos\multiarkivos03062016\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.dll
 C:\Projetos\multiarkivos03062016\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.pdb
+E:\desenvolvimento\dot.net_2013\Desenv\Git\Multiarkivos\Easydoc\Core\obj\x86\Debug\MK.Easydoc.Core.csprojResolveAssemblyReference.cache

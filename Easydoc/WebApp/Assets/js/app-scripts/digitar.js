@@ -200,9 +200,17 @@ var init = function () {
         //console.log(campo);
         //console.log(this.id);
         //console.log(campo.mascara);
-        console.log(_mascara);
-        if ( _mascara!= '') {
-            campo.mask(_mascara);
+        //console.log(_mascara);
+
+        // 20/06/2016
+        //$("#demo3").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
+        if (_mascara != '') {
+
+            if (_mascara != '0,00') //TODO: maskMoney 26/06/2016
+                campo.mask(_mascara);
+            else
+                campo.maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
+
         } else {
 
             //Verificar campo caso seja retornado valor 0 do atributo 'maiuscula', entao executa função Minusculo AndreSombra 07/12/2015

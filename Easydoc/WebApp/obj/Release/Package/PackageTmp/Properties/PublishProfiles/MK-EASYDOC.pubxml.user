@@ -22,7 +22,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2015 12:04:57</publishTime>
     </File>
     <File Include="Areas/Documento/Controllers/DigitacaoController.cs">
-      <publishTime>07/19/2015 12:04:57</publishTime>
+      <publishTime>10/16/2015 18:36:07</publishTime>
     </File>
     <File Include="Areas/Documento/Controllers/DocumentoController.cs">
       <publishTime>07/19/2015 12:04:57</publishTime>
@@ -37,25 +37,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2015 12:04:57</publishTime>
     </File>
     <File Include="Areas/Documento/Controllers/TipificacaoController.cs">
-      <publishTime>10/05/2015 22:29:17</publishTime>
+      <publishTime>10/22/2015 17:22:26</publishTime>
     </File>
     <File Include="Areas/Documento/DocumentoAreaRegistration.cs">
       <publishTime>07/19/2015 12:04:58</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Consulta/Consultar.cshtml">
-      <publishTime>10/07/2015 15:53:12</publishTime>
+      <publishTime>10/22/2015 19:06:05</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Consulta/MontarConsulta.cshtml">
-      <publishTime>07/19/2015 12:04:58</publishTime>
+      <publishTime>10/22/2015 19:58:05</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Digitacao/Digitar.cshtml">
-      <publishTime>10/15/2015 10:13:09</publishTime>
+      <publishTime>10/22/2015 00:37:10</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Digitacao/LotesPendente.cshtml">
       <publishTime>06/17/2015 15:00:50</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Menu/Index.cshtml">
-      <publishTime>09/16/2015 14:47:22</publishTime>
+      <publishTime>10/22/2015 12:49:50</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Processar/Supervisao.cshtml">
       <publishTime>06/17/2015 15:00:50</publishTime>
@@ -67,7 +67,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/09/2015 18:00:35</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Tipificacao/Tipificar.cshtml">
-      <publishTime>10/13/2015 14:15:29</publishTime>
+      <publishTime>10/22/2015 17:22:49</publishTime>
     </File>
     <File Include="Areas/Documento/Views/Web.config">
       <publishTime>06/17/2015 15:00:50</publishTime>
@@ -91,10 +91,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2015 12:04:59</publishTime>
     </File>
     <File Include="Areas/GED/Controllers/UploadController.cs">
-      <publishTime>10/13/2015 10:33:32</publishTime>
+      <publishTime>10/22/2015 15:00:59</publishTime>
     </File>
     <File Include="Areas/GED/GEDAreaRegistration.cs">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>07/19/2015 12:05:00</publishTime>
     </File>
     <File Include="Areas/GED/Views/Imagem/Captura.cshtml">
       <publishTime>06/17/2015 15:00:50</publishTime>
@@ -106,10 +106,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2015 15:00:50</publishTime>
     </File>
     <File Include="Areas/GED/Views/Imagem/Upload.cshtml">
-      <publishTime>10/13/2015 11:21:48</publishTime>
+      <publishTime>10/21/2015 19:02:53</publishTime>
     </File>
     <File Include="Areas/GED/Views/Menu/Index.cshtml">
-      <publishTime>09/06/2015 23:12:45</publishTime>
+      <publishTime>10/21/2015 18:54:51</publishTime>
     </File>
     <File Include="Areas/GED/Views/Web.config">
       <publishTime>06/17/2015 15:00:50</publishTime>
@@ -118,7 +118,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/11/2015 13:03:30</publishTime>
     </File>
     <File Include="Areas/Manutencao/ManutencaoAreaRegistration.cs">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>07/19/2015 12:05:00</publishTime>
     </File>
     <File Include="Areas/Manutencao/Views/Cadastro/CadCliente.cshtml">
       <publishTime>09/11/2015 12:07:19</publishTime>
@@ -142,7 +142,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/16/2015 14:41:30</publishTime>
     </File>
     <File Include="Areas/Seguranca/SegurancaAreaRegistration.cs">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>07/19/2015 12:05:00</publishTime>
     </File>
     <File Include="Areas/Seguranca/Views/Menu/Index.cshtml">
       <publishTime>09/24/2015 15:23:19</publishTime>
@@ -160,46 +160,46 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2015 15:00:50</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-docs.eot">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-docs.json">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-docs.svg">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-docs.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-docs.woff">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-panel-icons.eot">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-panel-icons.json">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-panel-icons.svg">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-panel-icons.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle-panel-icons.woff">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle.eot">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle.svg">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle.ttf">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/fonts/locastyle.woff">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Assets/css/app-style/menu.css">
       <publishTime>08/17/2015 21:15:28</publishTime>
@@ -379,7 +379,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/14/2015 15:15:51</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/btn-clientes-315x315.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>09/14/2015 14:48:00</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/btn-consulta-180x180.png">
       <publishTime>09/16/2015 14:25:41</publishTime>
@@ -412,7 +412,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/14/2015 15:18:08</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/btn-segurança-315x315.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>09/14/2015 14:48:00</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/btn-supervisao-180x180.png">
       <publishTime>09/16/2015 14:24:51</publishTime>
@@ -445,7 +445,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/14/2015 15:18:56</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/btn-usuarios-315x315.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>09/14/2015 14:48:00</publishTime>
     </File>
     <File Include="Assets/image/icon/core-icon/corporativo-180x180.png">
       <publishTime>09/06/2015 21:40:24</publishTime>
@@ -562,13 +562,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/08/2015 14:18:12</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/digitar.js">
-      <publishTime>09/08/2015 15:30:05</publishTime>
+      <publishTime>10/22/2015 18:40:07</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/documento-consultar.js">
       <publishTime>09/08/2015 15:29:52</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/documento-montar-consulta.js">
-      <publishTime>09/08/2015 15:40:48</publishTime>
+      <publishTime>10/22/2015 19:44:47</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/documento-supervisao-listar.js">
       <publishTime>07/20/2015 23:48:11</publishTime>
@@ -580,7 +580,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/27/2015 22:44:32</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/tipificar.js">
-      <publishTime>10/13/2015 14:14:16</publishTime>
+      <publishTime>10/22/2015 17:23:28</publishTime>
     </File>
     <File Include="Assets/js/app-scripts/upload.js">
       <publishTime>10/13/2015 13:18:12</publishTime>
@@ -3823,13 +3823,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/03/2015 00:44:34</publishTime>
     </File>
     <File Include="bin/MK.Easydoc.Core.dll">
-      <publishTime>10/15/2015 17:51:11</publishTime>
+      <publishTime>10/22/2015 22:49:27</publishTime>
     </File>
     <File Include="bin/MK.Easydoc.WebApp.dll">
-      <publishTime>10/15/2015 22:43:56</publishTime>
+      <publishTime>10/22/2015 23:03:12</publishTime>
     </File>
     <File Include="bin/MK.Easydoc.WebApp.dll.config">
-      <publishTime>10/06/2015 16:51:51</publishTime>
+      <publishTime>10/18/2015 14:25:10</publishTime>
     </File>
     <File Include="bin/Mono.Math.dll">
       <publishTime>09/02/2015 23:39:07</publishTime>
@@ -3859,7 +3859,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/03/2015 00:30:38</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Formatting.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="bin/System.Net.Http.Primitives.dll">
       <publishTime>09/03/2015 00:30:38</publishTime>
@@ -3886,10 +3886,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/03/2015 00:02:08</publishTime>
     </File>
     <File Include="bin/System.Web.Http.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="bin/System.Web.Http.WebHost.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="bin/System.Web.Mvc.dll">
       <publishTime>09/02/2015 18:51:41</publishTime>
@@ -4042,10 +4042,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/05/2015 00:35:14</publishTime>
     </File>
     <File Include="Controllers/BaseController.cs">
-      <publishTime>10/14/2015 16:16:52</publishTime>
+      <publishTime>10/22/2015 15:12:23</publishTime>
     </File>
     <File Include="Controllers/ClienteController.cs">
-      <publishTime>10/15/2015 20:33:05</publishTime>
+      <publishTime>10/20/2015 19:49:30</publishTime>
     </File>
     <File Include="Controllers/HomeController.cs">
       <publishTime>10/14/2015 18:00:55</publishTime>
@@ -4072,16 +4072,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/20/2015 09:13:40</publishTime>
     </File>
     <File Include="Images/accent.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/bullet.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/carregando.gif">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/Content/blueimp-jQuery-File-Upload-7.2.1-jquery.ui-0-gbe6b8bd.zip">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/Content/blueimp-jQuery-File-Upload-9.7.2-0-gc1392e0.zip">
       <publishTime>06/17/2015 15:01:02</publishTime>
@@ -4429,40 +4429,40 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/27/2015 22:44:34</publishTime>
     </File>
     <File Include="Images/heroAccent.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList0.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList1.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList2.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList3.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList4.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList5.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList6.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList7.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList8.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/orderedList9.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="Images/sem_img.jpg">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>06/17/2015 15:01:00</publishTime>
     </File>
     <File Include="ImageStorage/PAULO_CESAR_ROCHA_JUNIOR/Documento_Pessoal/2015/10/15/U11C15S15_2015101512161.jpg">
       <publishTime>10/15/2015 08:12:39</publishTime>
@@ -5527,10 +5527,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2015 12:05:05</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/MK-EASYDOC.pubxml">
-      <publishTime>10/15/2015 10:14:03</publishTime>
+      <publishTime>10/22/2015 23:03:04</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/MK-EASYDOC.pubxml.user">
-      <publishTime>10/15/2015 17:12:45</publishTime>
+      <publishTime>10/22/2015 23:03:20</publishTime>
     </File>
     <File Include="Properties/PublishProfiles/tec.pubxml">
       <publishTime>07/20/2015 23:12:12</publishTime>
@@ -5629,7 +5629,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>07/19/2015 12:05:06</publishTime>
     </File>
     <File Include="ViewModels/TipificarViewModel.cs">
-      <publishTime>10/07/2015 22:15:27</publishTime>
+      <publishTime>10/22/2015 17:00:34</publishTime>
     </File>
     <File Include="ViewModels/UsuarioLogadoViewModel.cs">
       <publishTime>07/19/2015 12:05:06</publishTime>
@@ -5638,7 +5638,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2015 15:01:46</publishTime>
     </File>
     <File Include="Views/Cliente/Lista.cshtml">
-      <publishTime>10/15/2015 20:31:26</publishTime>
+      <publishTime>10/22/2015 12:17:06</publishTime>
     </File>
     <File Include="Views/Home/About.cshtml">
       <publishTime>06/17/2015 15:01:46</publishTime>
@@ -5650,7 +5650,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/04/2015 22:40:17</publishTime>
     </File>
     <File Include="Views/Home/Inicio.cshtml">
-      <publishTime>09/14/2015 15:26:04</publishTime>
+      <publishTime>10/21/2015 19:30:09</publishTime>
     </File>
     <File Include="Views/Login/Index.cshtml">
       <publishTime>10/07/2015 19:44:42</publishTime>
@@ -5662,7 +5662,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/14/2015 15:49:03</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>10/15/2015 22:43:19</publishTime>
+      <publishTime>10/21/2015 19:40:43</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutOLD.cshtml">
       <publishTime>09/30/2015 19:07:16</publishTime>
@@ -5680,7 +5680,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/17/2015 15:01:46</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/13/2015 18:36:25</publishTime>
+      <publishTime>10/22/2015 23:03:17</publishTime>
     </File>
     <File Include="Web.Debug.config">
       <publishTime>06/17/2015 15:00:50</publishTime>

@@ -13,7 +13,7 @@ namespace MK.Easydoc.Core.Services.Interfaces
         void AlteraDuplicidade(int IdDocumento, int ID);
         void AtualizarDocumentoCampo(CampoModelo campoModelo);
         void ExcluirDocumento(int idDocumento);
-        void MudaStatusDocumento(int idDocumento, int idUsuario,int idStatus);
+        void MudaStatusDocumento(int idDocumento, int idUsuario,int idStatus, int idServico);
         string ValidarCamposDocumento(int idDocumentoModelo, CampoModelo campoModelo, int idServico);
         void FinalizarDigitacao(int idDocumento, int id_Servico);
         DocumentoModelo CriarDocumento(int idUsuario, int idOrigem, int idServico);
@@ -27,10 +27,10 @@ namespace MK.Easydoc.Core.Services.Interfaces
         Documento GetDocumentoDigitar(int idUsuatio, int idServico);
         Documento SelecionaDocumentoDigitar(int idUsuatio, int idServico, int idDocumento);
         //List<Motivo> GetMotivoDigitar(int idServico, int Tipo);
-        bool EmUso(int idDocumento, int idUsuario, int Tipo);
-        string GetDuplicidade(int idDocumento);
+        bool EmUso(int idDocumento, int idUsuario, int Tipo, int idServico);
+        string GetDuplicidade(int idDocumento, int idservico);
         string GetMotivo(int idDocumento);
-        string GetStatusDocumento(int idDocumento);
+        string GetStatusDocumento(int idDocumento, int idServico);
         string GetDocumentoModelo(int idDocumento);
         string Executar(string cmd);
         List<CampoModelo> ListarCamposModelo(int idDocumentoModelo, int idServico);

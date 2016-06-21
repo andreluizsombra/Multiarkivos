@@ -96,6 +96,8 @@ namespace MK.Easydoc.WebApp.Controllers
             Session["NomeCliente"] = selcli;
             Session["NomeServico"] = selsrv;
 
+            Session["IdServico"] = _idservico;
+
             AjaxCallTrocarClienteAtual(_idcliente);
             AjaxCallTrocarServicoAtual(_idservico);
             

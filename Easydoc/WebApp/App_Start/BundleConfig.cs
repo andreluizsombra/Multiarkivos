@@ -22,6 +22,7 @@ namespace MK.Easydoc.WebApp
                         "~/Assets/plugins/jquery/jquery.unobtrusive*",
                         //"~/Assets/plugins/jquery/jquery.validate.js",
                         "~/Assets/plugins/jquery/jquery.mask.js",
+                        "~/Assets/plugins/jquerymaskMoney/jquery.maskMoney.js",     //http://plentz.github.io/jquery-maskmoney/  //TODO: jquery.maskMoney 20/06/2016
                         //"~/Assets/plugins/jquery/jquery.validate.unobtrusive.js",
                         "~/Assets/plugins/jquery/jquery.blockui.js",
                         "~/Assets/plugins/bootstrap-toggle-master/js/bootstrap-toggle.js"));

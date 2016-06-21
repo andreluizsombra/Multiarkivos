@@ -49,7 +49,7 @@ namespace MK.Easydoc.Core.Services
             }
             catch (Exception ex) { throw ex; }
         }
-        public int InserirItensLote(Lote lote) {
+        public int InserirItensLote(Lote lote, int idServico) {
 
             try
             {
@@ -68,6 +68,7 @@ namespace MK.Easydoc.Core.Services
                     _queryParams["SequenciaCaptura"] = item.SequenciaCaptura;
                     _queryParams["Verso"] = item.Verso;
                     _queryParams["StatusImagem"] = item.StatusImagem;
+                    _queryParams["idservico"] = idServico;
 
                     _id = _repository.InserirItemLote(_queryParams);
                     if (_id != 0) _qtdItens++;

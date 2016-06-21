@@ -3,8 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<div class="panel panel-footer">
+<div class="panel-heading">
     <h4 class="panel-title">Manutenção</h4>
 </div>
 
@@ -15,14 +14,14 @@
 
 
         <!-- 1 - Cadastro Cliente  -->
-        <div class="col-md-3">
+        <div class="col-md-3" id="modulo_15">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Cadastro de Clientes</h4>
                 </div>
                 <div class="">
                     <div class="img-botao-principal">
-                        <a href="#" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de clientes">
+                        <a href="@Url.Content("~/Manutencao/Cliente")" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de clientes">
                             <img src="~/Assets/image/icon/core-icon/btn-clientes-180x180.png" alt="Cadastro de clientes" class="img-responsive center-block" />
                         </a>
                     </div>
@@ -32,21 +31,76 @@
 
 
         <!-- 2 - Cadastro de serviços -->
-        <div class="col-md-3">
+        <div class="col-md-3 id="modulo_16">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h4 class="panel-title">Cadastro de Serviços</h4>
                 </div>
                 <div class="">
                     <div class="img-botao-principal">
-                        <a href="#" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de serviços">
-                            <img src="" alt="Cadastro de serviços" class="img-responsive center-block" />
+                        <a href="@Url.Content("~/Manutencao/Servico")" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de serviços">
+                            <img src="~/Assets/image/icon/core-icon/btn-servico-180x180.png" alt="Cadastro de serviços" class="img-responsive center-block" />
                         </a>
                     </div>
                 </div>
             </div>
         </div>       
+
+        <!-- 3 - Cadastro de Perfil -->
+        <div class="col-md-3" id="modulo_17">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Cadastro de Perfil</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Content("~/Manutencao/Perfil")" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de Perfil">
+                            <img src="~/Assets/image/icon/core-icon/btn-perfil-180x180.png" alt="Cadastro de Perfil" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        
+        <!-- 3 - Cadastro de Ocorrencias -->
+        <div class="col-md-3" id="modulo_18">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Cadastro de Ocorrências</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Content("~/Manutencao/Ocorrencia")" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de Ocorrência">
+                            <img src="~/Assets/image/icon/core-icon/btn-ocorrencia-180x180.png" alt="Cadastro de Ocorrência" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+        
+        <!-- #region Cadastro de Documentos -->
+        <div class="col-md-3" id="modulo_18">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Cadastro de Documentos</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Content("~/Manutencao/DocumentoModelo")" class="ls-btn ls-btn-sm" title="Efetuar Cadastro de Documento">
+                            <img src="~/Assets/image/icon/core-icon/btn-ocorrencia-180x180.png" alt="Cadastro de Documentos" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #endregion -->     
+
     </div>
 </div>
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(6);
+    });
+</script>
 
 

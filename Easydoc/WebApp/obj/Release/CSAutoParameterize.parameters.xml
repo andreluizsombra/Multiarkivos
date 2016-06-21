@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="74DAF4DE75E2C425ED6F4D6898CC5F6BDCA73F8378494E865002F259E65D666184BC89ECA9F94EDB2F3EA83E12CCD07E78DFE67636E93B591CEB0BA4888596D412CD7C7E8393B15CFB844614220EC4F114B798AEA2562FCD8F480FE418B8DD98CE3216FF99AAAA202373260BB44CE821CCFF0DCD2218D1AB96D314E83153B2B18241124A6B8262916472C68D81F07E6BC3580AFB011FE9D4DD8E45E4F55844F4" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\desenvolvimento\\dot\.net_2013\\Desenv\\Git\\Multiarkivos\\Easydoc\\WebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="MK.Easydoc.WebApp.Models.UsersContext-Web.config Connection String" description="MK.Easydoc.WebApp.Models.UsersContext Connection String used in web.config by the application to access the database." defaultValue="MK.Easydoc.WebApp.Models.UsersContext_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="E:\\desenvolvimento\\dot\.net_2013\\Desenv\\Git\\Multiarkivos\\Easydoc\\WebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MK.Easydoc.WebApp.Models.UsersContext']/@connectionString" />
+  </parameter>
+</parameters>
