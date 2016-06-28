@@ -78,7 +78,7 @@ var EncerrarLote = function () {
     }).abort();
     
 }
-var CancelarLote = function () {
+var CancelarLote = function (msg) {
     $('#msg').hide();
     $('div#painel-upload').css('display', 'none');
     $.ajax({
@@ -93,7 +93,7 @@ var CancelarLote = function () {
             if (data.success == true) {
 
                 $(".progress-bar").css('width', '0%');
-                exibirmsgatencao('Lote cancelado.');
+                exibirmsgatencao(msg+' Lote cancelado.');
 
                 $('a#btnGerarLote')
                     .bind('click', function (event) { event.preventDefault(); GerarLote(); });
@@ -190,18 +190,24 @@ var createUploader = function () {
         },
         onComplete: function (id, fileName, responseJSON) {
             //$(".progress-bar").css('width', '100%').empty(); //.text(fileName+' concluido');
-            TotalArquivos--;
-            if (TotalArquivos == 0) {
-                
-               // var x = document.getElementByName("file").value;
-               // alert(x);
+            //debugger;
+            if (responseJSON.success) {
+                TotalArquivos--;
+                if (TotalArquivos == 0) {
 
-                $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
-                //exibirmsg('Operação efetuada com sucesso.');
-                HabilitarEncerrarLote();
+                    // var x = document.getElementByName("file").value;
+                    // alert(x);
 
-                //Caixa modal Ecerrar Lote confirmando Sim ou Nao
-                $("#modalEncerra").modal('show');
+                    $(".progress-bar").css('width', 100 + '%').text('100% Concluído');
+                    //exibirmsg('Operação efetuada com sucesso.');
+                    HabilitarEncerrarLote();
+
+                    //Caixa modal Ecerrar Lote confirmando Sim ou Nao
+                    $("#modalEncerra").modal('show');
+                }
+            } else {
+                //exibirmsgatencao('');
+                CancelarLote('Ocorreu um erro ao tentar enviar upload.');
             }
             return;
         },
@@ -212,6 +218,7 @@ var createUploader = function () {
         onError: function (id, fileName, xhr) {
             $('a#btnEncerrarLote')
                 .unbind('click');
+
         },
 
         messages: {

@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "ListarPendentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Assets/js/app-scripts/documento-supervisao-listar.js"></script>
+
+<div class="well well-sm">
+    <h4 class="">
+        <i class="fa fa-tag fa-1x"></i>&nbsp;Supervisão de documentos
+        <!--&nbsp;<a href="/Seguranca/Usuario/Novo" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg"></i>&nbsp;Novo Usuário</a>-->
+    </h4>
+</div>
+
+            <!--<div class="box-header">
+                <h3 class="box-title">Supervisão de documentos</h3>
+            </div>-->
+            <hr />
+            <div class="row">
+            <div class="col-lg-12">
+                <table id="tblSupervisao" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width:150px;">Documento</th>
+                            <th class="hidden-xs">Detalhes do documento</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (MK.Easydoc.WebApp.ViewModels.DocumentoLoteViewModel item in ViewBag.DocumentosPendentes)
+                        {
+                            <tr>
+                                <td style="width:150px;">@item.Documento.ID</td>
+                                <td class="hidden-xs">@item.CamposDocumentoDetalhe</td>
+                                <td>
+                                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = @item.Documento.ID })" aria-label="Digitar Documentos" class="btn btn-success" title="Efetuar Digitação de documentos"><i class="fa fa-check-square-o"></i>&nbsp;Supervisionar</a>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        
+
+<script>
+    jQuery(document).ready(function () {
+
+        $("#tblSupervisao").DataTable({
+            language: {
+                "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+        });
+
+        //$('#tblSupervisao_filter').find('input').attr('aria-controls', 'tblSupervisao').attr('class', 'form-control');
+ });
+</script>

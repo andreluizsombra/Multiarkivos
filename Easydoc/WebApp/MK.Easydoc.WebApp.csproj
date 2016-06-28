@@ -102,13 +102,33 @@
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.4\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.4\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.WebPages.OAuth, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.OAuth.2.0.30506.0\lib\net40\Microsoft.Web.WebPages.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=7.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.Storage.7.0.2-preview\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -120,6 +140,10 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Spatial, Version=5.6.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Spatial.5.6.4\lib\net40\System.Spatial.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -1880,6 +1904,7 @@
     <Content Include="sbadmin2\LICENSE" />
     <Content Include="sbadmin2\README.md" />
     <None Include="Properties\PublishProfiles\MKEasydoc.pubxml" />
+    <None Include="Properties\PublishProfiles\teste_local.pubxml" />
     <None Include="Scripts\jquery-2.1.4-vsdoc.js_" />
     <None Include="Scripts\jquery-2.1.4.js_" />
     <None Include="Scripts\jquery-2.1.4.min.js_" />
@@ -2395,6 +2420,125 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\jquery.maskedinput.min.js" />
     <Content Include="Scripts\pdfSlider.js" />
+    <Content Include="StoragePrivate\003\0002\20160623\132_201662341480.jpg" />
+    <Content Include="StoragePrivate\003\0002\20160623\132_201662342357.jpg" />
+    <Content Include="StoragePrivate\003\0002\20160623\132_20166234240.jpg" />
+    <Content Include="StoragePrivate\003\0002\20160623\132_201662343494.jpg" />
+    <Content Include="StoragePrivate\003\0002\20160623\132_201662344791.jpg" />
+    <Content Include="XXXStoragePrivate\001\0001\20160121\411_201612132398.png" />
+    <Content Include="XXXStoragePrivate\001\0001\20160121\411_201612140855.png" />
+    <Content Include="XXXStoragePrivate\001\0001\20160128\411_2016128036.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016380118.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016380910.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016381313.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163814304.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163815742.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163816745.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163817243.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163817543.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016382337.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016385624.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163857434.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163858174.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_20163859861.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016386973.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016387660.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160308\112_2016387816.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160309\112_2016391920.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160309\112_2016395613.png" />
+    <Content Include="XXXStoragePrivate\001\0002\20160309\112_20163958934.png" />
+    <Content Include="XXXStoragePrivate\001\0003\20160128\423_20161283546.png" />
+    <Content Include="XXXStoragePrivate\002\0003\20160303\123_20163352784.png" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031270.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_20163303134.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031391.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031505.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031654.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031658.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031700.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633031704.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633049427.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633049483.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160330\123_201633049518.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160404\123_20164454473.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160404\123_20164455195.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160404\123_20164455463.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160404\123_20164455535.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160404\123_20164455859.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160406\123_20164651255.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160406\123_20164651345.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160406\123_20164651934.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734207.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016473424.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016473431.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734379.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016473445.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734453.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734809.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734846.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734932.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164734938.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164735727.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164735787.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016473638.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016473668.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164736947.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016475024.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_201647504.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750815.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750865.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750870.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750916.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750934.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750946.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750949.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750953.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750958.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_20164750978.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476149.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476358.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_201647638.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476387.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476466.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_201647665.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476794.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476801.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476814.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476821.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476846.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016476974.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478129.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478228.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478378.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478399.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478419.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478511.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478628.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478691.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016478911.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_201647912.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016479578.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160407\123_2016479985.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164832579.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164832876.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833213.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833316.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833329.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833427.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833519.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833540.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833615.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833653.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833811.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160408\123_20164833893.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160414\123_201641443334.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160414\123_20164144369.jpg" />
+    <Content Include="XXXStoragePrivate\002\0003\20160414\123_201641443868.jpg" />
+    <Content Include="XXXStoragePrivate\003\0002\20160622\132_201662225692.jpg" />
+    <Content Include="XXXStoragePrivate\003\0002\20160622\132_201662226109.jpg" />
+    <Content Include="XXXStoragePrivate\003\0002\20160622\132_20166222678.jpg" />
+    <Content Include="XXXStoragePrivate\003\0002\20160622\132_201662230200.jpg" />
+    <Content Include="XXXStoragePrivate\003\0002\20160622\132_201662230536.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

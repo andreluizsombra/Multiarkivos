@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "LotesPendente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "ls-form row" }))
+{
+    <div class="ls-box ls-board-box">
+        <header class="ls-info-header">
+            <h2 class="ls-title-3 ls-ico-images">Tipificação de Documentos</h2>
+        </header>
+
+        <div class="container-fluid">
+            <h1 class="ls-title-intro ls-ico-list2">Lotes Pendentes</h1>
+            <div class="ls-list">
+                <header class="ls-list-header">
+                    <div class="ls-list-title col-md-4">
+                        <a href="#">Lote 0001</a>
+                        <small>Lote criado por Elias em 15/12/2014 com 26 imagens</small>
+                    </div>
+                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                        <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Digitacao", id = 1 })" aria-label="Tipificar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">Tipificar</a>
+                    </div>
+                </header>
+            </div>
+            <div class="ls-list">
+                <header class="ls-list-header">
+                    <div class="ls-list-title col-md-4">
+                        <a href="#">Lote 0783</a>
+                        <small>Lote criado por Elias em 15/12/2014 com 5 imagens</small>
+                    </div>
+                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                        <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Digitacao", id = 783 })" aria-label="Tipificar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">Tipificar</a>
+                    </div>
+                </header>
+            </div>
+            <div class="ls-list">
+                <header class="ls-list-header">
+                    <div class="ls-list-title col-md-4">
+                        <a href="#">Lote 0041</a>
+                        <small>Lote criado por Elias em 12/12/2014 com 60 imagens</small>
+                    </div>
+                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                        <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Digitacao", id=41 })" aria-label="Tipificar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">Tipificar</a>
+                    </div>
+                </header>
+            </div>
+            <div class="ls-list">
+                <header class="ls-list-header">
+                    <div class="ls-list-title col-md-4">
+                        <a href="#">Lote 0091</a>
+                        <small>Lote criado por Elias em 12/12/2014 com 31 imagens</small>
+                    </div>
+                    <div class="col-md-3 col-md-offset-5 ls-txt-right">
+                        <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Digitacao", id=91 })" aria-label="Tipificar Documentos" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">Tipificar</a>
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+}

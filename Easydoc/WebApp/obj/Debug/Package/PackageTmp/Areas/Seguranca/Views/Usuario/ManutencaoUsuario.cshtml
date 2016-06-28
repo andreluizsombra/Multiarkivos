@@ -1,0 +1,371 @@
+﻿@using MK.Easydoc.WebApp.Controllers
+@using MK.Easydoc.Core.Entities
+@{
+    ViewBag.Title = "Manutenção de Usuários";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var IdUsuarioAtual = Session["UsuarioAtual_ID"];
+    var _Filtro = Session["Filtro"] != null ? (Filtro)Session["Filtro"] : null;
+} 
+<style>
+    .margin-top{
+        margin-top:10px;
+    }
+    .usu {
+        color:black;
+    }
+    td{
+        text-align:left;
+    }
+    .margin-top-botaolimpar{
+        margin-top:23px;
+    }
+</style>
+
+<div class="panel-heading">
+    <h4 class="panel-title"><i class="fa fa-users"></i>&nbsp;@ViewBag.Title</h4>
+</div>
+@if (_Filtro != null)
+{
+    <input type="hidden" id="hdn_pesquisapor" value="@_Filtro.Tipo" />
+    <input type="hidden" id="hdn_condicao" value="@_Filtro.Condicao" />
+    <input type="hidden" id="hdn_localizador" value="@_Filtro.Pesquisa" />
+}
+else
+{
+    <input type="hidden" id="hdn_pesquisapor" value="0" />
+    <input type="hidden" id="hdn_condicao" value="0" />
+}
+
+<div class="container-fluid">
+
+    <div class="row margin-top">
+        <div class="col-lg-10">
+            @using (Html.BeginForm("ListaUsuarios", "Usuario"))
+            {
+                @*<div class="well">*@
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label>Pesquisa por:</label>
+                        <select class="form-control" id="selTipo" name="selTipo">
+                            <option value="0" selected="selected">Selecione</option>
+                            <option value="1">Nome</option>
+                            <option value="2">Login</option>
+                            <option value="3">Cpf</option>
+                            <!--<option value="4">Cliente</option>
+                            <option value="5">Serviço</option>-->
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <label>Condição:</label>
+                        <select class="form-control" id="selCondicao" name="selCondicao">
+                            <option value="0" selected="selected">Selecione</option>
+                            <option value="1">=</option>
+                            <option value="2">Contém</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <label>Valor:</label>
+                        <div class="input-group">
+                            @*<span class="input-group-addon" id="basic-pesq"><i class="fa fa-search"></i></span>*@
+                            <span class="input-group-addon" id="basic-vlct"><i class="fa fa-lock"></i></span>
+                            <input type="text" data-toggle="tooltip" title="Digite aqui dados para pesquisar" id="txtpesquisa" name="txtpesquisa" class="form-control" placeholder="Digite aqui" maxlength="50" />
+                            <span class="input-group-btn">
+                                <input type="submit" id="btnpesq1" value="Pesquisar" class="btn btn-default" onmouseover="" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        
+                        <div class="margin-top-botaolimpar">
+                            <input type="button" id="btnLimpar" value="Limpar" class="btn btn-default" onmouseover="" />
+                            <a href="@Url.Content("~/Seguranca/Menu")" class="btn btn-warning"><i class="fa fa-undo"></i>&nbsp;Voltar</a>
+                            <a href="@Url.Content("~")Seguranca/Usuario/Novo" class="btn btn-success"><i class="fa fa-user"></i>&nbsp;Novo Usuário</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <hr/>
+                <div class="table-responsive">
+                    <table id="tblUsuarios" class="table table-striped table-hover table-condensed">
+                      <thead>
+                       <tr>
+                        <th>Nome</th>
+                        <th>Cliente</th>
+                        <th>Serviço</th>
+                        <th>Login</th>
+                        <th>Perfil</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                       </tr>
+                      </thead>
+                        @*<th>Detalhes</th>
+                <th>Bloquear</th>
+                <th>Editar</th>
+                <th>Excluir</th>*@
+                        
+                        @if (ViewBag.ListaUsuarios != null)
+                        {
+                            foreach (var lst in ViewBag.ListaUsuarios)
+                            {
+                                <tr id="lin_@lst.ID@lst.ServicoID@IdUsuarioAtual">
+                                    <td>@lst.NomeCompleto</td>
+                                    <td>@lst.NomeCliente</td>
+                                    <td>@lst.NomeServico</td>
+                                    <td>@lst.NomeUsuario</td>
+                                    <td>@lst.Perfil</td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/ListaDetalheUsuario/")?idUsuarioDetalhe=@lst.ID" class="usu"><i class="fa fa-list-alt fa-lg" data-toggle="tooltip" title="Detalhes"></i></a></td>
+                                    <td><i class="fa fa-lock fa-lg" id="bloq_@lst.ID@lst.ServicoID@IdUsuarioAtual" data-toggle="tooltip" title="Bloquear" bloqueado="@lst.Bloqueado" onclick="Bloquear(@lst.ID,this,'@lst.NomeCompleto','@lst.NomeServico',@lst.ServicoID, @IdUsuarioAtual)"></i></td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/EditarUsuario/")?nomeUsuario=@lst.NomeUsuario&&idServico=@lst.ServicoID&&idPerfil=@lst.PerfilID" class="usu"><i class="fa fa-edit fa-lg" data-toggle="tooltip" title="Editar Usuário"></i></a></td>
+                                    <td><a href="@Url.Content("~/Seguranca/Usuario/EditarServico/")?idUsuario=@lst.ID" class="usu"><i class="fa fa-pencil fa-lg" data-toggle="tooltip" title="Editar Serviço"></i></a></td>
+                                    <td><a href="#" class="usu"><i class="fa fa-trash-o fa-lg" data-toggle="tooltip" title="Excluir" onclick="ConfirmaExcluirUsuario(@lst.ID,@lst.ServicoID,@IdUsuarioAtual )"></i></a></td>
+                                </tr>
+                            }
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br/>
+    </div>
+
+<div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">Exclusão de Usuário</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h3>Deseja realmente excluir ?</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnExcluir" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i>&nbsp;Excluir</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-close fa-lg"></i>&nbsp;Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+            <input type="hidden" id="hdn_linha" name="hdn_linha" />
+            <input type="hidden" id="hdn_idusu" name="hdn_idusu" />
+            <input type="hidden" id="hdn_idserv" name="hdn_idserv" />
+            <input type="hidden" id="hdn_idusuatual" name="hdn_idusuatual" />
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="ModalBloquear" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title text-danger" id="myModalLabel"><i class="warning"></i>&nbsp;<b>Bloquear</b></h4>
+            </div>
+            <div class="modal-body">
+                <h5>Deseja realmente <label id="msgbloq"></label> o usuário:&nbsp;<b><label id="nomeusuario"></label></b>&nbsp;para o serviço&nbsp;<b><label id="nomeservico"></label></b></h5>  
+                <button type="button" id="btnBloquear" class="btn btn-success">Sim</button>              
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Cancelar</button>           
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="hdn_id" />
+    <input type="hidden" id="hdn_idusuario_atual" />
+    <input type="hidden" id="hdn_tipo" />
+    <input type="hidden" id="hdn_idserv" />
+</div>
+
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+<script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+
+        $("#selTipo").val($("#hdn_pesquisapor").val());
+        $("#selCondicao").val($("#hdn_condicao").val());
+        $("#txtpesquisa").val($("#hdn_localizador").val());
+        console.log($("#hdn_pesquisapor").val());
+        console.log($("#hdn_condicao").val());
+        console.log($("#hdn_localizador").val());
+
+        //$("#tblUsuarios").DataTable();
+        $("#tblUsuarios").DataTable({
+            language: { "sEmptyTable": "Nenhum registro encontrado",
+                "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "_MENU_ resultados por página",
+                "sLoadingRecords": "Carregando...",
+                "sProcessing": "Processando...",
+                "sZeroRecords": "Nenhum registro encontrado",
+                "sSearch": "Pesquisar",
+                "oPaginate": {
+                    "sNext": "Próximo",
+                    "sPrevious": "Anterior",
+                    "sFirst": "Primeiro",
+                    "sLast": "Último"
+                },
+                "oAria": {
+                    "sSortAscending": ": Ordenar colunas de forma ascendente",
+                    "sSortDescending": ": Ordenar colunas de forma descendente"
+                }
+            }
+          }
+        );
+
+            $('#btnLimpar').click(function() {
+                $('table tr').empty();
+                $(".dataTables_info").html('');
+                $("#selTipo").val(0);
+                $("#txtpesquisa").val('');
+                $("#tblUsuarios_paginate").html('');
+            });
+
+            $('i[id^=bloq_]').each(function(e){
+                if($(this).attr('bloqueado')=='0'){
+                    $(this).css('color', 'black');
+                    $(this).attr('title', 'Bloquear');
+                }
+                else{
+                    $(this).css('color', 'red');
+                    $(this).attr('title', 'Desbloquear');
+                }
+            });
+            
+            //$('[data-toggle="tooltip"]').tooltip();
+
+            $("#btnExcluir").click(function () {
+                $.ajax({ type: "POST", dataType: "json",
+                    url: "/Seguranca/Usuario/AjaxExcluirUsuario",
+                    data: { idUsuario: $("#hdn_idusu").val(), idServico: $("#hdn_idserv").val(), idUsuarioAtual: $("#hdn_idusuatual").val() },
+                    success: function (data) {
+                        
+                        $(data).each(function(){
+                            if(this.CodigoRetorno==0){
+                                
+                                $("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).attr('class','selected');
+                                var table = $('#tblUsuarios').DataTable();
+                                table.row('.selected').remove().draw( false );
+
+                                //$("#lin_" + $("#hdn_idusu").val() + $("#hdn_idserv").val() + $("#hdn_idusuatual").val()).remove().draw( false );
+                                exibirmsg(this.Mensagem);
+                            }
+                            else{exibirmsgatencao(this.Mensagem);}
+                        });
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var erro = JSON.parse(xhr.responseText);
+                        console.log(erro.Message);
+                    }
+                });
+
+                $("#modalExcluir").modal('hide');
+            });
+
+   });
+
+    function AtualizaCadeado(){
+        $('i[id^=bloq_]').each(function(e){
+            if($(this).attr('bloqueado')=='0'){
+                $(this).css('color', 'black');
+                $(this).removeAttr('title');
+                $(this).attr('title', 'Bloquear');
+            }
+            else{
+                $(this).css('color', 'red');
+                $(this).removeAttr('title');
+                $(this).attr('title', 'Desbloquear');
+            }
+        });
+    } 
+
+   function Bloquear(idusuario, campo, nmusu, nmserv, idservico_sel, idusuario_atual) {
+       var tipo = $("#" + campo.id).attr('bloqueado');
+       $("#hdn_tipo").val(tipo);
+
+       $("#hdn_id").val(idusuario);
+       $("#hdn_idusuario_atual").val(idusuario_atual);
+       $("#hdn_idserv").val(idservico_sel);
+
+       var codigo_cadeado = $("#hdn_id").val() + $("#hdn_idserv").val() + $("#hdn_idusuario_atual").val();
+       //alert(idusuario);
+
+       var msg = "";
+       $('#bloq_' + codigo_cadeado).removeAttr('title');
+
+       if (tipo == 0) { msg = "bloquear"
+           $('#bloq_' + codigo_cadeado).attr('title', 'Bloquear');
+           $('#msgbloq').html('Bloquear'); 
+       } else { msg = "desbloquear";
+           $('#bloq_' + codigo_cadeado).attr('title', 'Desbloquear');
+           $('#msgbloq').html('Desbloquear');
+       }
+
+       $("#ModalBloquear").modal('show');
+       $("#nomeusuario").html(nmusu);
+       $("#nomeservico").html(nmserv);
+   }
+
+   $("#btnBloquear").click(function(){
+       var msg = "";
+       var tipo = $("#hdn_tipo").val();
+       if (tipo == 0) { msg = "bloquear" } else { msg = "desbloquear"; }
+       var idusuario = $("#hdn_idusuario").val();
+       $.ajax({
+           url: "/Seguranca/Usuario/BloquearUsuario",
+           type: "post", 
+           datatype:"json",
+           data: { idUsuBloqueado: $("#hdn_id").val(), idServico:$("#hdn_idserv").val() },
+           success: function(data) {
+               if(data.CodigoRetorno==0){
+                   exibirmsg(data.Mensagem);
+                   var codigo_cadeado = $("#hdn_id").val() + $("#hdn_idserv").val() + $("#hdn_idusuario_atual").val();
+                   console.log(codigo_cadeado);
+                   $('#bloq_' + codigo_cadeado).removeAttr('title');
+                   if (data.Bloqueado == 1) {
+                       $('#bloq_' + codigo_cadeado).attr('bloqueado', '1').css('color','red');
+                       $('#bloq_' + codigo_cadeado).attr('title', 'Desbloquear');
+                   }
+                   else {
+                       //exibirmsg('Usuário desbloqueado.');
+                       $('#bloq_' + codigo_cadeado).attr('bloqueado', '0').css('color', 'black');
+                       $('#bloq_' + codigo_cadeado).attr('title', 'Bloquear');
+                   }
+                   
+                   //AtualizaCadeado();
+
+               }else{exibirmsgatencao(data.Mensagem);}
+           },
+           error: function () {
+               exibirmsgatencao('Erro ao tentar bloquear usuário');
+           }
+       });
+       $("#ModalBloquear").modal('hide');
+   });
+   
+   function ConfirmaExcluirUsuario(idUsu, idServico, idUsuAtual) {
+       $("#modalExcluir").modal('show');
+       //Preencher campos ocultos
+       $("#hdn_idusu").val(idUsu);
+       $("#hdn_idserv").val(idServico);
+       $("#hdn_idusuatual").val(idUsuAtual);
+   }
+
+</script>
+    }
+
+

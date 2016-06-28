@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Segurança";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel-heading">
+    <h4 class="panel-title">Segurança</h4>
+</div>
+
+<div class="container-fluid">
+    <br />
+    <div class="row">
+
+        <!-- 1 - Manutenção de Usuarios  -->
+        <div class="col-md-3" id="modulo_18">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Manutenção de Usuários</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("ManutencaoUsuario", new { area = "Seguranca", controller = "Usuario" })" aria-label="Manutenção de Usuários" class="ls-btn ls-btn-sm" title="Manutenção de Usuários">
+                            <img src="~/Assets/image/icon/core-icon/btn-usuarios-180x180.png" alt="Captura de Imagens" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 2 - Trilha de Auditoria  -->
+        <div class="col-md-3" id="modulo_19">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Trilha de Auditoria</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Consulta", new { area = "Seguranca", controller = "Auditoria" })" aria-label="Trilha de Auditoria" class="ls-btn ls-btn-sm" title="Trilha de Auditoria">
+                            <img src="~/Assets/image/icon/core-icon/btn-auditoria-180x180.png" alt="Captura de Imagens" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="col-md-6">
+            <div></div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(7);
+    });
+</script>

@@ -1,0 +1,12 @@
+﻿@{
+    Layout = null;
+}
+@if (TempData["Msg"] != null)
+{
+    <div id="msg" class="alert alert-success" role="alert"><i class="glyphicon glyphicon-ok"></i>&nbsp;@TempData["Msg"]</div>
+}
+<script>
+    $(document).ready(function () {
+        $("#msg").alert().slideDown('slow').delay(4000).slideUp('slow');
+    });
+</script>

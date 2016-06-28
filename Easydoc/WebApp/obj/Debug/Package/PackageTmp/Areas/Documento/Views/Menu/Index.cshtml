@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading">
+    <h4 class="panel-title">Documento</h4>
+</div>
+
+<div class="container-fluid">
+
+    <br />
+    <div class="row">
+        
+        <!-- 1 - Tipíficação -->
+        <div class="col-md-3" id="modulo_11">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Tipificação : <strong>@ViewBag.QtdeTip</strong></h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao" })" aria-label="Tipificar lotes de imagem pendentes" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">
+                            <img src="~/Assets/image/icon/core-icon/btn-tipificacao-180x180.png" alt="Tipíficação" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>       
+
+
+        <!-- 2 - Digitação -->
+        <div class="col-md-3" id="modulo_12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Digitação : <strong>@ViewBag.QtdeDig</strong></h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = 0 })" aria-label="Efetuar Digitação de documentos tipificados" class="ls-btn ls-btn-sm" title="Efetuar Digitação de documentos">
+                            <img src="~/Assets/image/icon/core-icon/btn-digitacao-180x180.png" alt="Tipíficação" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>      
+
+        <!-- 3 - Supervisão -->
+        <div class="col-md-3" id="modulo_13">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Supervisão : <strong>@ViewBag.QtdeSup</strong></h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("ListarPendentes", new { area = "Documento", controller = "Supervisao" })" aria-label="Efetuar Supervisão de Imagens" class="ls-btn ls-btn-sm" title="Efetuar Consulta de documentos em supervisao">
+                            <img src="~/Assets/image/icon/core-icon/btn-supervisao-180x180.png" alt="Supervisão" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        
+        
+        <!-- 4 - Consulta -->
+        <div class="col-md-3" id="modulo_14">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Consulta </h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("MontarConsulta", new { area = "Documento", controller = "Consulta" })" aria-label="Consultar documentos" class="ls-btn ls-btn-sm" title="Efetuar Consulta de documentos em supervisao">
+                            <img src="~/Assets/image/icon/core-icon/btn-consulta-180x180.png" alt="Consulta" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>   
+        
+        <!-- 5 - Formalização -->
+        <div class="col-md-3" id="modulo_12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Formalização : <strong>@ViewBag.QtdeFor</strong></h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Formalizacao", id = 0 })" aria-label="Efetuar Formalização de documentos" class="ls-btn ls-btn-sm" title="Efetuar Formalização de documentos">
+                            <img src="~/Assets/image/icon/core-icon/btn-formalistica-180x180.png" alt="Formalização" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>     
+        
+        <!-- 6 - Vincular -->
+        <div class="col-md-3" id="modulo_12">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Vincular : <strong>@ViewBag.QtdeVin</strong></h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Vinculo", id = 0 })" aria-label="Efetuar Vínculo de documentos" class="ls-btn ls-btn-sm" title="Efetuar Vínculo de documentos">
+                            <img src="~/Assets/image/icon/core-icon/botao_vinculo.png" alt="Vincular" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>  
+           
+    </div>
+</div>
+
+<script>
+    $().ready(function () {
+        VerificarAcessoModulo(2);
+    });
+</script>
+
+
+
+
+<!--
+
+        <div class="row">
+            <div class="box box-primary">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"> # Documento</h3>
+                            <span class="label label-primary pull-right">
+                                <i class="fa fa-text"></i>
+                            </span>
+                            <hr />
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                        <div class="box box-solid box-default">
+                                            <div class="box-header"><h3 class="box-title">TIPIFICAÇÃO</h3> - (<strong>@ViewBag.QtdeTip</strong>)</div>
+                                            <div class="box-body">
+                                                <a href="@Url.Action("ListarPentendes", new { area = "Documento", controller = "Tipificacao" })" aria-label="Tipificar lotes de imagem pendentes" class="ls-btn ls-btn-sm" title="Efetuar Tipificação de documentos">
+                                                    <img src="~/Assets/image/icon/core-icon/btn-tipificacao-240x240.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box box-solid box-default">
+                                            <div class="box-header"><h3 class="box-title">Digitação</h3> - (<strong>@ViewBag.QtdeDig</strong>)</div>
+                                            <div class="box-body">
+                                                <a href="@Url.Action("Digitar", new { area = "Documento", controller = "Digitacao", id = 0 })" aria-label="Efetuar Digitação de documentos tipificados" class="ls-btn ls-btn-sm" title="Efetuar Digitação de documentos">
+                                                    <img src="~/Assets/image/icon/core-icon/btn-digitacao-240x240.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="box box-solid box-default">
+                                            <div class="box-header"><h3 class="box-title">SUPERVISÃO</h3> - (<strong>@ViewBag.QtdeSup</strong>)</div>
+                                            <div class="box-body">
+                                                <a href="@Url.Action("ListarPendentes", new { area = "Documento", controller = "Supervisao" })" aria-label="Efetuar Supervisão de Imagens" class="ls-btn ls-btn-sm" title="Efetuar Consulta de documentos em supervisao">
+                                                    <img src="~/Assets/image/icon/core-icon/btn-supervisao-240x240.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="box box-solid box-default">
+                                            <div class="box-header"><h3 class="box-title">Consulta</h3></div>
+                                            <div class="box-body">
+                                                <a href="@Url.Action("MontarConsulta", new { area = "Documento", controller = "Consulta" })" aria-label="Efetuar Consulta de documentos indexados" class="ls-btn ls-btn-sm" title="Efetuar Consulta de documentos">
+                                                    <img src="~/Assets/image/icon/core-icon/btn-consulta-240x240.png" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->

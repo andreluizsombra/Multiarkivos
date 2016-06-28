@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading">
+    <h4 class="panel-title">Menu Principal</h4>
+</div>
+
+<div class="container-fluid">
+    <br/>
+    <div class="row">
+        @*@Html.ActionLink("TrocarSenha","TrocarSenha","Home")*@
+        <!-- 1 - Imagem -->
+        <div class="col-md-3" id="modulo_1">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Imagem</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/GED/Menu">
+                            <img src="~/Assets/image/icon/core-icon/imagem-180x180.png" alt="Imagens" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2 - Documento -->
+        <div class="col-md-3" id="modulo_2">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Documento</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/Documento/Menu/">
+                            <img src="~/Assets/image/icon/core-icon/documento-180x180.png" alt="Documentos" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3 - Relatórios-->
+        <div class="col-md-3" id="modulo_3">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Relatório</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/Relatorio/Lista">
+                            <img src="~/Assets/image/icon/core-icon/relatorio-180x180.png" alt="Relatórios" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4 - Estatistica-->
+        <div class="col-md-3" id="modulo_4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Estatística</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/Home/Dashboard">
+                            <img src="~/Assets/image/icon/core-icon/estatistica-180x180.png" alt="Estatística" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--</div>-->
+
+    <!--<div class="row">-->
+        <!-- 5 - Corporativo-->
+        <div class="col-md-3" id="modulo_5">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Corporativo</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="#">
+                            <img src="~/Assets/image/icon/core-icon/corporativo-180x180.png" alt="Corporativo" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6 - Manutenção-->
+        <div class="col-md-3" id="modulo_6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Manutenção</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/Manutencao/Menu">
+                            <img src="~/Assets/image/icon/core-icon/manutencao-180x180.png" alt="Manutenção" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7 - Segurança -->
+        <div class="col-md-3" id="modulo_7">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Segurança</h4>
+                </div>
+                <div class="">
+                    <div class="img-botao-principal">
+                        <a href="~/Seguranca/Menu">
+                            <img src="~/Assets/image/icon/core-icon/btn-seguranca-180x180.png" alt="Segurança" class="img-responsive center-block" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3"></div>
+
+    </div> 
+</div>
+
+<script>
+
+    $().ready(function () {
+        $("#btn_mnu_principal").show();
+        $("#btn_lista_cliente").show();
+       VerificarAcessoModuloPrincipal();
+    });
+
+    var id_servico = @Session["IdServico"];
+    $.ajax({
+        url: '@Url.Content("~")Home/RetornaPendencias',
+        type: 'POST',
+        data: { idServico: id_servico },
+        success: function (data) {
+            //alert(data.rest);
+            if (data.rest == "True") {
+                $("#btnPendencias").css('display', '');
+            } else {
+                $("#btnPendencias").css('display', 'none');
+            }
+            // get the result and do some magic with it
+            //var message = data.Message;
+            //$("#resultMessage").html(message);
+        }
+    });
+</script>

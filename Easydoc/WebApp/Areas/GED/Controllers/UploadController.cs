@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using MK.Easydoc.Core.Entities;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.Core.Infrastructure;
+using MK.Easydoc.Core.Repositories;
 using MK.Easydoc.WebApp.ViewModels;
 using System.IO;
 using System.Web;
@@ -15,19 +16,23 @@ using MK.Easydoc.Core.Helpers;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Web.Helpers;
+using Microsoft.WindowsAzure.Storage;
 
 
 namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 {
     public class UploadController : BaseController
     {
-
+        //private readonly CloudStorageAccount _storageAccount;
         private const string _LOTE_SESSION_NAME = "__UoloadController__lote_imagens__";
-
+        protected int Nuvem { get; set; }
+        protected string _diretorioLocal { get; set; }
+        protected string _diretorioNuvem { get; set; }
         #region Public Properties
 
         #endregion Public Properties
-        public Lote LoteImagens {
+        public Lote LoteImagens
+        {
             get
             {
                 return (Lote)Session[_LOTE_SESSION_NAME] ?? new Lote();
@@ -49,10 +54,13 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             _lote = new Lote();
             this._loteService = DependencyResolver.Current.GetService<ILoteService>();
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
+
+            //_storageAccount = CloudStorageAccount.Parse("ixiPNQ0HgCcZn+2JEY51gMKjMOPA7BxEHqMxzm5UOOOcwGb3u2BLL5dpMIo4f2rJavgREGAqMzdsMeI9CUxawA==");
         }
 
         #endregion
-        private string RetornaDiretorioUpload() {
+        private string RetornaDiretorioUpload()
+        {
             string _diretorio = String.Empty;
             try
             {
@@ -74,27 +82,45 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             {
                 throw new Exception(ex.Message);
             }
-            
-           return _diretorio;
+
+            return _diretorio;
         }
-        private string CriaDiretorio() {
+        private string CriaDiretorio()
+        {
             //TODO: 08/03/2016
-            string _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");//@"C:\Temp\img\upload";
+            //string _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");//@"C:\Temp\img\upload";
+            //string _raiz = @"Y:\temp";//@"C:\Temp\img\upload";
+
+            //DirectoryInfo directoryInfo = new DirectoryInfo(Server.MapPath("/VirtualFolder"));
+            //string _raiz = new StoragePrivateRepository(IdCliente_Atual).Path; //TODO: 22/06/2016
+            string _raiz = "";
+
+            var spr = new StoragePrivateRepository(IdCliente_Atual, "storageprivate");
+            _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");
+            _diretorioNuvem = spr.DiretorioNuvem;
+            this.Nuvem = spr.Nuvem;
+
             //string _cliente = StringFormatHelper.RemoveSpecialCharacters(ClienteAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _cliente = StringFormatHelper.RemoveSpecialCharacters(NomeCliente.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _servico = StringFormatHelper.RemoveSpecialCharacters(NomeServico.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-            
+
             string _diretorio = string.Format(@"{0}\{1}", _raiz, LoteImagens.PathCaptura.Trim());
             //string _diretorio = string.Format(@"{0}\{1}\{2}", _raiz, LoteImagens.PathCaptura.Trim(), LoteImagens.ID);
             //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
-            if (!Directory.Exists(_diretorio))
+            try
             {
-                Directory.CreateDirectory(_diretorio);
+                if (!Directory.Exists(_diretorio))
+                {
+                    Directory.CreateDirectory(_diretorio);
+                }
             }
-            return _diretorio;        
+            catch (Exception ex) { throw new Exception("Erro no método CriarDiretorio_UpdateController, " + ex.Message); }
+
+            return _diretorio;
         }
+
         [HttpPost]
         public JsonResult AjaxCallGerarLote()
         {
@@ -105,22 +131,23 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 if (LoteImagens.ID == 0 || IdServico_Atual != LoteImagens.ServicoCaptura.ID)
                 {
                     LoteImagens = _loteService.CriarLote(UsuarioAtual.ID, 1, IdServico_Atual, RetornaDiretorioUpload());
-                    RegistrarLOGSimples(2, 5, LoteImagens.ID.ToString()); 
+                    RegistrarLOGSimples(2, 5, LoteImagens.ID.ToString());
                     // LOG: Criar Lote Vazio
-                }                                                            
+                }
             }
-            catch (ValidationException ex) { 
-                return Json(new RetornoViewModel(false, ex.Message, ex.Errors.Select(e => e.ErrorMessage).ToArray(), RetornoType.ValidationExceptions)); 
+            catch (ValidationException ex)
+            {
+                return Json(new RetornoViewModel(false, ex.Message, ex.Errors.Select(e => e.ErrorMessage).ToArray(), RetornoType.ValidationExceptions));
             }
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
-            return Json(new RetornoViewModel(true, null, LoteImagens)); 
+            return Json(new RetornoViewModel(true, null, LoteImagens));
         }
         public JsonResult AjaxCallEncerrarLote()
         {
             try
             {
-                
+
                 int _ret = 0;
                 bool UsaArquivoDados = _loteService.UsaArquivoDados(ServicoAtual.ID);
 
@@ -152,7 +179,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                         {
                             return Json(new RetornoViewModel(false, string.Format(@"Lote não e deste Serviço !!!"), null, RetornoType.ValidationExceptions));
                         }
-                        
+
                         string[] _dados = LoteImagens.Log.Dados;
                         if (_dados.Count() > 0)
                         {
@@ -237,7 +264,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
             return Json(new RetornoViewModel(true, null, LoteImagens));
         }
-        private LogLote ConverteLogLoteJSON(string _pathJSON) {
+
+        private LogLote ConverteLogLoteJSON(string _pathJSON)
+        {
             JObject jsonObj = new JObject();
             //JObject o1 = new JObject();
             JsonResult _js = new JsonResult();
@@ -268,41 +297,40 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
 
             return _logLote;
-        
+
         }
         [HttpPost]
         public JsonResult SaveFiles(string qqfile)
         {
-            //string id = Request["id"];
-            var path = CriaDiretorio();//string.Empty;//@"C:\Temp\img";//Server.MapPath("FilesFolderPath");
-            var file = string.Empty;
-            var file_Extension = string.Empty;
-            var file_Size = string.Empty;
-            var fine_new_name = string.Empty;
-
-
-
-            int arquivosSalvos = 0;
-            for (int i = 0; i < Request.Files.Count; i++)
-            {
-                HttpPostedFileBase arquivo = Request.Files[i];
-                if (arquivo.ContentLength > 0)
-                {
-                    string fileName = Path.GetFileName(arquivo.FileName);
-                    arquivosSalvos++;
-                }
-            }
-
-
-            //string teste = @"C:\tmp\Teste.txt";
-            //var _arq = new FileInfo(teste);
-            //string DataCriacao = _arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
-
-
             try
             {
+                //string id = Request["id"];
+                var path = CriaDiretorio();//string.Empty;//@"C:\Temp\img";//Server.MapPath("FilesFolderPath");
+
+                var file = string.Empty;
+                var file_Extension = string.Empty;
+                var file_Size = string.Empty;
+                var fine_new_name = string.Empty;
+
+
+
+                int arquivosSalvos = 0;
+                for (int i = 0; i < Request.Files.Count; i++)
+                {
+                    HttpPostedFileBase arquivo = Request.Files[i];
+                    if (arquivo.ContentLength > 0)
+                    {
+                        string fileName = Path.GetFileName(arquivo.FileName);
+                        arquivosSalvos++;
+                    }
+                }
+
+                //string teste = @"C:\tmp\Teste.txt";
+                //var _arq = new FileInfo(teste);
+                //string DataCriacao = _arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
+
                 //LoteImagens.PathCaptura = CriaDiretorio();
-                
+
                 var stream = Request.InputStream;
                 if (String.IsNullOrEmpty(Request["qqfile"]))
                 {
@@ -310,12 +338,13 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                     HttpPostedFileBase postedFile = Request.Files[0];
                     stream = postedFile.InputStream;
                     file = Path.Combine(LoteImagens.PathCaptura, Path.GetFileName(Request.Files[0].FileName));
-                    
+                    _diretorioLocal = file;
                 }
                 else
                 {
                     //Webkit, Mozilla
                     file = Path.Combine(path, qqfile);
+                    _diretorioLocal = file;
                 }
 
                 var arq = new FileInfo(file);
@@ -323,10 +352,10 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 string _DataCriacao = arq.CreationTime.ToString("dd/MM/yyyy hh:mm:ss");
 
                 // Get Extension
-                file_Extension = Path.GetExtension(file); 
+                file_Extension = Path.GetExtension(file);
 
                 var file_new = "";
-                
+
                 //fine_new_name = string.Format("U{0}C{1}S{2}o us_{3}{4}{5}{6}{7}", UsuarioAtual.ID, ServicoAtual.Cliente.ID, ServicoAtual.ID, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, DateTime.Now.Minute, DateTime.Now.Millisecond);
                 //file_new = file.Replace(qqfile, string.Format("{0}{1}", fine_new_name, file_Extension));
 
@@ -339,7 +368,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
                     file_new = file.Replace(qqfile, fine_new_name);
                 } while (System.IO.File.Exists(file_new));
-                
+
                 // Save File
                 var buffer = new byte[stream.Length];
                 stream.Read(buffer, 0, buffer.Length);
@@ -354,12 +383,13 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
                 if (file_Extension.ToUpper().Trim() != ".JSON")
                 {
                     LoteImagens.QtdeImagem++;
-                    LoteImagens.Itens.Add(new LoteItem { ID = 0, NomeFinal = fine_new_name, NomeOriginal = qqfile, DataCriacaoArqCap=v_DataCriacaoArqCap, OrigemID = 1, StatusImagem = 1000, SequenciaCaptura = LoteImagens.QtdeImagem, DocumentoModelo = (new MK.Easydoc.Core.Entities.DocumentoModelo { ID = 0 }), UsuarioCaptura = (new Usuario { ID = UsuarioAtual.ID }) });
+                    LoteImagens.Itens.Add(new LoteItem { ID = 0, NomeFinal = fine_new_name, NomeOriginal = qqfile, DataCriacaoArqCap = v_DataCriacaoArqCap, OrigemID = 1, StatusImagem = 1000, SequenciaCaptura = LoteImagens.QtdeImagem, DocumentoModelo = (new MK.Easydoc.Core.Entities.DocumentoModelo { ID = 0 }), UsuarioCaptura = (new Usuario { ID = UsuarioAtual.ID }) });
                 }
                 else
                 {
-                    LoteImagens.Log = ConverteLogLoteJSON(@file_new);                    
+                    LoteImagens.Log = ConverteLogLoteJSON(@file_new);
                 }
+
                 //lot = new LogLote();
                 //lot = (LogLote)JsonConvert.DeserializeObject<LogLote>(jsonData);
 
@@ -373,8 +403,15 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
                 //_js = Json(o2);
                 // Get File Size
+
                 FileInfo f = new FileInfo(file_new);
                 file_Size = Convert.ToString(f.Length);
+
+                if (Nuvem == 1)
+                {
+                    var spr = new StoragePrivateRepository(IdCliente_Atual, "storageprivate");
+                    spr.CriarDiretorio(file_new, @"andre/teste/01/002/"+fine_new_name);
+                }
 
                 RegistrarLOGSimples(2, 6, LoteImagens.ID.ToString());
                 // LOG: Efetuou Upload do LOTE

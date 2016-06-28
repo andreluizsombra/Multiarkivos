@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Tipificar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading">
+    <h4 class="panel-title">Tipificação de documentos - Lotes Pendentes</h4>
+    
+</div>
+<input type="hidden" id="qtdlote" value="@ViewBag.QtdLote" />
+<div class="container-fluid">
+    <div id="list" class="row">
+        <div class="table-responsive col-md-12">
+   
+            <table class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Lote</th>
+                        <th>Descrição</th>
+                        <th class="actions"></th>
+                    </tr>
+                </thead>
+            
+                <tbody>
+                    
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "ls-form row" }))
+                    {
+                    <tr>
+                         @foreach (MK.Easydoc.Core.Entities.Lote _lote in ViewBag.LotesPendentes)
+                        {
+                            <tr>
+                                <td><a href="#">Lote @_lote.ID</a></td>
+                                <td>Lote criado em @_lote.DataCriacao.ToShortDateString() com @_lote.Itens.Count() imagens</td>
+                                <td><button type="button" value="Tipificação" title="Efetuar Tipificação de documentos" class="btn btn-primary ls-btn-sm" onclick="location.href='@Url.Action("Tipificar", new { area = "Documento", controller = "Tipificacao", idlote=_lote.ID })' ">Tipificação</button></td>
+                            </tr>
+                         }
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div> 
+</div>
+<script>
+    $().ready(function () {
+        $('#pnlHeader').slideUp('slow');
+        if($("#qtdlote").val()==0){
+            exibirmsgatencao('Todos os lotes já foram listados, aguardando novos...');
+        }
+    });
+</script>
