@@ -223,12 +223,20 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 
                 ViewBag.IdLoteItem = _item.ID;
 
-
-
-                tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
-                
-                //Novo caminho
-                tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                string path_padrao = "";
+                if (Nuvem_Atual == 1)
+                {
+                    path_padrao = string.Format(@"{0}/{1}", _caminho.Trim().Replace('\\','/'), _arquivo.Trim());
+                    tipificar.PathImagem = @"https://fileesydoc.blob.core.windows.net/storageprivate/" + path_padrao;
+                    tipificar.CaminhoImg = @"https://fileesydoc.blob.core.windows.net/storageprivate/" + path_padrao;
+                    tipificar.Nuvem = Nuvem_Atual;
+                }
+                else
+                {
+                    tipificar.PathImagem = string.Format(@"{0}\{1}\{2}", @"\easydoc\StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                    //Novo caminho
+                    tipificar.CaminhoImg = string.Format(@"{0}/{1}\{2}", @"/StoragePrivate", _caminho.Trim().TrimEnd('\\', ' '), _arquivo.Trim()); //Path.Combine(_caminho, _arquivo);
+                }
 
                 if (tipificar == null) tipificar = new TipificarViewModel();
             }

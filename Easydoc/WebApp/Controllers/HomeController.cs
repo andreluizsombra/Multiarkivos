@@ -49,6 +49,12 @@ namespace MK.Easydoc.WebApp.Controllers
             return View("TrocaSenha");
         }
 
+        public void TesteNuvem()
+        {
+            var spr    = new StoragePrivateRepository(IdCliente_Atual);
+            spr.ListarArqsAzure();
+        }
+
         [HttpPost]
         public ActionResult TrocarSenha(FormCollection frm)
         {

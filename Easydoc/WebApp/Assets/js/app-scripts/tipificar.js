@@ -328,7 +328,13 @@ function listar_documento_tipificar_CallBack(json) {
     
     // trocar_imagem(_path);
     //var _url = window.location.protocol + '//' + window.location.host + _path;
-    var _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;
+
+    //var _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;
+    var _url = "";
+    if (json.Nuvem == 1)
+        _url = json.CaminhoImg
+    else
+        _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;
 
     $('span#path-arquivo').html('<a href="' + _url + '" target="_blank" style="target-new: tab;target-new: tab;">Clique Aqui</a>');
     

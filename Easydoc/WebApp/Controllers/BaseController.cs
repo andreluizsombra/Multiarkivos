@@ -38,6 +38,25 @@ namespace MK.Easydoc.WebApp.Controllers
         #endregion
 
         #region Public Properties
+
+        protected virtual int Nuvem_Atual
+        {
+            get
+            {
+                try
+                {
+                    if (Session["Nuvem"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    return int.Parse(Session["Nuvem"].ToString());
+                }
+                catch
+                {
+                    TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                    RedirectToAction("EncerrarAcesso", "Login");
+                    return -1;
+                    //throw new Exception("Sessão expirou, porfavor efetuar login...");
+                }
+            }
+        }
         protected virtual int IdCliente_Atual
         {
             get {
@@ -231,6 +250,9 @@ namespace MK.Easydoc.WebApp.Controllers
                 cliente = (new Cliente { ID = idCliente, Descricao = "TEsteF" });//usuario.Servicos.Where(e => e.IdCliente == idCliente).FirstOrDefault().Cliente;
 
                 if (usuario == null) { throw new Exception("Não foi possível trocar a empresa atual."); }
+
+                var spr = new StoragePrivateRepository(idCliente);      //TODO: 30/06/2016
+                Session["Nuvem"] = spr.Nuvem;
 
                 switch (cliente.ID)
                 {

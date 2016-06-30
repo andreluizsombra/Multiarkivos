@@ -9,6 +9,6 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
     public interface IStoragePrivate
     {
         void GetPath(int idCliente);
-        void CriarDiretorio(string arquivoLocal, string arquivo);
+        void UploadAzure(string arquivoLocal, string arquivo);
     }
 }

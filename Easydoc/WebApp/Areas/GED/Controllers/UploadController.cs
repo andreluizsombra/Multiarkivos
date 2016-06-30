@@ -27,6 +27,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
         private const string _LOTE_SESSION_NAME = "__UoloadController__lote_imagens__";
         protected int Nuvem { get; set; }
         protected string _diretorioLocal { get; set; }
+        protected string PastaPadrao { get; set; }
         protected string _diretorioNuvem { get; set; }
         #region Public Properties
 
@@ -95,7 +96,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             //string _raiz = new StoragePrivateRepository(IdCliente_Atual).Path; //TODO: 22/06/2016
             string _raiz = "";
 
-            var spr = new StoragePrivateRepository(IdCliente_Atual, "storageprivate");
+            var spr = new StoragePrivateRepository(IdCliente_Atual);
             _raiz = HttpContext.Server.MapPath("~/StoragePrivate/");
             _diretorioNuvem = spr.DiretorioNuvem;
             this.Nuvem = spr.Nuvem;
@@ -104,7 +105,7 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
             //string _servico = StringFormatHelper.RemoveSpecialCharacters(ServicoAtual.Descricao.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _cliente = StringFormatHelper.RemoveSpecialCharacters(NomeCliente.Trim().Replace(@" ", "_")).Replace(@" ", "_");
             string _servico = StringFormatHelper.RemoveSpecialCharacters(NomeServico.Trim().Replace(@" ", "_")).Replace(@" ", "_");
-
+            PastaPadrao = LoteImagens.PathCaptura.Trim();
             string _diretorio = string.Format(@"{0}\{1}", _raiz, LoteImagens.PathCaptura.Trim());
             //string _diretorio = string.Format(@"{0}\{1}\{2}", _raiz, LoteImagens.PathCaptura.Trim(), LoteImagens.ID);
             //string _diretorio = string.Format(@"{0}\{1}\{2}\{3}\{4}\{5}", _raiz, _cliente, _servico, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -409,8 +410,9 @@ namespace MK.Easydoc.WebApp.Areas.GED.Controllers
 
                 if (Nuvem == 1)
                 {
-                    var spr = new StoragePrivateRepository(IdCliente_Atual, "storageprivate");
-                    spr.CriarDiretorio(file_new, @"andre/teste/01/002/"+fine_new_name);
+                    var spr = new StoragePrivateRepository(IdCliente_Atual);
+                    spr.UploadAzure(file_new, @""+PastaPadrao+"\\"+fine_new_name);
+                    f.Delete(); //Apos efetuar upload do arquivo para o windows azure , excluir o mesmo da pasta local StoragePrivate
                 }
 
                 RegistrarLOGSimples(2, 6, LoteImagens.ID.ToString());

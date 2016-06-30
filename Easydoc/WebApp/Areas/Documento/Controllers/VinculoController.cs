@@ -162,7 +162,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 }
             }
 
-            ViewBag.ListaDocsPai = new DocumentoRepository().ListarDocsVinculoPai(1, 1, 1);
+            ViewBag.ListaDocsPai = new DocumentoRepository().ListarDocsVinculoPai(ServicoAtual.ID, _documento.Modelo.ID, 1);   //TODO: 30/06/2016 - Conforme solicitação do Paulo
             ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual, 1);
             
             return View("Vincular", _documento);

@@ -19,7 +19,6 @@ namespace MK.Easydoc.WebApp.ViewModels
         public string message { get; set; }
         public RetornoType type { get; set; }
         public object output { get; set; }
-
         #endregion
 
         #region Constructors

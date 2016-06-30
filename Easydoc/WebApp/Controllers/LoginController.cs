@@ -141,6 +141,8 @@ namespace MK.Easydoc.WebApp.Controllers
                             }
 
                             Session["IdCliente"] = cli.TCliente.ID;
+                            var spr = new StoragePrivateRepository(IdCliente_Atual);      //TODO: 30/06/2016
+                            Session["Nuvem"] = spr.Nuvem;
                             Session["NomeCliente"] = cli.TCliente.Descricao;
                             Session["NomeServico"] = cli.Servico;
                             Session["IdServico"] = cli.idServico;//aqui

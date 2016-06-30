@@ -14,6 +14,7 @@ namespace MK.Easydoc.WebApp.ViewModels
         public int QtdeItensLotePendente { get; set; }
         public string PathImagem { get; set; }
         public string CaminhoImg { get; set; }
+        public int Nuvem { get; set; }
         
         public  TipificarViewModel(){
             TipoDocumentoSelecionado = new DocumentoModelo();
@@ -22,6 +23,7 @@ namespace MK.Easydoc.WebApp.ViewModels
             QtdeItensLotePendente = 0;
             PathImagem = string.Empty;
             CaminhoImg = string.Empty;
+            Nuvem = 0;
         }
     }
 }
