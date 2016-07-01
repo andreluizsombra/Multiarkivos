@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Montar Consulta";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int _nuvem = int.Parse(Session["Nuvem"].ToString());
 }
 
 <script src="~/Assets/js/app-scripts/documento-montar-consulta.js"></script>
@@ -64,7 +65,7 @@
     <h4 class="panel-title">Consulta de Documentos</h4>
 </div>
 
-
+<input type="hidden" id="hdn_nuvem" value="@_nuvem"/>
 <div class="container-fluid">
 
     <div class="row">

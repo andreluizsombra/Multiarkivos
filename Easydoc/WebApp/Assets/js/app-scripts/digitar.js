@@ -127,7 +127,15 @@ var init = function () {
     $('input:text[id^="txtcampo_"]').focus();
     
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    var _nuvem = $("#nuvem").val();
+    //debugger;
+    //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    var _url = "";
+    if (_nuvem == 0)
+        _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    else
+        _url = 'https://fileesydoc.blob.core.windows.net/storageprivate/' + _path;
+
     //var _url = "http://
     //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
     bindControles();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using MK.Easydoc.Core.Repositories;
 
 namespace MK.Easydoc.Core.Entities
 {
@@ -144,6 +145,7 @@ namespace MK.Easydoc.Core.Entities
         public List<DocumentoImagem> Arquivos { get; set; }
         public List<Motivo> Motivos { get; set; }//walmir
         public List<Perguntas> Perguntas { get; set; }
+        public int Nuvem { get; set; }
         public Documento()
         {
             ID = 0;

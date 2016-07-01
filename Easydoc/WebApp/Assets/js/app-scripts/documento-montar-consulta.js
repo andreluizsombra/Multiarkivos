@@ -766,9 +766,22 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //_ret += ' </td><td> ';
         //_ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '">Editar</a> ';
         //_ret += '</td></tr><table></center>'
+        
+        var _nuvem = $("#hdn_nuvem").val();
+        var _url = "";
+        var _patharq = "";
+        if (_nuvem == 0) {
+            _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
+            _patharq = '/StoragePrivate/' + cellvalue;
+        }
+        else {
+            _url = 'https://fileesydoc.blob.core.windows.net/storageprivate/' + cellvalue;
+            _patharq = 'https://fileesydoc.blob.core.windows.net/storageprivate/' + cellvalue;
+        }
 
-        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
-        var _patharq = '/StoragePrivate/' + cellvalue;
+        //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + cellvalue;
+        //var _patharq = '/StoragePrivate/' + cellvalue;
+        
         var _ret = '';
         _ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
         // 03/03/2016 
