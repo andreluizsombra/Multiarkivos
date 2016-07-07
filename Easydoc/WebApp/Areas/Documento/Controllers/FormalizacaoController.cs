@@ -220,6 +220,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 }
             }
             ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual,1);
+            _documento.Nuvem = new StoragePrivateRepository(IdCliente_Atual).Nuvem; //TODO: 07/07/2016
             return View("Formalizar",_documento);
         }
 

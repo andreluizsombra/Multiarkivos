@@ -127,9 +127,14 @@ var init = function () {
     $('input:text[id^="txtcampo_"]').focus();
     //debugger;
     var _path = $("#arq").val();
-    var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
-    //var _url = "http://
-    //StoragePrivate/Souza_Cruz/RH/2015/2/25/U1C1S1_201522516438.JPG";//window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    var _nuvem = $("#nuvem").val();
+    //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    var _url = "";
+    if (_nuvem == 0)
+        _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
+    else
+        _url = 'https://fileesydoc.blob.core.windows.net/storageprivate/' + _path;
+
 
     if (_path.search(".pdf") > 0) {
         $("#viewer").hide();
@@ -263,29 +268,15 @@ var bindControles = function () {
 
     $('img').css('top', '0px');
 
-    var _path = $("#arq").val();
+   /* var _path = $("#arq").val();
     var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/' + _path;
 
     // TODO: 08/04/2016
     var iv1 = $("#viewer").iviewer({
-
         src: _url,
         zoom: "fit",
-
-        //zoom: "fit",
-        //zoom_base: 50,
-        //zoom_max: 500,
-        //zoom_min: 50,
-        //zoom_delta: 1.4,
-        //update_on_resize: false,
-        //zoom_animation: false
-        //set_zoom: 100,
-        //mousewheel: true,
-        //onMouseMove: function (ev, coords) { },
-        //onStartDrag: function (ev, coords) { }, //this image will not be dragged
-        //onDrag: function (ev, coords) { },
-        //onStartLoad: function (ev, coords) { $("#viewer").iviewer({ zoom: 36 }); }
     });
+    */
 
     $("#btn_salvar").click(function () {
         $('[type="checkbox"]').each(function () {
