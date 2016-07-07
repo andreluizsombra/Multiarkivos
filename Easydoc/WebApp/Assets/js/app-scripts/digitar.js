@@ -717,7 +717,7 @@ var gerar_json_documento = function () {
 
     $_retorno += '"Documento": {"IdDocumento":' + $_idDocumento + ', "Campos":[';
     $_camposDigitados.each(function (_index) {
-
+        
         var $_idDocCampo = $(this).attr('id');
 
         var $_idCampoModelo = $(this).attr('campo');

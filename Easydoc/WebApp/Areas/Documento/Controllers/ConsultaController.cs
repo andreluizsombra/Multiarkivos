@@ -33,6 +33,13 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return View(); 
         }
 
+        [HttpPost]
+        public ActionResult VerDocumento(string patharq)
+        {
+            ViewBag.Doc = patharq;
+            return View("VerDocumento");
+        }
+
         public ActionResult MontarConsulta()
         {
             RegistrarLOGSimples(6, 18, UsuarioAtual.NomeUsuario);

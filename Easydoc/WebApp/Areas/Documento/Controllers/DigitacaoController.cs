@@ -33,7 +33,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
         }
 
-
         //
         // GET: /Documento/Digitacao/
 
@@ -41,7 +40,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         {
             return View();
         }
-
 
         //public ActionResult Digitar()
         //{
