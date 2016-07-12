@@ -113,7 +113,7 @@ namespace MK.Easydoc.WebApp.Controllers
             {
                 try
                 {
-                    if (Session["NomeNomeServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+                    if (Session["NomeServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
                     return Session["NomeServico"].ToString();
                 }
                 catch

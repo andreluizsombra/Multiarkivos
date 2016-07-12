@@ -67,7 +67,6 @@ var trocar_imagem = function (_path) {
 
         // TODO: 08/04/2016
         var iv1 = $("#viewer").iviewer({
-            
             src: _path,
             zoom: "fit",
             onFinishLoad: function (ev, coords) { $("#viewer img").css("top", "0px"); }
@@ -87,11 +86,6 @@ var trocar_imagem = function (_path) {
         });
         // $("#viewer img").css({ position: "absolute", top: "0px", left: "0px" });
         $("#viewer img").css("top", "0px");
-      //  $("#in").click(function () { iv1.iviewer('zoom_by', 1); });
-     //   $("#out").click(function () { iv1.iviewer('zoom_by', -1); });
-      //  $("#fit").click(function () { iv1.iviewer('fit'); });
-     //   $("#orig").click(function () { iv1.iviewer('set_zoom', 36); });
-     //   $("#update").click(function () { iv1.iviewer('update_container_info'); });
 
     }
 }
@@ -249,7 +243,6 @@ var listar_documento_tipificar = function (_idLote) {
                 id_lote: parseInt(_idLote)
             },
             success: function (data, textstatus, xmlhttprequest) {
-
                 //trocar_imagem("/Content/Uploads/Souza Cruz/Contratos/2014/12/23/1/U1C1S2_2014122321981.jpg");
 
                 if (data == null) { return; }
@@ -331,6 +324,7 @@ function listar_documento_tipificar_CallBack(json) {
 
     //var _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;
     var _url = "";
+    debugger;
     if (json.Nuvem == 1)
         _url = json.CaminhoImg
     else
