@@ -289,6 +289,7 @@ var bindControles = function () {
         window.location = window.location.toString().replace(/#/gi, '');
     });
 
+
     $("#btn_salvarDup").click(function () {
 
 
@@ -416,26 +417,37 @@ var bindControles = function () {
 
 }
 
-var ajax_formalizar = function (_idDocumento, _idFormalizacao, _Valor) {
+function VincularDocumentoPai(iddocpai) {
+    //alert('clicou');
+    var iddoc = $("#IdDocumento").val();
+    var idservico = $("#idservico").val();
+    ajax_vincular(iddoc, idservico, iddocpai);
+}
+
+var ajax_vincular = function (_idDocumento, _idServico, _idDocumentoPai) {
 
     var methodName = GetMethodName(arguments.callee);
     try {
         $.ajax({
-            url: '../../Vinculo/AjaxGravarFormalizacaoPorPergunta',
+            url: '../../Vinculo/AjaxVincular',
             cache: false,
             dataType: 'json',
             type: 'POST',
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
-            data: { idDocumento: _idDocumento, idFormalizacao: _idFormalizacao, valor: _Valor },
+            data: { id_documento: _idDocumento, id_servico: _idServico, id_documentopai: _idDocumentoPai },
             success: function (data, textstatus, xmlhttprequest) {
                 if (data == null) {
                     return;
                 }
-                if (data.success == true) {
+                if (data.CodigoRetorno == -1) {
                     $.unblockUI();
-                    //window.location = window.location.toString().replace(/#/gi, '');
-                }
+
+                    exibirmsgatencao('Erro, ' + data.Mensagem);
+                    return false;
+                } 
                 else {
+                    ajax_mudastatus_documento($('#IdDocumento').val());
+                    window.location = window.location.toString().replace(/#/gi, '');
                     $.unblockUI();
                     $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
                 }

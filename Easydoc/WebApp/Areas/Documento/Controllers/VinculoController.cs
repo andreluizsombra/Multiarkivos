@@ -25,7 +25,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         private readonly IDocumentoService _docService;
         
         #endregion
-        public VinculoController() //Método construtor da classe FormalizacaoController
+        public VinculoController() //Método construtor da classe VnculoController
         {
             _loteService = DependencyResolver.Current.GetService<ILoteService>();
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
@@ -166,6 +166,77 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             ViewBag.ListaOcorrencia = new DocumentoRepository().ListarOcorrencia(IdServico_Atual, 1);
             _documento.Nuvem = new StoragePrivateRepository(IdCliente_Atual).Nuvem; //TODO: 07/07/2016
             return View("Vincular", _documento);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxMudaStatusDocumento(string idDocumento)
+        {
+            var ret = new Retorno();
+            try
+            {
+                _docService.MudaStatusDocumento(int.Parse(idDocumento), UsuarioAtual.ID, 3010, ServicoAtual.ID);
+                bool EmUso = _docService.EmUso(int.Parse(idDocumento), UsuarioAtual.ID, 2, ServicoAtual.ID);
+            }
+            catch (Exception erx)
+            {
+                ret.CodigoRetorno = 1;
+                ret.Mensagem = erx.Message;
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AjaxCallEnviarDocumentoSupervisao(int id_documento, int id_motivo)
+        {
+            try
+            {
+                MK.Easydoc.Core.Entities.Documento _doc = (new Core.Entities.Documento { ID = id_documento, StatusDocumento = 1020 });
+                _docService.AtualizarDocumento(_doc, ServicoAtual.ID);
+                bool EmUso = _docService.EmUso(id_documento, UsuarioAtual.ID, 2, ServicoAtual.ID);
+                _docService.IncluirMotivo(IdServico_Atual, id_documento, id_motivo, 1, UsuarioAtual.ID);
+
+                RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
+                // LOG: Enviou documento a supervisão
+            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
+            return Json(new RetornoViewModel(true, "Documento enviado para a supervisão!", null));
+        }
+
+        [HttpPost]
+        public JsonResult AjaxVoltarDocumentoEmUso(string idDocumento)
+        {
+            var ret = new Retorno();
+            try
+            {
+                bool EmUso = _docService.EmUso(int.Parse(idDocumento), UsuarioAtual.ID, 2, ServicoAtual.ID);
+            }
+            catch (Exception erx)
+            {
+                ret.CodigoRetorno = 1;
+                ret.Mensagem = erx.Message;
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            return Json(ret, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AjaxVincular(int id_documento, int id_servico, int id_documentopai)
+        {
+            var ret = new Retorno();
+            try
+            {
+                new DocumentoRepository().VincularDocumento(new Vinculo() { idDocumento = id_documento, idServico = id_servico, idDocumentoPai = id_documentopai });
+                ret.CodigoRetorno = 1;
+                ret.Mensagem = "Vinculo efetuado com sucesso.";
+            }
+            catch (Exception erx)
+            {
+                ret.CodigoRetorno = -1;
+                ret.Mensagem = erx.Message;
+                return Json(ret, JsonRequestBehavior.AllowGet);
+            }
+            return Json(ret, JsonRequestBehavior.AllowGet);
         }
     }
 }

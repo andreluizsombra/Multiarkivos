@@ -124,6 +124,27 @@ namespace MK.Easydoc.Core.Repositories
                 throw;
             }
         }
+        public void VincularDocumento(Vinculo vinculo)
+        {
+            try
+            {
+                DbCommand _cmd;
+                Database _db = DbConn.CreateDB();
+
+                _cmd = _db.GetStoredProcCommand(String.Format("Proc_VinculaDocumentoPontual"));
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, vinculo.idServico);
+                _db.AddInParameter(_cmd, "@idDocumentoPai", DbType.Int32, vinculo.idDocumentoPai);
+                _db.AddInParameter(_cmd, "@idDocumento", DbType.Int32, vinculo.idDocumento);
+
+                int iret = _db.ExecuteNonQuery(_cmd);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         //walmir
         //IncluirMotivo(int IdDocumento,int Atalho,int UserID)
         public void IncluirMotivo(IDictionary<string, object> _queryParams)

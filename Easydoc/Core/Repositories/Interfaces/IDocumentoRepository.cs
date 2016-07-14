@@ -48,5 +48,6 @@ namespace MK.Easydoc.Core.Repositories.Interfaces
         List<ConsultaDetalhe> ListarConsultaDetalhe(int idServico, int idDocumento, int idLote);
         List<Ocorrencia> ListaOcorrencia(int _idServico, int _tipo);
         //List<Ocorrencia> GetMotivoDigitar(int idServico, int Tipo);
+        void VincularDocumento(Vinculo vinculo);
     }
 }

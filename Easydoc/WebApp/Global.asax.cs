@@ -94,7 +94,6 @@ namespace MK.Easydoc.WebApp
             DependencyResolver.SetResolver(new AutofacDependencyResolver(_container));
         }
 
-
         protected void Application_AuthenticateRequest()
         {
             try

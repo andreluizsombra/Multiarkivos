@@ -293,4 +293,15 @@ namespace MK.Easydoc.Core.Entities
             ProcSqlValidacao = "";
         }
     }
+    public class Vinculo{
+        public int idServico { get; set; }
+        public int idDocumentoPai { get; set; }
+        public int idDocumento { get; set; }
+        public Vinculo()
+        {
+            idServico = -1;
+            idDocumentoPai = -1;
+            idDocumento = -1;
+        }
+    }
 }
