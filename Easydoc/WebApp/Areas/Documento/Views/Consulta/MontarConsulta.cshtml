@@ -348,7 +348,18 @@
 <div id="modal-doc" class="modal fade bs-example-modal-lg">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <img src="" id="imgdoc" />
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 col-ld-6">
+                        <img src="" id="imgdoc" />
+                        <!--Para PDF, carrousel é padrão pelo componente-->
+                        <div id="carousel" class="col-lg-10">
+                            <object data="" id="imgpdf" type="application/pdf" data-caption="PDF"></object>
+                            <!--<object data="pdf/original.pdf" type="application/pdf" data-caption="original"></object>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

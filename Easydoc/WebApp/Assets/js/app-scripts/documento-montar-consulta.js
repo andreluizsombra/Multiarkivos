@@ -797,9 +797,22 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         var arqimg = $("#" + obj.id).attr('pathimg');
         console.log(arqimg);
 
-        $("#imgdoc").attr("src", arqimg);
-        $("#modal-doc").modal('show');
+        if (arqimg.search(".pdf") > 0) {
+            $("#imgdoc").hide();
+            $("#imgpdf").attr("data", arqimg);
+            $("#carousel").show();
+            $("#carousel").pdfSlider({
+                itemWidth: 800
+                //,itemHeight: 1000
+            });
+            $(".pdfSlider_hideControls").hide();
+        } else {
+            $("#carousel").hide();
+            $("#imgdoc").attr("src", arqimg);
+            $("#imgdoc").show();
+        }
         
+        $("#modal-doc").modal('show');
     }
 
     function EnviarEmailPrincipal(obj) {
