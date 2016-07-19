@@ -182,7 +182,11 @@ namespace MK.Easydoc.WebApp.Controllers
             return View("Index");
         }
 
-        //
+        public ActionResult EfetuarLogin()
+        {
+            return RedirectToRoute("Logout");
+        }
+
         // GET: /Login/
         public ActionResult EncerrarAcesso()
         {

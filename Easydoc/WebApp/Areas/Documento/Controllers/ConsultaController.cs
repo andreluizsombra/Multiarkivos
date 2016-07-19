@@ -61,6 +61,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         {
             var _lista = new List<ConsultaDetalhe>();
             _lista = _docService.ListarConsultaDetalhe(IdServico_Atual, idDoc, idLote);
+            ViewBag.Nuvem = Nuvem_Atual;
             return View("ListaDetalhe",_lista); 
         }
 

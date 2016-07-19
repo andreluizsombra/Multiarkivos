@@ -506,7 +506,6 @@ namespace MK.Easydoc.Core.Repositories
                     while (_dr.Read())
                     {
                         _campos.Add(new ConsultaDetalhe() { Descricao = _dr["Descricao"].ToString(), PathArquivo = _dr["PathArquivo"].ToString() });
-
                     }
                 }
 

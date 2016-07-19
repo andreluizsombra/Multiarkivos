@@ -79,6 +79,11 @@ namespace MK.Easydoc.WebApp
            
         }
 
+        private void Session_End(object sender, EventArgs e)
+        {
+            //new Easydoc.WebApp.Controllers.LoginController().EfetuarLogin();
+        }
+
         protected void RegisterDependencyResolver()
         {
             var builder = new ContainerBuilder();

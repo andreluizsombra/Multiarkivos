@@ -853,7 +853,17 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         $("#pnl_parametros").hide();
         $("#pnl_resultado").hide();
         $("#pnl_resultado_detalhe").show();
-        var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
+        
+        var _nuvem = $("#hdn_nuvem").val();
+        var _url = "";
+        if (_nuvem == 0) {
+            _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
+        }
+        else {
+            _url = 'https://fileesydoc.blob.core.windows.net/storageprivate/'; // + cellvalue;
+        }
+
+        //var _url = window.location.protocol + '//' + window.location.host + '/StoragePrivate/';
         //var _img_det = '';
         //_img_det += '<a href=' + v_url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
 
@@ -878,8 +888,9 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                 $("#tblDetalhe tbody").empty();
                 
                 $.each(data, function (i, item) {
-                  //$("#tblDetalhe, tbody").append(item.Descricao);
-                  $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo + "' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
+                    //$("#tblDetalhe, tbody").append(item.Descricao);
+                    //debugger;
+                    $("#tblDetalhe tbody").append("<tr><td>" + item.Descricao + "</td><td><a href='" + _url + item.PathArquivo.trim() + "' id='teste' class='ls-btn-primary' target='_blank' style='target-new: tab;target-new: tab;'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;</td></tr>");
                 });
                 
                 AplicarDataTable();
@@ -894,8 +905,9 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             datatype: 'html',
             data: { idDoc: v_idDoc, idLote: v_idLote },
             success: function (data) {
+                
                 $("#lista_detalhe").empty();
-                $("#lista_detalhe").html(data);
+                $("#lista_detalhe").html(data); //Obs: data é um retorno da View chamada Consulta\ListaDetalhe.cshtml
             },
         });
 

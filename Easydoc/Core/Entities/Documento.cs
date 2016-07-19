@@ -223,6 +223,7 @@ namespace MK.Easydoc.Core.Entities
     {
         public string Descricao { get; set; }
         public string PathArquivo { get; set; }
+        public int Nuvem { get; set; }
     }
 
     public class Formalizacao
