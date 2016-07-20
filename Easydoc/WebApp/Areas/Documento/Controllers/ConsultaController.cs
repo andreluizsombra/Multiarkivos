@@ -39,6 +39,12 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             ViewBag.Doc = patharq;
             return View("VerDocumento");
         }
+        [HttpGet]
+        public ActionResult VisualizarDocumento(string patharq)
+        {
+            ViewBag.Doc = patharq;
+            return View("VerDocumento");
+        }
 
         public ActionResult MontarConsulta()
         {

@@ -1,5 +1,4 @@
 ﻿jQuery(document).ready(function () {
-
     init();
 });
 
@@ -783,8 +782,13 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         //var _patharq = '/StoragePrivate/' + cellvalue;
         
         var _ret = '';
-        //_ret += '<a href=' + _url + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
-        _ret += "<a href='#'><span id='btnAbreDoc' pathimg='" + _url.trim() + "' onclick='AbreDocumento(this)' class='ls-btn-primary'><i class='fa fa-picture-o' aria-hidden='true'></i></div></span>&nbsp;&nbsp;";
+        //debugger;
+        if(_url.trim().search(".pdf") > 0)
+            _ret += '<a href=' + _url.trim() + ' class="ls-btn-primary" target="_blank" style="target-new: tab;target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+        else
+            _ret += '<a href='+"/Documento/Consulta/VisualizarDocumento?patharq=/StoragePrivate/" + cellvalue + '" class="ls-btn-primary" target="_blank" style="target-new: tab;"><span class="glyphicon glyphicon-picture"></span></a>&nbsp;&nbsp;';
+
+        //_ret += "<a href='#'><span id='btnAbreDoc' pathimg='" + _url.trim() + "' onclick='AbreDocumento(this)' class='ls-btn-primary'><i class='fa fa-picture-o' aria-hidden='true'></i></div></span>&nbsp;&nbsp;";
         // 03/03/2016 
         _ret += '<a id="btn_Editar" class="ls-btn-primary" href="/Documento/Digitacao/Digitar/' + rowObject.IdDocumento + '"><span class="glyphicon glyphicon-pencil"></span></a> ';
         _ret += '<a id="btn_documentos" class="ls-btn-primary" href="#" onclick="AbreSubDocumentos(' + rowObject.IdDocumento + ',' + rowObject.idLote + ')"><i class="fa fa-plus"></i></a> ';
@@ -795,7 +799,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 
     function AbreDocumento(obj) {
         var arqimg = $("#" + obj.id).attr('pathimg');
-        console.log(arqimg);
+        //console.log(arqimg);
 
         if (arqimg.search(".pdf") > 0) {
             $("#imgdoc").hide();

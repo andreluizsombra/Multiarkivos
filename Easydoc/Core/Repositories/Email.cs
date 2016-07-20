@@ -38,7 +38,12 @@ namespace MK.Easydoc.Core.Repositories
             ConfirgurarEmail(idServico);
         }
         public static string RetornoNomeArquivo(string path){
-            string patharquivo = HttpContext.Current.Server.MapPath(path);
+            string patharquivo = "";
+            if (path.Contains("https"))
+                patharquivo = path;
+            else
+                patharquivo = HttpContext.Current.Server.MapPath(path);
+
             return System.IO.Path.GetFileName(patharquivo);
         }
         public string CriarArquivoZip(string ArquivoOrigem, string ArquivoDestino="", int qtdArqOrigem=0)
