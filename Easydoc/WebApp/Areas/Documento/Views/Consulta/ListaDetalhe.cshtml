@@ -17,7 +17,7 @@
                 @if (ViewBag.Nuvem == 1)
                 {
                     if(itm.PathArquivo.Contains(".pdf")) { 
-                        <td><a href='https://fileesydoc.blob.core.windows.net/storageprivate/@itm.PathArquivo' class='ls-btn-primary' target='_blank'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;<i id="@Guid.NewGuid()" class="fa fa-envelope-o" style="cursor:pointer" pathimg="@Email.RetornoNomeArquivo("https://fileesydoc.blob.core.windows.net/storageprivate/"+itm.PathArquivo)" onclick="EnviarEmail(this)"></i></td>
+                        <td><a href='https://fileesydoc.blob.core.windows.net/storageprivate/@itm.PathArquivo' class='ls-btn-primary' target='_blank'><span class='glyphicon glyphicon-picture'></span></a>&nbsp;&nbsp;<i id="@Guid.NewGuid()" class="fa fa-envelope-o" style="cursor:pointer" pathimg="https://fileesydoc.blob.core.windows.net/storageprivate/@itm.PathArquivo" onclick="EnviarEmail(this)"></i></td>
                     }
                     else
                     {

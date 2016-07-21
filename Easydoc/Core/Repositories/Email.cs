@@ -18,6 +18,7 @@ using System.Net.Mail;
 using System.Web;
 using System.IO.Compression;
 using ICSharpCode.SharpZipLib.Zip;
+using System.ComponentModel;
 
 
 namespace MK.Easydoc.Core.Repositories
@@ -31,7 +32,7 @@ namespace MK.Easydoc.Core.Repositories
         public int Porta { get; set; }
         public string DiretorioTemp { get; set; }
         public string ArquivoZip { get; set; }
-
+        public bool Download { get; set; }
         public Email() { }
         public Email(int idServico)
         {
@@ -57,7 +58,7 @@ namespace MK.Easydoc.Core.Repositories
 
             string fileName = "";
             string destFile = "";
-            string _diretorio_temp = _diretorio + "/temp";
+            string _diretorio_temp = _diretorio + "\\temp";
             this.DiretorioTemp = _diretorio_temp;
 
             if (System.IO.Directory.Exists(_diretorio_temp))
@@ -102,12 +103,13 @@ namespace MK.Easydoc.Core.Repositories
             }
 
             //System.IO.Directory.Delete(_diretorio_temp);
-            
             //fastZip.CreateZip("fileName.zip", @"C:\SourceDirectory", recurse, filter);
+            
             string arqzip = HttpContext.Current.Server.MapPath("~/ImageStorage/Documentos.zip");
+            if (System.IO.File.Exists(arqzip)) { System.IO.File.Delete(arqzip); }
             //string arqzip = HttpContext.Current.Server.MapPath(_diretorio_temp+@"\Documentos.zip");
             this.ArquivoZip = arqzip;
-            fastZip.CreateZip(arqzip, _diretorio, recurse, filter);
+            fastZip.CreateZip(arqzip, _diretorio_temp, recurse, filter);
             
             //var zip = new FastZip();
             //zip.CreateZip()
@@ -222,8 +224,29 @@ namespace MK.Easydoc.Core.Repositories
                 //codificação do corpo do emailpara que os caracteres acentuados serem reconhecidos.
                 objEmail.BodyEncoding = Encoding.GetEncoding("ISO-8859-1");
 
+                string _nome_arquivo = "";
                 //Anexar arquivo
-                string anexo = HttpContext.Current.Server.MapPath("~" + arqanexo);
+                string anexo = "";
+                if (int.Parse(HttpContext.Current.Session["Nuvem"].ToString()) == 1)
+                {
+                    WebClient webClient = new WebClient();
+                    //webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completo);
+                    //webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressoFeito);
+                    _nome_arquivo = RetornoNomeArquivo(arqanexo);
+                    if(!System.IO.Directory.Exists(HttpContext.Current.Server.MapPath("~/StoragePrivate/TempNuvem")))
+                    {
+                        Directory.CreateDirectory(HttpContext.Current.Server.MapPath("~/StoragePrivate/TempNuvem"));
+                    }
+                    
+                    //webClient.DownloadFileAsync(new Uri(arqanexo), HttpContext.Current.Server.MapPath("~/StoragePrivate/TempNuvem/"+_nome_arquivo));
+                    webClient.DownloadFile(arqanexo, HttpContext.Current.Server.MapPath("~/StoragePrivate/TempNuvem/" + _nome_arquivo));
+                    anexo = HttpContext.Current.Server.MapPath("~/StoragePrivate/TempNuvem/" + _nome_arquivo);
+                }
+                else
+                {
+                    anexo = HttpContext.Current.Server.MapPath("~" + arqanexo);
+                }
+
                 //string arqzip = HttpContext.Current.Server.MapPath("~/ImageStorage/Documento_" + this.Remetente.ToString().Trim() + ".zip");
                 //CriarArquivoZip(anexo, HttpContext.Current.Server.MapPath("~/ImageStorage"));
                 
@@ -236,10 +259,12 @@ namespace MK.Easydoc.Core.Repositories
                 //cria o objeto responsável pelo envio do email
                 SmtpClient objSmtp = new SmtpClient();
 
+                if (this.Servidor_Email == null) throw new Exception("Servidor de email não esta configurado.");
+                if (this.Porta == 0) throw new Exception("Porta do servidor de email não esta configurada.");
                 //endereço do servidor SMTP(para mais detalhes leia abaixo do código)
                 objSmtp.Host = this.Servidor_Email;//"mail.multiarkivos.com.br";
                 objSmtp.Port = this.Porta; //587;
-
+                
                 //para envio de email autenticado, coloque login e senha de seu servidor de email
                 //para detalhes leia abaixo do código
                 //objSmtp.Credentials = new NetworkCredential("email-sistema@multiarkivos.com.br", "email-sistema@20016*");
@@ -257,7 +282,10 @@ namespace MK.Easydoc.Core.Repositories
             }
             return ret;
         }
-
+        private void Completo(object sender, AsyncCompletedEventArgs e)
+        {
+            Download = true;
+        }
         private void ConfirgurarEmail(int idServico)
         {
             DocumentoModelo _modelo = new DocumentoModelo();

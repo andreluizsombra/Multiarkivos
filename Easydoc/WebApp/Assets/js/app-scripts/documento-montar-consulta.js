@@ -207,7 +207,7 @@ var init = function () {
             url: "/Documento/Consulta/AjaxCallEnviarEmail",
             type: 'POST',
             datatype: 'json',
-            data: { dest: dest, assunto: assunto, msg: msg, arq: $("#arqimg").val(), remetente: $("#txt_remetente").val() },
+            data: { dest: dest, assunto: assunto, msg: msg, arq: $("#arqimg").val(), remetente: $("#txt_remetente").val()},
             beforeSend: function () {
                 
                 $('#msgenviaremail').show();
@@ -845,10 +845,19 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         var arqimg = $("#" + obj.id).attr('pathimg');
         
         $("#arqimg").val(arqimg);
-        $("#lblanexo").html("");
-        $("#lblanexo").html("Arquivo em anexo: " + $("#arqimg").val());
+        $.ajax({
+            url: "/Documento/Consulta/AjaxCallNomeArquivo",
+            type: 'POST',
+            datatype: 'json',
+            data: { patharq: arqimg },
+            success: function (data) {
+                nome_arquivo = data;
+                $("#lblanexo").html("");
+                $("#lblanexo").html("Arquivo em anexo: " + data);
+                $("#modal-email").modal('show');
+            },
+        });
 
-        $("#modal-email").modal('show');
     }
 
     function AbreSubDocumentos(v_idDoc, v_idLote) {
