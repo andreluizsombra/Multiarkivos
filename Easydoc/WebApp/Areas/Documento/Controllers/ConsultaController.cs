@@ -286,5 +286,22 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             string nomearq = Email.RetornoNomeArquivo(patharq);
             return Json(nomearq, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult ExcluirDocumentoZip()
+        {
+            int retorno = 0;
+            try
+            {
+                string arqzip = System.Web.HttpContext.Current.Server.MapPath("~/ImageStorage/Documentos.zip");
+                if (System.IO.File.Exists(arqzip)) { System.IO.File.Delete(arqzip); }
+            }
+            catch (Exception)
+            {
+                retorno = -1;
+            }
+            return Json(retorno, JsonRequestBehavior.AllowGet);
+        }
+       
     }
 }

@@ -274,6 +274,10 @@ namespace MK.Easydoc.Core.Repositories
                 objSmtp.Send(objEmail);
 
                 ret = "Email enviado com sucesso";
+                
+                objSmtp.Dispose();
+                objEmail.Dispose();
+
             }
             catch (Exception erx)
             {

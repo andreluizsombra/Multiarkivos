@@ -216,6 +216,21 @@ var init = function () {
                 $('#msgenviaremail').hide();
                 $("#modal-email").modal('hide');
                 exibirmsg(data);
+                
+                //Caso não ocorra erro, limpar campos do formulario de email
+                if(data.trim().search("Erro") == -1){
+                    $("#txt_destinatario").val("");
+                    $("#txt_assunto").val("");
+                    $("#lblanexo").html("");
+                    $("#txt_mensagem").val("");
+
+                    $.post("/Documento/Consulta/ExcluirDocumentoZip", function (data) {
+                        if (data == -1) {
+                            console.log("Não foi possivel excluir Documento.zip");
+                        }
+                    });
+                }
+
                 if (data == null) {
                     exibirmsgatencao("Sem retorno.");
                     return;
