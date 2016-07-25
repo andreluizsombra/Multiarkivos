@@ -363,13 +363,13 @@
             exibirmsgatencao("@ViewBag.Error");
         }
 
-
-        var id_servico = @Session["IdServico"];
-
         $("#modalMSG").modal('show');
+
+        //var id_servico = @Session["IdServico"];
         //alert(id_servico);
+        var teste = request.getSession().getAttribute("UsuarioAtual_ID");
 
-
+        
         var _idusuario = @Session["UsuarioAtual_ID"];
         $.ajax({
             url: '@Url.Content("~")Home/AjaxVerificatroca',

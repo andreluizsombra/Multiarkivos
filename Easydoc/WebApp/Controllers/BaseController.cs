@@ -342,3 +342,16 @@ namespace MK.Easydoc.WebApp.Controllers
 
     }
 }
+public class Excecao
+{
+    public Excecao()
+    {
+        
+    }
+    public Excecao(string titulo, string msg, Exception ex)
+    {
+        HttpContext.Current.Session["Titulo"] = titulo;
+        HttpContext.Current.Session["Mensagem"] = msg;        
+        HttpContext.Current.Session["Detalhes"] = ex.Message+" \n ,"+ ex.InnerException+"\n ,"+ex.Source.ToString()+", \n"+ex.StackTrace.ToString();        
+    }
+}

@@ -2,10 +2,86 @@
 
 @{
     ViewBag.Title = "Error";
+    //Layout = null;
 }
 
-<hgroup class="title">
+@*<hgroup class="title">
     <h1 class="error">Error.</h1>
     <h2 class="error">An error occurred while processing your request.</h2>
     <h3>@Model.Exception.Message</h3>
-</hgroup>
+</hgroup>*@
+<html>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modalExcecao" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                        <span class="sr-only">Fechar</span>
+                    </button>
+                    <h4 class="modal-title">Exceção</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    
+                                    @if (Session["Titulo"] == null)
+                                    {
+                                        @Html.Raw("Erro")    
+                                    }       else{
+                                        @Session["Titulo"]
+                                    }
+                                    @*Session["Detalhes"]*@
+                                </div>
+                                <div class="panel-body">
+                                    <h3>@Session["Mensagem"]</h3>
+                                    @if(Session["Mensagem"]==null){
+                                      <h3>@Model.Exception.Message</h3>
+                                    }
+                                    <p>
+                                        <div id="detalhe" style="display:none;">
+                                            @Session["Detalhes"]
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn btn-info" onclick="Detalhes();">Detalhes</div>
+                    <div class="btn btn-warning" onclick="Cancelar()">Repetir</div>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+</body>
+</html>
+<script>
+    $().ready(function () {
+        $("#modalExcecao").modal('show');
+        $('#modalExcecao').on('hidden.bs.modal', function (e) {
+            Cancelar();
+        })
+    });
+    function Cancelar() {
+        history.go(-1);
+    }
+    function Detalhes() {
+        $("#detalhe").show();
+    }
+</script>

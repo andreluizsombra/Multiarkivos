@@ -173,6 +173,7 @@ namespace MK.Easydoc.WebApp.Controllers
                 catch (Exception ex) {
                     //ModelState.AddModelError("Error", ex.Message);
                     //LOG: Login Não Autenticado
+                    new Excecao("Erro acesso", "Erro acesso ao banco de dados", ex);
                     log.RegistrarLOG(0, 0, 0, 0, 1, 2, 0, 0, model.NomeUsuario);
                     log.RegistrarLOGDetalhe(2, model.NomeUsuario);
                     ViewBag.Atencao = ex.Message;

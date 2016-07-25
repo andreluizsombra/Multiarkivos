@@ -231,8 +231,8 @@
     <Compile Include="Areas\Documento\Controllers\TipificacaoController.cs" />
     <Compile Include="Areas\Documento\Controllers\VinculoController.cs" />
     <Compile Include="Areas\Documento\DocumentoAreaRegistration.cs" />
+    <Compile Include="Areas\Excecoes\Controllers\ExcecaoController.cs" />
     <Compile Include="Areas\Excecoes\ExcecoesAreaRegistration.cs" />
-    <Compile Include="Areas\Excecoes\Models\ExececoesController.cs" />
     <Compile Include="Areas\GED\Controllers\ImagemController.cs" />
     <Compile Include="Areas\GED\Controllers\MenuController.cs" />
     <Compile Include="Areas\GED\GEDAreaRegistration.cs" />
@@ -1597,6 +1597,7 @@
     <Content Include="Areas\Manutencao\Views\DocumentoModelo\Novo.cshtml" />
     <Content Include="Areas\Manutencao\Views\DocumentoModelo\Edit.cshtml" />
     <Content Include="Areas\Documento\Views\Consulta\VerDocumento.cshtml" />
+    <Content Include="Areas\Excecoes\Views\Excecao\Index.cshtml" />
     <None Include="Properties\PublishProfiles\MK-EASYDOC.pubxml" />
     <Content Include="sbadmin2\bower.json" />
     <Content Include="sbadmin2\bower_components\bootstrap-social\.bower.json" />
@@ -2586,7 +2587,7 @@
     <Folder Include="App_Data\App_LocalResources\" />
     <Folder Include="Areas\Documento\Models\" />
     <Folder Include="Areas\Documento\Views\Shared\" />
-    <Folder Include="Areas\Excecoes\Controllers\" />
+    <Folder Include="Areas\Excecoes\Models\" />
     <Folder Include="Areas\Excecoes\Views\Shared\" />
     <Folder Include="Areas\GED\Models\" />
     <Folder Include="Areas\GED\Views\Shared\" />
