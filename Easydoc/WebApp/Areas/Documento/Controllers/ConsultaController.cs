@@ -13,6 +13,7 @@ using MK.Easydoc.WebApp.ViewModels;
 
 namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
 {
+    
     public class ConsultaController : BaseController
     {
         #region Private Read-Only Fields
@@ -24,6 +25,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         {
             //_loteService = DependencyResolver.Current.GetService<ILoteService>();
             _docService = DependencyResolver.Current.GetService<IDocumentoService>();
+            SessaoExpirou();
         }
 
         //
@@ -86,10 +88,18 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             return Json(_resultado);
         }
 
+        [HttpPost]
+        public JsonResult SessionSituacao()
+        {
+            string retorno = "1";
+            if (Session["IdServico"] == null) { retorno = "0"; }
+            return Json(retorno, JsonRequestBehavior.AllowGet);
+        }
         //AjaxCallConsultaDinamica
         [HttpPost]
-        public JsonResult AjaxCallConsultaDinamica(int id_documento_modelo, string campos,string filtros, string proc_name)
+        public ActionResult AjaxCallConsultaDinamica(int id_documento_modelo, string campos,string filtros, string proc_name)
         {
+
             var _resultado = string.Empty;
             try
             {

@@ -13,6 +13,7 @@ using System.Web.Optimization;
 using MK.Easydoc.WebApp.Infrastructure.Modules;
 using MK.Easydoc.Core.Services.Interfaces;
 using MK.Easydoc.WebApp.Infrastructure.Filters;
+using System.Web.Security;
 
 namespace MK.Easydoc.WebApp
 {
@@ -76,12 +77,23 @@ namespace MK.Easydoc.WebApp
         }
         protected void Session_Start()
         {
-           
+            if (Session["NomeUsuario"] == null)
+            {
+                //Redirect to Welcome Page if Session is not null  
+                //HttpContext.Current.Response.Redirect("~/Login/EfetuarLogin", false);
+                new RedirectToRouteResult(new RouteValueDictionary { { "action", "EfetuarLogin" }, { "controller", "Login" } });
+                HttpContext.Current.Response.Redirect("~/Login", false);
+            }
+            else
+            {
+                //Redirect to Login Page if Session is null & Expires                   
+                //new RedirectToRouteResult(new RouteValueDictionary { { "action", "Index" }, { "controller", "Login" } });
+            }
         }
 
         private void Session_End(object sender, EventArgs e)
         {
-            //new Easydoc.WebApp.Controllers.LoginController().EfetuarLogin();
+            
         }
 
         protected void RegisterDependencyResolver()

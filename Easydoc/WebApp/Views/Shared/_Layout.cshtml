@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@{
+    if (Session["NomeUsuario"] == null)
+    {
+        //Redirect to Welcome Page if Session is not null  
+        //HttpContext.Current.Response.Redirect("~/Login/EfetuarLogin", false);
+        HttpContext.Current.Response.Redirect("~/Login", false);
+    }
+}
+<!DOCTYPE html>
 @*<html class="theme-Easydoc">*@
 <html>
 <head>
@@ -359,6 +367,8 @@
 <script>
     //$("#btnPendencias").css('display','none');
     $().ready(function () {
+
+
         if("@ViewBag.Error"!=""){
             exibirmsgatencao("@ViewBag.Error");
         }
@@ -367,7 +377,7 @@
 
         //var id_servico = @Session["IdServico"];
         //alert(id_servico);
-        var teste = request.getSession().getAttribute("UsuarioAtual_ID");
+        //var teste = request.getSession().getAttribute("UsuarioAtual_ID");
 
         
         var _idusuario = @Session["UsuarioAtual_ID"];

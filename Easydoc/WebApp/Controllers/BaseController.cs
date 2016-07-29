@@ -32,7 +32,16 @@ namespace MK.Easydoc.WebApp.Controllers
             this._usuarioService = DependencyResolver.Current.GetService<IUsuarioService>();
             this._servicoService = DependencyResolver.Current.GetService<IServicoService>();
             this._clienteService = DependencyResolver.Current.GetService<IClienteService>();
-
+           
+            try
+            {
+                if (Session["IdServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+            }
+            catch
+            {
+                TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                RedirectToAction("EncerrarAcesso", "Login");
+            }
         }
 
         #endregion
@@ -282,6 +291,19 @@ namespace MK.Easydoc.WebApp.Controllers
             catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
 
             return Json(new RetornoViewModel(true, null));
+        }
+
+        public void SessaoExpirou()
+        {
+            try
+            {
+                if (Session["IdServico"] == null) { RedirectToAction("EncerrarAcesso", "Login"); }
+            }
+            catch
+            {
+                TempData["Error"] = "Sessão expirou, porfavor efetuar login...";
+                RedirectToAction("EncerrarAcesso", "Login");
+            }
         }
 
         [HttpPost]
