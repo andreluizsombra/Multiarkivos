@@ -61,6 +61,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
             if (id==0)
             {
                 _documento = _docService.GetDocumentoDigitar(UsuarioAtual.ID, ServicoAtual.ID);
+               
                 EmUso = _docService.EmUso(_documento.ID, UsuarioAtual.ID, 1, ServicoAtual.ID);
 
                 if (EmUso) 
@@ -271,6 +272,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 
                 foreach (CampoModelo _campo in _campoModelo.Campos)
                 {
+                    _campo.IdServico = IdServico_Atual;
                     _docService.AtualizarDocumentoCampo(_campo);                
                 }
                                
@@ -344,9 +346,6 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
         //    catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
         //    return Json(new RetornoViewModel(true, "Documento digitado com sucesso!", null));
         //}
-
-
-
 
         [HttpPost]
         public ActionResult AjaxCallExcuirDocumento(int id_documento,int id_motivo )

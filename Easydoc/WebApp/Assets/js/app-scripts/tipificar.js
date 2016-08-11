@@ -324,7 +324,7 @@ function listar_documento_tipificar_CallBack(json) {
 
     //var _url = window.location.protocol + '//' + window.location.host + json.CaminhoImg;
     var _url = "";
-    debugger;
+    //debugger;
     if (json.Nuvem == 1)
         _url = json.CaminhoImg
     else

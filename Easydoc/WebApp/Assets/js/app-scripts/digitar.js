@@ -6,7 +6,6 @@ jQuery(document).ready(function () {
 
     $('input:text[id^="txtcampo_"]').keydown(checkForEnter);
 
-
     var AtualizarPagina = function () {
         if ($('#IdDocumento').val() == 0) {
             window.location = window.location.toString().replace(/#/gi, '');
@@ -16,7 +15,6 @@ jQuery(document).ready(function () {
 
     if ($('#IdDocumento').val() == 0) {
         setInterval(AtualizarPagina, 10000);
-        
     } else {
         init();
         $.unblockUI();
@@ -35,7 +33,6 @@ function BoxPosicaoInicial() {
     //console.log('aqui');
     $('#boxcampos').css('margin-top', '0px');
     $('html, body').animate({ scrollTop: 0 });
- 
 }
 
 function MoverCampos(campo) {
@@ -50,7 +47,6 @@ function MoverCampos(campo) {
     } else {
         $('html, body').animate({ scrollTop: 0}, 'slow');
     }
-
     /*cmp.focusin(function () {
         //var tam = $('input[rotulo=Placa]').attr('movecampo');
         var tam = cmp.attr('movecampo');
@@ -72,6 +68,7 @@ function BoxCampoPlaca(campo) {
 }
 
 function validarCampos() {
+   // debugger;
     var $_txtCampo = $('input:text[required]');
     var $_ret = true;
     $_txtCampo.each(function (_index) {
@@ -543,7 +540,7 @@ var ajax_voltar_documento_emuso = function (_idDocumento) {
             beforeSend: function (xhr) { $.blockUI(blockUISettings); },
             data: { idDocumento: _idDocumento },
             success: function (data, textstatus, xmlhttprequest) {
-                debugger;
+                
                 if (data == null) {
                     return;
                 }
@@ -709,8 +706,8 @@ var ajax_Aprovar = function (_idDocumento) {
     catch (e) { Exception.show(e.toString(), methodName); }
 }
 
-
 var gerar_json_documento = function () {
+    
     var $_retorno = '{';
     var $_camposDigitados = $('input:text[id^="txtcampo_"]');
     var $_idDocumento = $('#IdDocumento').val();
@@ -722,19 +719,29 @@ var gerar_json_documento = function () {
 
         var $_idCampoModelo = $(this).attr('campo');
         $_idDocCampo = $_idDocCampo.replace('txtcampo_', '');
-
+        //debugger;
         var _mascaraSaida = '';
         _mascaraSaida = $(this).attr('mascaraSaida');        //alert($(this).attr('mascaraSaida')); //*************************
-        if (_mascaraSaida != '') {
+        if (_mascaraSaida != '0') {
             $(this).mask(_mascaraSaida);
-        }
+        } 
 
         var $_valorCampo = $(this).val();
-                                   // alert('Valor Campo= ' + $_valorCampo.text); //**************************
+        var $_tipoUI = $(this).attr('tipoui'); 
+        console.log($_valorCampo);
+
+        //Verifica se o campo valor é do tipo Decimal 
+        var _mascaraEntrada = $(this).attr('mascara');
+        if (_mascaraEntrada == '0,00') {
+            $_valorCampo = 'D'+$(this).val();
+        }
+        console.log($_valorCampo);
+        debugger;
         $_retorno += JSON.stringify({
-            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo
+            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo, TipoUI: $_tipoUI
         });
         $_retorno += ',';
+        console.log($_retorno);
     });
 
     $_retorno = $_retorno.substr(0, $_retorno.length - 1);

@@ -93,24 +93,11 @@ var init = function () {
 
     $("#btn-pesquisar").click(function () {
         //MontaDataJSON();
-        var _valor_pesq = $("#txtValor-99000").val();
-        console.log(_valor_pesq);
-        
-        //var _valor = $("#txtValor-99000").val();
-        VerificarSessaoExpirou();
-        //$("#txtValor-99000").val(_valor);
-
         var json = MontaDataJSON();
         PesquisarDosumentos(json);
         
         $('#pnl-result').show();
         ColunaAuto();
-
-        //---------------------------------------------------------------------------
-        //Apos Pesquisa aplica mascara conforme dados do campo de filtro selecionado
-        //---------------------------------------------------------------------------
-        AplicarFiltroSelecione();
-
     });
 
     $("#btn-edita").click(function () {
@@ -166,8 +153,6 @@ var init = function () {
 
     //TODO: AndreSombra 10/11/2015
     $("#sel-index-99000").change(function () {
-        AplicarFiltroSelecione(); //Essa mesma funcao tb esta no click do botão pesquisar
-        /* 
         var _mascara = $("#sel-index-99000 option:selected" ).attr("mascara");
         //alert(_mascara);
         //console.log(_mascara);
@@ -188,13 +173,13 @@ var init = function () {
                 $("#txtValor-99000").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
                 $("#txtValor-99000").focus();
             }
+
         }
         else {
             $("#txtValor-99000").unmask();
             $("#txtValor-99000").focus();
         }
         FiltraOperador(2);
-        */
     });
 
     $("#tblGrid").change(function () {
@@ -260,45 +245,12 @@ var init = function () {
     */
 }
 
-var AplicarFiltroSelecione = function () {
-    var _mascara = $("#sel-index-99000 option:selected").attr("mascara");
-    //alert(_mascara);
-    //console.log(_mascara);
-    //TODO: AndreSombra 11/11/2015
-    $("#txtValor-99000").maskMoney('unmasked');
-    $("#txtValor-99000").maskMoney('destroy');
-    $("#txtValor-99000").unmask();
-
-    if (_mascara != '') {
-
-        if (_mascara != '0,00') {
-
-            $("#txtValor-99000").mask(_mascara);
-            $("#txtValor-99000").focus();
-        }
-        else {
-
-            $("#txtValor-99000").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
-            $("#txtValor-99000").focus();
-        }
-    }
-    else {
-        if (_mascara != '0,00') {
-            $("#txtValor-99000").unmask()
-        } else {
-            $("#txtValor-99000").maskMoney('destroy');
-        }
-
-        $("#txtValor-99000").focus();
-    }
-    FiltraOperador(2);
-}
-
 var RemoveCamposFiltro = function ($_obj) {
     var _id = $($_obj).attr('id');
     _id = _id.replace('del-', '')
     $("#"+_id).remove();
 }
+
 
 function listar_tipos_doc_CallBack(json) {
     $("#cboTiposDoc option").remove();
@@ -570,6 +522,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
 //        }
 //    });
 //}
+
 
     var MontarJQGrid = function (id_documento, _campos, _where, _procedure, jsonDataName, jsonDataModel) {
         $("#tblGrid").jqGrid('GridUnload');
@@ -988,21 +941,6 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             },
         });
     }
-
-    function VerificarSessaoExpirou() {
-        var nome_arquivo = "";
-        $.ajax({
-            url: "/Documento/Consulta/SessionSituacao",
-            type: 'POST',
-            datatype: 'json',
-            success: function (data) {
-                if (data == 0) {
-                    window.location = window.location.toString().replace(/#/gi, '');
-                }
-            },
-        });
-    }
-
     function AplicarDataTable()
     {
         if ($("#tblStatus_detalhe").val() == 0) {
@@ -1125,8 +1063,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             //TODO: AndreSombra 12/11/2015
             _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
             var _mascarasaida = $('#sel-index-' + _id + ' option:selected').attr("mascarasaida")
-            //$('#txtValor-' + _id).mask(_mascarasaida);  //Colocar MascaraSaida
-            $('#txtValor-' + _id).unmask(); //29/07/2016 - Retirei a mascara saida que estava setada na linha acima
+            $('#txtValor-' + _id).mask(_mascarasaida);  //Colocar MascaraSaida
 
             //TODO: AndreSombra 13/11/2015
             if ($('#sel-operador-' + _id + ' option:selected').val() == 'Like') {
@@ -1134,12 +1071,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                 _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + _valor + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
             }
             else {
-
-                var _valor_num = $('#txtValor-' + _id).val().replace('.', '').replace(',', '');
-                console.log(_valor_num);
-
-                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "' + _valor_num + '", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
-                //strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
             }
 
         });
@@ -1166,7 +1098,7 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             $('#txtValor-' + _id).mask(_mascara);
         });
        // debugger;
-       // console.log(_str.toString());
+        console.log(_str.toString());
         return _str;
     }
 
@@ -1281,8 +1213,8 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             cmp.mask(_mascara)
         }
         else {
-            //cmp.val('');
-            //cmp.unmask();
+            cmp.val('');
+            cmp.unmask();
         }
         //FiltraOperador(5);
         FiltraOperadorDinamico(campo);
@@ -1333,17 +1265,3 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
             }
         });
     }
-
-//Exemplo Herança em JavaScript
-/*    function Conta() {
-        this.saldo = 0;
-        this.deposita = function (valor) {
-            thid.saldo += valor;
-        };
-    }
-    var contaCorrente = new Conta();
-    contaCorrente.deposita(1000);
-    contaCorrente.saldo; //1000
-*/
-
-

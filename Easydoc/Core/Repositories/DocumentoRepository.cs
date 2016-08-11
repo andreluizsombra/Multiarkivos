@@ -274,16 +274,18 @@ namespace MK.Easydoc.Core.Repositories
 
                 CampoModelo _campo = (CampoModelo)_queryParams["DocumentoCampo"];
                 
-                
                 _cmd = _db.GetStoredProcCommand(String.Format("proc_documento_campo_alt"));
 
                 _db.AddInParameter(_cmd, "@IdDocumentoCampo", DbType.Int32, _campo.IndexUI);
+
+                _db.AddInParameter(_cmd, "@idServico", DbType.Int32, _campo.IdServico);
                 
                 if (!string.IsNullOrEmpty(_campo.Valor))
                     _db.AddInParameter(_cmd, "@Valor", DbType.String, _campo.Valor);
 
                 //if (int.Parse(_queryParams["NumPagina"].ToString()) != 0)
                 //    _db.AddInParameter(_cmd, "@numPagina", DbType.Int32, _campo.);
+                _db.AddInParameter(_cmd, "@TipoUI", DbType.String, _campo.TipoUI);
 
                 int iret = _db.ExecuteNonQuery(_cmd);
                 
@@ -759,7 +761,7 @@ namespace MK.Easydoc.Core.Repositories
                 TipoSQL = dt["TipoSQL"].ToString(),
                 Movecampo = int.Parse(dt["Movecampo"].ToString()),
                 Maiuscula = int.Parse(dt["Maiuscula"].ToString()),
-
+                TipoUI = dt["TipoUI"].ToString()
             });
             return _campo;
         }

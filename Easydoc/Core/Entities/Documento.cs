@@ -60,6 +60,7 @@ namespace MK.Easydoc.Core.Entities
     public class CampoModelo
     {
         public int ID { get; set; }
+        public int IdServico { get; set; }
         public int IndexDoc { get; set; }
         public string IndexUI { get; set; }
         public string Descricao { get; set; }
@@ -86,6 +87,7 @@ namespace MK.Easydoc.Core.Entities
         public string Valor { get; set; }
         public int Movecampo { get; set; }
         public int Maiuscula { get; set; }
+        public string TipoUI { get; set; }
 
         public CampoModelo()
         {
@@ -119,6 +121,7 @@ namespace MK.Easydoc.Core.Entities
             
             Movecampo = 0;
             Maiuscula = 0;
+            TipoUI = string.Empty;
         }
     }
 
