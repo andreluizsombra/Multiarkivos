@@ -442,8 +442,9 @@ var bindControles = function () {
 
     });
     $("#btn_enviaSupervisaoLiderado").click(function () {
-        ajax_ValidaDuplicidade($('#IdDocumento').val(), 8);
-        //return true;
+       // ajax_ValidaDuplicidade($('#IdDocumento').val(), 8);
+        $('#modal-supervisao').modal();
+        txtValor.focus();
     });
     $("#btn_supervisor").click(function () {
 
@@ -727,8 +728,9 @@ var gerar_json_documento = function () {
         } 
 
         var $_valorCampo = $(this).val();
-        var $_tipoUI = $(this).attr('tipoui'); 
-        console.log($_valorCampo);
+        var $_tipoUI = $(this).attr('tipoui');
+        var $_rotuloabrev = $(this).attr('rotuloabrev');
+        console.log($_rotuloabrev);
 
         //Verifica se o campo valor é do tipo Decimal 
         var _mascaraEntrada = $(this).attr('mascara');
@@ -738,7 +740,7 @@ var gerar_json_documento = function () {
         console.log($_valorCampo);
         debugger;
         $_retorno += JSON.stringify({
-            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo, TipoUI: $_tipoUI
+            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo, TipoUI: $_tipoUI, RotuloAbreviado: $_rotuloabrev
         });
         $_retorno += ',';
         console.log($_retorno);

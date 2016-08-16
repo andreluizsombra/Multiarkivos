@@ -286,6 +286,7 @@ namespace MK.Easydoc.Core.Repositories
                 //if (int.Parse(_queryParams["NumPagina"].ToString()) != 0)
                 //    _db.AddInParameter(_cmd, "@numPagina", DbType.Int32, _campo.);
                 _db.AddInParameter(_cmd, "@TipoUI", DbType.String, _campo.TipoUI);
+                _db.AddInParameter(_cmd, "@RotuloAbreviado", DbType.String, _campo.RotuloAbreviado);
 
                 int iret = _db.ExecuteNonQuery(_cmd);
                 
