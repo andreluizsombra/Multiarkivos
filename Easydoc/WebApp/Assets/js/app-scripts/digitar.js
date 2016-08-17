@@ -632,7 +632,6 @@ var ajax_ValidaDuplicidade = function (_idDocumento, _id) {
 }
 
 var ajax_enviar_supervisao = function (_idDocumento, _idMotivo) {
-
     var methodName = GetMethodName(arguments.callee);
     try {
         $.ajax({
@@ -646,17 +645,17 @@ var ajax_enviar_supervisao = function (_idDocumento, _idMotivo) {
             success: function (data, textstatus, xmlhttprequest) {
                 //alert("SAi 0")
                 if (data == null) {
-                    //alert("SAi 1");
+                    //console.log("SAi 1");
                     return;
                 }
-                //alert("SAi 2");
+                console.log("SAi 2");
                 if (data.success == true) {
-                    //alert("SAi 3");
+                    //console.log("SAi 3");
                     $.unblockUI();
                     window.location = window.location.toString().replace(/#/gi, '');
                 }
                 else {
-                    //alert("SAi 4");
+                    console.log("Ocorreu algum erro...");
                     $.unblockUI();
                     $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
                     ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });

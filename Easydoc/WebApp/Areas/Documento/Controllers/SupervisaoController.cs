@@ -68,7 +68,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 {
                     det = _docService.PesquisarMotivo(detalhe.IdDocumento, IdServico_Atual);
                     //_documentoView.CamposDocumentoDetalhe = string.Format("| Caixa: {0} | Lote: {1} | Motivo: {2}", detalhe.Caixa, detalhe.Lote,det); 
-                    _documentoView.CamposDocumentoDetalhe = string.Format("Motivo: {0}", det); 
+                    _documentoView.CamposDocumentoDetalhe = string.Format("Ocorrência: {0}", det); 
                 }
 
                 //var x = serializer.Deserialize(_j.Data.ToString(),DocumentoDetalhe);
