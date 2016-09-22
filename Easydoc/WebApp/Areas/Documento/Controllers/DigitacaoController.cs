@@ -213,9 +213,7 @@ namespace MK.Easydoc.WebApp.Areas.Documento.Controllers
                 RegistrarLOGSimples(4, 16, UsuarioAtual.NomeUsuario);
                 // LOG: Enviou documento a supervisão
             }
-            catch (Exception ex) { 
-                return Json(new RetornoViewModel(false, ex.Message)); 
-            }
+            catch (Exception ex) { return Json(new RetornoViewModel(false, ex.Message)); }
             return Json(new RetornoViewModel(true, "Documento enviado para a supervisão!", null));
         }
 

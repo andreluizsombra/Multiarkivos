@@ -28,23 +28,25 @@ var init = function () {
     $('input:text[id^="txtcampo_"]').focus();
     //$("#viewer").iviewer('set_zoom', 36);
     //$("#viewer").iviewer({ zoom: 36 });
-
     //$("#viewer img").removeAttr('style');
-
     $("#codtipodoc").focus();
-    
     //$("#viewer img").removeAttr('style');
-
     
     $('#codtipodoc').keypress(function (e) {
         if (e.which == 13) {
+            if ($("#li_" + $("#codtipodoc").val()).length == 0) {
+                $("#modalERROTipificacao").modal('show');
+                $("#lblmsg_erro_tipificacao").empty().html('Código não existe na lista, tente novamente...');
+                //exibirmsgatencao('Código não existe na lista, tente novamente...');
+                e.preventDefault();
+                return false;
+            }
             if (tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()) == false) {
                 e.preventDefault();
                 return false;
             }
         }
     });
-    
 }
 
 var trocar_imagem = function (_path) {
@@ -119,8 +121,24 @@ var bindControles = function () {
     */
 
     //Antes $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLote").val(), $("#cboTiposDoc option:selected").val()); });
-    
-    $("#btn_salvar").click(function () { tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val()); });
+
+    $("#btn_salvar").click(function () {
+        //debugger;
+        var _codtipo = $("#codtipodoc").val();
+        if (_codtipo == "") _codtipo = 0;
+        console.log(_codtipo);
+        console.log('Entrou click botao salvar');
+
+        if ($("#li_" + _codtipo).length == 0) {
+            //console.log('Código não existe na lista, tente novamente...');
+            $("#modalERROTipificacao").modal('show');
+            $("#lblmsg_erro_tipificacao").empty().html('Código não existe na lista, tente novamente...');
+            //exibirmsgatencao('Código não existe na lista, tente novamente...ok');
+            return false;
+        } else {
+            tipificar_documento($("#hdnIdLote").val(), $("#hdnIdLoteItem").val(), $("#codtipodoc").val());
+        }
+    });
 
     //listar_documento_tipificar(0); });
     $("#btn_excluirlote").click(function () { $("#modalExcluirLote").modal('show'); /*locastyle.modal.open({ target: "#modal-Excluir" }); }); //listar_documento_tipificar(0);*/ });
@@ -266,11 +284,6 @@ var listar_documento_tipificar = function (_idLote) {
 var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
     var methodName = GetMethodName(arguments.callee);
     
-    if ($("#li_" + _idDocumentoModelo).length == 0) {
-        exibirmsgatencao('Código não existe na lista, tente novamente...');
-        return false;
-    } else {
-
         try {
             $.ajax({
                 url: '../Tipificacao/AjaxCallTipificarDocumento',
@@ -311,7 +324,6 @@ var tipificar_documento = function (_idLote, _idLoteItem, _idDocumentoModelo) {
             });
         }
         catch (e) { Exception.show(e.toString(), methodName); }
-    }
 }
 
 

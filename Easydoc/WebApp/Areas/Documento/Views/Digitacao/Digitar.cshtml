@@ -144,11 +144,11 @@
                                            {
                                                if (_campo.Requerido)
                                                {
-                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" tipoui="@_campo.TipoUI" rotuloabrev="@_campo.RotuloAbreviado" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
+                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" tipoui="@_campo.TipoUI" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" required="required" />
                                                }
                                                else
                                                {
-                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" tipoui="@_campo.TipoUI" rotuloabrev="@_campo.RotuloAbreviado" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
+                                                <input type="@_campo.ControleWEB" id="txtcampo_@_campo.IndexUI" name="@_campo.Rotulo" tipoui="@_campo.TipoUI" mascara="@_campo.MascaraEntrada" mascarasaida="@_campo.MascaraSaida" movecampo="@_campo.Movecampo" maiuscula="@_campo.Maiuscula" rotulo="@_campo.Rotulo" campo="@_campo.ID" class="@_campo.ClasseCSS form-control" tabindex="@_campo.Tabulacao" value="@_campo.Valor" maxlength="@_campo.MaxLength" />
                                                }
                                            }
 
@@ -253,7 +253,7 @@
                     || (event.keyCode==46) )"
                     campo="8" class="" tabindex="1" value="" required="required" maxlength="1" />
 
-                    @if (Model.StatusDocumento == 1000 || Model.StatusDocumento==1010)
+                    @if (Model.StatusDocumento == 1000)
                     {
                         @*<a id="btn_salvarModal" class="btn btn-primary btn-sm" href="#">Salvar</a>*@
                         <div id="btn_salvarModal" class="btn btn-primary">Salvar</div>

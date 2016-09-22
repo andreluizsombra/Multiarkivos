@@ -442,9 +442,8 @@ var bindControles = function () {
 
     });
     $("#btn_enviaSupervisaoLiderado").click(function () {
-       // ajax_ValidaDuplicidade($('#IdDocumento').val(), 8);
-        $('#modal-supervisao').modal();
-        txtValor.focus();
+        ajax_ValidaDuplicidade($('#IdDocumento').val(), 8);
+        //return true;
     });
     $("#btn_supervisor").click(function () {
 
@@ -632,6 +631,7 @@ var ajax_ValidaDuplicidade = function (_idDocumento, _id) {
 }
 
 var ajax_enviar_supervisao = function (_idDocumento, _idMotivo) {
+
     var methodName = GetMethodName(arguments.callee);
     try {
         $.ajax({
@@ -645,17 +645,17 @@ var ajax_enviar_supervisao = function (_idDocumento, _idMotivo) {
             success: function (data, textstatus, xmlhttprequest) {
                 //alert("SAi 0")
                 if (data == null) {
-                    //console.log("SAi 1");
+                    //alert("SAi 1");
                     return;
                 }
-                console.log("SAi 2");
+                //alert("SAi 2");
                 if (data.success == true) {
-                    //console.log("SAi 3");
+                    //alert("SAi 3");
                     $.unblockUI();
                     window.location = window.location.toString().replace(/#/gi, '');
                 }
                 else {
-                    console.log("Ocorreu algum erro...");
+                    //alert("SAi 4");
                     $.unblockUI();
                     $('div#modal-resultado-digitacao span#texto-resultado').text(data.message);
                     ////locastyle.modal.open({ target: '#modal-resultado-digitacao' });
@@ -727,9 +727,8 @@ var gerar_json_documento = function () {
         } 
 
         var $_valorCampo = $(this).val();
-        var $_tipoUI = $(this).attr('tipoui');
-        var $_rotuloabrev = $(this).attr('rotuloabrev');
-        console.log($_rotuloabrev);
+        var $_tipoUI = $(this).attr('tipoui'); 
+        console.log($_valorCampo);
 
         //Verifica se o campo valor é do tipo Decimal 
         var _mascaraEntrada = $(this).attr('mascara');
@@ -739,7 +738,7 @@ var gerar_json_documento = function () {
         console.log($_valorCampo);
         debugger;
         $_retorno += JSON.stringify({
-            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo, TipoUI: $_tipoUI, RotuloAbreviado: $_rotuloabrev
+            ID: $_idCampoModelo, IndexDoc: $_idDocumento, IndexUI: $_idDocCampo, Valor: $_valorCampo, TipoUI: $_tipoUI
         });
         $_retorno += ',';
         console.log($_retorno);
