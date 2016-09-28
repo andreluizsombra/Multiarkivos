@@ -468,8 +468,6 @@ namespace MK.Easydoc.Core.Repositories
 
                 //_db.AddInParameter(_cmd, "@IdDocumentoModelo", DbType.Int32, int.Parse(_queryParams["DocumentoModelo_ID"].ToString()));
                 //_db.AddInParameter(_cmd, "@IdDocumento", DbType.Int32, int.Parse(_queryParams["Documento_ID"].ToString()));
-                
-                
                 //_db.AddInParameter(_cmd, "@IdStatus", DbType.Int32, int.Parse(_queryParams["Status_ID"].ToString()));
 
                 using (IDataReader _dr = _db.ExecuteReader(_cmd))

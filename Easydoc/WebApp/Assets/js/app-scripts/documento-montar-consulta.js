@@ -366,7 +366,8 @@ function ajax_buscar_campos_CallBack(json) {
     $(json).each(function () {
         _html += '<li id="' + this.RotuloAbreviado + '" class="ui-state-default ls-cursor-move">' + this.Rotulo + '</li>';
         //_htmlSel += '<option value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
-        _htmlSel += '<option mascara="' + this.MascaraEntrada + '" mascarasaida="' + this.MascaraSaida + '" tipocampo="' + this.TipoSQL + '" value="' + this.RotuloAbreviado + '">' + this.Rotulo + '</option>';
+        //AndreSombra 28/09/2016
+        _htmlSel += '<option mascara="' + this.MascaraEntrada + '" mascarasaida="' + this.MascaraSaida + '" tipocampo="' + this.TipoSQL + '" value="' + this.RotuloAbreviado + '" tipoui="'+this.TipoUI+'">' + this.Rotulo + '</option>';
     });
     
     if (_html != '') {
@@ -388,8 +389,8 @@ function bindJqGrid(actionController, feeID, datasetID, step)
 }
 
 
-var PesquisarDosumentos = function (json) {
     
+var PesquisarDosumentos = function (json) {
     //var json = MontaDataJSON();
     //debugger;
     var jsonDataName = "";
@@ -419,6 +420,7 @@ var PesquisarDosumentos = function (json) {
     });
 
     $(jsonWhere).each(function (_index) {
+        //debugger;
         if (strWhere == '') {
             strWhere = this.sel + ' ' + this.op + ' ' + this.val;
         } else {
@@ -426,6 +428,7 @@ var PesquisarDosumentos = function (json) {
         }
     });
     //debugger;
+    console.log(strSelect +" "+ strWhere);
     MontarJQGrid(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
     //ResultadoPesquisa(parseInt(jsonExecucao.idoc), strSelect, strWhere, jsonExecucao.proc, jsonDataName, jsonDataModel);
 }
@@ -1119,27 +1122,39 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
         $('div[id^="pnl-filtro"]').each(function () {
             var _id = '';
             var _mascara = '';
+            var _tipoui = '';
             _id = this.id.replace('pnl-filtro-f-', '');
             _id = _id.replace('pnl-filtro-d-', '');
             
             //TODO: AndreSombra 12/11/2015
             _mascara = $('#sel-index-' + _id + ' option:selected').attr("mascara")
             var _mascarasaida = $('#sel-index-' + _id + ' option:selected').attr("mascarasaida")
+
+            //TODO: AndreSombra 28/09/2016
+            _tipoui = $('#sel-index-' + _id + ' option:selected').attr("tipoui")
+
             //$('#txtValor-' + _id).mask(_mascarasaida);  //Colocar MascaraSaida
             $('#txtValor-' + _id).unmask(); //29/07/2016 - Retirei a mascara saida que estava setada na linha acima
 
             //TODO: AndreSombra 13/11/2015
             if ($('#sel-operador-' + _id + ' option:selected').val() == 'Like') {
                 var _valor = '%' + $('#txtValor-' + _id).val() + '%';
-                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + _valor + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + _valor + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                //_strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + _valor + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
             }
             else {
 
                 var _valor_num = $('#txtValor-' + _id).val().replace('.', '').replace(',', '');
                 console.log(_valor_num);
-
-                _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "' + _valor_num + '", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
-                //strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                //TODO:AndreSombra 28/09/2016
+                if (_tipoui != "") {
+                    _strWHERE += '{ sel: "Cast(' + $('#sel-index-' + _id + ' option:selected').val() + ' as ' + _tipoui + ')", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "Cast(' + _valor_num + ' as '+_tipoui+')", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                } else {
+                    _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "' + _valor_num + '", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                    //strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                }
+                console.log(_strWHERE);
+                
             }
 
         });
