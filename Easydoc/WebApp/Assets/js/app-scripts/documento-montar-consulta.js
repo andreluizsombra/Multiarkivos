@@ -1148,7 +1148,18 @@ var SalvarConsultaDinamica = function (_id_documento_modelo, _nome_consulta) {
                 console.log(_valor_num);
                 //TODO:AndreSombra 28/09/2016
                 if (_tipoui != "") {
-                    _strWHERE += '{ sel: "Cast(' + $('#sel-index-' + _id + ' option:selected').val() + ' as ' + _tipoui + ')", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "Cast(' + _valor_num + ' as '+_tipoui+')", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                    debugger;
+                    var nome_campo = $('#sel-index-' + _id + ' option:selected').val();
+                     var campo_replace = "Cast(replace(replace(" + nome_campo + ",',',''),'.','')";
+                    //var campo_replace = "Cast("+nome_campo;
+
+                    var tipocampo = ["INTEGER", "DECIMAL", "BIGINT", "NUMERIC", "INT", "FLOAT"];
+                    if (tipocampo.indexOf(_tipoui.toUpperCase()) > -1) {
+                        _strWHERE += '{ sel: "' + campo_replace + ' as ' + _tipoui + ')", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "Cast(' + _valor_num + ' as ' + _tipoui + ')", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                    } else {
+                        _strWHERE += '{ sel: "Cast(' + $('#sel-index-' + _id + ' option:selected').val() + ' as ' + _tipoui + ')", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "Cast(' + _valor_num + ' as ' + _tipoui + ')", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
+                    }
+
                 } else {
                     _strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", tipoui:"' + _tipoui + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "' + _valor_num + '", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
                     //strWHERE += '{ sel: "' + $('#sel-index-' + _id + ' option:selected').val() + '", op: "' + $('#sel-operador-' + _id + ' option:selected').val() + '", val: "\'' + $('#txtValor-' + _id).val() + '\'", x: "' + $('#sel-condicao-' + _id + ' option:selected').val() + '" },'
